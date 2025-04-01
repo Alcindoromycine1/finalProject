@@ -25,9 +25,36 @@ public class Main implements Runnable {
 
 	public void run() {
 		init();
-		while (!window.shouldClose()) {
-			update();
-			render();
+
+		final int TARGET_FPS = 60;
+		final long FRAME_TIME = 1000 / TARGET_FPS;
+
+		long lastTime = System.currentTimeMillis();
+		long timer = System.currentTimeMillis();
+		int frames = 0;
+
+		while (!window.close()) { // Proper way to check if the window should close
+			long now = System.currentTimeMillis();
+			long elapsedTime = now - lastTime;
+
+			if (elapsedTime >= FRAME_TIME) {
+				update();
+				render();
+				window.swapBuffers();
+
+				lastTime = now;
+				frames++;
+			}
+
+			// FPS counter updates every second
+			if (System.currentTimeMillis() - timer >= 1000) {
+				// Set the window title with FPS
+				window.setTitle("Final Project | FPS: " + frames);
+				frames = 0;
+				timer += 1000;
+			}
+
+			GLFW.glfwPollEvents();
 			if (Input.isKeyDown(GLFW.GLFW_KEY_ESCAPE)) return;
 		}
 		window.destroy();
