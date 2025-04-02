@@ -1,26 +1,33 @@
-package main;
+package project;
 
 import org.lwjgl.glfw.GLFW;
 
 import engine.io.Input;
 import engine.io.Window;
 
-public class Main implements Runnable {
-
+public class FinalProject implements Runnable {
 	public Thread game;
-	public Window window;
-	public final int WIDTH = 1280, HEIGHT = 760;
+	public static Window window;
+	public static final int WIDTH = 1280;
+	public static final int HEIGHT = 760;
 
 	public void start() {
-		game = new Thread(this, "game");
+
+		game = new Thread(this, "Final Project");
 		game.start();
+
 	}
 
-	public void init() {
-		System.out.println("Started Game!");
-		window = new Window(WIDTH, HEIGHT, "Game");
-		window.create();
+	/**
+	 * This method is where you initialize all the objects such as windows, books,
+	 * etc
+	 */
+	public static void init() {
 
+		window = new Window(WIDTH, HEIGHT, "Final Project Title");
+		window.setBackgroundColor(1.0f, 100, 0);
+		window.setFullscreen(true);
+		window.create();
 	}
 
 	public void run() {
@@ -33,13 +40,15 @@ public class Main implements Runnable {
 		long timer = System.currentTimeMillis();
 		int frames = 0;
 
-		while (!window.close()) { // Proper way to check if the window should close
+		while (!window.close() && !Input.isKeyDown(GLFW.GLFW_KEY_ESCAPE)) { // Proper way to check if the window should
+																			// close
 			long now = System.currentTimeMillis();
 			long elapsedTime = now - lastTime;
 
 			if (elapsedTime >= FRAME_TIME) {
 				update();
 				render();
+
 				window.swapBuffers();
 
 				lastTime = now;
@@ -55,29 +64,29 @@ public class Main implements Runnable {
 			}
 
 			GLFW.glfwPollEvents();
-			if (Input.isKeyDown(GLFW.GLFW_KEY_ESCAPE)) return;
 		}
-		window.destroy();
+		window.destroy();// closes the window
 	}
 
 	private void update() {
-		// System.out.println("Updating Game!");
-		window.update();
-		if (Input.isButtonDown(GLFW.GLFW_MOUSE_BUTTON_LEFT)) {
-			System.out.println("X: " + Input.getMouseX() + ", Y: " + Input.getMouseY());
-		}
 
+		window.update();
+		if (Input.isButtonDown(GLFW.GLFW_MOUSE_BUTTON_LEFT)) {// If the left mouse button is pressed
+
+			System.out.println("X: " + Input.getMouseX() + " , Y: " + Input.getMouseY());
+
+		}
 	}
 
 	private void render() {
-		// System.out.println("Rendering Game!");
+
 		window.swapBuffers();
 	}
 
 	public static void main(String[] args) {
 
-		Main m = new Main();
-		m.start();
+		FinalProject a = new FinalProject();
+		a.start();
 
 	}
 
