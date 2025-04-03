@@ -3,7 +3,7 @@ package main;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
+import Horror.Jumpscare;
 import javax.imageio.ImageIO;
 
 /*
@@ -15,9 +15,11 @@ import javax.imageio.ImageIO;
 public class Player {
 
 	public static Input keyH = new Input();// Creates an object to call
+	Maps m = new Maps();
 	// Players initial position
-	private int beforeColMoveX = 100;
-	private int beforeColMoveY = 100;
+	private int beforeCollisionX = 100;
+	private int beforeCollisionY = 100;
+	Jumpscare j = new Jumpscare();
 
 	private BufferedImage character;
 
@@ -25,17 +27,30 @@ public class Player {
 
 	public void collisionChecking() {
 
-		for (int i = 0; i < 24; i++) {
-			if (beforeColMoveX + 32 > tileX[i]// Checks if right side of hitbox is to the left of the right side of the
-												// wall
-					&& beforeColMoveX < tileX2[i]// Checks if left side of hitbox is to left of the left side of the
-													// wall
-					&& beforeColMoveY + 72 > tileY1[i]// Checks if bottom side of hitbox is below top side of wall
-					&& beforeColMoveY < tileY2[i]) {// Checks if top side of hitbox is above bottom side of wall
+		collision = false;
+		for (int i = 0; i < Maps.treePositions.size(); i++) {
+			int treeX = Maps.treePositions.get(i)[0];
+			int treeY = Maps.treePositions.get(i)[1];
+
+			if (GamePanel.playerX + 32 > treeX // Right side of hitbox is past left side of tree
+					&& GamePanel.playerX < treeX + 48 // Left side of hitbox is before right side of tree
+					&& GamePanel.playerY + 72 > treeY // Bottom side of hitbox is below top side of tree
+					&& GamePanel.playerY < treeY + 48) { // Top side of hitbox is above bottom side of tree
 				collision = true;
+				break; // Stop checking after finding the first collision
 			}
 		}
-
+		for (int i = 0; i < Maps.housePositions.size(); i++) {
+			int houseX = Maps.housePositions.get(i)[0];
+			int houseY = Maps.housePositions.get(i)[1];
+			if (GamePanel.playerX + 32 > houseX // Right side of hitbox is past left side of tree
+					&& GamePanel.playerX < houseX + 48 // Left side of hitbox is before right side of tree
+					&& GamePanel.playerY + 72 > houseY // Bottom side of hitbox is below top side of tree
+					&& GamePanel.playerY < houseY + 48) { // Top side of hitbox is above bottom side of tree
+				collision = true;
+				break; // Stop checking after finding the first collision
+			}
+		}
 	}
 
 	public boolean getCollision() {
@@ -44,8 +59,16 @@ public class Player {
 
 	}
 
-	public void setCollision(boolean collision) {
-		this.collision = collision;
+	public void collision() {
+		if (!collision) {
+
+			beforeCollisionX = GamePanel.playerX;
+			beforeCollisionY = GamePanel.playerY;
+		} else {
+
+			GamePanel.playerX = beforeCollisionX;
+			GamePanel.playerY = beforeCollisionY;
+		}
 	}
 
 	public void loadCharacterImages() throws IOException {

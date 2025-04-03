@@ -2,6 +2,7 @@ package main;
 
 import javax.swing.JFrame;
 import java.io.*;
+
 /*
  * Noah Sussman, Akhilan Saravanan and Rudra Garg
  * Ms. Krasteva
@@ -10,26 +11,22 @@ import java.io.*;
  */
 public class Main {
 
-	public static void main (String [] args) throws IOException {
-		
-		JFrame window = new JFrame ();//creates a window object
+	public static void main(String[] args) throws IOException {
+
+		JFrame window = new JFrame();// creates a window object
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.setResizable(false);//Prevents the user from resizing the window
+		window.setResizable(false);// Prevents the user from resizing the window
 		window.setTitle("Are We Cooked?");
-		
-		GamePanel gp = new GamePanel (window);
+
+		GamePanel gp = new GamePanel(window);
 		window.add(gp);
-		window.pack();//forces the JPanel to fit the preferred size
-		
+		window.pack();// forces the JPanel to fit the preferred size
+
 		window.setLocationRelativeTo(null);
-		window.setVisible(true);//makes the window visible to the user
-		
+		window.setVisible(true);// makes the window visible to the user
+
 		gp.startGameThread();
-		
+
 	}
-	
+
 }
-
-
-
-

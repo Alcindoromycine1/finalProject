@@ -3,7 +3,7 @@ package main;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import Horror.*;
+import Horror.Jumpscare;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -21,11 +21,11 @@ public class GamePanel extends JPanel implements Runnable {
 	// These are the settings for the window
 	final int originalTileSize = 16;// 16x16 pixel tile size
 	final int scale = 3;// scales everything to appear much larger on the window
-	private final int tileSize = originalTileSize * scale;// scales every tile to appear much larger on the window
+	public final int tileSize = originalTileSize * scale;// scales every tile to appear much larger on the window
 															// (48x48
 	// Character position
-	int playerX = 100;
-	int playerY = 100;
+	static int playerX = 100;
+	static int playerY = 100;
 	int playerSpeed = 4;
 
 	// pixels)
@@ -48,6 +48,10 @@ public class GamePanel extends JPanel implements Runnable {
 	// Sound s = new Sound ();
 	Player p = new Player();
 	Jumpscare j = new Jumpscare();
+
+	public GamePanel() {
+
+	}
 
 	public GamePanel(JFrame window) throws IOException {// Constructor
 
@@ -117,7 +121,11 @@ public class GamePanel extends JPanel implements Runnable {
 	public void update() {
 
 		window.setTitle("Are we Cooked? FPS: " + fps);
+		p.collisionChecking();
+		p.collision();
 	}
+
+	String direction = "";
 
 	public void paintComponent(Graphics g) {
 
@@ -154,33 +162,46 @@ public class GamePanel extends JPanel implements Runnable {
 
 				playerY -= playerSpeed;// go up by player speed amount of pixels
 				g2.drawImage(jeffBack, playerX, playerY, null);
-
+				direction = "back";
 				// playMusic(0);
 
 			} else if (p.keyH.downPressed) {
 
 				playerY += playerSpeed;// go down by player speed amount of pixels
 				g2.drawImage(jeffFront, playerX, playerY, null);
+				direction = "front";
 				// playMusic(0);
 			} else if (p.keyH.leftPressed) {
 
 				playerX -= playerSpeed;// go to the left by player speed amount of pixels
-				g2.drawImage(jeffLeft, playerX, playerY, null);
+				g2.drawImage(jeffRight, playerX, playerY, null);
+				direction = "right";
 				// playMusic(0);
 			} else if (p.keyH.rightPressed) {
 
 				playerX += playerSpeed;// go to the right by player speed amount of pixels
-				g2.drawImage(jeffRight, playerX, playerY, null);
+				g2.drawImage(jeffLeft, playerX, playerY, null);
+				direction = "left";
 				// playMusic(0);
 			} else {
 
-				g2.drawImage(jeffFront, playerX, playerY, null);
-
-			} 
-			if (j.isJumpscare() == true) {
-				g2.drawImage(j.getCreepyMan(), 0, 0, null);
+				if (direction.equals("back")) {
+					g2.drawImage(jeffBack, playerX, playerY, null);
+				} else if (direction.equals("left")) {
+					g2.drawImage(jeffLeft, playerX, playerY, null);
+				} else if (direction.equals("right")) {
+					g2.drawImage(jeffRight, playerX, playerY, null);
+				} else {
+					g2.drawImage(jeffFront, playerX, playerY, null);
+				}
 			}
-		} catch (IOException e) {
+		
+			if (j.isJumpscare() == true) { 
+				g2.drawImage(j.getCreepyMan(), 0, 0, null); 
+			}
+		} catch (
+
+		IOException e) {
 			e.printStackTrace();
 		}
 
@@ -193,3 +214,4 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 
 }
+
