@@ -7,7 +7,7 @@ import javax.imageio.ImageIO;
 public class Jumpscare {
 	
 	private BufferedImage creepyMan;
-	private boolean jumpscare = true;
+	private boolean jumpscare = false;
 
 	public Jumpscare() {
 		loadImage();
@@ -25,9 +25,15 @@ public class Jumpscare {
 		return jumpscare;
 	}
 	
+	public void setJumpscare(boolean jumpscare) {
+		this.jumpscare = jumpscare;
+	}
+	
 	public BufferedImage getCreepyMan() {
 		Sound.playSound("src/sound/jumpScare1.WAV");
 		return creepyMan;
 	}
 
 }
+
+

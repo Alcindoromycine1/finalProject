@@ -12,6 +12,8 @@ import java.util.ArrayList;
 public class Maps {
 
 	public static int[][] tiles = new int[12][16];
+	public static ArrayList<int[]> treePositions = new ArrayList<>();
+	public static ArrayList<int[]> housePositions = new ArrayList<>();
 
 	public void mapIntro() {
 
@@ -48,29 +50,30 @@ public class Maps {
 
 	}
 
+	public void findIntroHouse() throws IOException {
+
+		BufferedReader r = new BufferedReader(new FileReader("src/maps/mapIntro.txt"));
+
+	}
+
 	public void findTrees() throws IOException {
 
 		BufferedReader r = new BufferedReader(new FileReader("src/maps/mapIntro.txt"));
 		String lines = "";
 		int numberOfLines = 0;
-
-		ArrayList<int[]> treePositions = new ArrayList<>();
 		// Count the number of lines in the file
 		// Iterate through the 2D array to find occurrences of 1
 		for (int row = 0; row < tiles.length; row++) {
 			for (int col = 0; col < tiles[row].length; col++) {
 				if (tiles[row][col] == 1) {
-					treePositions.add(new int[] { row, col });// stores the location of where the ones are
+					treePositions.add(new int[] { col * 48, row * 48 });// stores the location of where the ones are
+				}else if(tiles[row][col] == 3 || tiles[row][col] == 4 || tiles[row][col] == 5 || tiles[row][col] == 6 || tiles[row][col] == 7 || tiles[row][col] == 8 ||
+						tiles[row][col] == 9 || tiles[row][col] == 10 || tiles[row][col] == 11 ||tiles[row][col] == 12 ||tiles[row][col] == 13 ||tiles[row][col] == 14 ||tiles[row][col] == 15 ||
+						tiles[row][col] == 16 ||tiles[row][col] == 17) {
+					housePositions.add(new int[] { col * 48, row * 48 });
 				}
 			}
 		}
-		
-		for(int[] line : treePositions) {
-			for (int i = 0; i < line.length; i++) {
-				System.out.print(line[i] + ", ");
-				System.out.println(";");
-			}
-		}
-		
 	}
 }
+
