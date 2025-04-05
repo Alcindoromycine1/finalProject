@@ -22,7 +22,7 @@ public class Maps {
 		try {
 			try {
 				// Storing the map from the file mapIntro.txt into the 2D array tiles
-				BufferedReader r = new BufferedReader(new FileReader("src/maps/mapHouse.txt"));// opens the file
+				BufferedReader r = new BufferedReader(new FileReader("src/maps/mapIntro.txt"));// opens the file
 				String lines = "";// reads the information in the file
 				int row = 0;
 				while ((lines = r.readLine()) != null) {// while the file is not empty
@@ -80,7 +80,8 @@ public class Maps {
 					bedPositions.add(new int[] { col * 48, row * 48 });// stores the location of where the beds are
 				} else if (tiles[row][col] == 23 || tiles[row][col] == 24 || tiles[row][col] == 25
 						|| tiles[row][col] == 26 || tiles[row][col] == 27 || tiles[row][col] == 28
-						|| tiles[row][col] == 29 || tiles[row][col] == 30 ||  tiles[row][col] == 31 ||  tiles[row][col] == 32) {
+						|| tiles[row][col] == 29 || tiles[row][col] == 30 || tiles[row][col] == 31
+						|| tiles[row][col] == 32) {
 					houseWallPositions.add(new int[] { col * 48, row * 48 });// stores the location of where the walls
 																				// are // are
 				}
