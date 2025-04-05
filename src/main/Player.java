@@ -31,6 +31,9 @@ public class Player {
 	public boolean collision = false;
 	public boolean inventoryCollision = false;
 
+	private int inventoryBoxX = 300;
+	private int inventoryBoxY = 300;
+
 	public Player(Input input) {
 		this.input = input;
 	}
@@ -83,6 +86,28 @@ public class Player {
 					&& GamePanel.playerX < houseWallX + 48 // Left side of hitbox is before right side of tree
 					&& GamePanel.playerY + 72 > houseWallY // Bottom side of hitbox is below top side of tree
 					&& GamePanel.playerY < houseWallY + 48) { // Top side of hitbox is above bottom side of tree
+				collision = true;
+				break; // Stop checking after finding the first collision
+			}
+		}
+		for (int i = 0; i < Maps.grassPositions.size(); i++) {
+			int grassX = Maps.grassPositions.get(i)[0];
+			int grassY = Maps.grassPositions.get(i)[1];
+			if (GamePanel.playerX + 32 > grassX // Right side of hitbox is past left side of tree
+					&& GamePanel.playerX < grassX + 48 // Left side of hitbox is before right side of tree
+					&& GamePanel.playerY + 72 > grassY + 30 // Bottom side of hitbox is below top side of tree
+					&& GamePanel.playerY < grassY + 48) { // Top side of hitbox is above bottom side of tree
+				collision = true;
+				break; // Stop checking after finding the first collision
+			}
+		}
+		for (int i = 0; i < Maps.waterPositions.size(); i++) {
+			int waterX = Maps.waterPositions.get(i)[0];
+			int waterY = Maps.waterPositions.get(i)[1];
+			if (GamePanel.playerX + 32 > waterX // Right side of hitbox is past left side of tree
+					&& GamePanel.playerX < waterX + 48 // Left side of hitbox is before right side of tree
+					&& GamePanel.playerY + 72 > waterY + 48 // Bottom side of hitbox is below top side of tree
+					&& GamePanel.playerY < waterY + 48) { // Top side of hitbox is above bottom side of tree
 				collision = true;
 				break; // Stop checking after finding the first collision
 			}
@@ -148,7 +173,7 @@ public class Player {
 		g3.setFont(regular);
 		g3.drawString("Click me", 175, 200);
 
-		//If the user is hovering over the invetory button
+		// If the user is hovering over the invetory button
 		if (inventoryCollision) {
 
 			g3.setColor(Color.red);
@@ -159,12 +184,22 @@ public class Player {
 
 		}
 
-		//If the user has clicked on the inventory button
-		if (inventoryCollision && input.mouseClicked) {
-
-			System.out.println("Clicked");
-
+		// If the user has clicked on the inventory button
+		if (input.mouseClicked) {
+			if (input.mouseX >= inventoryBoxX && input.mouseX <= inventoryBoxX + 100 && input.mouseY >= inventoryBoxY
+					&& input.mouseY <= inventoryBoxY + 100) {
+				input.mouseDragging = true; // Start dragging
+				input.mouseOffsetX = input.mouseX - inventoryBoxX;
+				input.mouseOffsetY = input.mouseY - inventoryBoxY;
+			}
 		}
+
+		if (input.mouseDragging) {
+			inventoryBoxX = input.mouseX - 50;
+			inventoryBoxY = input.mouseY - 50;
+		}
+		g3.setColor(Color.BLACK);
+		g3.fillRect(inventoryBoxX, inventoryBoxY, 100, 100);
 
 	}
 
