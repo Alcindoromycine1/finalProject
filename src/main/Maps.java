@@ -14,13 +14,15 @@ public class Maps {
 	public static int[][] tiles = new int[12][16];
 	public static ArrayList<int[]> treePositions = new ArrayList<>();
 	public static ArrayList<int[]> housePositions = new ArrayList<>();
+	public static ArrayList<int[]> bedPositions = new ArrayList<>();
+	public static ArrayList<int[]> houseWallPositions = new ArrayList<>();
 
 	public void mapIntro() {
 
 		try {
 			try {
 				// Storing the map from the file mapIntro.txt into the 2D array tiles
-				BufferedReader r = new BufferedReader(new FileReader("src/maps/mapIntro.txt"));// opens the file
+				BufferedReader r = new BufferedReader(new FileReader("src/maps/mapHouse.txt"));// opens the file
 				String lines = "";// reads the information in the file
 				int row = 0;
 				while ((lines = r.readLine()) != null) {// while the file is not empty
@@ -66,14 +68,23 @@ public class Maps {
 		for (int row = 0; row < tiles.length; row++) {
 			for (int col = 0; col < tiles[row].length; col++) {
 				if (tiles[row][col] == 1) {
-					treePositions.add(new int[] { col * 48, row * 48 });// stores the location of where the ones are
-				}else if(tiles[row][col] == 3 || tiles[row][col] == 4 || tiles[row][col] == 5 || tiles[row][col] == 6 || tiles[row][col] == 7 || tiles[row][col] == 8 ||
-						tiles[row][col] == 9 || tiles[row][col] == 10 || tiles[row][col] == 11 ||tiles[row][col] == 12 ||tiles[row][col] == 13 ||tiles[row][col] == 14 ||tiles[row][col] == 15 ||
-						tiles[row][col] == 16 ||tiles[row][col] == 17) {
+					treePositions.add(new int[] { col * 48, row * 48 });// stores the location of where the trees are
+				} else if (tiles[row][col] == 3 || tiles[row][col] == 4 || tiles[row][col] == 5 || tiles[row][col] == 6
+						|| tiles[row][col] == 7 || tiles[row][col] == 8 || tiles[row][col] == 9 || tiles[row][col] == 10
+						|| tiles[row][col] == 11 || tiles[row][col] == 12 || tiles[row][col] == 13
+						|| tiles[row][col] == 14 || tiles[row][col] == 15 || tiles[row][col] == 16
+						|| tiles[row][col] == 17) {
 					housePositions.add(new int[] { col * 48, row * 48 });
+				} else if (tiles[row][col] == 21 || tiles[row][col] == 22 || tiles[row][col] == 19
+						|| tiles[row][col] == 20) {
+					bedPositions.add(new int[] { col * 48, row * 48 });// stores the location of where the beds are
+				} else if (tiles[row][col] == 23 || tiles[row][col] == 24 || tiles[row][col] == 25
+						|| tiles[row][col] == 26 || tiles[row][col] == 27 || tiles[row][col] == 28
+						|| tiles[row][col] == 29 || tiles[row][col] == 30 ||  tiles[row][col] == 31 ||  tiles[row][col] == 32) {
+					houseWallPositions.add(new int[] { col * 48, row * 48 });// stores the location of where the walls
+																				// are // are
 				}
 			}
 		}
 	}
 }
-
