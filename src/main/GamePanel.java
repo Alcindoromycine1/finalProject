@@ -24,8 +24,8 @@ public class GamePanel extends JPanel implements Runnable {
 	public final int tileSize = originalTileSize * scale;// scales every tile to appear much larger on the window
 															// (48x48
 	// Character position
-	static int playerX = 100;
-	static int playerY = 100;
+	static int playerX = 400;
+	static int playerY = 400;
 	int playerSpeed = 4;
 
 	// pixels)

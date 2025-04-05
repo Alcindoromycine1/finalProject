@@ -17,8 +17,8 @@ public class Player {
 	public static Input keyH = new Input();// Creates an object to call
 	Maps m = new Maps();
 	// Players initial position
-	private int beforeCollisionX = 100;
-	private int beforeCollisionY = 100;
+	private int beforeCollisionX = 400;
+	private int beforeCollisionY = 400;
 	Jumpscare j = new Jumpscare();
 
 	private BufferedImage character;
@@ -47,6 +47,28 @@ public class Player {
 					&& GamePanel.playerX < houseX + 48 // Left side of hitbox is before right side of tree
 					&& GamePanel.playerY + 72 > houseY // Bottom side of hitbox is below top side of tree
 					&& GamePanel.playerY < houseY + 48) { // Top side of hitbox is above bottom side of tree
+				collision = true;
+				break; // Stop checking after finding the first collision
+			}
+		}
+		for (int i = 0; i < Maps.bedPositions.size(); i++) {
+			int bedX = Maps.bedPositions.get(i)[0];
+			int bedY = Maps.bedPositions.get(i)[1];
+			if (GamePanel.playerX + 32 > bedX // Right side of hitbox is past left side of tree
+					&& GamePanel.playerX < bedX + 48 // Left side of hitbox is before right side of tree
+					&& GamePanel.playerY + 72 > bedY // Bottom side of hitbox is below top side of tree
+					&& GamePanel.playerY < bedY + 48) { // Top side of hitbox is above bottom side of tree
+				collision = true;
+				break; // Stop checking after finding the first collision
+			}
+		}
+		for (int i = 0; i < Maps.houseWallPositions.size(); i++) {
+			int houseWallX = Maps.houseWallPositions.get(i)[0];
+			int houseWallY = Maps.houseWallPositions.get(i)[1];
+			if (GamePanel.playerX + 32 > houseWallX // Right side of hitbox is past left side of tree
+					&& GamePanel.playerX < houseWallX + 48 // Left side of hitbox is before right side of tree
+					&& GamePanel.playerY + 72 > houseWallY // Bottom side of hitbox is below top side of tree
+					&& GamePanel.playerY < houseWallY + 48) { // Top side of hitbox is above bottom side of tree
 				collision = true;
 				break; // Stop checking after finding the first collision
 			}
