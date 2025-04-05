@@ -45,9 +45,9 @@ public class GamePanel extends JPanel implements Runnable {
 	private double fps = 0; // FPS value
 	Tiles t = new Tiles();
 	Maps m = new Maps();
-	// Sound s = new Sound ();
-	Player p = new Player();
 	Jumpscare j = new Jumpscare();
+	Input input = new Input();
+	Player p = new Player(input);
 
 	public GamePanel() {
 
@@ -59,6 +59,8 @@ public class GamePanel extends JPanel implements Runnable {
 		this.setPreferredSize(new Dimension(WIDTH, HEIGHT));// Preferred window size
 		this.setDoubleBuffered(true);// Improves rendering performance
 		this.addKeyListener(Player.keyH);// recognizes key inputs
+		this.addMouseMotionListener(input);// recognizes mouse movement
+		this.addMouseListener(input);//recognize mouse clicks
 		this.setFocusable(true);
 		// Background
 		m.mapIntro();
@@ -195,15 +197,17 @@ public class GamePanel extends JPanel implements Runnable {
 					g2.drawImage(jeffFront, playerX, playerY, null);
 				}
 			}
-		
-			if (j.isJumpscare() == true) { 
-				g2.drawImage(j.getCreepyMan(), 0, 0, null); 
+
+			if (j.isJumpscare() == true) {
+				g2.drawImage(j.getCreepyMan(), 0, 0, null);
 			}
 		} catch (
 
 		IOException e) {
 			e.printStackTrace();
 		}
+
+		//p.inventory(g2);
 
 		g2.dispose();// saves resources
 
@@ -214,4 +218,3 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 
 }
-

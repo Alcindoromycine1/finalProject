@@ -1,5 +1,9 @@
 package main;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -20,10 +24,20 @@ public class Player {
 	private int beforeCollisionX = 400;
 	private int beforeCollisionY = 400;
 	Jumpscare j = new Jumpscare();
+	Input input = new Input();
 
 	private BufferedImage character;
 
 	public boolean collision = false;
+	public boolean inventoryCollision = false;
+
+	public Player(Input input) {
+		this.input = input;
+	}
+
+	public Player() {
+
+	}
 
 	public void collisionChecking() {
 
@@ -73,6 +87,16 @@ public class Player {
 				break; // Stop checking after finding the first collision
 			}
 		}
+		if (input.mouseX + 32 > 165 // Right side of hitbox is past left side of tree
+				&& input.mouseX < 165 + 200 // Left side of hitbox is before right side of tree
+				&& input.mouseY + 72 > 160 // Bottom side of hitbox is below top side of tree
+				&& input.mouseY < 160 + 70) { // Top side of hitbox is above bottom side of tree
+			inventoryCollision = true;
+		} else {
+
+			inventoryCollision = false;
+
+		}
 	}
 
 	public boolean getCollision() {
@@ -101,6 +125,47 @@ public class Player {
 
 	public BufferedImage getCharacter() {
 		return character;
+	}
+
+	public void inventory(Graphics g) {
+		Color inventoryBackground = new Color(58, 61, 66, 250);
+		Font inventoryHeader = new Font("arial", Font.BOLD, 45);
+		Font regular = new Font("calibri", Font.BOLD, 30);
+		Graphics2D g3 = (Graphics2D) g;
+		g3.setFont(inventoryHeader);
+		g3.setColor(inventoryBackground);
+		g3.fillRect(75, 40, 618, 470);
+		g3.setColor(Color.black);
+		// Outline (frame) around the inventory
+		for (int i = 0; i < 4; i++) {
+			g3.drawRect(75 + i, 40 + i, 618 - 2 * i, 470 - 2 * i);
+		}
+		g3.drawString("Inventory", 280, 110);
+		g3.setColor(Color.white);
+		g3.fillRoundRect(125, 160, 200, 70, 15, 15);
+		g3.setColor(Color.black);
+		g3.setFont(inventoryHeader);
+		g3.setFont(regular);
+		g3.drawString("Click me", 175, 200);
+
+		//If the user is hovering over the invetory button
+		if (inventoryCollision) {
+
+			g3.setColor(Color.red);
+			g3.fillRoundRect(125, 160, 200, 70, 15, 15);
+			g3.setFont(regular);
+			g3.setColor(Color.black);
+			g3.drawString("Click me", 175, 200);
+
+		}
+
+		//If the user has clicked on the inventory button
+		if (inventoryCollision && input.mouseClicked) {
+
+			System.out.println("Clicked");
+
+		}
+
 	}
 
 }

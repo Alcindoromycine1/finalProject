@@ -17,7 +17,7 @@ public class Tiles {
 			for (int j = 0; j < Maps.tiles[i].length; j++) {
 
 				if (Maps.tiles[i][j] == 0) {// grass is found in the file
-					tileImages[i][j] = ImageIO.read(new File("src/textures/grass.png"));
+					tileImages[i][j] = ImageIO.read(new File("src/textures/grassBlockUpdated.png"));
 				} else if (Maps.tiles[i][j] == 1) {// trees are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/tree.png"));
 				} else if (Maps.tiles[i][j] == 2) {// cobblestones are found in the file
@@ -80,10 +80,14 @@ public class Tiles {
 					tileImages[i][j] = ImageIO.read(new File("src/textures/emptyWallTop.png"));
 				} else if (Maps.tiles[i][j] == 30) {// beds are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/wallTopRight.png"));
-				}else if (Maps.tiles[i][j] == 31) {// beds are found in the file
+				} else if (Maps.tiles[i][j] == 31) {// beds are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/houseTopCorner.png"));
-				}else if (Maps.tiles[i][j] == 32) {// beds are found in the file
+				} else if (Maps.tiles[i][j] == 32) {// beds are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/houseWallTopRightCorner.png"));
+				} else if (Maps.tiles[i][j] == 33) {// beds are found in the file
+					tileImages[i][j] = ImageIO.read(new File("src/textures/grassUpdated.png"));
+				} else if (Maps.tiles[i][j] == 34) {// beds are found in the file
+					tileImages[i][j] = ImageIO.read(new File("src/textures/water.png"));
 				}
 			}
 		}
