@@ -16,6 +16,8 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	public int mouseX = 0;
 	public int mouseY = 0;
 	public boolean upPressed, downPressed, leftPressed, rightPressed;
+	public int mouseOffsetX = 0;
+	public int mouseOffsetY = 0;
 
 	@Override
 	public void keyTyped(KeyEvent e) {
@@ -73,6 +75,10 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	}
 
 	public boolean mouseClicked = false;
+	public boolean mouseHolding = false;
+	public boolean mouseDragging = false;
+	public int inventoryBoxX = 300;
+	public int inventoryBoxY = 300;
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
@@ -101,6 +107,11 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		mouseX = e.getX();
 		mouseY = e.getY();
 		mouseClicked = true;
+		mouseHolding = true;
+		if (e.getX() >= inventoryBoxX && e.getX() <= inventoryBoxX + 100 && e.getY() >= inventoryBoxY
+				&& e.getY() <= inventoryBoxY + 100) {
+			mouseDragging = true;
+		}
 
 	}
 
@@ -108,6 +119,8 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	public void mouseReleased(MouseEvent e) {
 
 		mouseClicked = false;
+		mouseHolding = false;
+		mouseDragging = false;
 
 	}
 

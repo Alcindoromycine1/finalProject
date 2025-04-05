@@ -207,7 +207,7 @@ public class GamePanel extends JPanel implements Runnable {
 			e.printStackTrace();
 		}
 
-		//p.inventory(g2);
+		p.inventory(g2);
 
 		g2.dispose();// saves resources
 

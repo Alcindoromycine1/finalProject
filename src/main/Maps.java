@@ -16,6 +16,8 @@ public class Maps {
 	public static ArrayList<int[]> housePositions = new ArrayList<>();
 	public static ArrayList<int[]> bedPositions = new ArrayList<>();
 	public static ArrayList<int[]> houseWallPositions = new ArrayList<>();
+	public static ArrayList<int[]> grassPositions = new ArrayList<>();
+	public static ArrayList<int[]> waterPositions = new ArrayList<>();
 
 	public void mapIntro() {
 
@@ -84,6 +86,10 @@ public class Maps {
 						|| tiles[row][col] == 32) {
 					houseWallPositions.add(new int[] { col * 48, row * 48 });// stores the location of where the walls
 																				// are // are
+				} else if (tiles[row][col] == 33) {
+					grassPositions.add(new int[] { col * 48, row * 48 });
+				} else if (tiles[row][col] == 34) {
+					waterPositions.add(new int[] { col * 48, row * 48 });
 				}
 			}
 		}
