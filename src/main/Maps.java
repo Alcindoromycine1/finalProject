@@ -1,5 +1,8 @@
 package main;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 /*
  * Noah Sussman, Akhilan Saravanan and Rudra Garg
  * Ms. Krasteva
@@ -8,6 +11,8 @@ package main;
  */
 import java.io.*;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 public class Maps {
 
@@ -18,13 +23,14 @@ public class Maps {
 	public static ArrayList<int[]> houseWallPositions = new ArrayList<>();
 	public static ArrayList<int[]> grassPositions = new ArrayList<>();
 	public static ArrayList<int[]> waterPositions = new ArrayList<>();
+	
 
 	public void mapIntro() {
 
 		try {
 			try {
 				// Storing the map from the file mapIntro.txt into the 2D array tiles
-				BufferedReader r = new BufferedReader(new FileReader("src/maps/mapIntro.txt"));// opens the file
+				BufferedReader r = new BufferedReader(new FileReader("src/maps/mapHouse.txt"));// opens the file
 				String lines = "";// reads the information in the file
 				int row = 0;
 				while ((lines = r.readLine()) != null) {// while the file is not empty

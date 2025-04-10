@@ -88,6 +88,8 @@ public class Tiles {
 					tileImages[i][j] = ImageIO.read(new File("src/textures/grassUpdated.png"));
 				} else if (Maps.tiles[i][j] == 34) {// beds are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/water.png"));
+				}else if (Maps.tiles[i][j] == 35) {// beds are found in the file
+					tileImages[i][j] = ImageIO.read(new File("src/textures/sand.png"));
 				}
 			}
 		}
