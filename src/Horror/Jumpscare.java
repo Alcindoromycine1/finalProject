@@ -26,13 +26,13 @@ public class Jumpscare {
 		return jumpscare;
 	}
 
-	public void setJumpscare(boolean jumpscare) {
-		this.jumpscare = jumpscare;
-	}
-
 	public BufferedImage getCreepyMan() {
 		Sound.playSound("src/sound/jumpScare1.WAV");
 		return creepyMan;
+	}
+	
+	public void setJumpscare(boolean jumpscare) {
+		this.jumpscare = jumpscare;
 	}
 
 }

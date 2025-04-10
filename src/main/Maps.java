@@ -23,14 +23,33 @@ public class Maps {
 	public static ArrayList<int[]> houseWallPositions = new ArrayList<>();
 	public static ArrayList<int[]> grassPositions = new ArrayList<>();
 	public static ArrayList<int[]> waterPositions = new ArrayList<>();
-	
 
-	public void mapIntro() {
+	public String changeMap(Graphics2D g, int mapToChange) {
+		if (mapToChange == 1) {
+			mapIntro("src/maps/mapIntro.txt");
+		} else if (mapToChange == 2) {
+			mapIntro("src/maps/mapHouse.txt");
+		}
+		return "-1";
+				
+	}
+	
+	public String changeMap(int mapToChange) {
+		if (mapToChange == 1) {
+			mapIntro("src/maps/mapIntro.txt");
+		} else if (mapToChange == 2) {
+			mapIntro("src/maps/mapHouse.txt");
+		}
+		return "-1";
+				
+	}
+
+	public void mapIntro(String filePath) {
 
 		try {
 			try {
 				// Storing the map from the file mapIntro.txt into the 2D array tiles
-				BufferedReader r = new BufferedReader(new FileReader("src/maps/mapHouse.txt"));// opens the file
+				BufferedReader r = new BufferedReader(new FileReader(filePath));// opens the file
 				String lines = "";// reads the information in the file
 				int row = 0;
 				while ((lines = r.readLine()) != null) {// while the file is not empty

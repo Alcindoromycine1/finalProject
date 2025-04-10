@@ -5,7 +5,6 @@ import java.awt.Graphics2D;
 
 public class Npc {
 
-	Player p = new Player();
 	public boolean collisionNpc = false;
 
 	public void npcs() {
