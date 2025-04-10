@@ -38,6 +38,8 @@ public class GamePanel extends JPanel implements Runnable {
 	Thread gameThread;// keeps the program running until closed
 
 	private JFrame window;
+	Input input = new Input ();
+	Items it = new Items(input);
 
 	// FPS variables
 	private long frameCount = 0; // To count frames
@@ -46,8 +48,8 @@ public class GamePanel extends JPanel implements Runnable {
 	Tiles t = new Tiles();
 	Maps m = new Maps();
 	Jumpscare j = new Jumpscare();
-	Input input = new Input();
 	Player p = new Player(input);
+	Npc n = new Npc ();
 
 	public GamePanel() {
 
@@ -60,7 +62,7 @@ public class GamePanel extends JPanel implements Runnable {
 		this.setDoubleBuffered(true);// Improves rendering performance
 		this.addKeyListener(Player.keyH);// recognizes key inputs
 		this.addMouseMotionListener(input);// recognizes mouse movement
-		this.addMouseListener(input);//recognize mouse clicks
+		this.addMouseListener(input);// recognize mouse clicks
 		this.setFocusable(true);
 		// Background
 		m.mapIntro();
@@ -124,6 +126,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 		window.setTitle("Are we Cooked? FPS: " + fps);
 		p.collisionChecking();
+		n.npcs();
 		p.collision();
 	}
 
@@ -207,8 +210,14 @@ public class GamePanel extends JPanel implements Runnable {
 			e.printStackTrace();
 		}
 
-		p.inventory(g2);
-
+		//p.inventory(g2);
+		try {
+			it.baseballBat(g2, p.inventoryCollision);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		p.drawNpcs(g2);
+		
 		g2.dispose();// saves resources
 
 	}

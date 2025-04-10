@@ -25,14 +25,13 @@ public class Player {
 	private int beforeCollisionY = 400;
 	Jumpscare j = new Jumpscare();
 	Input input = new Input();
-
+	Npc n = new Npc();
+	
 	private BufferedImage character;
+	public static BufferedImage buisnessMan;
 
-	public boolean collision = false;
+	public static boolean collision = false;
 	public boolean inventoryCollision = false;
-
-	private int inventoryBoxX = 300;
-	private int inventoryBoxY = 300;
 
 	public Player(Input input) {
 		this.input = input;
@@ -131,7 +130,7 @@ public class Player {
 	}
 
 	public void collision() {
-		if (!collision) {
+		if (!collision || !n.collisionNpc) {
 
 			beforeCollisionX = GamePanel.playerX;
 			beforeCollisionY = GamePanel.playerY;
@@ -145,6 +144,15 @@ public class Player {
 	public void loadCharacterImages() throws IOException {
 
 		character = ImageIO.read(new File("src/textures/character.png"));
+		buisnessMan = ImageIO.read(new File("src/textures/unknownBuisnessMan.png"));
+
+	}
+
+	public void drawNpcs(Graphics g) {
+
+		Graphics2D g2 = (Graphics2D) g;
+		// Buisness man
+		g2.drawImage(Player.buisnessMan, 550, 120, 50, 78, null);
 
 	}
 
@@ -167,40 +175,8 @@ public class Player {
 		}
 		g3.drawString("Inventory", 280, 110);
 		g3.setColor(Color.white);
-		g3.fillRoundRect(125, 160, 200, 70, 15, 15);
+		g3.fillRoundRect(125, 160, 80, 70, 15, 15);
 		g3.setColor(Color.black);
-		g3.setFont(inventoryHeader);
-		g3.setFont(regular);
-		g3.drawString("Click me", 175, 200);
-
-		// If the user is hovering over the invetory button
-		if (inventoryCollision) {
-
-			g3.setColor(Color.red);
-			g3.fillRoundRect(125, 160, 200, 70, 15, 15);
-			g3.setFont(regular);
-			g3.setColor(Color.black);
-			g3.drawString("Click me", 175, 200);
-
-		}
-
-		// If the user has clicked on the inventory button
-		if (input.mouseClicked) {
-			if (input.mouseX >= inventoryBoxX && input.mouseX <= inventoryBoxX + 100 && input.mouseY >= inventoryBoxY
-					&& input.mouseY <= inventoryBoxY + 100) {
-				input.mouseDragging = true; // Start dragging
-				input.mouseOffsetX = input.mouseX - inventoryBoxX;
-				input.mouseOffsetY = input.mouseY - inventoryBoxY;
-			}
-		}
-
-		if (input.mouseDragging) {
-			inventoryBoxX = input.mouseX - 50;
-			inventoryBoxY = input.mouseY - 50;
-		}
-		g3.setColor(Color.BLACK);
-		g3.fillRect(inventoryBoxX, inventoryBoxY, 100, 100);
 
 	}
-
 }
