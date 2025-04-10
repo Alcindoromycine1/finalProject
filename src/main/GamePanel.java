@@ -50,6 +50,7 @@ public class GamePanel extends JPanel implements Runnable {
 	Jumpscare j = new Jumpscare();
 	Player p = new Player(input);
 	Npc n = new Npc ();
+	ChangeScene cs = new ChangeScene(WIDTH, HEIGHT);
 
 	public GamePanel() {
 
@@ -65,7 +66,7 @@ public class GamePanel extends JPanel implements Runnable {
 		this.addMouseListener(input);// recognize mouse clicks
 		this.setFocusable(true);
 		// Background
-		m.mapIntro();
+		m.changeMap(2);
 		t.tileCreating();
 		// Load character
 		p.loadCharacterImages();
@@ -217,9 +218,10 @@ public class GamePanel extends JPanel implements Runnable {
 			e.printStackTrace();
 		}
 		p.drawNpcs(g2);
+		cs.changeScene(m);
 		
 		g2.dispose();// saves resources
-
+	
 	}
 
 	public int getTileSize() {

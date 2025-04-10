@@ -36,7 +36,7 @@ public class Items {
 		 */
 
 		// If the user has clicked on the inventory button
-
+ 
 		if (input.mouseDragging && input.mouseHolding) {
 			inventoryBoxX = input.mouseX - 40;
 			inventoryBoxY = input.mouseY - 40;

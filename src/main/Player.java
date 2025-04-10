@@ -121,6 +121,7 @@ public class Player {
 			inventoryCollision = false;
 
 		}
+		n.npcs();
 	}
 
 	public boolean getCollision() {
