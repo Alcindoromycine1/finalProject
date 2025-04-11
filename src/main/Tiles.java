@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 
 public class Tiles {
 
-	public static BufferedImage tileImages[][] = new BufferedImage[12][16];
+	public static BufferedImage tileImages[][] = new BufferedImage[Maps.maxWorldRow][Maps.maxWorldCol];
 	Maps m = new Maps();
 
 	public void tileCreating() throws IOException {
@@ -88,23 +88,10 @@ public class Tiles {
 					tileImages[i][j] = ImageIO.read(new File("src/textures/grassUpdated.png"));
 				} else if (Maps.tiles[i][j] == 34) {// beds are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/water.png"));
-				}else if (Maps.tiles[i][j] == 35) {// beds are found in the file
+				} else if (Maps.tiles[i][j] == 35) {// beds are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/sand.png"));
 				}
 			}
 		}
 	}
-
-	public void grassTileBehaviour() {
-
-	}
-
-	public void treeTileBehaviour() {
-
-		// if(collision == true) {
-
-		// }
-
-	}
-
 }
