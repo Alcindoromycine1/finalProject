@@ -25,7 +25,7 @@ public class Player {
 	private int beforeCollisionY = 400;
 	Jumpscare j = new Jumpscare();
 	Input input = new Input();
-	Npc n = new Npc();
+	Npc n = new Npc(input);
 	
 	private BufferedImage character;
 	public static BufferedImage buisnessMan;
@@ -131,7 +131,7 @@ public class Player {
 	}
 
 	public void collision() {
-		if (!collision || !n.collisionNpc) {
+		if (!collision && !n.collisionNpc) {
 
 			beforeCollisionX = GamePanel.playerX;
 			beforeCollisionY = GamePanel.playerY;

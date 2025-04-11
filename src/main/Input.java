@@ -18,6 +18,19 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	public boolean upPressed, downPressed, leftPressed, rightPressed;
 	public int mouseOffsetX = 0;
 	public int mouseOffsetY = 0;
+	Npc npc;
+
+	public Input(Npc npc) {
+
+		this.npc = npc;
+
+	}
+	
+	public Input() {
+		
+		this.npc = new Npc(this);
+		
+	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
@@ -27,26 +40,21 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 
-		int code = e.getKeyCode();// gets the ascii value of the key pressed
+		int code = e.getKeyCode(); // gets the ascii value of the key pressed
 
 		if (code == KeyEvent.VK_W) {
-
 			upPressed = true;
-
 		} else if (code == KeyEvent.VK_S) {
-
 			downPressed = true;
-
 		} else if (code == KeyEvent.VK_A) {
-
 			leftPressed = true;
-
 		} else if (code == KeyEvent.VK_D) {
-
 			rightPressed = true;
-
+		} else if (code == KeyEvent.VK_E) {
+			if (npc.collisionNpc) {
+				npc.dialogue = !npc.dialogue;
+			}
 		}
-
 	}
 
 	@Override
