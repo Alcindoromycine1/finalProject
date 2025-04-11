@@ -25,9 +25,9 @@ public class ChangeScene {
 	}
 	
 	public void changeScene (Maps m) {
-		System.out.println("Start chenge sance");
+		//System.out.println("Start chenge sance");
 		m.changeMap(2);
-		System.out.println("end chenge sance");
+		//System.out.println("end chenge sance");
 		
 	}
 	

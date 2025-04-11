@@ -29,11 +29,13 @@ public class Maps {
 			mapIntro("src/maps/mapIntro.txt");
 		} else if (mapToChange == 2) {
 			mapIntro("src/maps/mapHouse.txt");
+		} else if (mapToChange == 3) {
+			mapIntro("src/maps/openMap.txt");
 		}
 		return "-1";
-				
+
 	}
-	
+
 	public String changeMap(int mapToChange) {
 		if (mapToChange == 1) {
 			mapIntro("src/maps/mapIntro.txt");
@@ -41,7 +43,7 @@ public class Maps {
 			mapIntro("src/maps/mapHouse.txt");
 		}
 		return "-1";
-				
+
 	}
 
 	public void mapIntro(String filePath) {
@@ -115,6 +117,30 @@ public class Maps {
 					grassPositions.add(new int[] { col * 48, row * 48 });
 				} else if (tiles[row][col] == 34) {
 					waterPositions.add(new int[] { col * 48, row * 48 });
+				}
+			}
+		}
+	}
+
+	public void camera(Graphics g, GamePanel gp) {
+
+		// Centers the player at the middle of the screen
+		int centerX = gp.WIDTH / 2;
+		int centerY = gp.HEIGHT / 2;
+
+		for (int row = 0; row < tiles.length; row++) {
+			for (int col = 0; col < tiles[row].length; col++) {
+				// X and Y coordinates of all tiles on the map
+				int worldX = col * gp.tileSize;
+				int worldY = row * gp.tileSize;
+				// Calculate screen position relative to player's world position
+				int screenX = worldX - GamePanel.playerX + centerX;
+				int screenY = worldY - GamePanel.playerY + centerY;
+
+				if (screenX + gp.tileSize > 0 && screenX < 768 && screenY + gp.tileSize > 0 && screenY < 578) {// checks
+					// screen
+					g.drawImage(Tiles.tileImages[row][col], screenX, screenY, gp.tileSize, gp.tileSize, null);
+
 				}
 			}
 		}

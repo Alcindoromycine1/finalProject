@@ -1,11 +1,25 @@
 package main;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
+
+import javax.swing.plaf.basic.BasicComboBoxUI.KeyHandler;
 
 public class Npc {
 
 	public boolean collisionNpc = false;
+	boolean dialogue = false;
+	Input input;
+
+	public Npc(Input input) {
+		this.input = input;
+	}
+
+	public Npc() {
+
+	}
 
 	public void npcs() {
 
@@ -18,6 +32,15 @@ public class Npc {
 			collisionNpc = true;
 		} else {
 			collisionNpc = false;
+		}
+	}
+
+	public void communicate(Graphics g2) {
+		if (dialogue) {
+			g2.setColor(Color.black);
+			g2.fillRect(150, 300, 500, 200);
+			g2.setColor(Color.white);
+			g2.drawString("Hello! I'm a businessman.", 170, 350);
 		}
 	}
 }
