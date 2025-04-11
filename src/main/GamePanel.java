@@ -35,6 +35,8 @@ public class GamePanel extends JPanel implements Runnable {
 	// Character position
 	static int playerX = 768 / 2;
 	static int playerY = 576 / 2;
+	static int worldX = 768 / 2; // world position
+	static int worldY = 576 / 2; // world position
 
 	// Game Thread
 	Thread gameThread; // keeps the program running until closed
@@ -58,6 +60,9 @@ public class GamePanel extends JPanel implements Runnable {
 
 	}
 
+	static int screenX;
+	static int screenY;
+
 	// Constructor
 	public GamePanel(JFrame window) throws IOException {
 		Input input = new Input();
@@ -72,16 +77,18 @@ public class GamePanel extends JPanel implements Runnable {
 		this.addMouseListener(input); // Recognize mouse clicks
 		this.setFocusable(true);
 
+		screenX = WIDTH / 2 - (tileSize / 2); // centers the player in the middle of the screen
+		screenY = HEIGHT / 2 - (tileSize / 2); // centers the player in the middle of the screen
+
 		// Background
 		m.changeMap(3);
+		// Find trees in the map
+		m.findTrees();
 		t.tileCreating();
 
 		// Load character
 		p = new Player(input);
 		p.loadCharacterImages();
-
-		// Find trees in the map
-		m.findTrees();
 	}
 
 	// Start the game thread
@@ -125,91 +132,77 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 	}
 
+	public void characterMovement() {
+		// Character movement
+		if (p.keyH.upPressed) {
+			direction = "back";
+			worldY -= playerSpeed; // move the world up when player presses up
+		} else if (p.keyH.downPressed) {
+			direction = "front";
+			worldY += playerSpeed; // move the world down when player goes down
+		} else if (p.keyH.leftPressed) {
+			direction = "left";
+			worldX -= playerSpeed; // move the world left when player goes left
+		} else if (p.keyH.rightPressed) {
+			direction = "right";
+			worldX += playerSpeed; // move the world right when player goes right
+		}
+	}
+
 	// Update game elements
 	public void update() {
 		window.setTitle("Are we Cooked? FPS: " + fps);
 		p.collisionChecking();
 		p.collision();
+		characterMovement();
 	}
 
-	String direction = "";
+	public void characterImage(Graphics g) throws IOException {
 
-	// Paint the game elements to the screen
+		BufferedImage jeffFront = ImageIO.read(new File("src/textures/jeffFront.png"));
+		BufferedImage jeffBack = ImageIO.read(new File("src/textures/jeffBack.png"));
+		BufferedImage jeffRight = ImageIO.read(new File("src/textures/jeffRight.png"));
+		BufferedImage jeffLeft = ImageIO.read(new File("src/textures/jeffLeft.png"));
+
+		BufferedImage character = null;
+		if (direction.equals("back")) {
+
+			character = jeffBack;
+
+		} else if (direction.equals("front")) {
+
+			character = jeffFront;
+
+		} else if (direction.equals("left")) {
+
+			character = jeffLeft;
+
+		} else if (direction.equals("right")) {
+
+			character = jeffRight;
+		} else {
+			character = jeffFront;
+		}
+
+		g.drawImage(character, screenX, screenY, null);// draws the character in the middle of the screen
+
+	}
+
+	String direction = "";// stores the direction the player is facing
+
+	// where all the drawing happens
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		Graphics2D g2 = (Graphics2D) g; // to utilize Graphics2D class (has more functions)
-		int tilePlaceX = 0;
-		int tilePlaceY = 0;
-		int[] tileCoordsX = new int[50];
-		try {
-			for (int i = 0; i < Maps.tiles.length; i++) {
-				tilePlaceX = 0; // resetting tilePlaceX position
-				for (int j = 0; j < Maps.tiles[i].length; j++) {
-					g2.drawImage(Tiles.tileImages[i][j], tilePlaceX, tilePlaceY, 48, 48, null);
-					tileCoordsX[i] = tilePlaceX;
-					tilePlaceX += tileSize;
-				}
-				tilePlaceY += tileSize;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		Graphics2D g2 = (Graphics2D) g;
 
-		g2.setColor(Color.white);
 		try {
-			BufferedImage jeffFront = ImageIO.read(new File("src/textures/jeffFront.png"));
-			BufferedImage jeffBack = ImageIO.read(new File("src/textures/jeffBack.png"));
-			BufferedImage jeffRight = ImageIO.read(new File("src/textures/jeffLeft.png"));
-			BufferedImage jeffLeft = ImageIO.read(new File("src/textures/jeffRight.png"));
-			m.camera(g2, this);
-			// Character movement
-			if (p.keyH.upPressed) {
-				playerY -= playerSpeed; // go up by player speed amount of pixels
-				g2.drawImage(jeffBack, playerX, playerY, null);
-				direction = "back";
-			} else if (p.keyH.downPressed) {
-				playerY += playerSpeed; // go down by player speed amount of pixels
-				g2.drawImage(jeffFront, playerX, playerY, null);
-				direction = "front";
-			} else if (p.keyH.leftPressed) {
-				playerX -= playerSpeed; // go to the left by player speed amount of pixels
-				g2.drawImage(jeffRight, playerX, playerY, null);
-				direction = "right";
-			} else if (p.keyH.rightPressed) {
-				playerX += playerSpeed; // go to the right by player speed amount of pixels
-				g2.drawImage(jeffLeft, playerX, playerY, null);
-				direction = "left";
-			} else {
-				if (direction.equals("back")) {
-					g2.drawImage(jeffBack, playerX, playerY, null);
-				} else if (direction.equals("left")) {
-					g2.drawImage(jeffLeft, playerX, playerY, null);
-				} else if (direction.equals("right")) {
-					g2.drawImage(jeffRight, playerX, playerY, null);
-				} else {
-					g2.drawImage(jeffFront, playerX, playerY, null);
-				}
-			}
-
-			if (j.isJumpscare()) {
-				g2.drawImage(j.getCreepyMan(), 0, 0, null);
-			}
+			m.camera(g);// camera method
+			characterImage(g);// draws the character depending on the direction
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		// Draw other items and elements
-		try {
-			Items it = new Items(new Input());
-			it.baseballBat(g2, p.inventoryCollision);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		p.drawNpcs(g2);
-		n.communicate(g2);
-		cs.changeScene(m);
-
-		g2.dispose(); // saves resources
+		g2.dispose();
 	}
 
 	public int getTileSize() {

@@ -21,12 +21,12 @@ public class Player {
 	public static Input keyH = new Input();// Creates an object to call
 	Maps m = new Maps();
 	// Players initial position
-	private int beforeCollisionX = 400;
-	private int beforeCollisionY = 400;
+	private int beforeCollisionX = GamePanel.worldX;
+	private int beforeCollisionY = GamePanel.worldY;
 	Jumpscare j = new Jumpscare();
 	Input input = new Input();
 	Npc n = new Npc(input);
-	
+
 	private BufferedImage character;
 	public static BufferedImage buisnessMan;
 
@@ -45,20 +45,20 @@ public class Player {
 
 		collision = false;
 		for (int i = 0; i < Maps.treePositions.size(); i++) {
-			int treeX = Maps.treePositions.get(i)[0];
-			int treeY = Maps.treePositions.get(i)[1];
+			int treeX = Maps.treePositions.get(i)[0] - GamePanel.worldX;
+			int treeY = Maps.treePositions.get(i)[1] - GamePanel.worldY;
 
-			if (GamePanel.playerX + 32 > treeX // Right side of hitbox is past left side of tree
-					&& GamePanel.playerX < treeX + 48 // Left side of hitbox is before right side of tree
-					&& GamePanel.playerY + 72 > treeY // Bottom side of hitbox is below top side of tree
-					&& GamePanel.playerY < treeY + 48) { // Top side of hitbox is above bottom side of tree
+			if (GamePanel.screenX + 32 > treeX // Right side of hitbox is past left side of tree
+					&& GamePanel.screenX < treeX + 48 // Left side of hitbox is before right side of tree
+					&& GamePanel.screenY + 72 > treeY // Bottom side of hitbox is below top side of tree
+					&& GamePanel.screenY < treeY + 48) { // Top side of hitbox is above bottom side of tree
 				collision = true;
 				break; // Stop checking after finding the first collision
 			}
 		}
 		for (int i = 0; i < Maps.housePositions.size(); i++) {
-			int houseX = Maps.housePositions.get(i)[0];
-			int houseY = Maps.housePositions.get(i)[1];
+			int houseX = Maps.housePositions.get(i)[0] - GamePanel.worldX;
+			int houseY = Maps.housePositions.get(i)[1] - GamePanel.worldY;
 			if (GamePanel.playerX + 32 > houseX // Right side of hitbox is past left side of tree
 					&& GamePanel.playerX < houseX + 48 // Left side of hitbox is before right side of tree
 					&& GamePanel.playerY + 72 > houseY // Bottom side of hitbox is below top side of tree
@@ -68,8 +68,8 @@ public class Player {
 			}
 		}
 		for (int i = 0; i < Maps.bedPositions.size(); i++) {
-			int bedX = Maps.bedPositions.get(i)[0];
-			int bedY = Maps.bedPositions.get(i)[1];
+			int bedX = Maps.bedPositions.get(i)[0] - GamePanel.worldX;
+			int bedY = Maps.bedPositions.get(i)[1] - GamePanel.worldY;
 			if (GamePanel.playerX + 32 > bedX // Right side of hitbox is past left side of tree
 					&& GamePanel.playerX < bedX + 48 // Left side of hitbox is before right side of tree
 					&& GamePanel.playerY + 72 > bedY // Bottom side of hitbox is below top side of tree
@@ -79,8 +79,8 @@ public class Player {
 			}
 		}
 		for (int i = 0; i < Maps.houseWallPositions.size(); i++) {
-			int houseWallX = Maps.houseWallPositions.get(i)[0];
-			int houseWallY = Maps.houseWallPositions.get(i)[1];
+			int houseWallX = Maps.houseWallPositions.get(i)[0] - GamePanel.worldX;
+			int houseWallY = Maps.houseWallPositions.get(i)[1] - GamePanel.worldY;
 			if (GamePanel.playerX + 32 > houseWallX // Right side of hitbox is past left side of tree
 					&& GamePanel.playerX < houseWallX + 48 // Left side of hitbox is before right side of tree
 					&& GamePanel.playerY + 72 > houseWallY // Bottom side of hitbox is below top side of tree
@@ -90,19 +90,19 @@ public class Player {
 			}
 		}
 		for (int i = 0; i < Maps.grassPositions.size(); i++) {
-			int grassX = Maps.grassPositions.get(i)[0];
-			int grassY = Maps.grassPositions.get(i)[1];
-			if (GamePanel.playerX + 32 > grassX // Right side of hitbox is past left side of tree
-					&& GamePanel.playerX < grassX + 48 // Left side of hitbox is before right side of tree
-					&& GamePanel.playerY + 72 > grassY + 30 // Bottom side of hitbox is below top side of tree
-					&& GamePanel.playerY < grassY + 48) { // Top side of hitbox is above bottom side of tree
+			int grassX = Maps.grassPositions.get(i)[0] - GamePanel.worldX;
+			int grassY = Maps.grassPositions.get(i)[1] - GamePanel.worldY;
+			if (GamePanel.screenX + 32 > grassX // Right side of hitbox is past left side of tree
+					&& GamePanel.screenX < grassX + 48 // Left side of hitbox is before right side of tree
+					&& GamePanel.screenY + 72 > grassY + 30 // Bottom side of hitbox is below top side of tree
+					&& GamePanel.screenY < grassY + 48) { // Top side of hitbox is above bottom side of tree
 				collision = true;
 				break; // Stop checking after finding the first collision
 			}
 		}
 		for (int i = 0; i < Maps.waterPositions.size(); i++) {
-			int waterX = Maps.waterPositions.get(i)[0];
-			int waterY = Maps.waterPositions.get(i)[1];
+			int waterX = Maps.waterPositions.get(i)[0] - GamePanel.worldX;
+			int waterY = Maps.waterPositions.get(i)[1] - GamePanel.worldY;
 			if (GamePanel.playerX + 32 > waterX // Right side of hitbox is past left side of tree
 					&& GamePanel.playerX < waterX + 48 // Left side of hitbox is before right side of tree
 					&& GamePanel.playerY + 72 > waterY + 48 // Bottom side of hitbox is below top side of tree
@@ -132,13 +132,11 @@ public class Player {
 
 	public void collision() {
 		if (!collision && !n.collisionNpc) {
-
-			beforeCollisionX = GamePanel.playerX;
-			beforeCollisionY = GamePanel.playerY;
+			beforeCollisionX = GamePanel.worldX;
+			beforeCollisionY = GamePanel.worldY;
 		} else {
-
-			GamePanel.playerX = beforeCollisionX;
-			GamePanel.playerY = beforeCollisionY;
+			GamePanel.worldX = beforeCollisionX;
+			GamePanel.worldY = beforeCollisionY;
 		}
 	}
 
