@@ -56,6 +56,9 @@ public class GamePanel extends JPanel implements Runnable {
 	Player p;
 	Npc n = new Npc();
 
+	// change scene variables
+	int framesSinceMapChange = 0;
+
 	public GamePanel() {
 
 	}
@@ -185,7 +188,7 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 
 		g.drawImage(character, screenX, screenY, null);// draws the character in the middle of the screen
-
+		System.out.println(worldX + " " + worldY);
 	}
 
 	String direction = "";// stores the direction the player is facing
@@ -202,6 +205,80 @@ public class GamePanel extends JPanel implements Runnable {
 			e.printStackTrace();
 		}
 
+		framesSinceMapChange++;
+		System.out.println(framesSinceMapChange);
+
+		if (worldX > 280 && worldY > -143 && worldX < 352 && worldY < -128 && Player.keyH.changeMapPressed) {
+			int stepCount = 0;
+
+			if (stepCount == 0) {
+				try {
+					int fadeValue = 0;
+					g2.setColor(new Color(0, 0, 0, fadeValue));
+					g2.fillRect(0, 0, WIDTH, HEIGHT);
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} finally {
+					stepCount++;
+				}
+			}
+
+			if (stepCount == 1) {
+				try {
+					int fadeValue = 255;
+					g2.setColor(new Color(0, 0, 0, fadeValue));
+					g2.fillRect(0, 0, WIDTH, HEIGHT);
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} finally {
+					stepCount++;
+				}
+			}
+			if (stepCount == 2) {
+					try {
+						framesSinceMapChange = 0;
+
+						// Clear old map data
+						Maps.treePositions.clear();
+						Maps.housePositions.clear();
+						Maps.bedPositions.clear();
+						Maps.houseWallPositions.clear();
+						Maps.grassPositions.clear();
+						Maps.waterPositions.clear();
+
+						// Clear old tile images
+						for (int i = 0; i < Maps.maxWorldRow; i++) {
+							for (int j = 0; j < Maps.maxWorldCol; j++) {
+								Tiles.tileImages[i][j] = null;
+							}
+						}
+						Tiles.tileImages = new BufferedImage[Maps.maxWorldRow][Maps.maxWorldCol]; // Create a new array
+
+						g2.fillRect(0, 0, WIDTH + 100000, HEIGHT + 100000); // Clear the screen
+						// Change to the new map
+						m.changeMap(2);
+
+						// Reinitialize the new map's data
+						t.tileCreating();
+						m.findIntroHouse();
+						m.findTrees();
+						worldX = 288;
+						worldY = 216;
+					} catch (IOException e) {
+						e.printStackTrace();
+					} finally {
+						Player.keyH.changeMapPressed = false;
+						repaint(); // Ensure the screen is repainted
+					}
+			} 
+
+		} else {
+			Player.keyH.changeMapPressed = false;
+		}
 		g2.dispose();
 	}
 
