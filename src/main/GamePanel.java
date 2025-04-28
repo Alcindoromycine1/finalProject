@@ -58,13 +58,17 @@ public class GamePanel extends JPanel implements Runnable {
 
 	// change scene variables
 	int framesSinceMapChange = 0;
-
-	public GamePanel() {
-
-	}
-
+	int fadeValue = 0;
+	int stepCount = 0;
+	
 	static int screenX;
 	static int screenY;
+	
+	//sound
+	private Sound footstepSound;
+	
+	public GamePanel() {
+	}
 
 	// Constructor
 	public GamePanel(JFrame window) throws IOException {
@@ -92,6 +96,13 @@ public class GamePanel extends JPanel implements Runnable {
 		// Load character
 		p = new Player(input);
 		p.loadCharacterImages();
+		
+		try {
+			footstepSound = new Sound("src/sound/walkingSoundEffect.wav");
+			System.out.println("Sound loaded successfully");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	// Start the game thread
@@ -149,6 +160,13 @@ public class GamePanel extends JPanel implements Runnable {
 		} else if (p.keyH.rightPressed) {
 			direction = "right";
 			worldX += playerSpeed; // move the world right when player goes right
+		}
+
+		// footsteps
+		if (p.keyH.upPressed && !p.keyH.upReleased || p.keyH.downPressed && !p.keyH.downReleased
+				|| p.keyH.rightPressed && !p.keyH.rightReleased || p.keyH.leftPressed && !p.keyH.leftReleased) {
+			System.out.println(footstepSound);
+			footstepSound.play();
 		}
 	}
 
@@ -208,78 +226,76 @@ public class GamePanel extends JPanel implements Runnable {
 		framesSinceMapChange++;
 		System.out.println(framesSinceMapChange);
 
-		if (worldX > 280 && worldY > -143 && worldX < 352 && worldY < -128 && Player.keyH.changeMapPressed) {
-			int stepCount = 0;
-
+		if (/* worldX > 280 && worldY > -143 && worldX < 352 && worldY < -128 && */ Player.keyH.changeMapPressed) {
+			
+			
 			if (stepCount == 0) {
-				try {
-					int fadeValue = 0;
-					g2.setColor(new Color(0, 0, 0, fadeValue));
-					g2.fillRect(0, 0, WIDTH, HEIGHT);
-					Thread.sleep(10);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} finally {
+
+				System.out.println("fade out: " + fadeValue);
+				g2.setColor(new Color(0, 0, 0, fadeValue));
+				g2.fillRect(0, 0, WIDTH, HEIGHT);
+				fadeValue+= 2;
+				if (fadeValue >= 255) {
+					fadeValue = 255;
 					stepCount++;
+					
 				}
 			}
 
 			if (stepCount == 1) {
-				try {
-					int fadeValue = 255;
-					g2.setColor(new Color(0, 0, 0, fadeValue));
-					g2.fillRect(0, 0, WIDTH, HEIGHT);
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} finally {
+
+				System.out.println("fade in: " + fadeValue);
+				//m.changeMap(2);
+				g2.setColor(new Color(0, 0, 0, fadeValue));
+				g2.fillRect(0, 0, WIDTH, HEIGHT);
+				fadeValue -= 2;
+				if (fadeValue <= 0) {
 					stepCount++;
 				}
 			}
 			if (stepCount == 2) {
-					try {
-						framesSinceMapChange = 0;
+				try {
+					framesSinceMapChange = 0;
 
-						// Clear old map data
-						Maps.treePositions.clear();
-						Maps.housePositions.clear();
-						Maps.bedPositions.clear();
-						Maps.houseWallPositions.clear();
-						Maps.grassPositions.clear();
-						Maps.waterPositions.clear();
+					// Clear old map data
+					Maps.treePositions.clear();
+					Maps.housePositions.clear();
+					Maps.bedPositions.clear();
+					Maps.houseWallPositions.clear();
+					Maps.grassPositions.clear();
+					Maps.waterPositions.clear();
 
-						// Clear old tile images
-						for (int i = 0; i < Maps.maxWorldRow; i++) {
-							for (int j = 0; j < Maps.maxWorldCol; j++) {
-								Tiles.tileImages[i][j] = null;
-							}
+					// Clear old tile images
+					for (int i = 0; i < Maps.maxWorldRow; i++) {
+						for (int j = 0; j < Maps.maxWorldCol; j++) {
+							Tiles.tileImages[i][j] = null;
 						}
-						Tiles.tileImages = new BufferedImage[Maps.maxWorldRow][Maps.maxWorldCol]; // Create a new array
-
-						g2.fillRect(0, 0, WIDTH + 100000, HEIGHT + 100000); // Clear the screen
-						// Change to the new map
-						m.changeMap(2);
-
-						// Reinitialize the new map's data
-						t.tileCreating();
-						m.findIntroHouse();
-						m.findTrees();
-						worldX = 288;
-						worldY = 216;
-					} catch (IOException e) {
-						e.printStackTrace();
-					} finally {
-						Player.keyH.changeMapPressed = false;
-						repaint(); // Ensure the screen is repainted
 					}
-			} 
+					Tiles.tileImages = new BufferedImage[Maps.maxWorldRow][Maps.maxWorldCol]; // Create a new array
+
+					g2.fillRect(0, 0, WIDTH + 100000, HEIGHT + 100000); // Clear the screen
+					// Change to the new map
+					m.changeMap(2);
+
+					// Reinitialize the new map's data
+					t.tileCreating();
+					m.findIntroHouse();
+					m.findTrees();
+					worldX = 288;
+					worldY = 216;
+				} catch (IOException e) {
+					e.printStackTrace();
+				} finally {
+					Player.keyH.changeMapPressed = false;
+					repaint(); // Ensure the screen is repainted
+				}
+			}
 
 		} else {
 			Player.keyH.changeMapPressed = false;
 		}
 		g2.dispose();
+
 	}
 
 	public int getTileSize() {
