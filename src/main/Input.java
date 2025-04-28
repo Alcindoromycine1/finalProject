@@ -16,6 +16,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	public int mouseX = 0;
 	public int mouseY = 0;
 	public boolean upPressed, downPressed, leftPressed, rightPressed, changeMapPressed;
+	public boolean upReleased, downReleased, leftReleased, rightReleased;
 	public int mouseOffsetX = 0;
 	public int mouseOffsetY = 0;
 	Npc npc;
@@ -44,12 +45,16 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 
 		if (code == KeyEvent.VK_W) {
 			upPressed = true;
+			upReleased = false;
 		} else if (code == KeyEvent.VK_S) {
 			downPressed = true;
+			downReleased = false;
 		} else if (code == KeyEvent.VK_A) {
 			leftPressed = true;
+			leftReleased = false;
 		} else if (code == KeyEvent.VK_D) {
 			rightPressed = true;
+			rightReleased = false;
 		} else if (code == KeyEvent.VK_E) {
 			if (npc.collisionNpc) {
 				npc.dialogue = !npc.dialogue;
@@ -65,20 +70,24 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		int code = e.getKeyCode();// gets the ascii value of the key pressed
 
 		if (code == KeyEvent.VK_W) {
-
+			
 			upPressed = false;
+			upReleased = true;
 
 		} else if (code == KeyEvent.VK_S) {
 
 			downPressed = false;
+			downReleased = true;
 
 		} else if (code == KeyEvent.VK_A) {
 
 			leftPressed = false;
+			leftReleased = true;
 
 		} else if (code == KeyEvent.VK_D) {
 
 			rightPressed = false;
+			rightReleased = true;
 
 		}
 

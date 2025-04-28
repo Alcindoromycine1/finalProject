@@ -27,7 +27,7 @@ public class Jumpscare {
 	}
 
 	public BufferedImage getCreepyMan() {
-		Sound.playSound("src/sound/jumpScare1.WAV");
+		//Sound.playSound("src/sound/jumpScare1.WAV");
 		return creepyMan;
 	}
 	
