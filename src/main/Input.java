@@ -15,7 +15,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 
 	public int mouseX = 0;
 	public int mouseY = 0;
-	public boolean upPressed, downPressed, leftPressed, rightPressed, changeMapPressed;
+	public boolean upPressed, downPressed, leftPressed, rightPressed, changeMapPressed, ePressed;
 	public boolean upReleased, downReleased, leftReleased, rightReleased;
 	public int mouseOffsetX = 0;
 	public int mouseOffsetY = 0;
@@ -59,6 +59,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 			if (npc.collisionNpc) {
 				npc.dialogue = !npc.dialogue;
 			}
+			ePressed = true;
 		} else if (code == KeyEvent.VK_F) {
 			changeMapPressed = true;
 		}
