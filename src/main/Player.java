@@ -178,4 +178,12 @@ public class Player {
 		g3.setColor(Color.black);
 
 	}
+
+	public static boolean disableCharacterMovement() {
+
+		if (Items.carOn) {
+			return true;
+		}
+		return false;
+	}
 }

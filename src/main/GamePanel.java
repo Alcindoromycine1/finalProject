@@ -60,13 +60,13 @@ public class GamePanel extends JPanel implements Runnable {
 	int framesSinceMapChange = 0;
 	int fadeValue = 0;
 	int stepCount = 0;
-	
+
 	static int screenX;
 	static int screenY;
-	
-	//sound
+
+	// sound
 	private Sound footstepSound;
-	
+
 	public GamePanel() {
 	}
 
@@ -96,7 +96,7 @@ public class GamePanel extends JPanel implements Runnable {
 		// Load character
 		p = new Player(input);
 		p.loadCharacterImages();
-		
+
 		try {
 			footstepSound = new Sound("src/sound/walkingSoundEffect.wav");
 			System.out.println("Sound loaded successfully");
@@ -148,25 +148,27 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public void characterMovement() {
 		// Character movement
-		if (p.keyH.upPressed) {
-			direction = "back";
-			worldY -= playerSpeed; // move the world up when player presses up
-		} else if (p.keyH.downPressed) {
-			direction = "front";
-			worldY += playerSpeed; // move the world down when player goes down
-		} else if (p.keyH.leftPressed) {
-			direction = "left";
-			worldX -= playerSpeed; // move the world left when player goes left
-		} else if (p.keyH.rightPressed) {
-			direction = "right";
-			worldX += playerSpeed; // move the world right when player goes right
-		}
+		if (Player.disableCharacterMovement() == false) {
+			if (p.keyH.upPressed) {
+				direction = "back";
+				worldY -= playerSpeed; // move the world up when player presses up
+			} else if (p.keyH.downPressed) {
+				direction = "front";
+				worldY += playerSpeed; // move the world down when player goes down
+			} else if (p.keyH.leftPressed) {
+				direction = "left";
+				worldX -= playerSpeed; // move the world left when player goes left
+			} else if (p.keyH.rightPressed) {
+				direction = "right";
+				worldX += playerSpeed; // move the world right when player goes right
+			}
 
-		// footsteps
-		if (p.keyH.upPressed && !p.keyH.upReleased || p.keyH.downPressed && !p.keyH.downReleased
-				|| p.keyH.rightPressed && !p.keyH.rightReleased || p.keyH.leftPressed && !p.keyH.leftReleased) {
-			System.out.println(footstepSound);
-			footstepSound.play();
+			// footsteps
+			if (p.keyH.upPressed && !p.keyH.upReleased || p.keyH.downPressed && !p.keyH.downReleased
+					|| p.keyH.rightPressed && !p.keyH.rightReleased || p.keyH.leftPressed && !p.keyH.leftReleased) {
+				// System.out.println(footstepSound);
+				// footstepSound.play();
+			}
 		}
 	}
 
@@ -176,6 +178,7 @@ public class GamePanel extends JPanel implements Runnable {
 		p.collisionChecking();
 		p.collision();
 		characterMovement();
+		Items.animation();
 	}
 
 	public void characterImage(Graphics g) throws IOException {
@@ -186,27 +189,29 @@ public class GamePanel extends JPanel implements Runnable {
 		BufferedImage jeffLeft = ImageIO.read(new File("src/textures/jeffLeft.png"));
 
 		BufferedImage character = null;
-		if (direction.equals("back")) {
+		if (Items.visible) {
+			if (direction.equals("back")) {
 
-			character = jeffBack;
+				character = jeffBack;
 
-		} else if (direction.equals("front")) {
+			} else if (direction.equals("front")) {
 
-			character = jeffFront;
+				character = jeffFront;
 
-		} else if (direction.equals("left")) {
+			} else if (direction.equals("left")) {
 
-			character = jeffLeft;
+				character = jeffLeft;
 
-		} else if (direction.equals("right")) {
+			} else if (direction.equals("right")) {
 
-			character = jeffRight;
-		} else {
-			character = jeffFront;
+				character = jeffRight;
+			} else {
+				character = jeffFront;
+			}
+
+			g.drawImage(character, screenX, screenY, null);// draws the character in the middle of the screen
+			// System.out.println(worldX + " " + worldY);
 		}
-
-		g.drawImage(character, screenX, screenY, null);// draws the character in the middle of the screen
-		System.out.println(worldX + " " + worldY);
 	}
 
 	String direction = "";// stores the direction the player is facing
@@ -224,28 +229,27 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 
 		framesSinceMapChange++;
-		System.out.println(framesSinceMapChange);
+		// System.out.println(framesSinceMapChange);
 
 		if (/* worldX > 280 && worldY > -143 && worldX < 352 && worldY < -128 && */ Player.keyH.changeMapPressed) {
-			
-			
+
 			if (stepCount == 0) {
 
 				System.out.println("fade out: " + fadeValue);
 				g2.setColor(new Color(0, 0, 0, fadeValue));
 				g2.fillRect(0, 0, WIDTH, HEIGHT);
-				fadeValue+= 2;
+				fadeValue += 2;
 				if (fadeValue >= 255) {
 					fadeValue = 255;
 					stepCount++;
-					
+
 				}
 			}
 
 			if (stepCount == 1) {
 
 				System.out.println("fade in: " + fadeValue);
-				//m.changeMap(2);
+				// m.changeMap(2);
 				g2.setColor(new Color(0, 0, 0, fadeValue));
 				g2.fillRect(0, 0, WIDTH, HEIGHT);
 				fadeValue -= 2;
@@ -293,6 +297,12 @@ public class GamePanel extends JPanel implements Runnable {
 
 		} else {
 			Player.keyH.changeMapPressed = false;
+		}
+		Items it = new Items();
+		try {
+			it.car(g2);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		g2.dispose();
 
