@@ -55,7 +55,7 @@ public class GamePanel extends JPanel implements Runnable {
 	ChangeScene cs = new ChangeScene(WIDTH, HEIGHT);
 	Player p;
 	Npc n = new Npc();
-
+	Items it = new Items();
 	// change scene variables
 	int framesSinceMapChange = 0;
 	int fadeValue = 0;
@@ -291,19 +291,28 @@ public class GamePanel extends JPanel implements Runnable {
 					e.printStackTrace();
 				} finally {
 					Player.keyH.changeMapPressed = false;
-					repaint(); // Ensure the screen is repainted
+					repaint(); 
 				}
 			}
 
 		} else {
 			Player.keyH.changeMapPressed = false;
 		}
-		Items it = new Items();
 		try {
 			it.car(g2);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		if (Items.animationFrame >= 150) {
+			it.titleScreen(g2);
+		}
+		//if(Items.carWorldX >= 4700) {
+			try {
+				it.badGuy(g2);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		//}
 		g2.dispose();
 
 	}
