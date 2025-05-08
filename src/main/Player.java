@@ -26,6 +26,7 @@ public class Player {
 	Jumpscare j = new Jumpscare();
 	Input input = new Input();
 	Npc n = new Npc(input);
+	Items it = new Items();
 
 	private BufferedImage character;
 	public static BufferedImage buisnessMan;
@@ -121,6 +122,14 @@ public class Player {
 			inventoryCollision = false;
 
 		}
+
+		if (GamePanel.worldX + 384 + 32 > Items.carWorldX && // Player's right side > car's left side
+			    GamePanel.worldX + 384 < Items.carWorldX + 96 && // Player's left side < car's right side
+			    GamePanel.worldY + 288> Items.carWorldY && // Player's bottom side > car's top side
+			    GamePanel.worldY + 288 + 72 < Items.carWorldY + 192 + 30) { // Player's bottom side < car's bottom side
+			    collision = true;
+			}	
+
 		n.npcs();
 	}
 
@@ -129,7 +138,6 @@ public class Player {
 		return collision;
 
 	}
-
 	public void collision() {
 		if (!collision && !n.collisionNpc) {
 			beforeCollisionX = GamePanel.worldX;
@@ -184,6 +192,10 @@ public class Player {
 		if (Items.carOn) {
 			return true;
 		}
+		if(Items.carWorldX == 4700) {
+			return true;
+		}
 		return false;
+		
 	}
 }

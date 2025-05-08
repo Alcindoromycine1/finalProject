@@ -17,7 +17,7 @@ import javax.imageio.ImageIO;
 public class Maps {
 
 	// WORLD SETTINGS
-	final static int maxWorldCol = 28; 
+	final static int maxWorldCol = 142; 
 	final static int maxWorldRow = 21; 
 	final static int worldWidth = 48 * maxWorldCol; // world width in pixels (2400 pixels)
 	final static int worldHeight = 48 * maxWorldRow; // world height in pixels (2400 pixels)
