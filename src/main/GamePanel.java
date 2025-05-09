@@ -52,7 +52,6 @@ public class GamePanel extends JPanel implements Runnable {
 	Tiles t = new Tiles();
 	Maps m = new Maps();
 	Jumpscare j = new Jumpscare();
-	ChangeScene cs = new ChangeScene(WIDTH, HEIGHT);
 	Player p;
 	Npc n = new Npc();
 	Items it = new Items();
@@ -62,6 +61,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 	// sound
 	private Sound footstepSound;
+	private Sound jumpscareSound;
 
 	public GamePanel() {
 	}
@@ -95,6 +95,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 		try {
 			footstepSound = new Sound("src/sound/walkingSoundEffect.wav");
+			jumpscareSound = new Sound("src/sound/jumpscareSoundEffect.wav");
 			System.out.println("Sound loaded successfully");
 		} catch (Exception e) {
 			e.printStackTrace();
