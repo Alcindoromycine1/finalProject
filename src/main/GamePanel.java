@@ -37,6 +37,7 @@ public class GamePanel extends JPanel implements Runnable {
 	static int playerY = 576 / 2;
 	static int worldX = 768 / 2; // world position
 	static int worldY = 576 / 2; // world position
+	static boolean jumpscare = false; // jumpscare boolean
 
 	// Game Thread
 	Thread gameThread; // keeps the program running until closed
@@ -62,7 +63,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 	// sound
 	private Sound footstepSound;
-
+	
 	public GamePanel() {
 	}
 
@@ -218,7 +219,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-
+		
 		try {
 			m.camera(g);// camera method
 			characterImage(g);// draws the character depending on the direction
@@ -242,6 +243,13 @@ public class GamePanel extends JPanel implements Runnable {
 		Npc.text(g2);
 		it.prompts(g2);
 		try {
+			if (jumpscare) {
+				long startTime = System.currentTimeMillis();
+				j.playSound();
+				while (System.currentTimeMillis() - startTime < 2000) {
+					j.drawJumpscare(g2);
+				}
+			}
 			if (p.keyH.changeMapPressed && worldX >= 446 && worldX <= 564 && worldY >= 46 && worldY <= 132) {
 				fading = true;
 				Player.disableCharacterMovement();

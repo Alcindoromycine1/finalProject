@@ -19,7 +19,7 @@ public class Main {
 		window.setTitle("Are We Cooked?");
 
 		GamePanel gp = new GamePanel(window);
-		window.add(gp);
+		window.add(gp);	
 		window.pack();// forces the JPanel to fit the preferred size
 
 		window.setLocationRelativeTo(null); 

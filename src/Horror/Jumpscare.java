@@ -1,6 +1,8 @@
 package Horror;
 
 import main.*;
+
+import java.awt.Graphics2D;
 import java.awt.image.*;
 import java.io.*;
 import javax.imageio.ImageIO;
@@ -8,31 +10,26 @@ import javax.imageio.ImageIO;
 public class Jumpscare {
 
 	private BufferedImage creepyMan;
-	private boolean jumpscare = false;
+	Sound sound;
 
 	public Jumpscare() {
-		loadImage();
+		loadStuff();
 	}
 
-	public void loadImage() {
+	public void loadStuff() {
 		try {
 			creepyMan = ImageIO.read(new File("src/textures/creepyMan.png"));
+			sound = new Sound("src/sound/jumpScare1.wav");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public boolean isJumpscare() {
-		return jumpscare;
+	public void drawJumpscare(Graphics2D g2) {
+		g2.drawImage(creepyMan, 0, 0, null);
 	}
 
-	public BufferedImage getCreepyMan() {
-		//Sound.playSound("src/sound/jumpScare1.WAV");
-		return creepyMan;
+	public void playSound() {
+		sound.play();
 	}
-	
-	public void setJumpscare(boolean jumpscare) {
-		this.jumpscare = jumpscare;
-	}
-
 }

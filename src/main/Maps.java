@@ -35,6 +35,7 @@ public class Maps {
 		if (mapToChange == 1) {
 			mapIntro("src/maps/mapIntro.txt");// intro map
 		} else if (mapToChange == 2) {
+			
 			mapIntro("src/maps/mapHouse.txt");// house map
 		} else if (mapToChange == 3) {
 			mapIntro("src/maps/openMap.txt");// open map

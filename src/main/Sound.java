@@ -28,6 +28,8 @@ public class Sound {
         }
     }
 
-
+	public boolean isPlaying() {
+		return clip != null && clip.isRunning();
+	}
 
 }
