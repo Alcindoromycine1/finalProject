@@ -67,7 +67,7 @@ public class Items {
 
 	public void car(Graphics g) throws IOException {
 		int carX = carWorldX - GamePanel.worldX;
-		int carY = carWorldY - GamePanel.worldY; 
+		int carY = carWorldY - GamePanel.worldY;
 
 		BufferedImage car = ImageIO.read(new File("src/textures/car.png"));
 		g.drawImage(car, carX, carY, 96, 192, null);
@@ -127,11 +127,11 @@ public class Items {
 	int badGuyX = 5500 - GamePanel.worldX;
 	int badGuyY = 900 - GamePanel.worldY;
 	boolean badGuyMoving = false;
-	
+
 	public void badGuy(Graphics2D g2) throws IOException {
-		
-		BufferedImage badguy = ImageIO.read(new File ("src/textures/character.png"));
-		
+
+		BufferedImage badguy = ImageIO.read(new File("src/textures/character.png"));
+
 		if (carWorldX >= 4700) {
 			badGuyMoving = true;
 		}
@@ -145,7 +145,35 @@ public class Items {
 		g2.drawImage(badguy, screenX, screenY, 48, 70, null);
 	}
 
+	boolean movementPrompt = false;
 
+	public void prompts(Graphics2D g2) {
+		BufferedImage wasdKey;
+		movementPrompt = true;
+		if (movementPrompt) {
+
+			g2.setColor(Color.BLACK);
+			g2.drawRoundRect(570, 10, 185, 150, 10, 10);
+			g2.setColor(Color.DARK_GRAY);
+			g2.fillRoundRect(570, 10, 185, 150, 10, 10);
+			g2.setColor(Color.LIGHT_GRAY);
+			g2.fillRoundRect(575, 15, 175, 140, 10, 10);
+			try {
+				wasdKey = ImageIO.read(new File("src/textures/wasdKey.png"));//https://media.istockphoto.com/id/1193231012/vector/computer-gamer-keyboard-wasd-keys-vector-illustration-wasd-keys-game-control-keyboard-buttons.jpg?s=612x612&w=0&k=20&c=-DJ6CFewXZ_Oofp_BsYya5KniByRkVW3EAHYICWIOaU=
+				g2.drawImage(wasdKey, 610, 46, 100, 100, null);
+				g2.setFont(new Font("Calibri", Font.BOLD, 18));
+				g2.setColor(Color.BLACK);
+				g2.drawString("Movement", 620, 32);
+				g2.fillRect(620, 35, 85, 2);
+				g2.drawString("Left", 582, 110);
+				g2.drawString("Right", 705, 110);
+				g2.drawString("Up", 650, 55);
+				g2.drawString("Down", 638, 138);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	public static void animation() {
 		if (carOn) {
