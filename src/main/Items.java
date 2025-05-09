@@ -115,7 +115,8 @@ public class Items {
 		g2.setFont(new Font("calibri", Font.BOLD, 60));
 
 		if (carWorldX < 3050) {
-			g2.drawString("Group Name Presents...", 120, 280);
+			g2.drawString("Are We Cooked Interactive", 60, 280);
+			g2.drawString("Presents...", 280, 400);
 		}
 
 		if (carWorldX >= 3120 && carWorldX <= 4600) {
