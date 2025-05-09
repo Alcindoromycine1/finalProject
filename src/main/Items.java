@@ -60,14 +60,14 @@ public class Items {
 
 	static boolean carOn = false;
 	static int animationFrame = 0;
-	static int carWorldX = 1100;
-	static int carWorldY = 570;
+	static int carWorldX = 1300;
+	static int carWorldY = 770;
 	static boolean visible = true;
 	static boolean carUsed = false;
 
 	public void car(Graphics g) throws IOException {
 		int carX = carWorldX - GamePanel.worldX;
-		int carY = carWorldY - GamePanel.worldY;
+		int carY = carWorldY - GamePanel.worldY; 
 
 		BufferedImage car = ImageIO.read(new File("src/textures/car.png"));
 		g.drawImage(car, carX, carY, 96, 192, null);
@@ -134,7 +134,6 @@ public class Items {
 		if (carWorldX >= 4700) {
 			badGuyMoving = true;
 		}
-		System.out.println(badGuyX);
 		if (badGuyMoving && badGuyX >= 4900) {
 			badGuyX -= 2;
 		}

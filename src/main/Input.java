@@ -62,6 +62,10 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 			ePressed = true;
 		} else if (code == KeyEvent.VK_F) {
 			changeMapPressed = true;
+		}else if(code == KeyEvent.VK_ESCAPE) {
+			System.exit(0);
+		}else if(code == KeyEvent.VK_SPACE) {
+			Npc.textIndex++;
 		}
 	}
 

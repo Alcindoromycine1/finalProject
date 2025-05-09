@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -17,11 +18,11 @@ import javax.imageio.ImageIO;
 public class Maps {
 
 	// WORLD SETTINGS
-	final static int maxWorldCol = 142; 
-	final static int maxWorldRow = 21; 
+	final static int maxWorldCol = 146;
+	final static int maxWorldRow = 33;
 	final static int worldWidth = 48 * maxWorldCol; // world width in pixels (2400 pixels)
 	final static int worldHeight = 48 * maxWorldRow; // world height in pixels (2400 pixels)
-	
+
 	public static int[][] tiles = new int[maxWorldRow][maxWorldCol];
 	public static ArrayList<int[]> treePositions = new ArrayList<>();
 	public static ArrayList<int[]> housePositions = new ArrayList<>();
@@ -32,13 +33,13 @@ public class Maps {
 
 	public String changeMap(Graphics2D g, int mapToChange) {
 		if (mapToChange == 1) {
-			mapIntro("src/maps/mapIntro.txt");//intro map
+			mapIntro("src/maps/mapIntro.txt");// intro map
 		} else if (mapToChange == 2) {
-			mapIntro("src/maps/mapHouse.txt");//house map
+			mapIntro("src/maps/mapHouse.txt");// house map
 		} else if (mapToChange == 3) {
-			mapIntro("src/maps/openMap.txt");//open map
+			mapIntro("src/maps/openMap.txt");// open map
 		}
-		return "-1";//no map found
+		return "-1";// no map found
 
 	}
 
@@ -114,7 +115,7 @@ public class Maps {
 			}
 		}
 	}
-	
+
 	public void camera(Graphics g2) {
 		try {
 			for (int worldRow = 0; worldRow < maxWorldRow; worldRow++) {
@@ -133,6 +134,80 @@ public class Maps {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	
+	// change scene variables
+	int fadeValue = 0;
+	int stepCount = 0;
+	public void fading(Graphics2D g2, Tiles t, GamePanel m) throws IOException {
+		
+			if (stepCount == 0) {// fade out
+				Color fading = new Color(0, 0, 0, fadeValue);
+				// System.out.println("fade out: " + fadeValue);
+				g2.setColor(fading);
+				g2.fillRect(0, 0, m.WIDTH, m.HEIGHT);
+				fadeValue += 2;
+				if (fadeValue >= 255) {
+					fadeValue = 255;
+					stepCount = 1;
+				}
+			}
+
+			else if (stepCount == 1) {// change map
+				try {
+
+					// Clear old map data
+					treePositions.clear();
+					housePositions.clear();
+					bedPositions.clear();
+					houseWallPositions.clear();
+					grassPositions.clear();
+					waterPositions.clear();
+
+					// Clear old tile images
+					for (int i = 0; i < Maps.maxWorldRow; i++) {
+						for (int j = 0; j < Maps.maxWorldCol; j++) {
+							Tiles.tileImages[i][j] = null;
+						}
+					}
+					Tiles.tileImages = new BufferedImage[Maps.maxWorldRow][Maps.maxWorldCol]; // Create a new array
+
+					g2.fillRect(0, 0, m.WIDTH + 20000, m.HEIGHT + 20000); // Clear the screen
+					// Change to the new map
+					if(m.goOut) {
+						changeMap(3);
+					}
+					else if(!m.goOut) {
+						changeMap(2);
+					}
+					// Load the new map's tiles	
+					// Reinitialize the new map's data
+					Tiles.tileCreating();
+					findIntroHouse();
+					findTrees();
+					GamePanel.worldX = 288;
+					GamePanel.worldY = 216;
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+				stepCount = 2;
+			}
+
+			else if (stepCount == 2) {// fade in
+				//System.out.println("fade in: " + fadeValue);
+				g2.setColor(new Color(0, 0, 0, fadeValue));
+				g2.fillRect(0, 0, m.WIDTH, m.HEIGHT);
+				fadeValue -= 2;
+				if (fadeValue <= 0) {
+					GamePanel.fading = false;
+					Player.disableCharacterMovement();
+					stepCount = -1;
+					fadeValue = 0;
+
+				}
+			}
 	}
 
 }

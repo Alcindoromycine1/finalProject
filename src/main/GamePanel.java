@@ -56,10 +56,6 @@ public class GamePanel extends JPanel implements Runnable {
 	Player p;
 	Npc n = new Npc();
 	Items it = new Items();
-	// change scene variables
-	int framesSinceMapChange = 0;
-	int fadeValue = 0;
-	int stepCount = 0;
 
 	static int screenX;
 	static int screenY;
@@ -215,7 +211,8 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 
 	String direction = "";// stores the direction the player is facing
-
+	static boolean fading = false;
+	boolean goOut = false;
 	// where all the drawing happens
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -228,76 +225,6 @@ public class GamePanel extends JPanel implements Runnable {
 			e.printStackTrace();
 		}
 
-		framesSinceMapChange++;
-		// System.out.println(framesSinceMapChange);
-
-		if (/* worldX > 280 && worldY > -143 && worldX < 352 && worldY < -128 && */ Player.keyH.changeMapPressed) {
-
-			if (stepCount == 0) {
-
-				System.out.println("fade out: " + fadeValue);
-				g2.setColor(new Color(0, 0, 0, fadeValue));
-				g2.fillRect(0, 0, WIDTH, HEIGHT);
-				fadeValue += 2;
-				if (fadeValue >= 255) {
-					fadeValue = 255;
-					stepCount++;
-
-				}
-			}
-
-			if (stepCount == 1) {
-
-				System.out.println("fade in: " + fadeValue);
-				// m.changeMap(2);
-				g2.setColor(new Color(0, 0, 0, fadeValue));
-				g2.fillRect(0, 0, WIDTH, HEIGHT);
-				fadeValue -= 2;
-				if (fadeValue <= 0) {
-					stepCount++;
-				}
-			}
-			if (stepCount == 2) {
-				try {
-					framesSinceMapChange = 0;
-
-					// Clear old map data
-					Maps.treePositions.clear();
-					Maps.housePositions.clear();
-					Maps.bedPositions.clear();
-					Maps.houseWallPositions.clear();
-					Maps.grassPositions.clear();
-					Maps.waterPositions.clear();
-
-					// Clear old tile images
-					for (int i = 0; i < Maps.maxWorldRow; i++) {
-						for (int j = 0; j < Maps.maxWorldCol; j++) {
-							Tiles.tileImages[i][j] = null;
-						}
-					}
-					Tiles.tileImages = new BufferedImage[Maps.maxWorldRow][Maps.maxWorldCol]; // Create a new array
-
-					g2.fillRect(0, 0, WIDTH + 100000, HEIGHT + 100000); // Clear the screen
-					// Change to the new map
-					m.changeMap(2);
-
-					// Reinitialize the new map's data
-					t.tileCreating();
-					m.findIntroHouse();
-					m.findTrees();
-					worldX = 288;
-					worldY = 216;
-				} catch (IOException e) {
-					e.printStackTrace();
-				} finally {
-					Player.keyH.changeMapPressed = false;
-					repaint(); 
-				}
-			}
-
-		} else {
-			Player.keyH.changeMapPressed = false;
-		}
 		try {
 			it.car(g2);
 		} catch (IOException e) {
@@ -306,13 +233,32 @@ public class GamePanel extends JPanel implements Runnable {
 		if (Items.animationFrame >= 150) {
 			it.titleScreen(g2);
 		}
-		//if(Items.carWorldX >= 4700) {
-			try {
-				it.badGuy(g2);
-			} catch (IOException e) {
-				e.printStackTrace();
+		try {
+			it.badGuy(g2);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Npc.text(g2);
+		try {
+			if (p.keyH.changeMapPressed && worldX >= 446 && worldX <= 564 && worldY >= 76 && worldY <= 132) {
+				fading = true;
+				Player.disableCharacterMovement();
+				p.keyH.changeMapPressed = false;
 			}
-		//}
+			if (!fading && p.keyH.changeMapPressed && worldX >= 288 && worldX < 288 + 48 && worldY >= 216
+					&& worldY < 216 + 72) {
+				System.out.println(fading);
+				fading = true;
+				Player.disableCharacterMovement();
+				m.stepCount = 0;
+				goOut = true;
+			}
+			if (fading) {
+				m.fading(g2, t, this);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		g2.dispose();
 
 	}

@@ -9,9 +9,9 @@ import javax.imageio.ImageIO;
 public class Tiles {
 
 	public static BufferedImage tileImages[][] = new BufferedImage[Maps.maxWorldRow][Maps.maxWorldCol];
-	Maps m = new Maps();
+	
 
-	public void tileCreating() throws IOException {
+	public static void tileCreating() throws IOException {
 
 		for (int i = 0; i < Maps.tiles.length; i++) {
 			for (int j = 0; j < Maps.tiles[i].length; j++) {
@@ -90,6 +90,8 @@ public class Tiles {
 					tileImages[i][j] = ImageIO.read(new File("src/textures/water.png"));
 				} else if (Maps.tiles[i][j] == 35) {// beds are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/sand.png"));
+				} else if (Maps.tiles[i][j] == 36) {// beds are found in the file
+					tileImages[i][j] = ImageIO.read(new File("src/textures/void.png"));
 				}
 			}
 		}
