@@ -213,6 +213,7 @@ public class GamePanel extends JPanel implements Runnable {
 	String direction = "";// stores the direction the player is facing
 	static boolean fading = false;
 	boolean goOut = false;
+
 	// where all the drawing happens
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -239,13 +240,14 @@ public class GamePanel extends JPanel implements Runnable {
 			e.printStackTrace();
 		}
 		Npc.text(g2);
+		it.prompts(g2);
 		try {
-			if (p.keyH.changeMapPressed && worldX >= 446 && worldX <= 564 && worldY >= 76 && worldY <= 132) {
+			if (p.keyH.changeMapPressed && worldX >= 446 && worldX <= 564 && worldY >= 46 && worldY <= 132) {
 				fading = true;
 				Player.disableCharacterMovement();
 				p.keyH.changeMapPressed = false;
 			}
-			if (!fading && p.keyH.changeMapPressed && worldX >= 288 && worldX < 288 + 48 && worldY >= 216
+			if (!fading && p.keyH.changeMapPressed && worldX >= 258 && worldX < 258 + 48 && worldY >= 216
 					&& worldY < 216 + 72) {
 				System.out.println(fading);
 				fading = true;
