@@ -124,11 +124,11 @@ public class Player {
 		}
 
 		if (GamePanel.worldX + 384 + 32 > Items.carWorldX && // Player's right side > car's left side
-			    GamePanel.worldX + 384 < Items.carWorldX + 96 && // Player's left side < car's right side
-			    GamePanel.worldY + 288> Items.carWorldY && // Player's bottom side > car's top side
-			    GamePanel.worldY + 288 + 72 < Items.carWorldY + 192 + 30) { // Player's bottom side < car's bottom side
-			    collision = true;
-			}	
+				GamePanel.worldX + 384 < Items.carWorldX + 96 && // Player's left side < car's right side
+				GamePanel.worldY + 288 > Items.carWorldY && // Player's bottom side > car's top side
+				GamePanel.worldY + 288 + 72 < Items.carWorldY + 192 + 30) { // Player's bottom side < car's bottom side
+			collision = true;
+		}
 
 		n.npcs();
 	}
@@ -138,6 +138,7 @@ public class Player {
 		return collision;
 
 	}
+
 	public void collision() {
 		if (!collision && !n.collisionNpc) {
 			beforeCollisionX = GamePanel.worldX;
@@ -189,13 +190,17 @@ public class Player {
 
 	public static boolean disableCharacterMovement() {
 
+		if (GamePanel.fading) {
+			return true;
+		}
+
 		if (Items.carOn) {
 			return true;
 		}
-		if(Items.carWorldX == 4700) {
+		if (Items.carWorldX == 4700) {
 			return true;
 		}
 		return false;
-		
+
 	}
 }
