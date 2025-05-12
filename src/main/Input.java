@@ -20,17 +20,19 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	public int mouseOffsetX = 0;
 	public int mouseOffsetY = 0;
 	Npc npc;
+	Items i;
 
 	public Input(Npc npc) {
 
 		this.npc = npc;
 
 	}
-	
+
 	public Input() {
-		
-		this.npc = new Npc(this);
-		
+
+		// this.npc = new Npc(this);
+		this.i = new Items(this);
+
 	}
 
 	@Override
@@ -62,9 +64,9 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 			ePressed = true;
 		} else if (code == KeyEvent.VK_F) {
 			changeMapPressed = true;
-		}else if(code == KeyEvent.VK_ESCAPE) {
+		} else if (code == KeyEvent.VK_ESCAPE) {
 			System.exit(0);
-		}else if(code == KeyEvent.VK_SPACE) {
+		} else if (code == KeyEvent.VK_SPACE) {
 			Npc.textIndex++;
 		}
 	}
@@ -75,7 +77,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		int code = e.getKeyCode();// gets the ascii value of the key pressed
 
 		if (code == KeyEvent.VK_W) {
-			
+
 			upPressed = false;
 			upReleased = true;
 
@@ -112,12 +114,20 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 
 	}
 
+	public int instructionsX = 640;
+	public int instructionsY = 10;
+
 	@Override
 	public void mouseMoved(MouseEvent e) {
-
 		mouseX = e.getX();
 		mouseY = e.getY();
 
+		if (mouseX >= instructionsX && mouseX <= instructionsX + 120 && mouseY >= instructionsY
+				&& mouseY <= instructionsY + 40) {
+			Items.hoveringInstructions = true;
+		} else {
+			Items.hoveringInstructions = false;
+		}
 	}
 
 	@Override
@@ -125,18 +135,25 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 
 	}
 
+	public static boolean instructionsPressed = false;
+	
 	@Override
 	public void mousePressed(MouseEvent e) {
 
 		mouseX = e.getX();
 		mouseY = e.getY();
-		mouseClicked = true;
 		mouseHolding = true;
+
 		if (e.getX() >= inventoryBoxX && e.getX() <= inventoryBoxX + 100 && e.getY() >= inventoryBoxY
 				&& e.getY() <= inventoryBoxY + 100) {
 			mouseDragging = true;
 		}
+		if (mouseX >= instructionsX && mouseX <= instructionsX + 120 && mouseY >= instructionsY
+				&& mouseY <= instructionsY + 40) {
 
+			instructionsPressed = true;
+
+		}
 	}
 
 	@Override
