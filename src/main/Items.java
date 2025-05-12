@@ -145,7 +145,7 @@ public class Items {
 		g2.drawImage(badguy, screenX, screenY, 48, 70, null);
 	}
 
-	boolean movementPrompt = false;
+	static boolean movementPrompt = false;
 	public int instructionsX = 640;
 	public int instructionsY = 10;
 	public static boolean hoveringInstructions = false;
@@ -167,33 +167,49 @@ public class Items {
 		}
 	}
 
-	public void prompts(Graphics2D g2) {
+	static boolean backPressed = false;
+	static boolean hoveringBack = false;
 
-		BufferedImage wasdKey;
-		g2.setColor(Color.BLACK);
-		g2.drawRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
-		g2.setColor(Color.DARK_GRAY);
-		g2.fillRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
-		g2.setColor(Color.LIGHT_GRAY);  
-		g2.fillRoundRect(60, 60, 218 * 3, 148 * 3, 10, 10);
-		try {  
-			wasdKey = ImageIO.read(new File("src/textures/wasdKey.png"));// https://media.istockphoto.com/id/1193231012/vector/computer-gamer-keyboard-wasd-keys-vector-illustration-wasd-keys-game-control-keyboard-buttons.jpg?s=612x612&w=0&k=20&c=-DJ6CFewXZ_Oofp_BsYya5KniByRkVW3EAHYICWIOaU=
-			g2.drawImage(wasdKey, 285, 146 + 20, 250, 250, null);
-			g2.setFont(new Font("Calibri", Font.BOLD, 45));
+	public void prompts(Graphics2D g2) {
+		if (movementPrompt) {
+			BufferedImage wasdKey;
 			g2.setColor(Color.BLACK);
-			g2.drawString("Movement", 310, 112 + 10);
-			g2.fillRect(315, 115 + 10, 209, 2);
-			g2.drawString("Left", 210, 305 + 20);
-			g2.drawString("Right", 530, 305 + 20);
-			g2.drawString("Up", 382, 178 + 20);
-			g2.drawString("Down", 351, 368 + 20);
-			g2.setColor(Color.RED);
-			g2.fillRoundRect(345, 430, 130, 45, 10, 10);
-			g2.setFont(new Font ("Calibri", Font.BOLD, 25));
-			g2.setColor(Color.WHITE);
-			g2.drawString("Go Back", 367, 460);
-		} catch (IOException e) {
-			e.printStackTrace();
+			g2.drawRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
+			g2.setColor(Color.DARK_GRAY);
+			g2.fillRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
+			g2.setColor(Color.LIGHT_GRAY);
+			g2.fillRoundRect(60, 60, 218 * 3, 148 * 3, 10, 10);
+			try {
+				wasdKey = ImageIO.read(new File("src/textures/wasdKey.png"));// https://media.istockphoto.com/id/1193231012/vector/computer-gamer-keyboard-wasd-keys-vector-illustration-wasd-keys-game-control-keyboard-buttons.jpg?s=612x612&w=0&k=20&c=-DJ6CFewXZ_Oofp_BsYya5KniByRkVW3EAHYICWIOaU=
+				g2.drawImage(wasdKey, 285, 146 + 20, 250, 250, null);
+				g2.setFont(new Font("Calibri", Font.BOLD, 45));
+				g2.setColor(Color.BLACK);
+				g2.drawString("Movement", 310, 112 + 10);
+				g2.fillRect(315, 115 + 10, 209, 2);
+				g2.drawString("Left", 210, 305 + 20);
+				g2.drawString("Right", 530, 305 + 20);
+				g2.drawString("Up", 382, 178 + 20);
+				g2.drawString("Down", 351, 368 + 20);
+				if (!hoveringBack) {
+					g2.setColor(Color.RED);
+					g2.fillRoundRect(345, 430, 130, 45, 10, 10);
+					g2.setFont(new Font("Calibri", Font.BOLD, 25));
+					g2.setColor(Color.WHITE);
+					g2.drawString("Go Back", 367, 460);
+				} else {
+					g2.setColor(Color.BLACK);
+					g2.fillRoundRect(345, 430, 130, 45, 10, 10);
+					g2.setFont(new Font("Calibri", Font.BOLD, 25));
+					g2.setColor(Color.WHITE);
+					g2.drawString("Go Back", 367, 460);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if (backPressed) {
+				movementPrompt = false;
+				backPressed = false;
+			}
 		}
 	}
 

@@ -53,7 +53,7 @@ public class GamePanel extends JPanel implements Runnable {
 	Tiles t = new Tiles();
 	Maps m = new Maps();
 	Jumpscare j = new Jumpscare();
-	ChangeScene cs = new ChangeScene(WIDTH, HEIGHT);
+	//ChangeScene cs = new ChangeScene(WIDTH, HEIGHT);
 	Player p;
 	Npc n = new Npc();
 	Items it = new Items();
