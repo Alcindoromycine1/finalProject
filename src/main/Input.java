@@ -116,6 +116,8 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 
 	public int instructionsX = 640;
 	public int instructionsY = 10;
+	public int backX = 345;
+	public int backY = 430;
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
@@ -128,6 +130,11 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		} else {
 			Items.hoveringInstructions = false;
 		}
+		if (mouseX >= backX && mouseX <= backX + 120 && mouseY >= backY && mouseY <= backY + 40) {
+			Items.hoveringBack = true;
+		}else {
+			Items.hoveringBack = false;
+		}
 	}
 
 	@Override
@@ -136,7 +143,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	}
 
 	public static boolean instructionsPressed = false;
-	
+
 	@Override
 	public void mousePressed(MouseEvent e) {
 
@@ -148,11 +155,17 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 				&& e.getY() <= inventoryBoxY + 100) {
 			mouseDragging = true;
 		}
-		if (mouseX >= instructionsX && mouseX <= instructionsX + 120 && mouseY >= instructionsY
-				&& mouseY <= instructionsY + 40) {
+		if (mouseX >= instructionsX && mouseX <= instructionsX + 135 && mouseY >= instructionsY
+				&& mouseY <= instructionsY + 45) {
 
 			instructionsPressed = true;
+			Items.movementPrompt = true;
 
+		}
+		if (mouseX >= backX && mouseX <= backX + 120 && mouseY >= backY && mouseY <= backY + 40) {
+			Items.backPressed = true;
+		} else {
+			Items.backPressed = false;
 		}
 	}
 
