@@ -57,21 +57,22 @@ public class GamePanel extends JPanel implements Runnable {
 	Player p;
 	Npc n = new Npc();
 	Items it = new Items();
+	Input id;
 
 	static int screenX;
 	static int screenY;
 
 	// sound
 	private Sound footstepSound;
-	
+
 	public GamePanel() {
 	}
 
 	// Constructor
 	public GamePanel(JFrame window) throws IOException {
 		Input input = new Input();
+		id = new Input(n);
 		Npc n = new Npc(input);
-		Items it = new Items(input);
 
 		this.window = window;
 		this.setPreferredSize(new Dimension(WIDTH, HEIGHT)); // Preferred window size
@@ -219,7 +220,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-		
+
 		try {
 			m.camera(g);// camera method
 			characterImage(g);// draws the character depending on the direction
@@ -241,13 +242,16 @@ public class GamePanel extends JPanel implements Runnable {
 			e.printStackTrace();
 		}
 		Npc.text(g2);
-		it.prompts(g2);
+		it.instructions(g2);
+		if (Input.instructionsPressed) {
+			it.prompts(g2);
+		}
 		try {
 			if (jumpscare) {
 				long startTime = System.currentTimeMillis();
-				j.playSound();
+				// j.playSound();
 				while (System.currentTimeMillis() - startTime < 2000) {
-					j.drawJumpscare(g2);
+					// j.drawJumpscare(g2);
 				}
 			}
 			if (p.keyH.changeMapPressed && worldX >= 446 && worldX <= 564 && worldY >= 46 && worldY <= 132) {
