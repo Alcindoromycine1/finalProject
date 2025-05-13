@@ -147,13 +147,13 @@ public class GamePanel extends JPanel implements Runnable {
 	public void characterMovement() {
 		// Character movement
 		if (Player.disableCharacterMovement() == false) {
-			if (p.keyH.upPressed) {
+			if (Player.keyH.upPressed) {
 				direction = "back";
 				worldY -= playerSpeed; // move the world up when player presses up
-			} else if (p.keyH.downPressed) {
+			} else if (Player.keyH.downPressed) {
 				direction = "front";
 				worldY += playerSpeed; // move the world down when player goes down
-			} else if (p.keyH.leftPressed) {
+			} else if (Player.keyH.leftPressed) {
 				direction = "left";
 				worldX -= playerSpeed; // move the world left when player goes left
 			} else if (p.keyH.rightPressed) {
@@ -213,8 +213,6 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 
 	String direction = "";// stores the direction the player is facing
-	static boolean fading = false;
-	boolean goOut = false;
 
 	// where all the drawing happens
 	public void paintComponent(Graphics g) {
@@ -246,30 +244,15 @@ public class GamePanel extends JPanel implements Runnable {
 		if (Input.instructionsPressed) {
 			it.prompts(g2);
 		}
+		if (jumpscare) {
+			long startTime = System.currentTimeMillis();
+			// j.playSound();
+			while (System.currentTimeMillis() - startTime < 2000) {
+				// j.drawJumpscare(g2);
+			}
+		}
 		try {
-			if (jumpscare) {
-				long startTime = System.currentTimeMillis();
-				// j.playSound();
-				while (System.currentTimeMillis() - startTime < 2000) {
-					// j.drawJumpscare(g2);
-				}
-			}
-			if (p.keyH.changeMapPressed && worldX >= 446 && worldX <= 564 && worldY >= 46 && worldY <= 132) {
-				fading = true;
-				Player.disableCharacterMovement();
-				p.keyH.changeMapPressed = false;
-			}
-			if (!fading && p.keyH.changeMapPressed && worldX >= 258 && worldX < 258 + 48 && worldY >= 216
-					&& worldY < 216 + 72) {
-				System.out.println(fading);
-				fading = true;
-				Player.disableCharacterMovement();
-				m.stepCount = 0;
-				goOut = true;
-			}
-			if (fading) {
-				m.fading(g2, t, this);
-			}
+			m.fade(2, 3, g2, 258, 216, 72, 48, 446, 46, 118, 86);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

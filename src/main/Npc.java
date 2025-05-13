@@ -10,8 +10,8 @@ import javax.swing.plaf.basic.BasicComboBoxUI.KeyHandler;
 
 public class Npc {
 
-	public boolean collisionNpc = false;
-	boolean dialogue = false;
+	public static boolean collisionNpc = false;
+	public static boolean dialogue = false;
 	Input input;
 
 	public Npc(Input input) {
