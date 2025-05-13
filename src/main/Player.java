@@ -190,7 +190,7 @@ public class Player {
 
 	public static boolean disableCharacterMovement() {
 
-		if (GamePanel.fading) {
+		if (Maps.fading) {
 			return true;
 		}
 

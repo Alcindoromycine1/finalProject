@@ -58,8 +58,8 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 			rightPressed = true;
 			rightReleased = false;
 		} else if (code == KeyEvent.VK_E) {
-			if (npc.collisionNpc) {
-				npc.dialogue = !npc.dialogue;
+			if (Npc.collisionNpc) {
+				Npc.dialogue = !Npc.dialogue;
 			}
 			ePressed = true;
 		} else if (code == KeyEvent.VK_F) {

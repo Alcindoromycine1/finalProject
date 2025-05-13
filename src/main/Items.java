@@ -169,6 +169,7 @@ public class Items {
 
 	static boolean backPressed = false;
 	static boolean hoveringBack = false;
+	static boolean keybindPrompts = false;
 
 	public void prompts(Graphics2D g2) {
 		if (movementPrompt) {
@@ -211,6 +212,24 @@ public class Items {
 				backPressed = false;
 			}
 		}
+		keybindPrompts = true;
+		if (keybindPrompts) {
+			BufferedImage car;
+			g2.setColor(Color.BLACK);
+			g2.drawRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
+			g2.setColor(Color.DARK_GRAY);
+			g2.fillRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
+			g2.setColor(Color.LIGHT_GRAY);
+			g2.fillRoundRect(60, 60, 218 * 3, 148 * 3, 10, 10);
+			try {
+				car = ImageIO.read(new File("src/textures/car.png"));// https://media.istockphoto.com/id/1193231012/vector/computer-gamer-keyboard-wasd-keys-vector-illustration-wasd-keys-game-control-keyboard-buttons.jpg?s=612x612&w=0&k=20&c=-DJ6CFewXZ_Oofp_BsYya5KniByRkVW3EAHYICWIOaU=
+				g2.drawImage(car, 285, 146 + 20, 150, 100, null);
+				g2.setFont(new Font("Calibri", Font.BOLD, 45));
+				g2.setColor(Color.BLACK);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public static void animation() {
@@ -226,14 +245,6 @@ public class Items {
 				Player.disableCharacterMovement();
 			}
 		}
-	}
-
-	public boolean getHoveringInstructions() {
-		return hoveringInstructions;
-	}
-
-	public void setHoveringInstructions(boolean ins) {
-		hoveringInstructions = ins;
 	}
 
 }
