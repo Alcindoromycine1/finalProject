@@ -149,7 +149,11 @@ public class Items {
 	public int instructionsX = 640;
 	public int instructionsY = 10;
 	public static boolean hoveringInstructions = false;
-
+	public static boolean instructionsPrompt = false;
+	public static boolean hoveringKeybind = false;
+	public static boolean hoveringMovement = false;
+	
+	
 	public void instructions(Graphics2D g2) {
 		Font calibri = new Font("Calibri", Font.BOLD, 18);
 		g2.setFont(calibri);
@@ -157,13 +161,47 @@ public class Items {
 			g2.setColor(new Color(0, 0, 10));
 			g2.fillRoundRect(instructionsX, instructionsY, 120, 40, 10, 10);
 			g2.setColor(Color.WHITE);
-			g2.drawString("Keybinds", 666, 35);
+			g2.drawString("Instructions", 655, 35);
 
 		} else {
 			g2.setColor(Color.RED);
 			g2.fillRoundRect(instructionsX, instructionsY, 120, 40, 10, 10);
 			g2.setColor(Color.WHITE);
-			g2.drawString("Keybinds", 666, 35);
+			g2.drawString("Instructions", 655, 35);
+		}
+		if(instructionsPrompt) {
+			g2.setColor(Color.BLACK);
+			g2.drawRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
+			g2.setColor(Color.DARK_GRAY);
+			g2.fillRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
+			g2.setColor(Color.LIGHT_GRAY);
+			g2.fillRoundRect(60, 60, 218 * 3, 148 * 3, 10, 10);
+			g2.setFont(new Font("Monospaced", Font.BOLD, 40));
+			g2.setColor(Color.BLACK);
+			g2.drawString("Instructions", 260, 115);
+			g2.fillRect(263, 117, 283, 2);
+			
+			
+			//Movement
+			if(hoveringMovement) {
+				g2.setColor(Color.BLACK);
+				g2.fillRoundRect(305, 160, 195, 62, 20, 20);
+			} else if(!hoveringMovement) {
+				g2.setColor(Color.RED);
+				g2.fillRoundRect(305, 160, 195, 62, 20, 20);
+			}
+			if(hoveringKeybind) {
+				g2.setColor(Color.BLACK);
+				g2.fillRoundRect(305, 250, 195, 62, 20, 20);
+			} else if(!hoveringKeybind) {
+				g2.setColor(Color.RED);
+				g2.fillRoundRect(305, 250, 195, 62, 20, 20);
+			}
+		
+			g2.setFont(new Font("Calibri", Font.BOLD, 30));
+			g2.setColor(Color.WHITE);
+			g2.drawString("Movement", 335, 200);
+			g2.drawString("Keybinds", 348, 290);
 		}
 	}
 
@@ -171,8 +209,41 @@ public class Items {
 	static boolean hoveringBack = false;
 	static boolean keybindPrompts = false;
 
+	public void backMenu(Graphics2D g2) {
+		if (!hoveringBack) {
+			g2.setColor(Color.RED);
+			g2.fillRoundRect(345, 430, 130, 45, 10, 10);
+			g2.setFont(new Font("Calibri", Font.BOLD, 25));
+			g2.setColor(Color.WHITE);
+			g2.drawString("Go Back", 367, 460);
+		} else {
+			g2.setColor(Color.BLACK);
+			g2.fillRoundRect(345, 430, 130, 45, 10, 10);
+			g2.setFont(new Font("Calibri", Font.BOLD, 25));
+			g2.setColor(Color.WHITE);
+			g2.drawString("Go Back", 367, 460);
+		}
+		 if (backPressed) {
+		        if (movementPrompt) {
+		            movementPrompt = false;
+		            instructionsPrompt = true;
+		        }
+		        else if (keybindPrompts) {
+		            keybindPrompts = false;
+		            instructionsPrompt = true;
+		        }
+
+		        else if (instructionsPrompt) {
+		            instructionsPrompt = false;
+		            Input.instructionsPressed = false;
+		        }
+		        backPressed = false;
+		    }
+	}
+
 	public void prompts(Graphics2D g2) {
 		if (movementPrompt) {
+			instructionsPrompt = false;
 			BufferedImage wasdKey;
 			g2.setColor(Color.BLACK);
 			g2.drawRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
@@ -183,53 +254,51 @@ public class Items {
 			try {
 				wasdKey = ImageIO.read(new File("src/textures/wasdKey.png"));// https://media.istockphoto.com/id/1193231012/vector/computer-gamer-keyboard-wasd-keys-vector-illustration-wasd-keys-game-control-keyboard-buttons.jpg?s=612x612&w=0&k=20&c=-DJ6CFewXZ_Oofp_BsYya5KniByRkVW3EAHYICWIOaU=
 				g2.drawImage(wasdKey, 285, 146 + 20, 250, 250, null);
-				g2.setFont(new Font("Calibri", Font.BOLD, 45));
+				g2.setFont(new Font("Monospaced", Font.BOLD, 40));
 				g2.setColor(Color.BLACK);
 				g2.drawString("Movement", 310, 112 + 10);
-				g2.fillRect(315, 115 + 10, 209, 2);
+				g2.fillRect(307, 115 + 10, 195, 2);
 				g2.drawString("Left", 210, 305 + 20);
 				g2.drawString("Right", 530, 305 + 20);
 				g2.drawString("Up", 382, 178 + 20);
 				g2.drawString("Down", 351, 368 + 20);
-				if (!hoveringBack) {
-					g2.setColor(Color.RED);
-					g2.fillRoundRect(345, 430, 130, 45, 10, 10);
-					g2.setFont(new Font("Calibri", Font.BOLD, 25));
-					g2.setColor(Color.WHITE);
-					g2.drawString("Go Back", 367, 460);
-				} else {
-					g2.setColor(Color.BLACK);
-					g2.fillRoundRect(345, 430, 130, 45, 10, 10);
-					g2.setFont(new Font("Calibri", Font.BOLD, 25));
-					g2.setColor(Color.WHITE);
-					g2.drawString("Go Back", 367, 460);
-				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			if (backPressed) {
-				movementPrompt = false;
-				backPressed = false;
-			}
 		}
-		keybindPrompts = true;
 		if (keybindPrompts) {
+			instructionsPrompt = false;
 			BufferedImage car;
 			BufferedImage door;
+			BufferedImage exorcism;
 			g2.setColor(Color.BLACK);
 			g2.drawRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
 			g2.setColor(Color.DARK_GRAY);
 			g2.fillRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
 			g2.setColor(Color.LIGHT_GRAY);
 			g2.fillRoundRect(60, 60, 218 * 3, 148 * 3, 10, 10);
+			g2.setFont(new Font("Monospaced", Font.BOLD, 40));
+			g2.setColor(Color.BLACK);
+			g2.drawString("Keybinds", 310, 112 + 10);
+			g2.fillRect(310, 116 + 10, 189, 2);
 			try {
 				car = ImageIO.read(new File("src/textures/car.png"));// https://media.istockphoto.com/id/1193231012/vector/computer-gamer-keyboard-wasd-keys-vector-illustration-wasd-keys-game-control-keyboard-buttons.jpg?s=612x612&w=0&k=20&c=-DJ6CFewXZ_Oofp_BsYya5KniByRkVW3EAHYICWIOaU=
-				door = ImageIO.read(new File("src/textures/door.png"));//https://img.freepik.com/premium-vector/open-close-door-pixel-art-style_475147-1239.jpgd
-				g2.drawImage(car, 130, 30, 96, 192, null);
+				door = ImageIO.read(new File("src/textures/door.png"));// https://img.freepik.com/premium-vector/open-close-door-pixel-art-style_475147-1239.jpgd
+				exorcism = ImageIO.read(new File("src/textures/exorcism.png"));// https://www.creativefabrica.com/wp-content/uploads/2023/03/22/pixel-art-wooden-cross-vector-Graphics-65026120-1.jpg
+				g2.drawImage(car, 130 - 10, 30 + 80, 96, 192, null);
+				g2.drawImage(door, 300 + 18, 50 + 80, 150, 150, null);
+				g2.drawImage(exorcism, 545, 95 + 80, 120, 75, null);
 				g2.setFont(new Font("Monospaced", Font.BOLD, 20));
 				g2.setColor(Color.BLACK);
-				g2.drawString("Press C to", 120, 180);
-				g2.drawString("Enter Car", 124, 200);
+				// Car keybind
+				g2.drawString("Press C to", 120 - 10, 180 + 80);
+				g2.drawString("Enter Car", 124 - 10, 200 + 80);
+				// Fading keybind
+				g2.drawString("Press F to", 320 + 18, 180 + 80);
+				g2.drawString("Walk into Area", 290 + 18, 200 + 80);
+				// Exorcism keybind
+				g2.drawString("Press E to", 545, 180 + 80);
+				g2.drawString("Exorcise Ghosts", 515, 200 + 80);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
