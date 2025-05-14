@@ -1,5 +1,6 @@
 package main;
 
+import Horror.Jumpscare;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -227,6 +228,7 @@ public class Maps {
 			fading = true;
 			Player.disableCharacterMovement();
 			Player.keyH.changeMapPressed = false;
+			GamePanel.j.setJumpscare(true);
 		}
 		if (!fading && Player.keyH.changeMapPressed && GamePanel.worldX >= worX && GamePanel.worldX <= worX + width
 				&& GamePanel.worldY >= worY && GamePanel.worldY <= worY + height) {

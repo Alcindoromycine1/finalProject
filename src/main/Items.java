@@ -215,6 +215,7 @@ public class Items {
 		keybindPrompts = true;
 		if (keybindPrompts) {
 			BufferedImage car;
+			BufferedImage door;
 			g2.setColor(Color.BLACK);
 			g2.drawRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
 			g2.setColor(Color.DARK_GRAY);
@@ -223,9 +224,12 @@ public class Items {
 			g2.fillRoundRect(60, 60, 218 * 3, 148 * 3, 10, 10);
 			try {
 				car = ImageIO.read(new File("src/textures/car.png"));// https://media.istockphoto.com/id/1193231012/vector/computer-gamer-keyboard-wasd-keys-vector-illustration-wasd-keys-game-control-keyboard-buttons.jpg?s=612x612&w=0&k=20&c=-DJ6CFewXZ_Oofp_BsYya5KniByRkVW3EAHYICWIOaU=
-				g2.drawImage(car, 185, 146 + 20, 96, 192, null);
-				g2.setFont(new Font("Calibri", Font.BOLD, 45));
+				door = ImageIO.read(new File("src/textures/door.png"));//https://img.freepik.com/premium-vector/open-close-door-pixel-art-style_475147-1239.jpgd
+				g2.drawImage(car, 130, 30, 96, 192, null);
+				g2.setFont(new Font("Monospaced", Font.BOLD, 20));
 				g2.setColor(Color.BLACK);
+				g2.drawString("Press C to", 120, 180);
+				g2.drawString("Enter Car", 124, 200);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
