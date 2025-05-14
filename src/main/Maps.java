@@ -145,7 +145,7 @@ public class Maps {
 	int fadeValue = 0;
 	int stepCount = 0;
 
-	public void fading(Graphics2D g2, Tiles t, GamePanel m, int originalMap, int newMap) throws IOException {
+	public void fading(Graphics2D g2, Tiles t, GamePanel m, int newMap, int originalMap) throws IOException {
 
 		if (stepCount == 0) {// fade out
 			Color fading = new Color(0, 0, 0, fadeValue);

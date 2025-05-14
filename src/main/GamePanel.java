@@ -17,7 +17,7 @@ import java.net.MalformedURLException;
  * Final Project ICS4U0
  */
 public class GamePanel extends JPanel implements Runnable {
-
+	
 	// These are the settings for the window
 	final int originalTileSize = 16; // 16x16 pixel tile size
 	final int scale = 3; // scales everything to appear much larger on the window
@@ -37,7 +37,7 @@ public class GamePanel extends JPanel implements Runnable {
 	static int playerY = 576 / 2;
 	static int worldX = 768 / 2; // world position
 	static int worldY = 576 / 2; // world position
-	static boolean jumpscare = false; // jumpscare boolean
+	static boolean jumpscare = true; // jumpscare boolean
 
 	// Game Thread
 	Thread gameThread; // keeps the program running until closed
@@ -58,7 +58,7 @@ public class GamePanel extends JPanel implements Runnable {
 	Npc n = new Npc();
 	Items it = new Items();
 	Input id;
-
+	
 	static int screenX;
 	static int screenY;
 
@@ -89,7 +89,7 @@ public class GamePanel extends JPanel implements Runnable {
 		m.changeMap(3);
 		// Find trees in the map
 		m.findTrees();
-		t.tileCreating();
+		Tiles.tileCreating();
 
 		// Load character
 		p = new Player(input);
@@ -246,10 +246,11 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 		if (jumpscare) {
 			long startTime = System.currentTimeMillis();
-			// j.playSound();
 			while (System.currentTimeMillis() - startTime < 2000) {
-				// j.drawJumpscare(g2);
+				j.drawJumpscare(g2);
 			}
+			
+			jumpscare = false;
 		}
 		try {
 			m.fade(2, 3, g2, 258, 216, 72, 48, 446, 46, 118, 86);
