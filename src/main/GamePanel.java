@@ -243,6 +243,7 @@ public class GamePanel extends JPanel implements Runnable {
 		it.instructions(g2);
 		if (Input.instructionsPressed) {
 			it.prompts(g2);
+			it.backMenu(g2);
 		}
 		if (j.isJumpscare()) {
 			if (j.getOnce() == false) { //makes sound run only once

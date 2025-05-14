@@ -132,8 +132,20 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		}
 		if (mouseX >= backX && mouseX <= backX + 120 && mouseY >= backY && mouseY <= backY + 40) {
 			Items.hoveringBack = true;
-		}else {
+		} else {
 			Items.hoveringBack = false;
+		}
+
+		if (mouseX >= 305 && mouseX <= 305 + 195 && mouseY >= 160 && mouseY <= 160 + 62) {
+			Items.hoveringMovement = true;
+		} else {
+			Items.hoveringMovement = false;
+		}
+
+		if (mouseX >= 305 && mouseX <= 305 + 195 && mouseY >= 250 && mouseY <= 250 + 62) {
+			Items.hoveringKeybind = true;
+		} else {
+			Items.hoveringKeybind = false;
 		}
 	}
 
@@ -146,26 +158,38 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-
 		mouseX = e.getX();
 		mouseY = e.getY();
 		mouseHolding = true;
 
-		if (e.getX() >= inventoryBoxX && e.getX() <= inventoryBoxX + 100 && e.getY() >= inventoryBoxY
-				&& e.getY() <= inventoryBoxY + 100) {
+		if (mouseX >= inventoryBoxX && mouseX <= inventoryBoxX + 100 && mouseY >= inventoryBoxY
+				&& mouseY <= inventoryBoxY + 100) {
 			mouseDragging = true;
 		}
+
 		if (mouseX >= instructionsX && mouseX <= instructionsX + 135 && mouseY >= instructionsY
 				&& mouseY <= instructionsY + 45) {
-
-			instructionsPressed = true;
-			Items.movementPrompt = true;
-
+			Input.instructionsPressed = true;
+			Items.instructionsPrompt = true;
+			return;
 		}
-		if (mouseX >= backX && mouseX <= backX + 120 && mouseY >= backY && mouseY <= backY + 40) {
+
+		if ((Items.instructionsPrompt || Items.movementPrompt || Items.keybindPrompts) && mouseX >= backX
+				&& mouseX <= backX + 120 && mouseY >= backY && mouseY <= backY + 40) {
 			Items.backPressed = true;
-		} else {
-			Items.backPressed = false;
+			return;
+		}
+
+		if (Items.instructionsPrompt && mouseX >= 305 && mouseX <= 305 + 195 && mouseY >= 160 && mouseY <= 160 + 62) {
+			Items.movementPrompt = true;
+			Items.instructionsPrompt = false;
+			return;
+		}
+
+		if (Items.instructionsPrompt && mouseX >= 305 && mouseX <= 305 + 195 && mouseY >= 250 && mouseY <= 250 + 62) {
+			Items.keybindPrompts = true;
+			Items.instructionsPrompt = false;
+			return;
 		}
 	}
 
