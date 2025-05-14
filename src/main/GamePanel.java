@@ -4,6 +4,8 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import Horror.Jumpscare;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -17,7 +19,7 @@ import java.net.MalformedURLException;
  * Final Project ICS4U0
  */
 public class GamePanel extends JPanel implements Runnable {
-	
+
 	// These are the settings for the window
 	final int originalTileSize = 16; // 16x16 pixel tile size
 	final int scale = 3; // scales everything to appear much larger on the window
@@ -37,8 +39,6 @@ public class GamePanel extends JPanel implements Runnable {
 	static int playerY = 576 / 2;
 	static int worldX = 768 / 2; // world position
 	static int worldY = 576 / 2; // world position
-	static boolean jumpscare = true; // jumpscare boolean
-
 	// Game Thread
 	Thread gameThread; // keeps the program running until closed
 
@@ -52,13 +52,13 @@ public class GamePanel extends JPanel implements Runnable {
 	// Game components
 	Tiles t = new Tiles();
 	Maps m = new Maps();
-	Jumpscare j = new Jumpscare();
-	//ChangeScene cs = new ChangeScene(WIDTH, HEIGHT);
+	static Jumpscare j = new Jumpscare();
+	// ChangeScene cs = new ChangeScene(WIDTH, HEIGHT);
 	Player p;
 	Npc n = new Npc();
 	Items it = new Items();
 	Input id;
-	
+
 	static int screenX;
 	static int screenY;
 
@@ -244,13 +244,24 @@ public class GamePanel extends JPanel implements Runnable {
 		if (Input.instructionsPressed) {
 			it.prompts(g2);
 		}
-		if (jumpscare) {
-			long startTime = System.currentTimeMillis();
-			while (System.currentTimeMillis() - startTime < 2000) {
-				j.drawJumpscare(g2);
+		if (j.isJumpscare()) {
+			if (j.getOnce() == false) { //makes sound run only once
+				j.playSound();
+				j.setOnce(true);				
 			}
+			// Render the jumpscare image
+			    j.drawJumpscare(g2);
 			
-			jumpscare = false;
+			    // Use a Timer to introduce a delay after rendering
+			    Timer delayTimer = new Timer(2000, new ActionListener() {
+			        @Override
+			        public void actionPerformed(ActionEvent e) {
+			            j.setJumpscare(false); // Reset the jumpscare state after 2 seconds
+			            ((Timer) e.getSource()).stop(); // Stop the timer
+			        }
+			    });
+			    delayTimer.setRepeats(false); // Ensure the timer only runs once
+			    delayTimer.start();
 		}
 		try {
 			m.fade(2, 3, g2, 258, 216, 72, 48, 446, 46, 118, 86);

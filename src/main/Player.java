@@ -140,7 +140,7 @@ public class Player {
 	}
 
 	public void collision() {
-		if (!collision && !n.collisionNpc) {
+		if (!collision && !Npc.collisionNpc) {
 			beforeCollisionX = GamePanel.worldX;
 			beforeCollisionY = GamePanel.worldY;
 		} else {

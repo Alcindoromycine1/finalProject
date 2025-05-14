@@ -11,6 +11,8 @@ public class Jumpscare {
 
 	private BufferedImage creepyMan;
 	Sound sound;
+	boolean jumpscare = false;
+	boolean once = false;
 
 	public Jumpscare() {
 		loadStuff();
@@ -31,5 +33,22 @@ public class Jumpscare {
 
 	public void playSound() {
 		sound.play();
+	}
+	
+	public boolean isJumpscare() {
+		return jumpscare;
+	}
+	
+	public boolean getOnce() {
+		return once;
+	}
+	
+	public void setOnce(boolean once) {
+		this.once = once;
+	}
+	
+	public void setJumpscare(boolean jumpscare) {
+		this.jumpscare = jumpscare;
+		once = false; //makes sure sound plays as well
 	}
 }
