@@ -129,6 +129,14 @@ public class Player {
 				GamePanel.worldY + 288 + 72 < Items.carWorldY + 192 + 30) { // Player's bottom side < car's bottom side
 			collision = true;
 		}
+		if (GamePanel.worldX + 384 > Items.doctrineWorldX && // Player's right side > doctrine's left side
+			    GamePanel.worldX + 384 < Items.doctrineWorldX + 260 && // Player's left side < doctrine's right side
+			    GamePanel.worldY + 288 + 45> Items.doctrineWorldY && // Player's bottom side > doctrine's top side
+			    GamePanel.worldY + 288 < Items.doctrineWorldY + 420) { // Player's top side < doctrine's bottom side
+			    collision = true;
+			}
+
+
 
 		n.npcs();
 	}

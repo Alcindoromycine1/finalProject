@@ -66,6 +66,7 @@ public class GamePanel extends JPanel implements Runnable {
 	private Sound footstepSound;
 
 	private Minigame minigame = new Minigame();
+
 	public GamePanel() {
 	}
 
@@ -219,7 +220,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-	
+
 		try {
 			m.camera(g);// camera method
 			characterImage(g);// draws the character depending on the direction
@@ -247,31 +248,37 @@ public class GamePanel extends JPanel implements Runnable {
 			it.backMenu(g2);
 		}
 		if (j.isJumpscare()) {
-			if (j.getOnce() == false) { //makes sound run only once
+			if (j.getOnce() == false) { // makes sound run only once
 				j.playSound();
-				j.setOnce(true);				
+				j.setOnce(true);
 			}
 			// Render the jumpscare image
-			    j.drawJumpscare(g2);
-			
-			    // Use a Timer to introduce a delay after rendering
-			    Timer delayTimer = new Timer(2000, new ActionListener() {
-			        @Override
-			        public void actionPerformed(ActionEvent e) {
-			            j.setJumpscare(false); // Reset the jumpscare state after 2 seconds
-			            ((Timer) e.getSource()).stop(); // Stop the timer
-			        }
-			    });
-			    delayTimer.setRepeats(false); // Ensure the timer only runs once
-			    delayTimer.start();
+			j.drawJumpscare(g2);
+
+			// Use a Timer to introduce a delay after rendering
+			Timer delayTimer = new Timer(2000, new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					j.setJumpscare(false); // Reset the jumpscare state after 2 seconds
+					((Timer) e.getSource()).stop(); // Stop the timer
+				}
+			});
+			delayTimer.setRepeats(false); // Ensure the timer only runs once
+			delayTimer.start();
 		}
 		try {
 			m.fade(2, 3, g2, 258, 216, 72, 48, 446, 46, 118, 86);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Minigame.startExorcising();
+		// Minigame.startExorcising();
 		Minigame.drawPoints(g2);
+		try {
+			Items.doctrine(g2);
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
 		g2.dispose();
 
 	}

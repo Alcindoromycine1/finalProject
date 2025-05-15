@@ -80,7 +80,7 @@ public class Minigame {
 			int spacing = (int) midPoint / 2; // Number of ovals (points) between p1 and p2 to where we want to draw the
 												// predicted ovals
 			for (int j = 0; j <= spacing; j++) {// Draws the ovals in between the two points
-				// Linear Inerpolation used get x and y coordinates of predicted ovals.
+				// Linear Interpolation used get x and y coordinates of predicted ovals.
 				// Found on: https://www.geeksforgeeks.org/linear-interpolation-formula/
 				double t = (double) j / spacing;
 				int x = (int) (p1.x + t * (p2.x - p1.x));
