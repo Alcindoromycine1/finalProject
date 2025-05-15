@@ -65,6 +65,7 @@ public class GamePanel extends JPanel implements Runnable {
 	// sound
 	private Sound footstepSound;
 
+	private Minigame minigame = new Minigame();
 	public GamePanel() {
 	}
 
@@ -218,7 +219,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-
+	
 		try {
 			m.camera(g);// camera method
 			characterImage(g);// draws the character depending on the direction
@@ -269,6 +270,8 @@ public class GamePanel extends JPanel implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		Minigame.startExorcising();
+		Minigame.drawPoints(g2);
 		g2.dispose();
 
 	}
