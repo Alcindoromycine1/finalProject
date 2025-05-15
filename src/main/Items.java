@@ -62,9 +62,22 @@ public class Items {
 	static int animationFrame = 0;
 	static int carWorldX = 1300;
 	static int carWorldY = 770;
+	static int doctrineWorldX = 6000;
+	static int doctrineWorldY = 500;
 	static boolean visible = true;
 	static boolean carUsed = false;
 
+	public static void doctrine(Graphics2D g2) throws IOException {
+		
+		int doctrineX = doctrineWorldX - GamePanel.worldX;
+		int doctrineY = doctrineWorldY - GamePanel.worldY;
+		
+		BufferedImage doctrine;
+		doctrine = ImageIO.read(new File("src/textures/doctrine.png"));
+		g2.drawImage(doctrine, doctrineX, doctrineY, 260, 390, null);
+		
+	}
+	
 	public void car(Graphics g) throws IOException {
 		int carX = carWorldX - GamePanel.worldX;
 		int carY = carWorldY - GamePanel.worldY;
