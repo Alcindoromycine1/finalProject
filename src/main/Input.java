@@ -108,10 +108,10 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-	
+
 		mouseX = e.getX();
 		mouseY = e.getY();
-	
+
 		if (Minigame.isExorcising) {
 			Minigame.points.add(e.getPoint());
 		}
@@ -200,62 +200,12 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-	Minigame.color = 0;
 
 		mouseClicked = false;
 		mouseHolding = false;
 		mouseDragging = false;
 		if (Minigame.isExorcising) {
-			
-			 int size = Minigame.points.size();
-        if (size < 8) {
-            System.out.println("Not enough points to determine shape.");
-            return;
-        }
-
-        Point[] p = new Point[8];
-        p[0] = Minigame.points.get(0);
-        p[1] = Minigame.points.get(size - 1);
-        p[2] = Minigame.points.get(size / 2 - 1);
-        p[3] = Minigame.points.get(size / 2);
-        p[4] = Minigame.points.get(size / 2 + 1);
-        p[5] = Minigame.points.get(size / 4);
-        p[6] = Minigame.points.get(size * 3 / 4);
-        if (size * 7 / 8 < size) {
-            p[7] = Minigame.points.get(size * 7 / 8);
-        } else {
-            p[7] = Minigame.points.get(size - 1);
-        }
-
-        int threshold = 30;
-        boolean allHorizontal = true;
-        boolean allVertical = true;
-
-        for (int i = 1; i < p.length; i++) {
-            if (Math.abs(p[0].y - p[i].y) >= threshold) {
-                allHorizontal = false;
-            }
-            if (Math.abs(p[0].x - p[i].x) >= threshold) {
-                allVertical = false;
-            }
-        }
-
-        String currentShape;
-        if (allHorizontal) {
-            currentShape = "horizontal";
-        } else if (allVertical) {
-            currentShape = "vertical";
-        } else {
-            currentShape = "none";
-        }
-		if (currentShape.equals("horizontal")) {
-			Minigame.color = 1;
-		} else if (currentShape.equals("vertical")) {
-			Minigame.color = 2;
-		}
-        System.out.println("Detected shape: " + currentShape);
-	
-        Minigame.points.clear();
+			Minigame.calculatedResult();
 		}
 	}
 
