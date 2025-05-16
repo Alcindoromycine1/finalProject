@@ -149,19 +149,20 @@ public class Maps {
 	// change scene variables
 	int fadeValue = 0;
 	int stepCount = 0;
+	static int hasFaded = 0;
 
 	public void fading(Graphics2D g2, Tiles t, GamePanel m, int newMap, int originalMap) throws IOException {
 
 		if (stepCount == 0) {// fade out
-			Color fading = new Color(0, 0, 0, fadeValue);
-			// System.out.println("fade out: " + fadeValue);
-			g2.setColor(fading);
+			Color fadeColor = new Color(0, 0, 0, fadeValue);
+			g2.setColor(fadeColor);
 			g2.fillRect(0, 0, m.WIDTH, m.HEIGHT);
 			fadeValue += 2;
 			if (fadeValue >= 255) {
 				fadeValue = 255;
 				stepCount = 1;
 			}
+			
 		}
 
 		else if (stepCount == 1) {// change map
@@ -214,6 +215,7 @@ public class Maps {
 				Player.disableCharacterMovement();
 				stepCount = -1;
 				fadeValue = 0;
+				hasFaded++;
 
 			}
 		}
@@ -221,6 +223,8 @@ public class Maps {
 
 	static boolean fading = false;
 	boolean goOut = false;
+	static boolean hasJumpscared = false;
+	static boolean hasDoctrined = false;
 
 	public void fade(int changeMap, int oldMap, Graphics2D g2, int worX, int worY, int width, int height, int oldworX,
 			int oldworY, int oldWidth, int oldHeight) throws IOException {
@@ -236,7 +240,6 @@ public class Maps {
 		}
 		if (!fading && Player.keyH.changeMapPressed && GamePanel.worldX >= worX && GamePanel.worldX <= worX + width
 				&& GamePanel.worldY >= worY && GamePanel.worldY <= worY + height) {
-			System.out.println(fading);
 			fading = true;
 			Player.disableCharacterMovement();
 			stepCount = 0;

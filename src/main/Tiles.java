@@ -94,6 +94,8 @@ public class Tiles {
 					tileImages[i][j] = ImageIO.read(new File("src/textures/void.png"));
 				} else if (Maps.tiles[i][j] == 37) {// beds are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/doctrineFloor.png"));
+				}else if (Maps.tiles[i][j] == 38) {// beds are found in the file
+					tileImages[i][j] = ImageIO.read(new File("src/textures/doctrineWall.png"));
 				}
 			}
 		}
