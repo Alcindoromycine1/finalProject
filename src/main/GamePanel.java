@@ -267,12 +267,23 @@ public class GamePanel extends JPanel implements Runnable {
 			delayTimer.start();
 		}
 		try {
-			m.fade(2, 3, g2, 258, 216, 72, 48, 446, 46, 118, 86);
-			m.fade(2, 4, g2, 5600, 528, 72, 48 ,4500, 400 , 100, 200);
+			if (Maps.hasFaded != 2) {
+				if (!Maps.hasJumpscared && Maps.hasDoctrined) {
+					m.fade(2, 3, g2, 258, 216, 72, 48, 446, 46, 118, 86);
+				} if (!Maps.hasDoctrined) {
+					m.fade(2, 4, g2, 5600, 528, 72, 48, 4500, 400, 100, 200);
+					System.out.println(Maps.hasFaded);
+					//Maps.hasDoctrined = true;
+				}
+			}
+			if (Maps.hasFaded == 2) {
+				worldX = 384;
+				worldY = 288;
+				Maps.hasFaded = 0;
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println(worldX + " , " + worldY);
 		// Minigame.startExorcising();
 		Minigame.drawPoints(g2);
 		try {
