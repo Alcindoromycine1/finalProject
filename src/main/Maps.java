@@ -44,6 +44,8 @@ public class Maps {
 			mapIntro("src/maps/mapHouse.txt");// house map
 		} else if (mapToChange == 3) {
 			mapIntro("src/maps/openMap.txt");// open map
+		} else if (mapToChange == 4) {
+			mapIntro("src/maps/doctrine.txt");
 		}
 		return "-1";// no map found
 
@@ -56,6 +58,8 @@ public class Maps {
 			mapIntro("src/maps/mapHouse.txt");
 		} else if (mapToChange == 3) {
 			mapIntro("src/maps/openMap.txt");
+		} else if (mapToChange == 4) {
+			mapIntro("src/maps/doctrine.txt");
 		}
 		return "-1";
 

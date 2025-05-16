@@ -63,7 +63,7 @@ public class Items {
 	static int carWorldX = 1300;
 	static int carWorldY = 770;
 	static int doctrineWorldX = 6000;
-	static int doctrineWorldY = 500;
+	static int doctrineWorldY = 525;
 	static boolean visible = true;
 	static boolean carUsed = false;
 
@@ -75,6 +75,7 @@ public class Items {
 		BufferedImage doctrine;
 		doctrine = ImageIO.read(new File("src/textures/doctrine.png"));
 		g2.drawImage(doctrine, doctrineX, doctrineY, 260, 390, null);
+		g2.drawString("Doctrine", 6100 - GamePanel.worldX, 715 - GamePanel.worldY);
 		
 	}
 	
