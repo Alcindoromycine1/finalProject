@@ -100,10 +100,10 @@ public class Maps {
 		// Iterate through the 2D array to find occurrences of 1
 		for (int row = 0; row < tiles.length; row++) {
 			for (int col = 0; col < tiles[row].length; col++) {
-				if (tiles[row][col] == 1) {
+				if (tiles[row][col] == 63) {
 					treePositions.add(new int[] { col * 48, row * 48 });// stores the location of where the trees are
-				} else if (tiles[row][col] == 3 || tiles[row][col] == 4 || tiles[row][col] == 5 || tiles[row][col] == 6
-						|| tiles[row][col] == 7 || tiles[row][col] == 8 || tiles[row][col] == 9 || tiles[row][col] == 10
+				} else if (tiles[row][col] == 65 || tiles[row][col] == 66 || tiles[row][col] == 67 || tiles[row][col] == 68
+						|| tiles[row][col] == 69 || tiles[row][col] == 70 || tiles[row][col] == 71 || tiles[row][col] == 10
 						|| tiles[row][col] == 11 || tiles[row][col] == 12 || tiles[row][col] == 13
 						|| tiles[row][col] == 14 || tiles[row][col] == 15 || tiles[row][col] == 16
 						|| tiles[row][col] == 17) {

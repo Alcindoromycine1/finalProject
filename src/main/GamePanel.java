@@ -210,7 +210,6 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 
 			g.drawImage(character, screenX, screenY, null);// draws the character in the middle of the screen
-			// System.out.println(worldX + " " + worldY);
 		}
 	}
 
