@@ -23,6 +23,7 @@ public class Main {
 		window.pack();// forces the JPanel to fit the preferred size
 
 		window.setLocationRelativeTo(null); 
+		
 		window.setVisible(true);// makes the window visible to the user
 
 		gp.startGameThread();
