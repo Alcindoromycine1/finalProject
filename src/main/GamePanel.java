@@ -272,7 +272,6 @@ public class GamePanel extends JPanel implements Runnable {
 					m.fade(2, 3, g2, 258, 216, 72, 48, 446, 46, 118, 86);
 				} if (!Maps.hasDoctrined) {
 					m.fade(2, 4, g2, 5600, 528, 72, 48, 4500, 400, 100, 200);
-					System.out.println(Maps.hasFaded);
 					//Maps.hasDoctrined = true;
 				}
 			}
