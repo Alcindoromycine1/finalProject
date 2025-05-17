@@ -9,32 +9,31 @@ import javax.imageio.ImageIO;
 public class Tiles {
 
 	public static BufferedImage tileImages[][] = new BufferedImage[Maps.maxWorldRow][Maps.maxWorldCol];
-	
 
 	public static void tileCreating() throws IOException {
 
 		for (int i = 0; i < Maps.tiles.length; i++) {
 			for (int j = 0; j < Maps.tiles[i].length; j++) {
 
-				if (Maps.tiles[i][j] == 0) {// grass is found in the file
+				if (Maps.tiles[i][j] == 62) {// grass is found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/grassBlockUpdated.png"));
-				} else if (Maps.tiles[i][j] == 1) {// trees are found in the file
+				} else if (Maps.tiles[i][j] == 63) {// trees are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/tree.png"));
-				} else if (Maps.tiles[i][j] == 2) {// cobblestones are found in the file
+				} else if (Maps.tiles[i][j] == 64) {// cobblestones are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/cobblestone.png"));
-				} else if (Maps.tiles[i][j] == 3) {// cobblestones are found in the file
+				} else if (Maps.tiles[i][j] == 65) {// cobblestones are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/1.png"));
-				} else if (Maps.tiles[i][j] == 4) {// cobblestones are found in the file
+				} else if (Maps.tiles[i][j] == 66) {// cobblestones are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/2.png"));
-				} else if (Maps.tiles[i][j] == 5) {// cobblestones are found in the file
+				} else if (Maps.tiles[i][j] == 67) {// cobblestones are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/3.png"));
-				} else if (Maps.tiles[i][j] == 6) {// cobblestones are found in the file
+				} else if (Maps.tiles[i][j] == 68) {// cobblestones are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/4.png"));
-				} else if (Maps.tiles[i][j] == 7) {// cobblestones are found in the file
+				} else if (Maps.tiles[i][j] == 69) {// cobblestones are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/5.png"));
-				} else if (Maps.tiles[i][j] == 8) {// cobblestones are found in the file
+				} else if (Maps.tiles[i][j] == 70) {// cobblestones are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/6.png"));
-				} else if (Maps.tiles[i][j] == 9) {// cobblestones are found in the file
+				} else if (Maps.tiles[i][j] == 71) {// cobblestones are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/7.png"));
 				} else if (Maps.tiles[i][j] == 10) {// cobblestones are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/8.png"));
@@ -94,51 +93,83 @@ public class Tiles {
 					tileImages[i][j] = ImageIO.read(new File("src/textures/void.png"));
 				} else if (Maps.tiles[i][j] == 37) {// beds are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/doctrineFloor.png"));
-				}else if (Maps.tiles[i][j] == 38) {// beds are found in the file
+				} else if (Maps.tiles[i][j] == 38) {// beds are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/doctrineWall.png"));
-				}else if (Maps.tiles[i][j] == 39) {// beds are found in the file
+				} else if (Maps.tiles[i][j] == 39) {// beds are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/doctrineUpperWall.png"));
-				}else if (Maps.tiles[i][j] == 40) {// beds are found in the file
-					//door inspired from: https://hazushadc.itch.io/pixel-door-assets
+				} else if (Maps.tiles[i][j] == 40) {// beds are found in the file
+					// door inspired from: https://hazushadc.itch.io/pixel-door-assets
 					tileImages[i][j] = ImageIO.read(new File("src/textures/topLeftDoor.png"));
-				}else if (Maps.tiles[i][j] == 41) {// beds are found in the file
+				} else if (Maps.tiles[i][j] == 41) {// beds are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/topRightDoor.png"));
-				}else if (Maps.tiles[i][j] == 42) {// beds are found in the file
+				} else if (Maps.tiles[i][j] == 42) {// beds are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/bottomLeftDoor.png"));
-				}else if (Maps.tiles[i][j] == 43) {// beds are found in the file
+				} else if (Maps.tiles[i][j] == 43) {// beds are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/bottomRightDoor.png"));
-				}else if (Maps.tiles[i][j] == 44) {// beds are found in the file
+				} else if (Maps.tiles[i][j] == 44) {// beds are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/doctrineTopWall.png"));
-				}else if (Maps.tiles[i][j] == 45) {// beds are found in the file
+				} else if (Maps.tiles[i][j] == 45) {// beds are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/doctrineOtherTopWall.png"));
-				}else if (Maps.tiles[i][j] == 46) {// beds are found in the file
+				} else if (Maps.tiles[i][j] == 46) {// beds are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/doctrineBottomWall.png"));
-				}else if (Maps.tiles[i][j] == 47) {// beds are found in the file
+				} else if (Maps.tiles[i][j] == 47) {// beds are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/doctrineEmptyWall.png"));
-				}else if (Maps.tiles[i][j] == 48) {// beds are found in the file
+				} else if (Maps.tiles[i][j] == 48) {// beds are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/downLeft.png"));
-				}else if (Maps.tiles[i][j] == 49) {// beds are found in the file
+				} else if (Maps.tiles[i][j] == 49) {// beds are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/downLeftCorner.png"));
-				}else if (Maps.tiles[i][j] == 50) {// beds are found in the file
+				} else if (Maps.tiles[i][j] == 50) {// beds are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/downRight.png"));
-				}else if (Maps.tiles[i][j] == 51) {// beds are found in the file
+				} else if (Maps.tiles[i][j] == 51) {// beds are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/downRightCorner.png"));
-				}else if (Maps.tiles[i][j] == 52) {// beds are found in the file
+				} else if (Maps.tiles[i][j] == 52) {// beds are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/sideDown.png"));
-				}else if (Maps.tiles[i][j] == 53) {// beds are found in the file
+				} else if (Maps.tiles[i][j] == 53) {// beds are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/sideUp.png"));
-				}else if (Maps.tiles[i][j] == 54) {// beds are found in the file
+				} else if (Maps.tiles[i][j] == 54) {// beds are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/bottomLeftDesk.png"));
-				}else if (Maps.tiles[i][j] == 55) {// beds are found in the file
+				} else if (Maps.tiles[i][j] == 55) {// beds are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/bottomMiddleDesk.png"));
-				}else if (Maps.tiles[i][j] == 56) {// beds are found in the file
+				} else if (Maps.tiles[i][j] == 56) {// beds are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/bottomRightDesk.png"));
-				}else if (Maps.tiles[i][j] == 57) {// beds are found in the file
+				} else if (Maps.tiles[i][j] == 57) {// beds are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/topRightDesk.png"));
-				}else if (Maps.tiles[i][j] == 58) {// beds are found in the file
+				} else if (Maps.tiles[i][j] == 58) {// beds are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/topMiddleDesk.png"));
-				}else if (Maps.tiles[i][j] == 59) {// beds are found in the file
+				} else if (Maps.tiles[i][j] == 59) {// beds are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/topLeftDesk.png"));
+				} else if (Maps.tiles[i][j] == 60) {// beds are found in the file
+					tileImages[i][j] = ImageIO.read(new File("src/textures/topAndRightCorner.png"));
+				} else if (Maps.tiles[i][j] == 61) {// beds are found in the file
+					tileImages[i][j] = ImageIO.read(new File("src/textures/topLeftCornerDot.png"));
+				} else if (Maps.tiles[i][j] == 72) {// beds are found in the file
+					tileImages[i][j] = ImageIO.read(new File("src/textures/bottomLeftCornerDot.png"));
+				} else if (Maps.tiles[i][j] == 73) {// beds are found in the file
+					tileImages[i][j] = ImageIO.read(new File("src/textures/tombstone.png"));
+				} else if (Maps.tiles[i][j] == 74) {
+					tileImages[i][j] = ImageIO.read(new File("src/textures/dugUpEarth.png"));
+				} else if (Maps.tiles[i][j] == 75) {// beds are found in the file
+					tileImages[i][j] = ImageIO.read(new File("src/textures/deadGrass.png"));
+				} else if (Maps.tiles[i][j] == 76) {// beds are found in the file
+					tileImages[i][j] = ImageIO.read(new File("src/textures/grassBlockShiftBottom.png"));
+				} else if (Maps.tiles[i][j] == 77) {// beds are found in the file
+					tileImages[i][j] = ImageIO.read(new File("src/textures/grassBlockShiftBottomRightCorner.png"));
+				} else if (Maps.tiles[i][j] == 78) {// beds are found in the file
+					tileImages[i][j] = ImageIO.read(new File("src/textures/grassBlockShiftRight.png"));
+				} else if (Maps.tiles[i][j] == 79) {// beds are found in the file
+					tileImages[i][j] = ImageIO.read(new File("src/textures/grassBlockShiftTopRightCorner.png"));
+				} else if (Maps.tiles[i][j] == 80) {// beds are found in the file
+					tileImages[i][j] = ImageIO.read(new File("src/textures/grassBlockShiftTop.png"));
+				} else if (Maps.tiles[i][j] == 81) {// beds are found in the file
+					tileImages[i][j] = ImageIO.read(new File("src/textures/grassBlockShiftTopLeftCorner.png"));
+				} else if (Maps.tiles[i][j] == 82) {// beds are found in the file
+					tileImages[i][j] = ImageIO.read(new File("src/textures/grassBlockShiftLeft.png"));
+				} else if (Maps.tiles[i][j] == 83) {// beds are found in the file
+					tileImages[i][j] = ImageIO.read(new File("src/textures/grassBlockShiftBottomLeftCorner.png"));
+				} else if (Maps.tiles[i][j] == 84) {// beds are found in the file
+					tileImages[i][j] = ImageIO.read(new File("src/textures/deadTree.png"));
+				} else if (Maps.tiles[i][j] == 85) {// beds are found in the file
+					tileImages[i][j] = ImageIO.read(new File("src/textures/book.png"));
 				}
 			}
 		}

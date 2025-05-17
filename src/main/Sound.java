@@ -21,9 +21,9 @@ public class Sound {
 	public void play() {
         if (clip != null) {
             if (clip.isRunning()) {
-                clip.stop(); // Stop the clip if it's already playing
+                clip.stop();
             }
-            clip.setFramePosition(0); // Rewind to the beginning
+            clip.setFramePosition(0);
             clip.start();
         }
     }
