@@ -58,10 +58,7 @@ public class Jumpscare {
 	//Timer created from https://stackoverflow.com/questions/1006611/java-swing-timer
 	static Timer time;
 	public static void timer() {
-	    if (time != null && time.isRunning()) {
-	        time.stop();
-	    }
-	    time = new Timer(820, new ActionListener() {
+	    time = new Timer(723, new ActionListener() {
 	        @Override
 	        public void actionPerformed(ActionEvent e) {
 	            Items.playGif = false;
@@ -69,6 +66,9 @@ public class Jumpscare {
 	            time.stop();
 	        }
 	    });
+	    if (time != null && time.isRunning()) {
+	        time.stop();
+	    }
 	    time.setRepeats(false);
 	    time.start();
 	}
