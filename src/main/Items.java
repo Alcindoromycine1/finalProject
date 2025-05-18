@@ -93,8 +93,9 @@ public class Items {
 	public static void book(Graphics2D g2, Component observer) {
 		if (enterBook) {
 			if (!playGif || staticImageBook) {
+				BufferedImage book;
 				try {
-					BufferedImage book = ImageIO.read(new File("src/textures/books.png"));
+					book = ImageIO.read(new File("src/textures/books.png"));
 					g2.drawImage(book, -70, 0, 900, 587, null);
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -113,6 +114,11 @@ public class Items {
 
 			g2.setColor(Color.WHITE);
 			g2.drawString("Next Page", 565, 470);
+			
+			if(nextPage == 1) {
+				g2.drawString("How To Do An Exorcism", 100, 100);
+				//g2.drawString
+			}
 		}
 	}
 
