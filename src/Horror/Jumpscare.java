@@ -3,9 +3,12 @@ package Horror;
 import main.*;
 
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.*;
 import java.io.*;
 import javax.imageio.ImageIO;
+import javax.swing.Timer;
 
 public class Jumpscare {
 
@@ -50,5 +53,23 @@ public class Jumpscare {
 	public void setJumpscare(boolean jumpscare) {
 		this.jumpscare = jumpscare;
 		once = false; //makes sure sound plays as well
+	}
+	
+	//Timer created from https://stackoverflow.com/questions/1006611/java-swing-timer
+	static Timer time;
+	public static void timer() {
+	    if (time != null && time.isRunning()) {
+	        time.stop();
+	    }
+	    time = new Timer(820, new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            Items.playGif = false;
+	   		    Items.staticImageBook = true;
+	            time.stop();
+	        }
+	    });
+	    time.setRepeats(false);
+	    time.start();
 	}
 }

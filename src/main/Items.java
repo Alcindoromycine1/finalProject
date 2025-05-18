@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -10,6 +11,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 public class Items {
 
@@ -68,17 +71,51 @@ public class Items {
 	static boolean carUsed = false;
 
 	public static void doctrine(Graphics2D g2) throws IOException {
-		
+
 		int doctrineX = doctrineWorldX - GamePanel.worldX;
 		int doctrineY = doctrineWorldY - GamePanel.worldY;
-		
+
 		BufferedImage doctrine;
 		doctrine = ImageIO.read(new File("src/textures/doctrine.png"));
 		g2.drawImage(doctrine, doctrineX, doctrineY, 260, 390, null);
 		g2.drawString("Doctrine", 6100 - GamePanel.worldX, 715 - GamePanel.worldY);
-		
+
 	}
-	
+
+	static boolean enterBook = true;
+	static int nextPage = 0;
+	static boolean hoveringNextPage = false;
+	public static boolean playGif = false;
+	public static boolean staticImageBook = false;
+
+	// Stackoverflow used for GIF:
+	// https://stackoverflow.com/questions/12566311/displaying-gif-animation-in-java
+	public static void book(Graphics2D g2, Component observer) {
+		if (enterBook) {
+			if (!playGif || staticImageBook) {
+				try {
+					BufferedImage book = ImageIO.read(new File("src/textures/books.png"));
+					g2.drawImage(book, -70, 0, 900, 587, null);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else {
+				ImageIcon pageFlipping = new ImageIcon("src/textures/books.gif");
+				g2.drawImage(pageFlipping.getImage(), -70, 0, 900, 587, observer);
+			}
+
+			if (!hoveringNextPage) {
+				g2.setColor(Color.RED);
+			} else {
+				g2.setColor(Color.BLACK);
+			}
+			g2.fillRoundRect(530, 445, 150, 40, 10, 10);
+
+			g2.setColor(Color.WHITE);
+			g2.drawString("Next Page", 565, 470);
+		}
+	}
+
 	public void car(Graphics g) throws IOException {
 		int carX = carWorldX - GamePanel.worldX;
 		int carY = carWorldY - GamePanel.worldY;
@@ -166,8 +203,7 @@ public class Items {
 	public static boolean instructionsPrompt = false;
 	public static boolean hoveringKeybind = false;
 	public static boolean hoveringMovement = false;
-	
-	
+
 	public void instructions(Graphics2D g2) {
 		Font calibri = new Font("Calibri", Font.BOLD, 18);
 		g2.setFont(calibri);
@@ -183,7 +219,7 @@ public class Items {
 			g2.setColor(Color.WHITE);
 			g2.drawString("Instructions", 655, 35);
 		}
-		if(instructionsPrompt) {
+		if (instructionsPrompt) {
 			g2.setColor(Color.BLACK);
 			g2.drawRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
 			g2.setColor(Color.DARK_GRAY);
@@ -194,24 +230,23 @@ public class Items {
 			g2.setColor(Color.BLACK);
 			g2.drawString("Instructions", 260, 115);
 			g2.fillRect(263, 117, 283, 2);
-			
-			
-			//Movement
-			if(hoveringMovement) {
+
+			// Movement
+			if (hoveringMovement) {
 				g2.setColor(Color.BLACK);
 				g2.fillRoundRect(305, 160, 195, 62, 20, 20);
-			} else if(!hoveringMovement) {
+			} else if (!hoveringMovement) {
 				g2.setColor(Color.RED);
 				g2.fillRoundRect(305, 160, 195, 62, 20, 20);
 			}
-			if(hoveringKeybind) {
+			if (hoveringKeybind) {
 				g2.setColor(Color.BLACK);
 				g2.fillRoundRect(305, 250, 195, 62, 20, 20);
-			} else if(!hoveringKeybind) {
+			} else if (!hoveringKeybind) {
 				g2.setColor(Color.RED);
 				g2.fillRoundRect(305, 250, 195, 62, 20, 20);
 			}
-		
+
 			g2.setFont(new Font("Calibri", Font.BOLD, 30));
 			g2.setColor(Color.WHITE);
 			g2.drawString("Movement", 335, 200);
@@ -237,22 +272,21 @@ public class Items {
 			g2.setColor(Color.WHITE);
 			g2.drawString("Go Back", 367, 460);
 		}
-		 if (backPressed) {
-		        if (movementPrompt) {
-		            movementPrompt = false;
-		            instructionsPrompt = true;
-		        }
-		        else if (keybindPrompts) {
-		            keybindPrompts = false;
-		            instructionsPrompt = true;
-		        }
+		if (backPressed) {
+			if (movementPrompt) {
+				movementPrompt = false;
+				instructionsPrompt = true;
+			} else if (keybindPrompts) {
+				keybindPrompts = false;
+				instructionsPrompt = true;
+			}
 
-		        else if (instructionsPrompt) {
-		            instructionsPrompt = false;
-		            Input.instructionsPressed = false;
-		        }
-		        backPressed = false;
-		    }
+			else if (instructionsPrompt) {
+				instructionsPrompt = false;
+				Input.instructionsPressed = false;
+			}
+			backPressed = false;
+		}
 	}
 
 	public void prompts(Graphics2D g2) {

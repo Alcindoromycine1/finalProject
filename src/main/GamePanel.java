@@ -290,6 +290,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 			e.printStackTrace();
 		}
+		Items.book(g2, this);
 		g2.dispose();
 
 	}

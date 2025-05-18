@@ -31,6 +31,7 @@ public class Maps {
 	public static ArrayList<int[]> houseWallPositions = new ArrayList<>();
 	public static ArrayList<int[]> grassPositions = new ArrayList<>();
 	public static ArrayList<int[]> waterPositions = new ArrayList<>();
+	public static ArrayList<int[]> bookPositions = new ArrayList<>();
 
 	// Player p = new Player();
 	// GamePanel gp = new GamePanel();
@@ -102,11 +103,12 @@ public class Maps {
 			for (int col = 0; col < tiles[row].length; col++) {
 				if (tiles[row][col] == 63) {
 					treePositions.add(new int[] { col * 48, row * 48 });// stores the location of where the trees are
-				} else if (tiles[row][col] == 65 || tiles[row][col] == 66 || tiles[row][col] == 67 || tiles[row][col] == 68
-						|| tiles[row][col] == 69 || tiles[row][col] == 70 || tiles[row][col] == 71 || tiles[row][col] == 10
-						|| tiles[row][col] == 11 || tiles[row][col] == 12 || tiles[row][col] == 13
-						|| tiles[row][col] == 14 || tiles[row][col] == 15 || tiles[row][col] == 16
-						|| tiles[row][col] == 17) {
+				} else if (tiles[row][col] == 65 || tiles[row][col] == 66 || tiles[row][col] == 67
+						|| tiles[row][col] == 68 || tiles[row][col] == 69 || tiles[row][col] == 70
+						|| tiles[row][col] == 71 || tiles[row][col] == 10 || tiles[row][col] == 11
+						|| tiles[row][col] == 12 || tiles[row][col] == 13 || tiles[row][col] == 14
+						|| tiles[row][col] == 15 || tiles[row][col] == 16 || tiles[row][col] == 17
+						|| tiles[row][col] == 84 || tiles[row][col] == 73) {
 					housePositions.add(new int[] { col * 48, row * 48 });
 				} else if (tiles[row][col] == 21 || tiles[row][col] == 22 || tiles[row][col] == 19
 						|| tiles[row][col] == 20) {
@@ -121,6 +123,8 @@ public class Maps {
 					grassPositions.add(new int[] { col * 48, row * 48 });
 				} else if (tiles[row][col] == 34) {
 					waterPositions.add(new int[] { col * 48, row * 48 });
+				} else if (tiles[row][col] == 85) {
+					bookPositions.add(new int[] { col * 48, row * 48 });
 				}
 			}
 		}
@@ -162,7 +166,7 @@ public class Maps {
 				fadeValue = 255;
 				stepCount = 1;
 			}
-			
+
 		}
 
 		else if (stepCount == 1) {// change map
