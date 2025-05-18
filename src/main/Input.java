@@ -3,6 +3,9 @@ package main;
 import java.awt.event.*;
 import java.io.*;
 import java.util.*;
+
+import Horror.Jumpscare;
+
 import java.awt.*;
 
 /*
@@ -15,7 +18,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 
 	public int mouseX = 0;
 	public int mouseY = 0;
-	public boolean upPressed, downPressed, leftPressed, rightPressed, changeMapPressed, ePressed;
+	public boolean upPressed, downPressed, leftPressed, rightPressed, changeMapPressed, ePressed, useBookPressed;
 	public boolean upReleased, downReleased, leftReleased, rightReleased;
 	public int mouseOffsetX = 0;
 	public int mouseOffsetY = 0;
@@ -64,6 +67,8 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 			ePressed = true;
 		} else if (code == KeyEvent.VK_F) {
 			changeMapPressed = true;
+		} else if (code == KeyEvent.VK_B) {
+			useBookPressed = true;
 		} else if (code == KeyEvent.VK_ESCAPE) {
 			System.exit(0);
 		} else if (code == KeyEvent.VK_SPACE) {
@@ -150,6 +155,11 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		} else {
 			Items.hoveringKeybind = false;
 		}
+		if (Items.enterBook && mouseX >= 530 && mouseX <= 530 + 150 && mouseY >= 445 && mouseY <= 445 + 40) {
+			Items.hoveringNextPage = true;
+		} else {
+			Items.hoveringNextPage = false;
+		}
 	}
 
 	@Override
@@ -195,6 +205,19 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 			Items.keybindPrompts = true;
 			Items.instructionsPrompt = false;
 			return;
+		}
+
+		if (Items.enterBook) {
+			if (mouseX >= 530 && mouseX <= 680 && mouseY >= 445 && mouseY <= 485) {
+				Items.playGif = true;
+				Items.staticImageBook = false;
+				Items.nextPage++;
+				Jumpscare.timer();
+				int maxPages = 5;
+				if (Items.nextPage > maxPages) {
+					Items.nextPage = maxPages;
+				}
+			}
 		}
 	}
 
