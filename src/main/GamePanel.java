@@ -240,7 +240,7 @@ public class GamePanel extends JPanel implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Npc.text(g2);
+		//Npc.text(g2);
 		it.instructions(g2);
 		if (Input.instructionsPressed) {
 			it.prompts(g2);
@@ -282,15 +282,19 @@ public class GamePanel extends JPanel implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		// Minigame.startExorcising();
+		Minigame.startExorcising();
 		Minigame.drawPoints(g2);
+		Minigame.calculation();
 		try {
 			Items.doctrine(g2);
 		} catch (IOException e) {
 
 			e.printStackTrace();
 		}
-		Items.book(g2, this);
+		//Items.book(g2, this);
+		if(Minigame.ready) {
+		Minigame.circle(g2);
+		}
 		g2.dispose();
 
 	}

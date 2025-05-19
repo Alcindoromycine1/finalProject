@@ -116,7 +116,6 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 
 		mouseX = e.getX();
 		mouseY = e.getY();
-
 		if (Minigame.isExorcising) {
 			Minigame.points.add(e.getPoint());
 		}
@@ -221,14 +220,20 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		}
 	}
 
+
 	@Override
 	public void mouseReleased(MouseEvent e) {
 
 		mouseClicked = false;
 		mouseHolding = false;
 		mouseDragging = false;
+		
 		if (Minigame.isExorcising) {
+			Minigame.calculation();
+			Minigame.newCentroid();
 			Minigame.calculatedResult();
+			Minigame.ready = true;
+			System.out.println(Minigame.isValid(10));
 		}
 	}
 
