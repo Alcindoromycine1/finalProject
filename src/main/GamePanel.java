@@ -19,7 +19,7 @@ import java.net.MalformedURLException;
  * Final Project ICS4U0
  */
 public class GamePanel extends JPanel implements Runnable {
-
+	
 	// These are the settings for the window
 	final int originalTileSize = 16; // 16x16 pixel tile size
 	final int scale = 3; // scales everything to appear much larger on the window
@@ -58,7 +58,7 @@ public class GamePanel extends JPanel implements Runnable {
 	Npc n = new Npc();
 	Items it = new Items();
 	Input id;
-
+	Point lastPoint = new Point();
 	static int screenX;
 	static int screenY;
 
@@ -277,7 +277,15 @@ public class GamePanel extends JPanel implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Minigame.startExorcising();
+		
+		System.out.println(Minigame.points);
+		
+		if (lastPoint.equals(Minigame.points.get(1)) && Minigame.points.size() < 2) {
+			Minigame.points.clear();
+			repaint();
+		}
+		//lastPoint = Minigame.points.get(1);
+		
 		Minigame.drawPoints(g2);
 		Minigame.calculation();
 		try {

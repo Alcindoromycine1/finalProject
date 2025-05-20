@@ -15,7 +15,11 @@ public class Minigame {
 	public static void startExorcising() {
 		isExorcising = true;
 	}
-
+	
+	public static void stopExorcising() {
+		isExorcising = false;
+		
+	}
 	static int sumX = 0;
 	static int sumY = 0;
 	static ArrayList<Point> proper = new ArrayList<>();
