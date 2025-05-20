@@ -235,7 +235,7 @@ public class GamePanel extends JPanel implements Runnable {
 		if (Items.animationFrame >= 150) {
 			it.titleScreen(g2);
 		}
-		//Npc.text(g2);
+		// Npc.text(g2);
 		it.instructions(g2);
 		if (Input.instructionsPressed) {
 			it.prompts(g2);
@@ -262,17 +262,24 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 		try {
 			if (Maps.hasFaded != 2) {
-				if (!Maps.hasJumpscared && Maps.hasDoctrined) {
+				if (!Maps.hasJumpscared) {
 					m.fade(2, 3, g2, 258, 216, 72, 48, 446, 46, 118, 86);
-				} if (!Maps.hasDoctrined) {
+					//Maps.hasJumpscared = true;
+				}
+				if (!Maps.hasDoctrined) {
 					m.fade(2, 4, g2, 5600, 528, 72, 48, 4500, 400, 100, 200);
-					//Maps.hasDoctrined = true;
+					Maps.hasDoctrined = true;
+				}
+				if (Maps.hasDoctrined && !Maps.inExorcismRoom) {
+					m.fade(4, 5, g2, 5600, 528, 72, 48, 4500, 400, 100, 200);
+					Maps.inExorcismRoom = true;
 				}
 			}
 			if (Maps.hasFaded == 2) {
 				worldX = 384;
 				worldY = 288;
 				Maps.hasFaded = 0;
+				Maps.hasJumpscared = true;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -282,11 +289,12 @@ public class GamePanel extends JPanel implements Runnable {
 		Minigame.calculation();
 		try {
 			Items.doctrine(g2);
+			// Maps.exorcismRoom(g2);
 		} catch (IOException e) {
 
 			e.printStackTrace();
 		}
-		//System.out.println(worldX + " , " + worldY);
+		// System.out.println(worldX + " , " + worldY);
 		try {
 			Items.graveyard(g2);
 			Items.ghost(g2, 5100, 320);
@@ -294,7 +302,7 @@ public class GamePanel extends JPanel implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		if(Minigame.ready) {
+		if (Minigame.ready) {
 			Minigame.circle(g2);
 		}
 		g2.dispose();
