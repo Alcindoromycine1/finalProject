@@ -18,7 +18,6 @@ public class Minigame {
 
 	static int sumX = 0;
 	static int sumY = 0;
-	static int maxPointing = 1000 / 5;
 	static ArrayList<Point> proper = new ArrayList<>();
 	static int count = 0;
 
@@ -30,8 +29,6 @@ public class Minigame {
 
 	public static void circle(Graphics2D g2) {
 		int radius = 75;
-		g2.setColor(Color.WHITE);
-		g2.fillOval(500 - radius, 300 - radius, radius * 2, radius * 2);
 		originalArea = Math.PI * Math.pow(radius, 2);
 		shapePoints.clear();
 

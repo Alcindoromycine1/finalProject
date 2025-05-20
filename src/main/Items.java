@@ -82,11 +82,12 @@ public class Items {
 
 	}
 
-	static boolean enterBook = true;
+	static boolean enterBook = false;
 	static int nextPage = 0;
 	static boolean hoveringNextPage = false;
 	public static boolean playGif = false;
 	public static boolean staticImageBook = false;
+	public static boolean hoveringExitPage = false;
 
 	// Stackoverflow used for GIF:
 	// https://stackoverflow.com/questions/12566311/displaying-gif-animation-in-java
@@ -107,17 +108,30 @@ public class Items {
 
 			if (!hoveringNextPage) {
 				g2.setColor(Color.RED);
+				g2.fillRoundRect(530, 445, 150, 40, 10, 10);
 			} else {
 				g2.setColor(Color.BLACK);
+				g2.fillRoundRect(530, 445, 150, 40, 10, 10);
 			}
-			g2.fillRoundRect(530, 445, 150, 40, 10, 10);
-
+			if (!hoveringExitPage) {
+				g2.setColor(Color.RED);
+				g2.fillRoundRect(530, 100, 150, 40, 10, 10);
+			} else {
+				g2.setColor(Color.BLACK);
+				g2.fillRoundRect(530, 100, 150, 40, 10, 10);
+			}
 			g2.setColor(Color.WHITE);
+			g2.drawString("Close Book", 562, 125);
 			g2.drawString("Next Page", 565, 470);
 			
-			if(nextPage == 1) {
+			if (nextPage == 1) {
+				g2.setColor(Color.BLACK);
 				g2.drawString("How To Do An Exorcism", 100, 100);
-				//g2.drawString
+				g2.fillRect(100,100, 150, 2);
+				g2.drawString("When you see a ghost, press E to exorcsie it.", 100, 150);
+				g2.drawString("At the Top of the screen you will see a certain shape.", 100, 250);
+				g2.drawString("You will need to replicate that shape by dragging your mouse around the screen.", 100, 300);
+				g2.drawString("", 100, 350);
 			}
 		}
 	}
@@ -372,6 +386,35 @@ public class Items {
 				Player.disableCharacterMovement();
 			}
 		}
+	}
+
+	static boolean inGraveYard = false;
+	static int graveX = 4600;
+	static int graveY = 333;
+	static BufferedImage ghost;
+	static boolean firstTime = true;
+	
+	public static void ghost(Graphics2D g2, int ghostGraveYardX, int ghostGraveYardY) throws IOException {
+		
+		int ghostX = ghostGraveYardX - GamePanel.worldX;
+		int ghostY = ghostGraveYardY - GamePanel.worldY;
+		
+		ghost = ImageIO.read(new File ("src/textures/ghost.png"));
+		g2.drawImage(ghost, ghostX, ghostY, 125, 98, null);
+
+	}
+	
+	public static void graveyard(Graphics2D g2) throws IOException {
+		
+		int inGraveYardX = graveX - GamePanel.worldX;
+		int inGraveYardY = graveY - GamePanel.worldY;
+		if(inGraveYard) {
+			Player.disableCharacterMovement();
+			g2.drawImage(ghost, 480, 280, 250, 196, null);
+			Npc.text(g2, 2);
+		}
+		Player.disableCharacterMovement();
+		
 	}
 
 }
