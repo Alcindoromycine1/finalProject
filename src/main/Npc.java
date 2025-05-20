@@ -5,7 +5,11 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.plaf.basic.BasicComboBoxUI.KeyHandler;
 
 public class Npc {
@@ -19,6 +23,14 @@ public class Npc {
 	}
 
 	public Npc() {
+
+	}
+
+	public static void doctor(Graphics2D g2) throws IOException {
+
+		BufferedImage doctor = null;
+		doctor = ImageIO.read(new File("src/textures/doctor.png"));
+		g2.drawImage(doctor, 480, 260, null);
 
 	}
 
@@ -63,6 +75,18 @@ public class Npc {
 			} else {
 				Items.firstTime = false;
 			}
+		} else if (list == 3) {
+			String textDoctor[] = { "I don't have much time left.",
+					"You must find the book with all the knowledge to dispell the  thing that hurt me. It is located in the graveyard.",
+					"Then, go to the doctrine, and remove the ...", "*The doctor has passed away*" };
+			if (textIndex < textDoctor.length) {
+				textBubble(g2, textDoctor[textIndex]);
+			}
+		} else if (list == 4) {
+			String textDoctrineGhost[] = {"Don't hurt me. Please leave me alone.","If you must, go inside the door at the end of this path! To   get rid of my kind."};
+			if (textIndex < textDoctrineGhost.length) {
+				textBubble(g2, textDoctrineGhost[textIndex]);
+			}
 		}
 	}
 
@@ -78,6 +102,7 @@ public class Npc {
 		g2.fillRoundRect(80, 410, 620, 150, 10, 10);
 		g2.setColor(Color.black);
 		g2.drawRoundRect(80, 410, 620, 150, 10, 10);
+		g2.setFont(new Font("Arial", Font.PLAIN, 13));
 		g2.drawString("Press Spacebar To Continue", 485, 550);
 		g2.setFont(bubbleFont);
 
