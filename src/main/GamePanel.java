@@ -235,11 +235,6 @@ public class GamePanel extends JPanel implements Runnable {
 		if (Items.animationFrame >= 150) {
 			it.titleScreen(g2);
 		}
-		try {
-			it.badGuy(g2);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		//Npc.text(g2);
 		it.instructions(g2);
 		if (Input.instructionsPressed) {
@@ -291,9 +286,16 @@ public class GamePanel extends JPanel implements Runnable {
 
 			e.printStackTrace();
 		}
-		//Items.book(g2, this);
+		//System.out.println(worldX + " , " + worldY);
+		try {
+			Items.graveyard(g2);
+			Items.ghost(g2, 5100, 320);
+			Items.book(g2, this);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		if(Minigame.ready) {
-		Minigame.circle(g2);
+			Minigame.circle(g2);
 		}
 		g2.dispose();
 

@@ -159,6 +159,11 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		} else {
 			Items.hoveringNextPage = false;
 		}
+		if (Items.enterBook && mouseX >= 530 && mouseX <= 530 + 150 && mouseY >= 100 && mouseY <= 100 + 40) {
+			Items.hoveringExitPage = true;
+		} else {
+			Items.hoveringExitPage = false;
+		}
 	}
 
 	@Override
@@ -218,8 +223,10 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 				}
 			}
 		}
+		if (Items.enterBook && mouseX >= 530 && mouseX <= 530 + 150 && mouseY >= 100 && mouseY <= 100 + 40) {
+			Items.enterBook = false;
+		}
 	}
-
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
@@ -233,7 +240,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 			Minigame.newCentroid();
 			Minigame.calculatedResult();
 			Minigame.ready = true;
-			System.out.println(Minigame.isValid(10));
+			System.out.println(Minigame.isValid(20));
 		}
 	}
 

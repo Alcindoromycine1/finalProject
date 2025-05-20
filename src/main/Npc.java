@@ -47,12 +47,22 @@ public class Npc {
 
 	static int textIndex = 0;
 
-	public static void text(Graphics2D g2) {
+	public static void text(Graphics2D g2, int list) {
 
-		String textBadGuy[] = {
-				"Hehehehe! I'm back.", "I'm going to slash your tires."};
-		if (textIndex < textBadGuy.length) {
-			textBubble(g2, textBadGuy[textIndex]);
+		if (list == 1) {
+			String textBadGuy[] = { "Hehehehe! I'm back.", "I'm going to slash your tires." };
+			if (textIndex < textBadGuy.length) {
+				textBubble(g2, textBadGuy[textIndex]);
+			}
+		} else if (list == 2) {
+			String textGhostGraveyard[] = { "AHHHHH! Is that a... ", "Don't kill me please!",
+					"I can help you kill us if you just leave me be.", "Just press B to open that book above you.",
+					"The book will teach you all the knowledge you need to know to get rid of us." };
+			if (textIndex < textGhostGraveyard.length) {
+				textBubble(g2, textGhostGraveyard[textIndex]);
+			} else {
+				Items.firstTime = false;
+			}
 		}
 	}
 
@@ -61,14 +71,14 @@ public class Npc {
 		final int lineSpacing = 30;// spacing between lines
 		final int textX = 90;// x position of text
 		final int textY = 445;// y position of text
-		
+
 		Font bubbleFont = new Font("Arial", Font.PLAIN, 20);
 
 		g2.setColor(Color.white);
 		g2.fillRoundRect(80, 410, 620, 150, 10, 10);
 		g2.setColor(Color.black);
 		g2.drawRoundRect(80, 410, 620, 150, 10, 10);
-		g2.drawString("Press Spacebar To Continue", 532, 550);
+		g2.drawString("Press Spacebar To Continue", 485, 550);
 		g2.setFont(bubbleFont);
 
 		int lineNumber = 0;// indicates what line the text is on

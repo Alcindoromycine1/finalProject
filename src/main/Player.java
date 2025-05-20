@@ -118,7 +118,8 @@ public class Player {
 			if (GamePanel.playerX + 32 > bookX // Right side of hitbox is past left side of tree
 					&& GamePanel.playerX < bookX + 48 // Left side of hitbox is before right side of tree
 					&& GamePanel.playerY + 72 > bookY + 48 // Bottom side of hitbox is below top side of tree
-					&& GamePanel.playerY < bookY + 48 && Player.keyH.useBookPressed) { // Top side of hitbox is above bottom side of tree
+					&& GamePanel.playerY < bookY + 48 && Player.keyH.useBookPressed) { // Top side of hitbox is above
+																						// bottom side of tree
 				Items.enterBook = true;
 				break; // Stop checking after finding the first collision
 			}
@@ -146,11 +147,14 @@ public class Player {
 				GamePanel.worldY + 288 < Items.doctrineWorldY + 420) { // Player's top side < doctrine's bottom side
 			collision = true;
 		}
-		if (GamePanel.worldX + 384 > Items.doctrineWorldX && // Player's right side > doctrine's left side
-				GamePanel.worldX + 384 < Items.doctrineWorldX + 260 && // Player's left side < doctrine's right side
-				GamePanel.worldY + 288 + 45 > Items.doctrineWorldY && // Player's bottom side > doctrine's top side
-				GamePanel.worldY + 288 < Items.doctrineWorldY + 420) { // Player's top side < doctrine's bottom side
-			collision = true;
+		if (GamePanel.worldX + 384 - 300 > Items.graveX && // Right-shifted point > grave's left
+				GamePanel.worldX + 384 - 300 < Items.graveX + 160 && // Right-shifted point < grave's right
+				GamePanel.worldY + 288 - 150 > Items.graveY && // Down-shifted point > grave's top
+				GamePanel.worldY + 288 - 150 < Items.graveY + 120 // Down-shifted point < grave's bottom
+				&& Items.firstTime) {
+			Items.inGraveYard = true;
+		} else {
+			Items.inGraveYard = false;
 		}
 
 		n.npcs();
@@ -221,6 +225,9 @@ public class Player {
 			return true;
 		}
 		if (Items.carWorldX == 4700) {
+			return true;
+		}
+		if (Items.inGraveYard) {
 			return true;
 		}
 		return false;
