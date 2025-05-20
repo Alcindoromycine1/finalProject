@@ -61,6 +61,18 @@ public class Items {
 
 	}
 
+	public static void houseMirror(Graphics2D g2) throws IOException {
+		
+		BufferedImage mirror;
+		try {
+			mirror = ImageIO.read(new File("src/textures/jeffMirror.png"));
+			g2.drawImage(mirror, 360, 200, 50, 50, null);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	static boolean carOn = false;
 	static int animationFrame = 0;
 	static int carWorldX = 1300;
@@ -78,8 +90,16 @@ public class Items {
 		BufferedImage doctrine;
 		doctrine = ImageIO.read(new File("src/textures/doctrine.png"));
 		g2.drawImage(doctrine, doctrineX, doctrineY, 260, 390, null);
-		g2.drawString("Doctrine", 6100 - GamePanel.worldX, 715 - GamePanel.worldY);
+		g2.setColor(Color.WHITE);
+		g2.setFont(new Font("Monospaced", Font.BOLD, 20));
+		g2.drawString("Doctrine", 6080 - GamePanel.worldX, 715 - GamePanel.worldY);
 
+	}
+	
+	public static void insideDoctrine(Graphics2D g2) throws IOException {
+		ghost(g2, 1110, 120);
+		Npc.text(g2, 4);
+		
 	}
 
 	static boolean enterBook = false;
@@ -92,6 +112,7 @@ public class Items {
 	// Stackoverflow used for GIF:
 	// https://stackoverflow.com/questions/12566311/displaying-gif-animation-in-java
 	public static void book(Graphics2D g2, Component observer) {
+		g2.setFont(new Font("calibri", Font.BOLD, 18));
 		if (enterBook) {
 			if (!playGif || staticImageBook) {
 				BufferedImage book;
@@ -142,7 +163,8 @@ public class Items {
 
 		BufferedImage car = ImageIO.read(new File("src/textures/car.png"));
 		g.drawImage(car, carX, carY, 96, 192, null);
-
+		//BufferedImage brokenCar = ImageIO.read(new File("src/textures/destroyedCar.png"));
+		//g.drawImage(brokenCar, carX, carY, 96, 192, null);
 		if (!carOn && !carUsed && GamePanel.playerX + 32 > carX && GamePanel.playerX < carX + 96
 				&& GamePanel.playerY + 72 > carY && GamePanel.playerY < carY + 192 && Player.keyH.ePressed) {
 
@@ -409,11 +431,9 @@ public class Items {
 		int inGraveYardX = graveX - GamePanel.worldX;
 		int inGraveYardY = graveY - GamePanel.worldY;
 		if(inGraveYard) {
-			Player.disableCharacterMovement();
 			g2.drawImage(ghost, 480, 280, 250, 196, null);
 			Npc.text(g2, 2);
 		}
-		Player.disableCharacterMovement();
 		
 	}
 

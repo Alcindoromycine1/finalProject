@@ -183,7 +183,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public void characterImage(Graphics g) throws IOException {
 
-		BufferedImage jeffFront = ImageIO.read(new File("src/textures/jeffFront.png"));
+		BufferedImage jeffFront = ImageIO.read(new File("src/textures/charAI.png"));
 		BufferedImage jeffBack = ImageIO.read(new File("src/textures/jeffBack.png"));
 		BufferedImage jeffRight = ImageIO.read(new File("src/textures/jeffRight.png"));
 		BufferedImage jeffLeft = ImageIO.read(new File("src/textures/jeffLeft.png"));
@@ -235,8 +235,8 @@ public class GamePanel extends JPanel implements Runnable {
 		if (Items.animationFrame >= 150) {
 			it.titleScreen(g2);
 		}
-		// Npc.text(g2);
-		it.instructions(g2);
+		//Npc.text(g2);
+		//it.instructions(g2);
 		if (Input.instructionsPressed) {
 			it.prompts(g2);
 			it.backMenu(g2);
@@ -262,39 +262,35 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 		try {
 			if (Maps.hasFaded != 2) {
-				if (!Maps.hasJumpscared) {
+				if(!Maps.hasJumpscared) {
 					m.fade(2, 3, g2, 258, 216, 72, 48, 446, 46, 118, 86);
-					//Maps.hasJumpscared = true;
-				}
-				if (!Maps.hasDoctrined) {
+				} if (!Maps.hasDoctrined) {
 					m.fade(2, 4, g2, 5600, 528, 72, 48, 4500, 400, 100, 200);
-					Maps.hasDoctrined = true;
-				}
-				if (Maps.hasDoctrined && !Maps.inExorcismRoom) {
-					m.fade(4, 5, g2, 5600, 528, 72, 48, 4500, 400, 100, 200);
-					Maps.inExorcismRoom = true;
+					//Maps.hasDoctrined = true;
 				}
 			}
 			if (Maps.hasFaded == 2) {
 				worldX = 384;
 				worldY = 288;
 				Maps.hasFaded = 0;
-				Maps.hasJumpscared = true;
 			}
+			//Npc.doctor(g2);
+			Npc.text(g2, 3);
+			//Items.insideDoctrine(g2);
+			//Items.houseMirror(g2);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Minigame.startExorcising();
-		Minigame.drawPoints(g2);
-		Minigame.calculation();
+		//Minigame.startExorcising();
+		//Minigame.drawPoints(g2);
+		//Minigame.calculation();
 		try {
 			Items.doctrine(g2);
-			// Maps.exorcismRoom(g2);
 		} catch (IOException e) {
 
 			e.printStackTrace();
 		}
-		// System.out.println(worldX + " , " + worldY);
+		//System.out.println(worldX + " , " + worldY);
 		try {
 			Items.graveyard(g2);
 			Items.ghost(g2, 5100, 320);
@@ -302,7 +298,7 @@ public class GamePanel extends JPanel implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		if (Minigame.ready) {
+		if(Minigame.ready) {
 			Minigame.circle(g2);
 		}
 		g2.dispose();

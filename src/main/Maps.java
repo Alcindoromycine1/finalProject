@@ -61,8 +61,6 @@ public class Maps {
 			mapIntro("src/maps/openMap.txt");
 		} else if (mapToChange == 4) {
 			mapIntro("src/maps/doctrine.txt");
-		} else if(mapToChange == 5) {
-			mapIntro ("src/maps/exorcismRoom.txt");
 		}
 		return "-1";
 
@@ -253,14 +251,6 @@ public class Maps {
 		}
 		if (fading) {
 			fading(g2, t, gp, oldMap, changeMap);
-		}
-	}
-	
-	static boolean inExorcismRoom = false;
-	public static void exorcismRoom(Graphics2D g2) throws IOException {
-		if(inExorcismRoom) {
-			g2.setColor(Color.black);
-			g2.fillRect(0, 0, 768, 576);
 		}
 	}
 
