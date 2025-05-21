@@ -262,9 +262,9 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 		try {
 			if (Maps.hasFaded != 2) {
-				if(!Maps.hasJumpscared) {
+				/*if(!Maps.hasJumpscared) {
 					m.fade(2, 3, g2, 258, 216, 72, 48, 446, 46, 118, 86);
-				} if (!Maps.hasDoctrined) {
+				}*/ if (!Maps.hasDoctrined) {
 					m.fade(2, 4, g2, 5600, 528, 72, 48, 4500, 400, 100, 200);
 					//Maps.hasDoctrined = true;
 				}
@@ -276,14 +276,15 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 			//Npc.doctor(g2);
 			Npc.text(g2, 3);
-			//Items.insideDoctrine(g2);
+			Items.insideDoctrine(g2);
+			
 			//Items.houseMirror(g2);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		//Minigame.startExorcising();
-		//Minigame.drawPoints(g2);
-		//Minigame.calculation();
+		Minigame.startExorcising();
+		Minigame.drawPoints(g2);
+		Minigame.calculation();
 		try {
 			Items.doctrine(g2);
 		} catch (IOException e) {

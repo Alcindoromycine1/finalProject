@@ -99,7 +99,7 @@ public class Items {
 	public static void insideDoctrine(Graphics2D g2) throws IOException {
 		ghost(g2, 1110, 120);
 		Npc.text(g2, 4);
-		
+		ghost(g2, 2500, 300);
 	}
 
 	static boolean enterBook = false;
@@ -414,6 +414,7 @@ public class Items {
 	static int graveX = 4600;
 	static int graveY = 333;
 	static BufferedImage ghost;
+	static BufferedImage bar;
 	static boolean firstTime = true;
 	
 	public static void ghost(Graphics2D g2, int ghostGraveYardX, int ghostGraveYardY) throws IOException {
@@ -421,8 +422,11 @@ public class Items {
 		int ghostX = ghostGraveYardX - GamePanel.worldX;
 		int ghostY = ghostGraveYardY - GamePanel.worldY;
 		
-		ghost = ImageIO.read(new File ("src/textures/ghost.png"));
+		ghost = ImageIO.read(new File ("src/textures/hlafPerson.png"));
 		g2.drawImage(ghost, ghostX, ghostY, 125, 98, null);
+		
+		bar = ImageIO.read(new File ("src/textures/bar.png"));
+		g2.drawImage(bar, ghostX + 50, ghostY - 20, 25, 10, null);
 
 	}
 	

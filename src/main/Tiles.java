@@ -170,7 +170,27 @@ public class Tiles {
 					tileImages[i][j] = ImageIO.read(new File("src/textures/deadTree.png"));
 				} else if (Maps.tiles[i][j] == 85) {// beds are found in the file
 					tileImages[i][j] = ImageIO.read(new File("src/textures/book.png"));
-				}
+				} else if (Maps.tiles[i][j] == 86) {
+					tileImages[i][j] = ImageIO.read(new File("src/textures/exorcismRoom.png"));
+				} else if (Maps.tiles[i][j] == 87) {
+					tileImages[i][j] = ImageIO.read(new File("src/textures/pentagram1.png"));
+				} else if (Maps.tiles[i][j] == 88) {
+					tileImages[i][j] = ImageIO.read(new File("src/textures/pentagram2.png"));
+				} else if (Maps.tiles[i][j] == 89) {
+					tileImages[i][j] = ImageIO.read(new File("src/textures/pentagram3.png"));
+				} else if (Maps.tiles[i][j] == 90) {
+					tileImages[i][j] = ImageIO.read(new File("src/textures/pentagram4.png"));
+				} else if (Maps.tiles[i][j] == 91) {
+					tileImages[i][j] = ImageIO.read(new File("src/textures/pentagram5.png"));
+				} else if (Maps.tiles[i][j] == 92) {
+					tileImages[i][j] = ImageIO.read(new File("src/textures/pentagram6.png"));
+				} else if (Maps.tiles[i][j] == 93) {
+					tileImages[i][j] = ImageIO.read(new File("src/textures/pentagram7.png"));
+				} else if (Maps.tiles[i][j] == 94) {
+					tileImages[i][j] = ImageIO.read(new File("src/textures/pentagram8.png"));
+				} else if (Maps.tiles[i][j] == 95) {
+					tileImages[i][j] = ImageIO.read(new File("src/textures/pentagram9.png"));
+				} 
 			}
 		}
 	}
