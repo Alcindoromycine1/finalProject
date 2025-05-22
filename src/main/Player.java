@@ -76,6 +76,7 @@ public class Player {
 					&& GamePanel.playerY + 72 > bedY // Bottom side of hitbox is below top side of tree
 					&& GamePanel.playerY < bedY + 48) { // Top side of hitbox is above bottom side of tree
 				collision = true;
+				Maps.usingBed = true;
 				break; // Stop checking after finding the first collision
 			}
 		}

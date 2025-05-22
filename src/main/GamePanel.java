@@ -235,8 +235,8 @@ public class GamePanel extends JPanel implements Runnable {
 		if (Items.animationFrame >= 150) {
 			it.titleScreen(g2);
 		}
-		//Npc.text(g2);
-		//it.instructions(g2);
+		// Npc.text(g2);
+		// it.instructions(g2);
 		if (Input.instructionsPressed) {
 			it.prompts(g2);
 			it.backMenu(g2);
@@ -261,30 +261,35 @@ public class GamePanel extends JPanel implements Runnable {
 			delayTimer.start();
 		}
 		try {
-			//System.out.println(worldX + " , " + worldY);
-				if(!Maps.hasJumpscared) {
-					m.fade(2, 3, g2, 248, 216, 82, 48, -30, 0, 145, 126);
-					Input.changeMapPressed = false;
-				}
-				if (!Maps.hasDoctrined) {
-					//m.fade(2, 4, g2, 168, -159, 100, 100, 5000, 513, 500, 500);
-					Input.changeMapPressed = false;
-				}
+			if (!Maps.hasJumpscared && !Maps.hasDoctrined) {
+				m.fade(2, 3, g2, 248, 216, 82, 48, 414, 48, 145, 126);
+				Input.changeMapPressed = false;
+			}
+			if (!Maps.hasDoctrined && Maps.hasJumpscared) {
+				m.fade(3, 4, g2, 168, -159, 100, 100, 5550, 520, 150, 100);
+				Input.changeMapPressed = false;
+			}
 			if (Maps.hasFaded == 2) {
-				worldX = 384;
-				worldY = 288;
+				if (Maps.hasJumpscared && !Maps.hasDoctrined) {
+					worldX = 384;
+					worldY = 288;
+				}
+				if (Maps.hasJumpscared && Maps.hasDoctrined) {
+					worldX = 5550;
+					worldY = 520;
+				}
 				Maps.hasFaded = 0;
 			}
-			//Npc.doctor(g2);
+			Maps.nightmare(g2);
 			Npc.text(g2, 3);
-			//Items.insideDoctrine(g2);
-			//Items.houseMirror(g2);
+			// Items.insideDoctrine(g2);
+			// Items.houseMirror(g2);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		//Minigame.startExorcising();
-		//Minigame.drawPoints(g2);
-		//Minigame.calculation();
+		// Minigame.startExorcising();
+		// Minigame.drawPoints(g2);
+		// Minigame.calculation();
 		try {
 			Items.doctrine(g2);
 		} catch (IOException e) {
@@ -298,7 +303,7 @@ public class GamePanel extends JPanel implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		if(Minigame.ready) {
+		if (Minigame.ready) {
 			Minigame.circle(g2);
 		}
 		g2.dispose();

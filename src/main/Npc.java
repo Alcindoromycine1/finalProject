@@ -28,9 +28,12 @@ public class Npc {
 
 	public static void doctor(Graphics2D g2) throws IOException {
 
+		int doctorX = 480 - GamePanel.worldX;
+		int doctorY = 260 - GamePanel.worldY;
+		
 		BufferedImage doctor = null;
 		doctor = ImageIO.read(new File("src/textures/doctor.png"));
-		g2.drawImage(doctor, 480, 260, null);
+		g2.drawImage(doctor, doctorX, doctorY, null);
 
 	}
 

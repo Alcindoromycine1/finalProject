@@ -108,7 +108,12 @@ public class Maps {
 						|| tiles[row][col] == 71 || tiles[row][col] == 10 || tiles[row][col] == 11
 						|| tiles[row][col] == 12 || tiles[row][col] == 13 || tiles[row][col] == 14
 						|| tiles[row][col] == 15 || tiles[row][col] == 16 || tiles[row][col] == 17
-						|| tiles[row][col] == 84 || tiles[row][col] == 73) {
+						|| tiles[row][col] == 84 || tiles[row][col] == 73 || tiles[row][col] == 40
+						|| tiles[row][col] == 41 || tiles[row][col] == 42 || tiles[row][col] == 43
+						|| tiles[row][col] == 44 || tiles[row][col] == 45 || tiles[row][col] == 46
+						|| tiles[row][col] == 47 || tiles[row][col] == 54 || tiles[row][col] == 55
+						|| tiles[row][col] == 56 || tiles[row][col] == 57 || tiles[row][col] == 58
+						|| tiles[row][col] == 59 || tiles[row][col] == 39 || tiles[row][col] == 38) {
 					housePositions.add(new int[] { col * 48, row * 48 });
 				} else if (tiles[row][col] == 21 || tiles[row][col] == 22 || tiles[row][col] == 19
 						|| tiles[row][col] == 20) {
@@ -242,20 +247,16 @@ public class Maps {
 			int oldworY, int oldWidth, int oldHeight) throws IOException {
 
 		GamePanel gp = new GamePanel();
-		int oldworYs = oldworY - GamePanel.worldY;
-		int oldworXs = oldworX - GamePanel.worldX;
-		if (Input.changeMapPressed && GamePanel.worldX >= oldworXs && GamePanel.worldX <= oldworXs + oldWidth
-				&& GamePanel.worldY >= oldworYs && GamePanel.worldY <= oldworYs + oldHeight) {
+
+		if (Input.changeMapPressed && GamePanel.worldX >= oldworX && GamePanel.worldX <= oldworX + oldWidth
+				&& GamePanel.worldY >= oldworY && GamePanel.worldY <= oldworY + oldHeight) {
 			fading = true;
 			Player.disableCharacterMovement();
 			Input.changeMapPressed = false;
 			GamePanel.j.setJumpscare(true);
 		}
-		int worYs = worY - GamePanel.worldY;
-		int worXs = worX - GamePanel.worldX;
-		System.out.println(oldworXs + " , " + oldworYs);
-		if (!fading && Input.changeMapPressed && GamePanel.worldX >= worXs && GamePanel.worldX <= worXs + width
-				&& GamePanel.worldY >= worYs && GamePanel.worldY <= worYs + height) {
+		if (!fading && Input.changeMapPressed && GamePanel.worldX >= worX && GamePanel.worldX <= worX + width
+				&& GamePanel.worldY >= worY && GamePanel.worldY <= worY + height) {
 			fading = true;
 			Player.disableCharacterMovement();
 			stepCount = 0;
@@ -265,5 +266,24 @@ public class Maps {
 			fading(g2, t, gp, oldMap, changeMap);
 		}
 	}
-
+	
+	public static boolean doneNightmare = false;
+	public static boolean inNightmare = false;
+	public static boolean usingBed = false;
+	
+	public static void nightmare(Graphics2D g2) throws IOException {
+	
+		if(usingBed) {
+			inNightmare = true;
+		}
+		
+		if(doneNightmare) {
+			inNightmare = false;
+			Npc.doctor(g2);
+		}
+		
+		if(inNightmare) {
+			System.out.println("In nightmare");
+		}	
+	}
 }
