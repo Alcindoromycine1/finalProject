@@ -261,14 +261,15 @@ public class GamePanel extends JPanel implements Runnable {
 			delayTimer.start();
 		}
 		try {
-			if (Maps.hasFaded != 2) {
+			//System.out.println(worldX + " , " + worldY);
 				if(!Maps.hasJumpscared) {
-					m.fade(2, 3, g2, 258, 216, 72, 48, 446, 46, 118, 86);
-				} if (!Maps.hasDoctrined) {
-					m.fade(2, 4, g2, 5600, 528, 72, 48, 4500, 400, 100, 200);
-					//Maps.hasDoctrined = true;
+					m.fade(2, 3, g2, 248, 216, 82, 48, -30, 0, 145, 126);
+					Input.changeMapPressed = false;
 				}
-			}
+				if (!Maps.hasDoctrined) {
+					//m.fade(2, 4, g2, 168, -159, 100, 100, 5000, 513, 500, 500);
+					Input.changeMapPressed = false;
+				}
 			if (Maps.hasFaded == 2) {
 				worldX = 384;
 				worldY = 288;
@@ -290,7 +291,6 @@ public class GamePanel extends JPanel implements Runnable {
 
 			e.printStackTrace();
 		}
-		//System.out.println(worldX + " , " + worldY);
 		try {
 			Items.graveyard(g2);
 			Items.ghost(g2, 5100, 320);

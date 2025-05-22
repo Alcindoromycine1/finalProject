@@ -18,7 +18,10 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 
 	public int mouseX = 0;
 	public int mouseY = 0;
-	public boolean upPressed, downPressed, leftPressed, rightPressed, changeMapPressed, ePressed, useBookPressed;
+	public boolean upPressed, downPressed, leftPressed, rightPressed;
+	public static boolean changeMapPressed;
+	public boolean ePressed;
+	public boolean useBookPressed;
 	public boolean upReleased, downReleased, leftReleased, rightReleased;
 	public int mouseOffsetX = 0;
 	public int mouseOffsetY = 0;

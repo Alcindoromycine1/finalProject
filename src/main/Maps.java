@@ -210,7 +210,6 @@ public class Maps {
 		}
 
 		else if (stepCount == 2) {// fade in
-			// System.out.println("fade in: " + fadeValue);
 			g2.setColor(new Color(0, 0, 0, fadeValue));
 			g2.fillRect(0, 0, m.WIDTH, m.HEIGHT);
 			fadeValue -= 2;
@@ -221,6 +220,15 @@ public class Maps {
 				fadeValue = 0;
 				hasFaded++;
 
+			}
+		}
+		if (hasFaded == 2) {
+			if (stepCount == -1 && !hasJumpscared) {
+				hasJumpscared = true;
+				stepCount = 0;
+			}
+			if (stepCount == -1 && !hasDoctrined) {
+				hasDoctrined = true;
 			}
 		}
 	}
@@ -234,16 +242,20 @@ public class Maps {
 			int oldworY, int oldWidth, int oldHeight) throws IOException {
 
 		GamePanel gp = new GamePanel();
-
-		if (Player.keyH.changeMapPressed && GamePanel.worldX >= oldworX && GamePanel.worldX <= oldworX + oldWidth
-				&& GamePanel.worldY >= oldworY && GamePanel.worldY <= oldworY + oldHeight) {
+		int oldworYs = oldworY - GamePanel.worldY;
+		int oldworXs = oldworX - GamePanel.worldX;
+		if (Input.changeMapPressed && GamePanel.worldX >= oldworXs && GamePanel.worldX <= oldworXs + oldWidth
+				&& GamePanel.worldY >= oldworYs && GamePanel.worldY <= oldworYs + oldHeight) {
 			fading = true;
 			Player.disableCharacterMovement();
-			Player.keyH.changeMapPressed = false;
+			Input.changeMapPressed = false;
 			GamePanel.j.setJumpscare(true);
 		}
-		if (!fading && Player.keyH.changeMapPressed && GamePanel.worldX >= worX && GamePanel.worldX <= worX + width
-				&& GamePanel.worldY >= worY && GamePanel.worldY <= worY + height) {
+		int worYs = worY - GamePanel.worldY;
+		int worXs = worX - GamePanel.worldX;
+		System.out.println(oldworXs + " , " + oldworYs);
+		if (!fading && Input.changeMapPressed && GamePanel.worldX >= worXs && GamePanel.worldX <= worXs + width
+				&& GamePanel.worldY >= worYs && GamePanel.worldY <= worYs + height) {
 			fading = true;
 			Player.disableCharacterMovement();
 			stepCount = 0;
