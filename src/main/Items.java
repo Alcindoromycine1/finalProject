@@ -99,7 +99,6 @@ public class Items {
 	public static void insideDoctrine(Graphics2D g2) throws IOException {
 		ghost(g2, 1110, 120);
 		Npc.text(g2, 4);
-		
 	}
 
 	static boolean enterBook = false;
@@ -216,27 +215,7 @@ public class Items {
 			g2.drawString("Are We Cooked 2D", 180, 280);
 		}
 	}
-
-	int badGuyX = 5500 - GamePanel.worldX;
-	int badGuyY = 900 - GamePanel.worldY;
-	boolean badGuyMoving = false;
-
-	public void badGuy(Graphics2D g2) throws IOException {
-
-		BufferedImage badguy = ImageIO.read(new File("src/textures/character.png"));
-
-		if (carWorldX >= 4700) {
-			badGuyMoving = true;
-		}
-		if (badGuyMoving && badGuyX >= 4900) {
-			badGuyX -= 2;
-		}
-
-		int screenX = badGuyX - GamePanel.worldX;
-		int screenY = badGuyY - GamePanel.worldY;
-
-		g2.drawImage(badguy, screenX, screenY, 48, 70, null);
-	}
+	
 
 	static boolean movementPrompt = false;
 	public int instructionsX = 640;
