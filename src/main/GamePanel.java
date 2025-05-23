@@ -29,8 +29,7 @@ public class GamePanel extends JPanel implements Runnable {
 	int playerSpeed = 15;
 
 	// Window dimensions
-	final int maxScreenCol = 16;
-	// window is 16 tiles wide
+	final int maxScreenCol = 16; // window is 16 tiles wide
 	final int maxScreenRow = 12; // window is 12 tiles long
 	final int WIDTH = tileSize * maxScreenCol; // screen width in pixels (768 pixels)
 	final int HEIGHT = tileSize * maxScreenRow; // screen height in pixels (576 pixels)
@@ -167,6 +166,7 @@ public class GamePanel extends JPanel implements Runnable {
 			// footsteps
 			if (p.keyH.upPressed && !p.keyH.upReleased || p.keyH.downPressed && !p.keyH.downReleased
 					|| p.keyH.rightPressed && !p.keyH.rightReleased || p.keyH.leftPressed && !p.keyH.leftReleased) {
+				// System.out.println(footstepSound);
 				// footstepSound.play();
 			}
 		}
@@ -179,7 +179,6 @@ public class GamePanel extends JPanel implements Runnable {
 		p.collision();
 		characterMovement();
 		Items.animation();
-		Player.disableCharacterMovement();
 	}
 
 	public void characterImage(Graphics g) throws IOException {
@@ -262,14 +261,18 @@ public class GamePanel extends JPanel implements Runnable {
 			delayTimer.start();
 		}
 		try {
-			if (!Maps.hasJumpscared && !Maps.hasDoctrined) {
+			if (!Maps.hasJumpscared && !Maps.hasDoctrined) {   //uncomment
 				m.fade(2, 3, g2, 248, 216, 82, 48, 414, 48, 145, 126);
 				Input.changeMapPressed = false;
 			}
-			if (!Maps.hasDoctrined && Maps.hasJumpscared) {
-				m.fade(3, 4, g2, 168, -159, 100, 100, 5550, 520, 150, 100);
+			
+			
+			if (!Maps.hasDoctrined  && Maps.hasJumpscared) {
+				m.fade(3, 4, g2, 168, -159, 100, 100, 5550, 520, 150, 100); //un-not
 				Input.changeMapPressed = false;
 			}
+			
+			
 			if (Maps.hasFaded == 2) {
 				if (Maps.hasJumpscared && !Maps.hasDoctrined) {
 					worldX = 384;
