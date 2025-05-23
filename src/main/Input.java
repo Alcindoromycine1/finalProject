@@ -134,6 +134,12 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		mouseX = e.getX();
 		mouseY = e.getY();
 
+		if (mouseX >= 284 && mouseX <= 484 && mouseY >= 300 && mouseY <= 340) {
+			MainMenu.hoveringPlay = true;
+		}
+		else {
+			MainMenu.hoveringPlay = false;
+		}
 		if (mouseX >= instructionsX && mouseX <= instructionsX + 120 && mouseY >= instructionsY
 				&& mouseY <= instructionsY + 40) {
 			Items.hoveringInstructions = true;
@@ -228,6 +234,9 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		}
 		if (Items.enterBook && mouseX >= 530 && mouseX <= 530 + 150 && mouseY >= 100 && mouseY <= 100 + 40) {
 			Items.enterBook = false;
+		}
+		if (mouseX >= 284 && mouseX <= 484 && mouseY >= 300 && mouseY <= 340) {
+			MainMenu.inMenu = false;
 		}
 	}
 

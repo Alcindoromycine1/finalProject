@@ -62,7 +62,7 @@ public class Items {
 	}
 
 	public static void houseMirror(Graphics2D g2) throws IOException {
-
+		
 		BufferedImage mirror;
 		try {
 			mirror = ImageIO.read(new File("src/textures/jeffMirror.png"));
@@ -70,9 +70,9 @@ public class Items {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		
 	}
-
+	
 	static boolean carOn = false;
 	static int animationFrame = 0;
 	static int carWorldX = 1300;
@@ -95,7 +95,7 @@ public class Items {
 		g2.drawString("Doctrine", 6080 - GamePanel.worldX, 715 - GamePanel.worldY);
 
 	}
-
+	
 	public static void insideDoctrine(Graphics2D g2) throws IOException {
 		ghost(g2, 1110, 120);
 		Npc.text(g2, 4);
@@ -143,15 +143,14 @@ public class Items {
 			g2.setColor(Color.WHITE);
 			g2.drawString("Close Book", 562, 125);
 			g2.drawString("Next Page", 565, 470);
-
+			
 			if (nextPage == 1) {
 				g2.setColor(Color.BLACK);
 				g2.drawString("How To Do An Exorcism", 100, 100);
-				g2.fillRect(100, 100, 150, 2);
+				g2.fillRect(100,100, 150, 2);
 				g2.drawString("When you see a ghost, press E to exorcsie it.", 100, 150);
 				g2.drawString("At the Top of the screen you will see a certain shape.", 100, 250);
-				g2.drawString("You will need to replicate that shape by dragging your mouse around the screen.", 100,
-						300);
+				g2.drawString("You will need to replicate that shape by dragging your mouse around the screen.", 100, 300);
 				g2.drawString("", 100, 350);
 			}
 		}
@@ -163,9 +162,8 @@ public class Items {
 
 		BufferedImage car = ImageIO.read(new File("src/textures/car.png"));
 		g.drawImage(car, carX, carY, 96, 192, null);
-		// BufferedImage brokenCar = ImageIO.read(new
-		// File("src/textures/destroyedCar.png"));
-		// g.drawImage(brokenCar, carX, carY, 96, 192, null);
+		//BufferedImage brokenCar = ImageIO.read(new File("src/textures/destroyedCar.png"));
+		//g.drawImage(brokenCar, carX, carY, 96, 192, null);
 		if (!carOn && !carUsed && GamePanel.playerX + 32 > carX && GamePanel.playerX < carX + 96
 				&& GamePanel.playerY + 72 > carY && GamePanel.playerY < carY + 192 && Player.keyH.ePressed) {
 
@@ -217,6 +215,7 @@ public class Items {
 			g2.drawString("Are We Cooked 2D", 180, 280);
 		}
 	}
+	
 
 	static boolean movementPrompt = false;
 	public int instructionsX = 640;
@@ -382,9 +381,10 @@ public class Items {
 			animationFrame++;
 
 			if (carWorldX >= 4700) {
-				carWorldX = 4699;
+				carWorldX = 4700;
 				carOn = false;
 				visible = true;
+				Player.disableCharacterMovement();
 			}
 		}
 	}
@@ -394,26 +394,26 @@ public class Items {
 	static int graveY = 333;
 	static BufferedImage ghost;
 	static boolean firstTime = true;
-
+	
 	public static void ghost(Graphics2D g2, int ghostGraveYardX, int ghostGraveYardY) throws IOException {
-
+		
 		int ghostX = ghostGraveYardX - GamePanel.worldX;
 		int ghostY = ghostGraveYardY - GamePanel.worldY;
-
-		ghost = ImageIO.read(new File("src/textures/ghost.png"));
+		
+		ghost = ImageIO.read(new File ("src/textures/ghost.png"));
 		g2.drawImage(ghost, ghostX, ghostY, 125, 98, null);
 
 	}
-
+	
 	public static void graveyard(Graphics2D g2) throws IOException {
-
+		
 		int inGraveYardX = graveX - GamePanel.worldX;
 		int inGraveYardY = graveY - GamePanel.worldY;
-		if (inGraveYard) {
+		if(inGraveYard) {
 			g2.drawImage(ghost, 480, 280, 250, 196, null);
 			Npc.text(g2, 2);
 		}
-
+		
 	}
 
 }
