@@ -29,8 +29,7 @@ public class GamePanel extends JPanel implements Runnable {
 	int playerSpeed = 15;
 
 	// Window dimensions
-	final int maxScreenCol = 16;
-	// window is 16 tiles wide
+	final int maxScreenCol = 16; // window is 16 tiles wide
 	final int maxScreenRow = 12; // window is 12 tiles long
 	final int WIDTH = tileSize * maxScreenCol; // screen width in pixels (768 pixels)
 	final int HEIGHT = tileSize * maxScreenRow; // screen height in pixels (576 pixels)
@@ -65,7 +64,8 @@ public class GamePanel extends JPanel implements Runnable {
 
 	// sound
 	private Sound footstepSound;
-
+	
+	private MainMenu mainMenu = new MainMenu();
 	private Minigame minigame = new Minigame();
 
 	public GamePanel() {
@@ -167,6 +167,7 @@ public class GamePanel extends JPanel implements Runnable {
 			// footsteps
 			if (p.keyH.upPressed && !p.keyH.upReleased || p.keyH.downPressed && !p.keyH.downReleased
 					|| p.keyH.rightPressed && !p.keyH.rightReleased || p.keyH.leftPressed && !p.keyH.leftReleased) {
+				// System.out.println(footstepSound);
 				// footstepSound.play();
 			}
 		}
@@ -179,7 +180,6 @@ public class GamePanel extends JPanel implements Runnable {
 		p.collision();
 		characterMovement();
 		Items.animation();
-		Player.disableCharacterMovement();
 	}
 
 	public void characterImage(Graphics g) throws IOException {
@@ -220,7 +220,6 @@ public class GamePanel extends JPanel implements Runnable {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-
 		try {
 			m.camera(g);// camera method
 			characterImage(g);// draws the character depending on the direction
@@ -306,6 +305,9 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 		if (Minigame.ready) {
 			Minigame.circle(g2);
+		}
+		if (MainMenu.inMenu) {
+			mainMenu.run(g2);
 		}
 		g2.dispose();
 
