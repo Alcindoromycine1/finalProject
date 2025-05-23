@@ -110,10 +110,10 @@ public class Maps {
 						|| tiles[row][col] == 15 || tiles[row][col] == 16 || tiles[row][col] == 17
 						|| tiles[row][col] == 84 || tiles[row][col] == 73 || tiles[row][col] == 40
 						|| tiles[row][col] == 41 || tiles[row][col] == 42 || tiles[row][col] == 43
-						|| tiles[row][col] == 44 || tiles[row][col] == 45 || tiles[row][col] == 46
+						/*|| tiles[row][col] == 44 || tiles[row][col] == 45 || tiles[row][col] == 46
 						|| tiles[row][col] == 47 || tiles[row][col] == 54 || tiles[row][col] == 55
 						|| tiles[row][col] == 56 || tiles[row][col] == 57 || tiles[row][col] == 58
-						|| tiles[row][col] == 59 || tiles[row][col] == 39 || tiles[row][col] == 38) {
+						|| tiles[row][col] == 59 || tiles[row][col] == 39 || tiles[row][col] == 38*/) {
 					housePositions.add(new int[] { col * 48, row * 48 });
 				} else if (tiles[row][col] == 21 || tiles[row][col] == 22 || tiles[row][col] == 19
 						|| tiles[row][col] == 20) {
@@ -202,6 +202,8 @@ public class Maps {
 				}
 				// Load the new map's tiles
 				// Reinitialize the new map's data
+				
+				g2.fillRect(0, 0, m.WIDTH + 20000, m.HEIGHT + 20000); // Clear the screen
 				Tiles.tileCreating();
 				findIntroHouse();
 				findTrees();
@@ -220,7 +222,6 @@ public class Maps {
 			fadeValue -= 2;
 			if (fadeValue <= 0) {
 				fading = false;
-				Player.disableCharacterMovement();
 				stepCount = -1;
 				fadeValue = 0;
 				hasFaded++;
