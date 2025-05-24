@@ -90,6 +90,11 @@ public class Npc {
 			if (textIndex < textDoctrineGhost.length) {
 				textBubble(g2, textDoctrineGhost[textIndex]);
 			}
+		} else if(list == 5) {
+			String textJeff [] = {"What is this place?", "I'm tired, I think I'll take a nap here."};
+			if (textIndex < textJeff.length) {
+				textBubble(g2, textJeff[textIndex]);
+			}
 		}
 	}
 

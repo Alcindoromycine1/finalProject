@@ -157,7 +157,7 @@ public class Maps {
 
 	// change scene variables
 	int fadeValue = 0;
-	int stepCount = 0;
+	static int stepCount = 0;
 	static int hasFaded = 0;
 
 	public void fading(Graphics2D g2, Tiles t, GamePanel m, int newMap, int originalMap) throws IOException {

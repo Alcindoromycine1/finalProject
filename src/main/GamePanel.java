@@ -236,12 +236,12 @@ public class GamePanel extends JPanel implements Runnable {
 			it.titleScreen(g2);
 		}
 		// Npc.text(g2);
-		// it.instructions(g2);
+		   it.instructions(g2);
 		if (Input.instructionsPressed) {
 			it.prompts(g2);
 			it.backMenu(g2);
 		}
-		if (j.isJumpscare()) {
+		/*if (j.isJumpscare()) {
 			if (j.getOnce() == false) { // makes sound run only once
 				j.playSound();
 				j.setOnce(true);
@@ -259,11 +259,16 @@ public class GamePanel extends JPanel implements Runnable {
 			});
 			delayTimer.setRepeats(false); // Ensure the timer only runs once
 			delayTimer.start();
-		}
+		}*/
 		try {
 			if (!Maps.hasJumpscared && !Maps.hasDoctrined) {
 				m.fade(2, 3, g2, 248, 216, 82, 48, 414, 48, 145, 126);
 				Input.changeMapPressed = false;
+				Items.inHouse = true;
+			}
+			if(Maps.stepCount == -1 && Items.inHouse) {
+				Npc.text(g2, 5);
+				Items.inHouse = false;
 			}
 			if (!Maps.hasDoctrined && Maps.hasJumpscared) {
 				m.fade(3, 4, g2, 168, -159, 100, 100, 5550, 520, 150, 100);
@@ -281,14 +286,14 @@ public class GamePanel extends JPanel implements Runnable {
 				Maps.hasFaded = 0;
 			}
 			Maps.nightmare(g2);
-			Npc.text(g2, 3);
+			//Npc.text(g2, 3);
 			// Items.insideDoctrine(g2);
 			// Items.houseMirror(g2);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Minigame.startExorcising();
-		Minigame.drawPoints(g2);
+		//Minigame.startExorcising();
+		//Minigame.drawPoints(g2);
 		if (Minigame.ready) {
 			Minigame.circle(g2);
 		}
@@ -306,7 +311,7 @@ public class GamePanel extends JPanel implements Runnable {
 			e.printStackTrace();
 		}
 		if (MainMenu.inMenu) {
-			mainMenu.run(g2);
+			mainMenu.mainMenu(g2);
 		}
 
 		g2.dispose();
