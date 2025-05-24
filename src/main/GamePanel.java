@@ -64,7 +64,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 	// sound
 	private Sound footstepSound;
-	
+
 	private MainMenu mainMenu = new MainMenu();
 	private Minigame minigame = new Minigame();
 
@@ -287,9 +287,11 @@ public class GamePanel extends JPanel implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		// Minigame.startExorcising();
-		// Minigame.drawPoints(g2);
-		// Minigame.calculation();
+		Minigame.startExorcising();
+		Minigame.drawPoints(g2);
+		if (Minigame.ready) {
+			Minigame.circle(g2);
+		}
 		try {
 			Items.doctrine(g2);
 		} catch (IOException e) {
@@ -303,12 +305,10 @@ public class GamePanel extends JPanel implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		if (Minigame.ready) {
-			Minigame.circle(g2);
-		}
 		if (MainMenu.inMenu) {
 			mainMenu.run(g2);
 		}
+
 		g2.dispose();
 
 	}
