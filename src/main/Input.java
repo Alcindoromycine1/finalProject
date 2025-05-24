@@ -252,7 +252,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 			Minigame.newCentroid();
 			Minigame.calculatedResult();
 			Minigame.ready = true;
-			System.out.println(Minigame.isValid(20));
+			System.out.println(Minigame.isValid(40));
 		}
 	}
 

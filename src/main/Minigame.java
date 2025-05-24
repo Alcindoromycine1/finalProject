@@ -4,13 +4,14 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.geom.Path2D;
 import java.util.ArrayList;
 
 public class Minigame {
 
 	public static ArrayList<Point> points = new ArrayList<>();
-	public static boolean isExorcising;
-	public static int color;;
+	public static boolean isExorcising = false;
+	public static int color;
 
 	public static void startExorcising() {
 		isExorcising = true;
@@ -28,12 +29,10 @@ public class Minigame {
 	static ArrayList<Point> shapePoints = new ArrayList<>();
 
 	public static void circle(Graphics2D g2) {
-		int radius = 75;
+		int radius = 50;
 		originalArea = Math.PI * Math.pow(radius, 2);
 		shapePoints.clear();
 
-		int circleX = 500;
-		int circleY = 300;
 		int numPoints = 100;
 		for (int i = 0; i < numPoints; i++) {
 			double theta = 2 * Math.PI * i / numPoints;
