@@ -133,12 +133,25 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	public void mouseMoved(MouseEvent e) {
 		mouseX = e.getX();
 		mouseY = e.getY();
-
-		if (mouseX >= 284 && mouseX <= 484 && mouseY >= 300 && mouseY <= 340) {
+		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 220 && mouseY <= 280) {
 			MainMenu.hoveringPlay = true;
-		}
-		else {
+		} else {
 			MainMenu.hoveringPlay = false;
+		}
+		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 290 && mouseY <= 350) {
+			MainMenu.hoveringHelp = true;
+		} else {
+			MainMenu.hoveringHelp = false;
+		}
+		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 360 && mouseY <= 420) {
+			MainMenu.hoveringCredits = true;
+		} else {
+			MainMenu.hoveringCredits = false;
+		}
+		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 430 && mouseY <= 490) {
+			MainMenu.hoveringExit = true;
+		} else {
+			MainMenu.hoveringExit = false;
 		}
 		if (mouseX >= instructionsX && mouseX <= instructionsX + 120 && mouseY >= instructionsY
 				&& mouseY <= instructionsY + 40) {
@@ -235,8 +248,11 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		if (Items.enterBook && mouseX >= 530 && mouseX <= 530 + 150 && mouseY >= 100 && mouseY <= 100 + 40) {
 			Items.enterBook = false;
 		}
-		if (mouseX >= 284 && mouseX <= 484 && mouseY >= 300 && mouseY <= 340) {
+		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 220 && mouseY <= 280 && MainMenu.inMenu) {
 			MainMenu.inMenu = false;
+		}
+		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 430 && mouseY <= 490 && MainMenu.inMenu) {
+			System.exit(0);
 		}
 	}
 
@@ -246,7 +262,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		mouseClicked = false;
 		mouseHolding = false;
 		mouseDragging = false;
-		
+
 		if (Minigame.isExorcising) {
 			Minigame.calculation();
 			Minigame.newCentroid();

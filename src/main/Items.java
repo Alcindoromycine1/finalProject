@@ -274,6 +274,12 @@ public class Items {
 			g2.drawString("Keybinds", 348, 290);
 		}
 	}
+	
+	public void credits(Graphics2D g2) {
+
+		
+		
+	}
 
 	static boolean backPressed = false;
 	static boolean hoveringBack = false;
