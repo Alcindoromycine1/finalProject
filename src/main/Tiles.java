@@ -180,7 +180,12 @@ public class Tiles {
 					image = ImageIO.read(new File("src/textures/deadTree.png"));
 				} else if (tileCode == 85) {
 					image = ImageIO.read(new File("src/textures/book.png"));
-				} else {
+				} else if (tileCode == 86) {
+					image = ImageIO.read(new File("src/textures/sideDoorDown.png"));
+				} else if (tileCode == 87) {
+					image = ImageIO.read(new File("src/textures/sideDoorUp.png"));
+				}
+				else {
 					image = ImageIO.read(new File("src/textures/void.png"));
 				}
 

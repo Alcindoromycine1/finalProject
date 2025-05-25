@@ -19,24 +19,24 @@ import javax.imageio.ImageIO;
 public class Maps {
 
 	// WORLD SETTINGS
-		static int maxWorldCol;
-		static int maxWorldRow;
-		final static int worldWidth = 48 * maxWorldCol; // world width in pixels (2400 pixels)
-		final static int worldHeight = 48 * maxWorldRow; // world height in pixels (2400 pixels)
+	static int maxWorldCol;
+	static int maxWorldRow;
+	final static int worldWidth = 48 * maxWorldCol; // world width in pixels (2400 pixels)
+	final static int worldHeight = 48 * maxWorldRow; // world height in pixels (2400 pixels)
 
-		public static ArrayList<ArrayList<Integer>> tiles = new ArrayList<>();
-		public static ArrayList<int[]> treePositions = new ArrayList<>();
-		public static ArrayList<int[]> housePositions = new ArrayList<>();
-		public static ArrayList<int[]> bedPositions = new ArrayList<>();
-		public static ArrayList<int[]> houseWallPositions = new ArrayList<>();
-		public static ArrayList<int[]> grassPositions = new ArrayList<>();
-		public static ArrayList<int[]> waterPositions = new ArrayList<>();
-		public static ArrayList<int[]> bookPositions = new ArrayList<>();
+	public static ArrayList<ArrayList<Integer>> tiles = new ArrayList<>();
+	public static ArrayList<int[]> treePositions = new ArrayList<>();
+	public static ArrayList<int[]> housePositions = new ArrayList<>();
+	public static ArrayList<int[]> bedPositions = new ArrayList<>();
+	public static ArrayList<int[]> houseWallPositions = new ArrayList<>();
+	public static ArrayList<int[]> grassPositions = new ArrayList<>();
+	public static ArrayList<int[]> waterPositions = new ArrayList<>();
+	public static ArrayList<int[]> bookPositions = new ArrayList<>();
 
-		// Player p = new Player();
-		// GamePanel gp = new GamePanel();
-		Tiles t = new Tiles();
-		static int currentMap;
+	// Player p = new Player();
+	// GamePanel gp = new GamePanel();
+	Tiles t = new Tiles();
+	static int currentMap;
 
 	public String changeMap(Graphics2D g, int mapToChange) {
 		if (mapToChange == 1) {
@@ -62,37 +62,40 @@ public class Maps {
 			mapIntro("src/maps/openMap.txt");
 		} else if (mapToChange == 4) {
 			mapIntro("src/maps/doctrine.txt");
+		} else if (mapToChange == 5) {
+			mapIntro("src/maps/blank.txt");
 		}
 		return "-1";
 
 	}
 
 	public static void mapIntro(String filePath) {
-	    tiles.clear(); // Clear old tile data before loading new map
+		tiles.clear(); // Clear old tile data before loading new map
 
-	    try (BufferedReader r = new BufferedReader(new FileReader(filePath))) {
-	        String lines;
-	        while ((lines = r.readLine()) != null) {
-	            lines = lines.trim();
-	            if (lines.isEmpty()) continue;
+		try (BufferedReader r = new BufferedReader(new FileReader(filePath))) {
+			String lines;
+			while ((lines = r.readLine()) != null) {
+				lines = lines.trim();
+				if (lines.isEmpty())
+					continue;
 
-	            String[] val = lines.split("\\s+");
-	            ArrayList<Integer> rowList = new ArrayList<>();
+				String[] val = lines.split("\\s+");
+				ArrayList<Integer> rowList = new ArrayList<>();
 
-	            for (String s : val) {
-	                rowList.add(Integer.parseInt(s));
-	            }
+				for (String s : val) {
+					rowList.add(Integer.parseInt(s));
+				}
 
-	            tiles.add(rowList);
-	        }
+				tiles.add(rowList);
+			}
 
-	        // Set world dimensions based on map size
-	        maxWorldRow = tiles.size();
-	        maxWorldCol = tiles.get(0).size();
+			// Set world dimensions based on map size
+			maxWorldRow = tiles.size();
+			maxWorldCol = tiles.get(0).size();
 
-	    } catch (IOException | NumberFormatException e) {
-	        e.printStackTrace();
-	    }
+		} catch (IOException | NumberFormatException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void findIntroHouse() throws IOException {
@@ -112,25 +115,32 @@ public class Maps {
 			for (int col = 0; col < tiles.get(row).size(); col++) {
 				if (tiles.get(row).get(col) == 63) {
 					treePositions.add(new int[] { col * 48, row * 48 });// stores the location of where the trees are
-				} else if (tiles.get(row).get(col) == 65 || tiles.get(row).get(col) == 66 || tiles.get(row).get(col) == 67
-						|| tiles.get(row).get(col) == 68 || tiles.get(row).get(col) == 69 || tiles.get(row).get(col) == 70
-						|| tiles.get(row).get(col) == 71 || tiles.get(row).get(col) == 10 || tiles.get(row).get(col) == 11
-						|| tiles.get(row).get(col) == 12 || tiles.get(row).get(col) == 13 || tiles.get(row).get(col) == 14
-						|| tiles.get(row).get(col) == 15 || tiles.get(row).get(col) == 16 || tiles.get(row).get(col) == 17
-						|| tiles.get(row).get(col) == 84 || tiles.get(row).get(col) == 73 || tiles.get(row).get(col) == 40
-						|| tiles.get(row).get(col) == 41 || tiles.get(row).get(col) == 42 || tiles.get(row).get(col) == 43
-						|| tiles.get(row).get(col) == 44 || tiles.get(row).get(col) == 45 || tiles.get(row).get(col) == 46
-						|| tiles.get(row).get(col) == 47 || tiles.get(row).get(col) == 54 || tiles.get(row).get(col) == 55
-						|| tiles.get(row).get(col) == 56 || tiles.get(row).get(col) == 57 || tiles.get(row).get(col) == 58
-						|| tiles.get(row).get(col) == 59 || tiles.get(row).get(col) == 39 || tiles.get(row).get(col) == 38) {
+				} else if (tiles.get(row).get(col) == 65 || tiles.get(row).get(col) == 66
+						|| tiles.get(row).get(col) == 67 || tiles.get(row).get(col) == 68
+						|| tiles.get(row).get(col) == 69 || tiles.get(row).get(col) == 70
+						|| tiles.get(row).get(col) == 71 || tiles.get(row).get(col) == 10
+						|| tiles.get(row).get(col) == 11 || tiles.get(row).get(col) == 12
+						|| tiles.get(row).get(col) == 13 || tiles.get(row).get(col) == 14
+						|| tiles.get(row).get(col) == 15 || tiles.get(row).get(col) == 16
+						|| tiles.get(row).get(col) == 17 || tiles.get(row).get(col) == 84
+						|| tiles.get(row).get(col) == 73 || tiles.get(row).get(col) == 40
+						|| tiles.get(row).get(col) == 41 || tiles.get(row).get(col) == 42
+						|| tiles.get(row).get(col) == 43 || tiles.get(row).get(col) == 44
+						|| tiles.get(row).get(col) == 45 || tiles.get(row).get(col) == 46
+						|| tiles.get(row).get(col) == 47 || tiles.get(row).get(col) == 54
+						|| tiles.get(row).get(col) == 55 || tiles.get(row).get(col) == 56
+						|| tiles.get(row).get(col) == 57 || tiles.get(row).get(col) == 58
+						|| tiles.get(row).get(col) == 59 || tiles.get(row).get(col) == 39
+						|| tiles.get(row).get(col) == 38) {
 					housePositions.add(new int[] { col * 48, row * 48 });
-				} else if (tiles.get(row).get(col) == 21 || tiles.get(row).get(col) == 22 || tiles.get(row).get(col) == 19
-						|| tiles.get(row).get(col) == 20) {
+				} else if (tiles.get(row).get(col) == 21 || tiles.get(row).get(col) == 22
+						|| tiles.get(row).get(col) == 19 || tiles.get(row).get(col) == 20) {
 					bedPositions.add(new int[] { col * 48, row * 48 });// stores the location of where the beds are
-				} else if (tiles.get(row).get(col) == 23 || tiles.get(row).get(col) == 24 || tiles.get(row).get(col) == 25
-						|| tiles.get(row).get(col) == 26 || tiles.get(row).get(col) == 27 || tiles.get(row).get(col) == 28
-						|| tiles.get(row).get(col) == 29 || tiles.get(row).get(col) == 30 || tiles.get(row).get(col) == 31
-						|| tiles.get(row).get(col) == 32) {
+				} else if (tiles.get(row).get(col) == 23 || tiles.get(row).get(col) == 24
+						|| tiles.get(row).get(col) == 25 || tiles.get(row).get(col) == 26
+						|| tiles.get(row).get(col) == 27 || tiles.get(row).get(col) == 28
+						|| tiles.get(row).get(col) == 29 || tiles.get(row).get(col) == 30
+						|| tiles.get(row).get(col) == 31 || tiles.get(row).get(col) == 32) {
 					houseWallPositions.add(new int[] { col * 48, row * 48 });// stores the location of where the walls
 																				// are
 				} else if (tiles.get(row).get(col) == 33) {
@@ -196,16 +206,14 @@ public class Maps {
 
 				Tiles.tileImages.clear();
 
-				
 				for (int i = 0; i < Maps.maxWorldRow; i++) {
-				    ArrayList<BufferedImage> row = new ArrayList<>();
-				    for (int j = 0; j < Maps.maxWorldCol; j++) {
-				        row.add(null);  // initialize each cell with null
-				    }
-				    Tiles.tileImages.add(row);
+					ArrayList<BufferedImage> row = new ArrayList<>();
+					for (int j = 0; j < Maps.maxWorldCol; j++) {
+						row.add(null); // initialize each cell with null
+					}
+					Tiles.tileImages.add(row);
 				}
-				
-				
+
 				g2.fillRect(-10000, -10000, m.WIDTH + 20000, m.HEIGHT + 20000); // Clear the screen
 				// Change to the new map
 				if (goOut) {
@@ -247,6 +255,12 @@ public class Maps {
 			}
 			if (stepCount == -1 && !hasDoctrined) {
 				hasDoctrined = true;
+				stepCount = 0;
+			}
+		} else if (hasFaded == 1) {
+			if (stepCount == -1 && !hasDoctrined && hasJumpscared) {
+				hasDoctrined = true;
+				stepCount = 0;
 			}
 		}
 	}
@@ -307,7 +321,7 @@ public class Maps {
 		if (inNightmare) {
 			System.out.println("In nightmare");
 		}
-		
+
 		if (doneNightmare) {
 			inNightmare = false;
 			Npc.doctor(g2);
