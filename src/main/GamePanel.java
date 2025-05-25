@@ -285,7 +285,6 @@ public class GamePanel extends JPanel implements Runnable {
 				}
 				Maps.hasFaded = 0;
 			}
-			Maps.nightmare(g2);
 			//Npc.text(g2, 3);
 			// Items.insideDoctrine(g2);
 			// Items.houseMirror(g2);
@@ -313,7 +312,12 @@ public class GamePanel extends JPanel implements Runnable {
 		if (MainMenu.inMenu) {
 			mainMenu.mainMenu(g2);
 		}
-
+		try {
+			Maps.nightmare(g2);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		g2.dispose();
 
 	}

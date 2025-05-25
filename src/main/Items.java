@@ -62,7 +62,7 @@ public class Items {
 	}
 
 	public static void houseMirror(Graphics2D g2) throws IOException {
-		
+
 		BufferedImage mirror;
 		try {
 			mirror = ImageIO.read(new File("src/textures/jeffMirror.png"));
@@ -70,9 +70,9 @@ public class Items {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	static boolean carOn = false;
 	static int animationFrame = 0;
 	static int carWorldX = 1300;
@@ -95,7 +95,7 @@ public class Items {
 		g2.drawString("Doctrine", 6080 - GamePanel.worldX, 715 - GamePanel.worldY);
 
 	}
-	
+
 	public static void insideDoctrine(Graphics2D g2) throws IOException {
 		ghost(g2, 1110, 120);
 		Npc.text(g2, 4);
@@ -143,14 +143,15 @@ public class Items {
 			g2.setColor(Color.WHITE);
 			g2.drawString("Close Book", 562, 125);
 			g2.drawString("Next Page", 565, 470);
-			
+
 			if (nextPage == 1) {
 				g2.setColor(Color.BLACK);
 				g2.drawString("How To Do An Exorcism", 100, 100);
-				g2.fillRect(100,100, 150, 2);
+				g2.fillRect(100, 100, 150, 2);
 				g2.drawString("When you see a ghost, press E to exorcsie it.", 100, 150);
 				g2.drawString("At the Top of the screen you will see a certain shape.", 100, 250);
-				g2.drawString("You will need to replicate that shape by dragging your mouse around the screen.", 100, 300);
+				g2.drawString("You will need to replicate that shape by dragging your mouse around the screen.", 100,
+						300);
 				g2.drawString("", 100, 350);
 			}
 		}
@@ -162,8 +163,9 @@ public class Items {
 
 		BufferedImage car = ImageIO.read(new File("src/textures/car.png"));
 		g.drawImage(car, carX, carY, 96, 192, null);
-		//BufferedImage brokenCar = ImageIO.read(new File("src/textures/destroyedCar.png"));
-		//g.drawImage(brokenCar, carX, carY, 96, 192, null);
+		// BufferedImage brokenCar = ImageIO.read(new
+		// File("src/textures/destroyedCar.png"));
+		// g.drawImage(brokenCar, carX, carY, 96, 192, null);
 		if (!carOn && !carUsed && GamePanel.playerX + 32 > carX && GamePanel.playerX < carX + 96
 				&& GamePanel.playerY + 72 > carY && GamePanel.playerY < carY + 192 && Player.keyH.ePressed) {
 
@@ -215,7 +217,6 @@ public class Items {
 			g2.drawString("Are We Cooked 2D", 180, 280);
 		}
 	}
-	
 
 	static boolean movementPrompt = false;
 	public int instructionsX = 640;
@@ -224,18 +225,20 @@ public class Items {
 	public static boolean instructionsPrompt = false;
 	public static boolean hoveringKeybind = false;
 	public static boolean hoveringMovement = false;
+	static Color selected = new Color(144, 50, 50);
+	static Color unselected = new Color(193, 45, 57);
 
 	public void instructions(Graphics2D g2) {
 		Font calibri = new Font("Calibri", Font.BOLD, 18);
 		g2.setFont(calibri);
 		if (hoveringInstructions) {
-			g2.setColor(new Color(0, 0, 10));
+			g2.setColor(selected);
 			g2.fillRoundRect(instructionsX, instructionsY, 120, 40, 10, 10);
 			g2.setColor(Color.WHITE);
 			g2.drawString("Instructions", 655, 35);
 
 		} else {
-			g2.setColor(Color.RED);
+			g2.setColor(unselected);
 			g2.fillRoundRect(instructionsX, instructionsY, 120, 40, 10, 10);
 			g2.setColor(Color.WHITE);
 			g2.drawString("Instructions", 655, 35);
@@ -254,17 +257,17 @@ public class Items {
 
 			// Movement
 			if (hoveringMovement) {
-				g2.setColor(Color.BLACK);
+				g2.setColor(selected);
 				g2.fillRoundRect(305, 160, 195, 62, 20, 20);
 			} else if (!hoveringMovement) {
-				g2.setColor(Color.RED);
+				g2.setColor(unselected);
 				g2.fillRoundRect(305, 160, 195, 62, 20, 20);
 			}
 			if (hoveringKeybind) {
-				g2.setColor(Color.BLACK);
+				g2.setColor(selected);
 				g2.fillRoundRect(305, 250, 195, 62, 20, 20);
 			} else if (!hoveringKeybind) {
-				g2.setColor(Color.RED);
+				g2.setColor(unselected);
 				g2.fillRoundRect(305, 250, 195, 62, 20, 20);
 			}
 
@@ -274,11 +277,9 @@ public class Items {
 			g2.drawString("Keybinds", 348, 290);
 		}
 	}
-	
+
 	public void credits(Graphics2D g2) {
 
-		
-		
 	}
 
 	static boolean backPressed = false;
@@ -288,13 +289,13 @@ public class Items {
 
 	public void backMenu(Graphics2D g2) {
 		if (!hoveringBack) {
-			g2.setColor(Color.RED);
+			g2.setColor(unselected);
 			g2.fillRoundRect(345, 430, 130, 45, 10, 10);
 			g2.setFont(new Font("Calibri", Font.BOLD, 25));
 			g2.setColor(Color.WHITE);
 			g2.drawString("Go Back", 367, 460);
 		} else {
-			g2.setColor(Color.BLACK);
+			g2.setColor(selected);
 			g2.fillRoundRect(345, 430, 130, 45, 10, 10);
 			g2.setFont(new Font("Calibri", Font.BOLD, 25));
 			g2.setColor(Color.WHITE);
@@ -316,7 +317,7 @@ public class Items {
 			backPressed = false;
 		}
 	}
-	
+
 	public void prompts(Graphics2D g2) {
 		if (movementPrompt) {
 			instructionsPrompt = false;
@@ -378,7 +379,7 @@ public class Items {
 				// Exorcism keybind
 				g2.drawString("Press E to", 545, 180 + 80);
 				g2.drawString("Exorcise Ghosts", 515, 200 + 80);
-				//Bed keybind
+				// Bed keybind
 				g2.drawString("Walk into a bed", 105, 395);
 				g2.drawString("to sleep", 150, 415);
 			} catch (IOException e) {
@@ -407,26 +408,70 @@ public class Items {
 	static int graveY = 333;
 	static BufferedImage ghost;
 	static boolean firstTime = true;
-	
+
 	public static void ghost(Graphics2D g2, int ghostGraveYardX, int ghostGraveYardY) throws IOException {
-		
+
 		int ghostX = ghostGraveYardX - GamePanel.worldX;
 		int ghostY = ghostGraveYardY - GamePanel.worldY;
-		
-		ghost = ImageIO.read(new File ("src/textures/ghost.png"));
+
+		ghost = ImageIO.read(new File("src/textures/ghost.png"));
 		g2.drawImage(ghost, ghostX, ghostY, 125, 98, null);
 
 	}
-	
+
 	public static void graveyard(Graphics2D g2) throws IOException {
-		
+
 		int inGraveYardX = graveX - GamePanel.worldX;
 		int inGraveYardY = graveY - GamePanel.worldY;
-		if(inGraveYard) {
+		if (inGraveYard) {
 			g2.drawImage(ghost, 480, 280, 250, 196, null);
 			Npc.text(g2, 2);
 		}
-		
+
 	}
 
+	public static boolean hoveringYes = false;
+	public static boolean hoveringNo = false;
+	public static boolean inConfirmation = false;
+	public static boolean yesPressed = false;
+	public static boolean noPressed = false;
+
+	public static void confirmation(Graphics2D g2, String text, int textX) {
+
+		if (!inConfirmation) {
+			return;
+		}
+			g2.setColor(Color.BLACK);
+			g2.drawRoundRect(160, 150, 225 * 2, 155 * 2, 10, 10);
+			g2.setColor(Color.DARK_GRAY);
+			g2.fillRoundRect(160, 150, 226 * 2, 156 * 2, 10, 10);
+			g2.setColor(Color.LIGHT_GRAY);
+			g2.fillRoundRect(168, 158, 218 * 2, 148 * 2, 10, 10);
+			g2.setFont(new Font("Monospaced", Font.BOLD, 33));
+			g2.setColor(Color.BLACK);
+			g2.drawString(text, textX, 250);
+			g2.setFont(new Font("Calibri", Font.BOLD, 30));
+
+			if (hoveringYes) {
+				// Yes box
+				g2.setColor(selected);
+				g2.fillRoundRect(225, 355, 130, 45, 10, 10);
+			} else {
+				// Yes box
+				g2.setColor(unselected);
+				g2.fillRoundRect(225, 355, 130, 45, 10, 10);
+			}
+			if (hoveringNo) {
+				// No box
+				g2.setColor(selected);
+				g2.fillRoundRect(425, 355, 130, 45, 10, 10);
+			} else {
+				// No box
+				g2.setColor(unselected);
+				g2.fillRoundRect(425, 355, 130, 45, 10, 10);
+			}
+			g2.setColor(Color.WHITE);
+			g2.drawString("Yes", 270, 385);
+			g2.drawString("No", 472, 385);
+		}
 }

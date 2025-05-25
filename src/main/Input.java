@@ -186,6 +186,16 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		} else {
 			Items.hoveringExitPage = false;
 		}
+		if (mouseX >= 225 && mouseX <= 225 + 130 && mouseY >= 355 && mouseY <= 355 + 45 && Items.inConfirmation) {
+			Items.hoveringYes = true;
+		} else {
+			Items.hoveringYes = false;
+		}
+		if (mouseX >= 425 && mouseX <= 425 + 130 && mouseY >= 355 && mouseY <= 355 + 45 && Items.inConfirmation) {
+			Items.hoveringNo = true;
+		} else {
+			Items.hoveringNo = false;
+		}
 	}
 
 	@Override
@@ -253,6 +263,12 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		}
 		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 430 && mouseY <= 490 && MainMenu.inMenu) {
 			System.exit(0);
+		}
+		if (mouseX >= 225 && mouseX <= 225 + 130 && mouseY >= 355 && mouseY <= 355 + 45 && Items.inConfirmation) {
+			Items.yesPressed = true;
+		}
+		if (mouseX >= 425 && mouseX <= 425 + 130 && mouseY >= 355 && mouseY <= 355 + 45 && Items.inConfirmation) {
+			Items.noPressed = true;
 		}
 	}
 
