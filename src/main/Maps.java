@@ -266,24 +266,39 @@ public class Maps {
 			fading(g2, t, gp, oldMap, changeMap);
 		}
 	}
-	
+
 	public static boolean doneNightmare = false;
 	public static boolean inNightmare = false;
 	public static boolean usingBed = false;
-	
+
 	public static void nightmare(Graphics2D g2) throws IOException {
-	
-		if(usingBed) {
-			inNightmare = true;
+		if (usingBed && !inNightmare && !doneNightmare) {
+			Items.inConfirmation = true;
+			Items.confirmation(g2, "Do you want to sleep?", 180);
+
+			if (Items.yesPressed) {
+				inNightmare = true;
+				usingBed = false;
+				Items.yesPressed = false;
+				Items.inConfirmation = false;
+			}
+			if (Items.noPressed) {
+				inNightmare = false;
+				usingBed = false;
+				Items.noPressed = false;
+				Items.inConfirmation = false;
+			}
+			return;
+		}
+
+		if (inNightmare) {
+			System.out.println("In nightmare");
 		}
 		
-		if(doneNightmare) {
+		if (doneNightmare) {
 			inNightmare = false;
 			Npc.doctor(g2);
 		}
-		
-		if(inNightmare) {
-			System.out.println("In nightmare");
-		}	
 	}
+
 }
