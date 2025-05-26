@@ -275,9 +275,10 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 			System.out.println(worldX + " , " + worldY);
 			System.out.println(Maps.hasDoctrined);
-			if(Maps.hasDoctrined) {
+			if(Maps.hasDoctrined) {   //exorcism room
 				m.fade(4, 5, g2, 838, 216, 55, 55, 838, 216, 55, 55);
 				Input.changeMapPressed = false;
+				Player.disableCharacterMovement();
 			}
 			if (Maps.hasFaded == 2) {
 				if (Maps.hasJumpscared && !Maps.hasDoctrined) {
