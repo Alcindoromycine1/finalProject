@@ -5,5 +5,5 @@
  * 
  */
 module WhispersOfTheDeceived {
-	requires java.desktop;
+requires java.desktop;
 }
