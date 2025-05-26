@@ -32,7 +32,7 @@ public class Maps {
 	public static ArrayList<int[]> grassPositions = new ArrayList<>();
 	public static ArrayList<int[]> waterPositions = new ArrayList<>();
 	public static ArrayList<int[]> bookPositions = new ArrayList<>();
-
+	
 	// Player p = new Player();
 	// GamePanel gp = new GamePanel();
 	Tiles t = new Tiles();
@@ -41,13 +41,17 @@ public class Maps {
 	public String changeMap(Graphics2D g, int mapToChange) {
 		if (mapToChange == 1) {
 			mapIntro("src/maps/mapIntro.txt");// intro map
+			currentMap = 1;
 		} else if (mapToChange == 2) {
 
 			mapIntro("src/maps/mapHouse.txt");// house map
+			currentMap = 2;
 		} else if (mapToChange == 3) {
 			mapIntro("src/maps/openMap.txt");// open map
+			currentMap = 3;
 		} else if (mapToChange == 4) {
 			mapIntro("src/maps/doctrine.txt");
+			currentMap = 4;
 		}
 		return "-1";// no map found
 
@@ -56,14 +60,19 @@ public class Maps {
 	public String changeMap(int mapToChange) {
 		if (mapToChange == 1) {
 			mapIntro("src/maps/mapIntro.txt");
-		} else if (mapToChange == 2) {
-			mapIntro("src/maps/mapHouse.txt");
+			currentMap = 1;
+		} else if (mapToChange == 2) {		
+			mapIntro("src/maps/mapHouse.txt");			
+			currentMap = 2;
 		} else if (mapToChange == 3) {
 			mapIntro("src/maps/openMap.txt");
+			currentMap = 3;
 		} else if (mapToChange == 4) {
 			mapIntro("src/maps/doctrine.txt");
+			currentMap = 4;
 		} else if (mapToChange == 5) {
 			mapIntro("src/maps/blank.txt");
+			currentMap = 5;
 		}
 		return "-1";
 

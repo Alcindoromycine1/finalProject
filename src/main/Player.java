@@ -230,8 +230,10 @@ public class Player {
 		}
 		if (Items.inGraveYard) {
 			return true;
+		} if (Maps.currentMap == 5) {
+			return true;
 		}
-		return false;
+		return false; 
 
 	}
 }
