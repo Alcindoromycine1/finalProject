@@ -162,7 +162,20 @@ public class Maps {
 			}
 		}
 	}
-
+	public void drawExorcismRoom(Graphics2D g2) {
+		
+		try {
+			BufferedImage exorcismRoom = ImageIO.read(new File("src/textures/the_room_where_spiritual_purification_and_demonic_entity_expulsion_through_sacred_rituals_occurs_with_the_presence_of_religious_icons_incense_chants_and_certified_exorcists_in_white_robes.png"));
+			g2.drawImage(exorcismRoom, 0, 0, null);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		g2.setColor(new Color(87, 44, 19));
+		g2.fillRect(0, 0, 280, 71);
+		g2.setFont(new Font("Arial", Font.BOLD, 20));
+		g2.setColor(Color.WHITE);
+		g2.drawString("Draw:", 100, 50);
+	}
 	public void camera(Graphics g2) {
 		try {
 			for (int worldRow = 0; worldRow < maxWorldRow; worldRow++) {
@@ -306,7 +319,7 @@ public class Maps {
 	public static boolean doneNightmare = false;
 	public static boolean inNightmare = false;
 	public static boolean usingBed = false;
-
+	
 	public static void nightmare(Graphics2D g2) throws IOException {
 		if (usingBed && !inNightmare && !doneNightmare) {
 			Items.inConfirmation = true;

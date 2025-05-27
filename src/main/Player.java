@@ -221,7 +221,7 @@ public class Player {
 		if (Maps.fading) {
 			return true;
 		}
-
+		
 		if (Items.carOn) {
 			return true;
 		}
@@ -233,7 +233,8 @@ public class Player {
 		} if (Maps.currentMap == 5) {
 			return true;
 		}
-		return false; 
+		return false; 	
+		
 
 	}
 }

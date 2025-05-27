@@ -1,7 +1,7 @@
 package main;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
-
 import Horror.Jumpscare;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -208,8 +208,9 @@ public class GamePanel extends JPanel implements Runnable {
 			} else {
 				character = jeffFront;
 			}
-
-			g.drawImage(character, screenX, screenY, null);// draws the character in the middle of the screen
+			if (Maps.currentMap != 5) {
+				g.drawImage(character, screenX, screenY, null);// draws the character in the middle of the screen
+			}
 		}
 	}
 
@@ -235,37 +236,37 @@ public class GamePanel extends JPanel implements Runnable {
 			it.titleScreen(g2);
 		}
 		// Npc.text(g2);
-		   it.instructions(g2);
+		it.instructions(g2);
 		if (Input.instructionsPressed) {
 			it.prompts(g2);
 			it.backMenu(g2);
 		}
-		/*if (j.isJumpscare()) {
-			if (j.getOnce() == false) { // makes sound run only once
-				j.playSound();
-				j.setOnce(true);
-			}
-			// Render the jumpscare image
-			j.drawJumpscare(g2);
-
-			// Use a Timer to introduce a delay after rendering
-			Timer delayTimer = new Timer(2000, new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					j.setJumpscare(false); // Reset the jumpscare state after 2 seconds
-					((Timer) e.getSource()).stop(); // Stop the timer
-				}
-			});
-			delayTimer.setRepeats(false); // Ensure the timer only runs once
-			delayTimer.start();
-		}*/
+		/*
+		 * if (j.isJumpscare()) { if (j.getOnce() == false) { // makes sound run only
+		 * once j.playSound(); j.setOnce(true); } // Render the jumpscare image
+		 * j.drawJumpscare(g2);
+		 * 
+		 * // Use a Timer to introduce a delay after rendering Timer delayTimer = new
+		 * Timer(2000, new ActionListener() {
+		 * 
+		 * @Override public void actionPerformed(ActionEvent e) { j.setJumpscare(false);
+		 * // Reset the jumpscare state after 2 seconds ((Timer) e.getSource()).stop();
+		 * // Stop the timer } }); delayTimer.setRepeats(false); // Ensure the timer
+		 * only runs once delayTimer.start(); }
+		 */
+		
+		if (Maps.currentMap == 5) {
+			m.drawExorcismRoom(g2);
+		}
+		
+		
 		try {
 			if (!Maps.hasJumpscared && !Maps.hasDoctrined) {
 				m.fade(2, 3, g2, 248, 216, 82, 48, 414, 48, 145, 126);
 				Input.changeMapPressed = false;
 				Items.inHouse = true;
 			}
-			if(Maps.stepCount == -1 && Items.inHouse) {
+			if (Maps.stepCount == -1 && Items.inHouse) {
 				Npc.text(g2, 5);
 				Items.inHouse = false;
 			}
@@ -275,7 +276,7 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 			System.out.println(worldX + " , " + worldY);
 			System.out.println(Maps.hasDoctrined);
-			if(Maps.hasDoctrined) {   //exorcism room
+			if (Maps.hasDoctrined) { // exorcism room
 				m.fade(4, 5, g2, 838, 216, 55, 55, 838, 216, 55, 55);
 				Input.changeMapPressed = false;
 				Player.disableCharacterMovement();
@@ -291,23 +292,31 @@ public class GamePanel extends JPanel implements Runnable {
 				}
 				Maps.hasFaded = 0;
 			}
-			//Npc.text(g2, 3);
+			// Npc.text(g2, 3);
 			// Items.insideDoctrine(g2);
 			// Items.houseMirror(g2);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 		Minigame.startExorcising();
+		
 		Minigame.drawPoints(g2);
+		
+		
 		if (Minigame.ready) {
 			Minigame.circle(g2);
 		}
+		
+		
 		try {
 			Items.doctrine(g2);
 		} catch (IOException e) {
 
 			e.printStackTrace();
 		}
+		
+		
 		try {
 			Items.graveyard(g2);
 			Items.ghost(g2, 5100, 320);
@@ -315,16 +324,22 @@ public class GamePanel extends JPanel implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		
 		if (MainMenu.inMenu) {
 			mainMenu.mainMenu(g2);
 		}
+		
+		
 		try {
 			Maps.nightmare(g2);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		g2.dispose();
+		
+		g2.dispose();	
+		
 
 	}
 
