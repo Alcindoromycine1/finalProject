@@ -274,8 +274,6 @@ public class GamePanel extends JPanel implements Runnable {
 				m.fade(3, 4, g2, 168, -159, 100, 100, 5550, 520, 150, 100);
 				Input.changeMapPressed = false;
 			}
-			System.out.println(worldX + " , " + worldY);
-			System.out.println(Maps.hasDoctrined);
 			if (Maps.hasDoctrined) { // exorcism room
 				m.fade(4, 5, g2, 838, 216, 55, 55, 838, 216, 55, 55);
 				Input.changeMapPressed = false;

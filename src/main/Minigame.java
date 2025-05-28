@@ -16,16 +16,7 @@ public class Minigame {
 	public static void startExorcising() {
 		isExorcising = true;
 	}
-	
-	public static void stopExorcising() {
-		isExorcising = false;
-	}
-	
-	static int newSumX = 0;
-	static int newSumY = 0;
-	static ArrayList<Point> newPoints = new ArrayList<>();
-	static Point newCentroid;
-	static Point centroid;
+
 	static int sumX = 0;
 	static int sumY = 0;
 	static ArrayList<Point> proper = new ArrayList<>();
@@ -36,6 +27,7 @@ public class Minigame {
 
 	static double originalArea = 0;
 	static ArrayList<Point> shapePoints = new ArrayList<>();
+
 	public static void circle(Graphics2D g2) {
 		int radius = 50;
 		originalArea = Math.PI * Math.pow(radius, 2);
@@ -48,7 +40,7 @@ public class Minigame {
 			int y = (int) (circleY + radius * Math.sin(theta));
 			shapePoints.add(new Point(x, y));
 		}
-	}	
+	}
 
 	public static void calculation() {
 		sumX = 0;
@@ -62,7 +54,7 @@ public class Minigame {
 			sumY += point.y;
 			count++;
 		}
-	} 
+	}
 
 	public static double calculateArea() {
 		double area = 0;
@@ -76,7 +68,11 @@ public class Minigame {
 		return Math.abs(area * 0.5);
 	}
 
-	
+	static int newSumX = 0;
+	static int newSumY = 0;
+	static ArrayList<Point> newPoints = new ArrayList<>();
+	static Point newCentroid;
+	static Point centroid;
 
 	public static void newCentroid() {
 		newSumX = 0;
@@ -114,33 +110,28 @@ public class Minigame {
 	}
 
 	public static boolean isValid(int threshold) {
-		boolean valid = false;
-		int count = 0;
+	    double distanceSum = 0;
 
-		// Cache once outside loops
-		ArrayList<Point> interpPoints = interpolateNewPoints(2);
+	    ArrayList<Point> interpPoints = interpolateNewPoints(2);
 
-		for (Point currentPoint : shapePoints) {
-			double minDistance = Double.MAX_VALUE;
-			Point closestPoint = new Point(10000, 10000);
+	    for (Point currentPoint : shapePoints) {
+	        double minDistance = Double.MAX_VALUE;
 
-			for (Point currentInterpPoint : interpPoints) {
-				double distance = currentPoint.distance(currentInterpPoint);
-				if (distance < minDistance) {
-					minDistance = distance;
-					closestPoint = currentInterpPoint;
-				}
-			}
+	        for (Point interpPoint : interpPoints) {
+	            double distance = currentPoint.distance(interpPoint);
+	            if (distance < minDistance) {
+	                minDistance = distance;
+	            }
+	        }
 
-			if (closestPoint == null || Math.abs(closestPoint.x - currentPoint.x) > threshold
-					|| Math.abs(closestPoint.y - currentPoint.y) > threshold) {
-				return false;
-			}
+	        distanceSum += minDistance;
+	    }
 
-		}
+	    double averageDistance = distanceSum / shapePoints.size();
+	    return averageDistance <= threshold;
+	}
 
-		return true;
-	} 
+
 
 	public static ArrayList<Point> interpolateNewPoints(int pointsBetween) {
 		ArrayList<Point> interpolatedNewPoints = new ArrayList<>();
@@ -216,9 +207,7 @@ public class Minigame {
 	}
 
 	public static void drawPoints(Graphics2D g2) {
-		
-		System.out.println("X Deviance: " + calculateStandardDeviation(points, true));
-		System.out.println("X Deviance: " + calculateStandardDeviation(points, false));
+
 		for (int i = 1; i < points.size(); i++) {
 			Point p1 = points.get(i - 1);
 			Point p2 = points.get(i);
