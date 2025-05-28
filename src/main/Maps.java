@@ -1,12 +1,11 @@
 package main;
 
+import Horror.Jumpscare;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 /*
  * Noah Sussman, Akhilan Saravanan and Rudra Garg
  * Ms. Krasteva
@@ -17,7 +16,6 @@ import java.io.*;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 
 public class Maps {
 
@@ -35,21 +33,11 @@ public class Maps {
 	public static ArrayList<int[]> grassPositions = new ArrayList<>();
 	public static ArrayList<int[]> waterPositions = new ArrayList<>();
 	public static ArrayList<int[]> bookPositions = new ArrayList<>();
-	public static BufferedImage nightmare;
-	public static ImageIcon doctor;
+
 	// Player p = new Player();
 	// GamePanel gp = new GamePanel();
 	Tiles t = new Tiles();
 	static int currentMap;
-	
-	public Maps() {
-		try {
-			nightmare = ImageIO.read(new File("src/textures/nightmare.png"));
-			doctor = new ImageIcon("src/textures/doctor.gif");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 
 	public String changeMap(Graphics2D g, int mapToChange) {
 		if (mapToChange == 1) {
@@ -74,8 +62,8 @@ public class Maps {
 		if (mapToChange == 1) {
 			mapIntro("src/maps/mapIntro.txt");
 			currentMap = 1;
-		} else if (mapToChange == 2) {		
-			mapIntro("src/maps/mapHouse.txt");			
+		} else if (mapToChange == 2) {
+			mapIntro("src/maps/mapHouse.txt");
 			currentMap = 2;
 		} else if (mapToChange == 3) {
 			mapIntro("src/maps/openMap.txt");
@@ -175,10 +163,13 @@ public class Maps {
 			}
 		}
 	}
-	public void drawExorcismRoom(Graphics2D g2) {
-		
+
+	public static void drawExorcismRoom(Graphics2D g2) throws IOException {
+
 		try {
-			BufferedImage exorcismRoom = ImageIO.read(new File("src/textures/the_room_where_spiritual_purification_and_demonic_entity_expulsion_through_sacred_rituals_occurs_with_the_presence_of_religion_certified_exorcists_in_white_robes.png"));
+
+			BufferedImage exorcismRoom = ImageIO.read(new File(
+					"src/textures/the_room_where_spiritual_purification_and_demonic_entity_expulsion_through_sacred_rituals_occurs_with_the_presence_of_religion_certified_exorcists_in_white_robes.png"));
 			g2.drawImage(exorcismRoom, 0, 0, null);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -188,7 +179,28 @@ public class Maps {
 		g2.setFont(new Font("Arial", Font.BOLD, 20));
 		g2.setColor(Color.WHITE);
 		g2.drawString("Draw:", 100, 50);
+
+		int yVal = -30;
+		boolean incrementingUp = true;
+		
+		if (yVal == -30) {
+			incrementingUp = true;
+		} else if (yVal == 30) {
+			incrementingUp = false;
+		}
+		
+		if (incrementingUp) {
+			yVal++;
+		} else {
+			yVal--;
+		}
+		
+		
+		Items.minigameGhost(g2, 1200, 820 + yVal, "Square", 250, 196);
+		Items.minigameGhost(g2, 1000, 860 + yVal, "Square", 250, 196);
+
 	}
+
 	public void camera(Graphics g2) {
 		try {
 			for (int worldRow = 0; worldRow < maxWorldRow; worldRow++) {
@@ -205,7 +217,6 @@ public class Maps {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -332,13 +343,8 @@ public class Maps {
 	public static boolean doneNightmare = false;
 	public static boolean inNightmare = false;
 	public static boolean usingBed = false;
-	
-	public static void nightmare(Graphics2D g2, Component observer) throws IOException {
-		
-		g2.drawImage(nightmare, 0, 0, 768, 576, null);
-		g2.drawImage(doctor.getImage(), 0, 0, 16, 40, observer);
-		
-		
+
+	public static void nightmare(Graphics2D g2) throws IOException {
 		if (usingBed && !inNightmare && !doneNightmare) {
 			Items.inConfirmation = true;
 			Items.confirmation(g2, "Do you want to sleep?", 180);

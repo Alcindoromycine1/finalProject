@@ -4,6 +4,6 @@
 /**
  * 
  */
-module AreWeCooked2D {
+module WhispersOfTheDeceived {
 requires java.desktop;
 }
