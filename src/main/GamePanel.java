@@ -88,7 +88,7 @@ public class GamePanel extends JPanel implements Runnable {
 		screenY = HEIGHT / 2 - (tileSize / 2); // centers the player in the middle of the screen
 
 		// Background
-		m.changeMap(3);
+		m.changeMap(5);
 		// Find trees in the map
 		m.findTrees();
 		Tiles.tileCreating();
@@ -255,8 +255,13 @@ public class GamePanel extends JPanel implements Runnable {
 		 * only runs once delayTimer.start(); }
 		 */
 		
-		if (Maps.currentMap == 5) {
-			m.drawExorcismRoom(g2);
+		if (Maps.currentMap == /*5*/ 5) {
+			try {
+				m.drawExorcismRoom(g2);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		
@@ -319,7 +324,7 @@ public class GamePanel extends JPanel implements Runnable {
 		
 		try {
 			Items.graveyard(g2);
-			Items.ghost(g2, 5100, 320);
+			Items.ghost(g2, 5100, 320, 125, 98);
 			Items.book(g2, this);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -332,7 +337,7 @@ public class GamePanel extends JPanel implements Runnable {
 		
 		
 		try {
-			Maps.nightmare(g2, this);
+			Maps.nightmare(g2);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

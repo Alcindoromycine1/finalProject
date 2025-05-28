@@ -1,6 +1,5 @@
 package main;
 
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -98,7 +97,7 @@ public class Items {
 	}
 
 	public static void insideDoctrine(Graphics2D g2) throws IOException {
-		ghost(g2, 1110, 120);
+		ghost(g2, 1110, 120, 125, 98);
 		Npc.text(g2, 4);
 	}
 
@@ -410,14 +409,28 @@ public class Items {
 	static BufferedImage ghost;
 	static boolean firstTime = true;
 
-	public static void ghost(Graphics2D g2, int ghostGraveYardX, int ghostGraveYardY) throws IOException {
+	public static void ghost(Graphics2D g2, int ghostGraveYardX, int ghostGraveYardY, int width, int height) throws IOException {
 
 		int ghostX = ghostGraveYardX - GamePanel.worldX;
 		int ghostY = ghostGraveYardY - GamePanel.worldY;
 
 		ghost = ImageIO.read(new File("src/textures/ghost.png"));
-		g2.drawImage(ghost, ghostX, ghostY, 125, 98, null);
+		g2.drawImage(ghost, ghostX, ghostY, width, height, null);
+		
+		
 
+	}
+	
+	public static void minigameGhost(Graphics2D g2, int ghotsX, int ghotsY, String shape, int width, int height) throws IOException {
+		int ghostX = ghotsX - GamePanel.worldX;
+		int ghostY = ghotsY - GamePanel.worldY;
+
+		ghost = ImageIO.read(new File("src/textures/minigameghost.png"));
+		ghost(g2, ghostX, ghostY, width, height);
+		
+		int[] xValues = {ghostX - 20, ghostX - 20, ghostX + 20, ghostX + 20};
+		int[] yValues = {ghostY - 100, ghostY - 80, ghostY - 80, ghostY - 100};
+		g2.fillPolygon(xValues, yValues, xValues.length);
 	}
 
 	public static void graveyard(Graphics2D g2) throws IOException {
