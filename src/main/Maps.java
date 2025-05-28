@@ -1,11 +1,12 @@
 package main;
 
-import Horror.Jumpscare;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 /*
  * Noah Sussman, Akhilan Saravanan and Rudra Garg
  * Ms. Krasteva
@@ -16,6 +17,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 public class Maps {
 
@@ -33,11 +35,21 @@ public class Maps {
 	public static ArrayList<int[]> grassPositions = new ArrayList<>();
 	public static ArrayList<int[]> waterPositions = new ArrayList<>();
 	public static ArrayList<int[]> bookPositions = new ArrayList<>();
-	
+	public static BufferedImage nightmare;
+	public static ImageIcon doctor;
 	// Player p = new Player();
 	// GamePanel gp = new GamePanel();
 	Tiles t = new Tiles();
 	static int currentMap;
+	
+	public Maps() {
+		try {
+			nightmare = ImageIO.read(new File("src/textures/nightmare.png"));
+			doctor = new ImageIcon("src/textures/doctor.gif");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public String changeMap(Graphics2D g, int mapToChange) {
 		if (mapToChange == 1) {
@@ -321,7 +333,12 @@ public class Maps {
 	public static boolean inNightmare = false;
 	public static boolean usingBed = false;
 	
-	public static void nightmare(Graphics2D g2) throws IOException {
+	public static void nightmare(Graphics2D g2, Component observer) throws IOException {
+		
+		g2.drawImage(nightmare, 0, 0, 768, 576, null);
+		g2.drawImage(doctor.getImage(), 0, 0, 16, 40, observer);
+		
+		
 		if (usingBed && !inNightmare && !doneNightmare) {
 			Items.inConfirmation = true;
 			Items.confirmation(g2, "Do you want to sleep?", 180);

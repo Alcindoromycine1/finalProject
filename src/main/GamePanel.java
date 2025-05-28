@@ -332,7 +332,7 @@ public class GamePanel extends JPanel implements Runnable {
 		
 		
 		try {
-			Maps.nightmare(g2);
+			Maps.nightmare(g2, this);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
