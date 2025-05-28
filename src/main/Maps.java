@@ -2,6 +2,7 @@ package main;
 
 import Horror.Jumpscare;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -165,7 +166,7 @@ public class Maps {
 	public void drawExorcismRoom(Graphics2D g2) {
 		
 		try {
-			BufferedImage exorcismRoom = ImageIO.read(new File("src/textures/the_room_where_spiritual_purification_and_demonic_entity_expulsion_through_sacred_rituals_occurs_with_the_presence_of_religious_icons_incense_chants_and_certified_exorcists_in_white_robes.png"));
+			BufferedImage exorcismRoom = ImageIO.read(new File("src/textures/the_room_where_spiritual_purification_and_demonic_entity_expulsion_through_sacred_rituals_occurs_with_the_presence_of_religion_certified_exorcists_in_white_robes.png"));
 			g2.drawImage(exorcismRoom, 0, 0, null);
 		} catch (IOException e) {
 			e.printStackTrace();

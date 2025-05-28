@@ -299,6 +299,8 @@ public class GamePanel extends JPanel implements Runnable {
 			e.printStackTrace();
 		}
 		
+		
+		
 		Minigame.startExorcising();
 		
 		Minigame.drawPoints(g2);

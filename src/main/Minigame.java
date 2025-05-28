@@ -16,7 +16,16 @@ public class Minigame {
 	public static void startExorcising() {
 		isExorcising = true;
 	}
-
+	
+	public static void stopExorcising() {
+		isExorcising = false;
+	}
+	
+	static int newSumX = 0;
+	static int newSumY = 0;
+	static ArrayList<Point> newPoints = new ArrayList<>();
+	static Point newCentroid;
+	static Point centroid;
 	static int sumX = 0;
 	static int sumY = 0;
 	static ArrayList<Point> proper = new ArrayList<>();
@@ -27,7 +36,6 @@ public class Minigame {
 
 	static double originalArea = 0;
 	static ArrayList<Point> shapePoints = new ArrayList<>();
-
 	public static void circle(Graphics2D g2) {
 		int radius = 50;
 		originalArea = Math.PI * Math.pow(radius, 2);
@@ -40,7 +48,7 @@ public class Minigame {
 			int y = (int) (circleY + radius * Math.sin(theta));
 			shapePoints.add(new Point(x, y));
 		}
-	}
+	}	
 
 	public static void calculation() {
 		sumX = 0;
@@ -54,7 +62,7 @@ public class Minigame {
 			sumY += point.y;
 			count++;
 		}
-	}
+	} 
 
 	public static double calculateArea() {
 		double area = 0;
@@ -68,11 +76,7 @@ public class Minigame {
 		return Math.abs(area * 0.5);
 	}
 
-	static int newSumX = 0;
-	static int newSumY = 0;
-	static ArrayList<Point> newPoints = new ArrayList<>();
-	static Point newCentroid;
-	static Point centroid;
+	
 
 	public static void newCentroid() {
 		newSumX = 0;
@@ -136,7 +140,7 @@ public class Minigame {
 		}
 
 		return true;
-	}
+	} 
 
 	public static ArrayList<Point> interpolateNewPoints(int pointsBetween) {
 		ArrayList<Point> interpolatedNewPoints = new ArrayList<>();
@@ -212,7 +216,9 @@ public class Minigame {
 	}
 
 	public static void drawPoints(Graphics2D g2) {
-
+		
+		System.out.println("X Deviance: " + calculateStandardDeviation(points, true));
+		System.out.println("X Deviance: " + calculateStandardDeviation(points, false));
 		for (int i = 1; i < points.size(); i++) {
 			Point p1 = points.get(i - 1);
 			Point p2 = points.get(i);

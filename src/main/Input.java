@@ -280,11 +280,12 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		mouseDragging = false;
 
 		if (Minigame.isExorcising) {
-			Minigame.calculation();
-			Minigame.newCentroid();
+			//Minigame.calculation();
+			//Minigame.newCentroid();
 			Minigame.calculatedResult();
-			Minigame.ready = true;
-			System.out.println(Minigame.isValid(40));
+			//Minigame.ready = true;
+			//System.out.println(Minigame.isValid(40));
+			Minigame.points.clear();
 		}
 	}
 
