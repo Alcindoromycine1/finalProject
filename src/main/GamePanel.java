@@ -27,17 +27,22 @@ public class GamePanel extends JPanel implements Runnable {
 
 	int playerSpeed = 25;
 
+
 	// Window dimensions
 	final int maxScreenCol = 16; // window is 16 tiles wide
 	final int maxScreenRow = 12; // window is 12 tiles long
 	final int WIDTH = tileSize * maxScreenCol; // screen width in pixels (768 pixels)
 	final int HEIGHT = tileSize * maxScreenRow; // screen height in pixels (576 pixels)
 	final int FPS_TARGET = 60; // Frame rate target // Character position
+	
+	
 	// Character position
-	static int playerX = 768 / 2;
-	static int playerY = 576 / 2;
-	static int worldX = 768 / 2; // world position
-	static int worldY = 576 / 2; // world position
+	int playerX = 768 / 2;
+	int playerY = 576 / 2;
+	int worldX = 768 / 2; // world position
+	int worldY = 576 / 2; // world position
+	
+	
 	// Game Thread
 	Thread gameThread; // keeps the program running until closed
 
@@ -49,17 +54,17 @@ public class GamePanel extends JPanel implements Runnable {
 	private double fps = 0; // FPS value
 
 	// Game components
-	Tiles t = new Tiles();
-	Maps m = new Maps();
-	static Jumpscare j = new Jumpscare();
+	Tiles t;
+	Maps m;
+	Jumpscare j;
 	// ChangeScene cs = new ChangeScene(WIDTH, HEIGHT);
 	Player p;
-	Npc n = new Npc();
-	Items it = new Items();
+	Npc n;
+	Items it;
 	Input id;
 
-	static int screenX;
-	static int screenY;
+	int screenX;
+	int screenY;
 
 	// sound
 	private Sound footstepSound;
@@ -72,29 +77,36 @@ public class GamePanel extends JPanel implements Runnable {
 
 	// Constructor
 	public GamePanel(JFrame window) throws IOException {
-		Input input = new Input();
+		
 		id = new Input(n);
-		Npc n = new Npc(input);
-
+		it = new Items(this);
+		n = new Npc(id);
+		m = new Maps(this);
+		p = new Player(this);
+		t = new Tiles(this); 
+		
 		this.window = window;
 		this.setPreferredSize(new Dimension(WIDTH, HEIGHT)); // Preferred window size
 		this.setDoubleBuffered(true); // Improves rendering performance
 		this.addKeyListener(Player.keyH); // Recognizes key inputs
-		this.addMouseMotionListener(input); // Recognizes mouse movement
-		this.addMouseListener(input); // Recognize mouse clicks
+		this.addMouseMotionListener(id); // Recognizes mouse movement
+		this.addMouseListener(id); // Recognize mouse clicks
 		this.setFocusable(true);
 
 		screenX = WIDTH / 2 - (tileSize / 2); // centers the player in the middle of the screen
 		screenY = HEIGHT / 2 - (tileSize / 2); // centers the player in the middle of the screen
 
 		// Background
-		m.changeMap(5);
+		m.changeMap(3);
 		// Find trees in the map
+		
+		//load tiles init
+		t.tileCreating();
+		
 		m.findTrees();
-		Tiles.tileCreating();
 
 		// Load character
-		p = new Player(input);
+		
 		p.loadCharacterImages();
 
 		try {
@@ -148,7 +160,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public void characterMovement() {
 		// Character movement
-		if (Player.disableCharacterMovement() == false) {
+		if (p.disableCharacterMovement() == false) {
 			if (Player.keyH.upPressed) {
 				direction = "back";
 				worldY -= playerSpeed; // move the world up when player presses up
@@ -178,7 +190,7 @@ public class GamePanel extends JPanel implements Runnable {
 		p.collisionChecking();
 		p.collision();
 		characterMovement();
-		Items.animation();
+		it.animation();
 	}
 
 	public void characterImage(Graphics g) throws IOException {
@@ -208,7 +220,7 @@ public class GamePanel extends JPanel implements Runnable {
 			} else {
 				character = jeffFront;
 			}
-			if (Maps.currentMap != 5) {
+			if (m.currentMap != 5) {
 				g.drawImage(character, screenX, screenY, null);// draws the character in the middle of the screen
 			}
 		}
@@ -221,7 +233,7 @@ public class GamePanel extends JPanel implements Runnable {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		try {
-			m.camera(g);// camera method
+			m.camera(g2);// camera method
 			characterImage(g);// draws the character depending on the direction
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -255,7 +267,7 @@ public class GamePanel extends JPanel implements Runnable {
 		 * only runs once delayTimer.start(); }
 		 */
 		
-		if (Maps.currentMap == /*5*/ 5) {
+		if (m.currentMap == /*5*/ 5) {
 			try {
 				m.drawExorcismRoom(g2);
 			} catch (IOException e) {
@@ -266,34 +278,34 @@ public class GamePanel extends JPanel implements Runnable {
 		
 		
 		try {
-			if (!Maps.hasJumpscared && !Maps.hasDoctrined) {
+			if (!m.hasJumpscared && !m.hasDoctrined) {
 				m.fade(2, 3, g2, 248, 216, 82, 48, 414, 48, 145, 126);
 				Input.changeMapPressed = false;
 				Items.inHouse = true;
 			}
-			if (Maps.stepCount == -1 && Items.inHouse) {
-				Npc.text(g2, 5);
+			if (m.stepCount == -1 && Items.inHouse) {
+				n.text(g2, 5);
 				Items.inHouse = false;
 			}
-			if (!Maps.hasDoctrined && Maps.hasJumpscared) {
+			if (!m.hasDoctrined && m.hasJumpscared) {
 				m.fade(3, 4, g2, 168, -159, 100, 100, 5550, 520, 150, 100);
 				Input.changeMapPressed = false;
 			}
-			if (Maps.hasDoctrined) { // exorcism room
+			if (m.hasDoctrined) { // exorcism room
 				m.fade(4, 5, g2, 838, 216, 55, 55, 838, 216, 55, 55);
 				Input.changeMapPressed = false;
-				Player.disableCharacterMovement();
+				p.disableCharacterMovement();
 			}
-			if (Maps.hasFaded == 2) {
-				if (Maps.hasJumpscared && !Maps.hasDoctrined) {
+			if (m.hasFaded == 2) {
+				if (m.hasJumpscared && !m.hasDoctrined) {
 					worldX = 384;
 					worldY = 288;
 				}
-				if (Maps.hasJumpscared && Maps.hasDoctrined) {
+				if (m.hasJumpscared && m.hasDoctrined) {
 					worldX = 0;
 					worldY = 0;
 				}
-				Maps.hasFaded = 0;
+				m.hasFaded = 0;
 			}
 			// Npc.text(g2, 3);
 			// Items.insideDoctrine(g2);
@@ -337,7 +349,7 @@ public class GamePanel extends JPanel implements Runnable {
 		
 		
 		try {
-			Maps.nightmare(g2);
+			m.nightmare(g2);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -348,7 +360,128 @@ public class GamePanel extends JPanel implements Runnable {
 
 	}
 
+	public int getWorldX() {
+		return worldX;
+	}
+
+	public int getWorldY() {
+		return worldY;
+	}
+
 	public int getTileSize() {
 		return tileSize;
+	}
+	
+
+	public int getOriginalTileSize() {
+		return originalTileSize;
+	}
+
+	public int getScale() {
+		return scale;
+	}
+
+	public int getPlayerSpeed() {
+		return playerSpeed;
+	}
+
+	public int getMaxScreenCol() {
+		return maxScreenCol;
+	}
+
+	public int getMaxScreenRow() {
+		return maxScreenRow;
+	}
+
+	public int getWIDTH() {
+		return WIDTH;
+	}
+
+	public int getHEIGHT() {
+		return HEIGHT;
+	}
+
+	public int getFPS_TARGET() {
+		return FPS_TARGET;
+	}
+
+	public int getPlayerX() {
+		return playerX;
+	}
+
+	public int getPlayerY() {
+		return playerY;
+	}
+
+	public Thread getGameThread() {
+		return gameThread;
+	}
+
+	public JFrame getWindow() {
+		return window;
+	}
+
+	public long getFrameCount() {
+		return frameCount;
+	}
+
+	public long getLastTime() {
+		return lastTime;
+	}
+
+	public double getFps() {
+		return fps;
+	}
+
+	public Tiles getT() {
+		return t;
+	}
+
+	public Maps getM() {
+		return m;
+	}
+
+	public Jumpscare getJ() {
+		return j;
+	}
+
+	public Player getP() {
+		return p;
+	}
+
+	public Npc getN() {
+		return n;
+	}
+
+	public Items getIt() {
+		return it;
+	}
+
+	public Input getId() {
+		return id;
+	}
+
+	public int getScreenX() {
+		return screenX;
+	}
+
+	public int getScreenY() {
+		return screenY;
+	}
+
+	public Sound getFootstepSound() {
+		return footstepSound;
+	}
+
+	public MainMenu getMainMenu() {
+		return mainMenu;
+	}
+
+	public Minigame getMinigame() {
+		return minigame;
+	}
+
+	public String getDirection() {
+		return direction;
 	}
 }

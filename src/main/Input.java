@@ -37,7 +37,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	public Input() {
 
 		// this.npc = new Npc(this);
-		this.i = new Items(this);
+		//this.i = new Items(this);
 
 	}
 
@@ -64,8 +64,8 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 			rightPressed = true;
 			rightReleased = false;
 		} else if (code == KeyEvent.VK_E) {
-			if (Npc.collisionNpc) {
-				Npc.dialogue = !Npc.dialogue;
+			if (npc.collisionNpc) {
+				npc.dialogue = !npc.dialogue;
 			}
 			ePressed = true;
 		} else if (code == KeyEvent.VK_F) {
@@ -75,7 +75,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		} else if (code == KeyEvent.VK_ESCAPE) {
 			System.exit(0);
 		} else if (code == KeyEvent.VK_SPACE) {
-			Npc.textIndex++;
+			npc.textIndex++;
 		}
 	}
 

@@ -20,25 +20,36 @@ import javax.imageio.ImageIO;
 public class Maps {
 
 	// WORLD SETTINGS
-	static int maxWorldCol;
-	static int maxWorldRow;
-	final static int worldWidth = 48 * maxWorldCol; // world width in pixels (2400 pixels)
-	final static int worldHeight = 48 * maxWorldRow; // world height in pixels (2400 pixels)
+	int maxWorldCol;
+	int maxWorldRow;
+	final int worldWidth = 48 * maxWorldCol; // world width in pixels (2400 pixels)
+	final int worldHeight = 48 * maxWorldRow; // world height in pixels (2400 pixels)
 
-	public static ArrayList<ArrayList<Integer>> tiles = new ArrayList<>();
-	public static ArrayList<int[]> treePositions = new ArrayList<>();
-	public static ArrayList<int[]> housePositions = new ArrayList<>();
-	public static ArrayList<int[]> bedPositions = new ArrayList<>();
-	public static ArrayList<int[]> houseWallPositions = new ArrayList<>();
-	public static ArrayList<int[]> grassPositions = new ArrayList<>();
-	public static ArrayList<int[]> waterPositions = new ArrayList<>();
-	public static ArrayList<int[]> bookPositions = new ArrayList<>();
+	public ArrayList<ArrayList<Integer>> tiles = new ArrayList<>();
+	public ArrayList<int[]> treePositions = new ArrayList<>();
+	public ArrayList<int[]> housePositions = new ArrayList<>();
+	public ArrayList<int[]> bedPositions = new ArrayList<>();
+	public ArrayList<int[]> houseWallPositions = new ArrayList<>();
+	public ArrayList<int[]> grassPositions = new ArrayList<>();
+	public ArrayList<int[]> waterPositions = new ArrayList<>();
+	public ArrayList<int[]> bookPositions = new ArrayList<>();
 
 	// Player p = new Player();
-	// GamePanel gp = new GamePanel();
-	Tiles t = new Tiles();
-	static int currentMap;
-
+	GamePanel gp;
+	Tiles t;
+	Npc npc;
+	Jumpscare j;
+	Player p;
+	int currentMap;
+	
+    public Maps (GamePanel gp) {
+    	this.gp = gp;
+    	this.npc = gp.n;
+    	this.t = gp.t;
+    	this.j = gp.j;
+    	this.p = gp.p;
+    }
+	
 	public String changeMap(Graphics2D g, int mapToChange) {
 		if (mapToChange == 1) {
 			mapIntro("src/maps/mapIntro.txt");// intro map
@@ -79,7 +90,7 @@ public class Maps {
 
 	}
 
-	public static void mapIntro(String filePath) {
+	public void mapIntro(String filePath) {
 		tiles.clear(); // Clear old tile data before loading new map
 
 		try (BufferedReader r = new BufferedReader(new FileReader(filePath))) {
@@ -164,9 +175,18 @@ public class Maps {
 		}
 	}
 
-	public static boolean incrementingUp = true;
-	public static int yVal = -5;
-	public static void drawExorcismRoom(Graphics2D g2) throws IOException {
+	public boolean incrementingUp = true;
+	public int yVal = -5;
+	
+	public void drawGhostLeft(Graphics2D g2, String shape, boolean completed) {
+		//try {
+			//Items.minigameGhost(g2, 1200, 820 + yVal, shape, 250, 196, 0);
+		//} catch (IOException e) {
+		//	e.printStackTrace();
+		//}
+		
+	}
+	public void drawExorcismRoom(Graphics2D g2) throws IOException {
 
 		try {
 
@@ -194,9 +214,11 @@ public class Maps {
 			yVal--;
 		}
 		
+		drawGhostLeft(g2, "Square", false);
+		//ghost one
+	//	Items.minigameGhost(g2, 1000, 860 + yVal, "Circle", 250, 196);
 		
-		Items.minigameGhost(g2, 1200, 820 + yVal, "Square", 250, 196);
-		Items.minigameGhost(g2, 1000, 860 + yVal, "Circle", 250, 196);
+	//	g2.minigameGhost(g2, 1200, 820 + yVal, "Square", 250, 196);
 
 	}
 
@@ -206,12 +228,14 @@ public class Maps {
 				for (int worldCol = 0; worldCol < maxWorldCol; worldCol++) {
 
 					// where on the screen the tile will be drawn
-					int screenX = worldCol * 48 - GamePanel.worldX;
-					int screenY = worldRow * 48 - GamePanel.worldY;
-
+					int screenX = worldCol * 48 - gp.getWorldX();
+					int screenY = worldRow * 48 - gp.getWorldY();
+					System.out.println(screenX + " " + screenY);
 					// only draws the tiles that are on the screen
 					if (screenX + 48 > 0 && screenX < 768 && screenY + 48 > 0 && screenY < 576) {
-						g2.drawImage(Tiles.tileImages.get(worldRow).get(worldCol), screenX, screenY, 48, 48, null);
+						g2.drawImage(t.tileImages.get(worldRow).get(worldCol), screenX, screenY, 48, 48, null);
+						System.out.println("nigga");
+						System.out.println(t.tileImages.get(worldRow).get(worldCol));
 					}
 				}
 			}
@@ -221,8 +245,8 @@ public class Maps {
 
 	// change scene variables
 	int fadeValue = 0;
-	static int stepCount = 0;
-	static int hasFaded = 0;
+	int stepCount = 0;
+	int hasFaded = 0;
 
 	public void fading(Graphics2D g2, Tiles t, GamePanel m, int newMap, int originalMap) throws IOException {
 
@@ -249,14 +273,14 @@ public class Maps {
 				grassPositions.clear();
 				waterPositions.clear();
 
-				Tiles.tileImages.clear();
+				t.tileImages.clear();
 
-				for (int i = 0; i < Maps.maxWorldRow; i++) {
+				for (int i = 0; i < maxWorldRow; i++) {
 					ArrayList<BufferedImage> row = new ArrayList<>();
-					for (int j = 0; j < Maps.maxWorldCol; j++) {
+					for (int j = 0; j < maxWorldCol; j++) {
 						row.add(null); // initialize each cell with null
 					}
-					Tiles.tileImages.add(row);
+					t.tileImages.add(row);
 				}
 
 				g2.fillRect(-10000, -10000, m.WIDTH + 20000, m.HEIGHT + 20000); // Clear the screen
@@ -268,7 +292,7 @@ public class Maps {
 				}
 				// Load the new map's tiles
 				// Reinitialize the new map's data
-				Tiles.tileCreating();
+				t.tileCreating();
 				findIntroHouse();
 				findTrees();
 				GamePanel.worldX = 288;
@@ -286,7 +310,7 @@ public class Maps {
 			fadeValue -= 2;
 			if (fadeValue <= 0) {
 				fading = false;
-				Player.disableCharacterMovement();
+				p.disableCharacterMovement();
 				stepCount = -1;
 				fadeValue = 0;
 				hasFaded++;
@@ -310,10 +334,10 @@ public class Maps {
 		}
 	}
 
-	static boolean fading = false;
+	boolean fading = false;
 	boolean goOut = false;
-	static boolean hasJumpscared = false;
-	static boolean hasDoctrined = false;
+	boolean hasJumpscared = false;
+	boolean hasDoctrined = false;
 
 	public void fade(int changeMap, int oldMap, Graphics2D g2, int worX, int worY, int width, int height, int oldworX,
 			int oldworY, int oldWidth, int oldHeight) throws IOException {
@@ -323,14 +347,14 @@ public class Maps {
 		if (Input.changeMapPressed && GamePanel.worldX >= oldworX && GamePanel.worldX <= oldworX + oldWidth
 				&& GamePanel.worldY >= oldworY && GamePanel.worldY <= oldworY + oldHeight) {
 			fading = true;
-			Player.disableCharacterMovement();
+			p.disableCharacterMovement();
 			Input.changeMapPressed = false;
-			GamePanel.j.setJumpscare(true);
+			j.setJumpscare(true);
 		}
 		if (!fading && Input.changeMapPressed && GamePanel.worldX >= worX && GamePanel.worldX <= worX + width
 				&& GamePanel.worldY >= worY && GamePanel.worldY <= worY + height) {
 			fading = true;
-			Player.disableCharacterMovement();
+			p.disableCharacterMovement();
 			stepCount = 0;
 			goOut = true;
 		}
@@ -339,11 +363,11 @@ public class Maps {
 		}
 	}
 
-	public static boolean doneNightmare = false;
-	public static boolean inNightmare = false;
-	public static boolean usingBed = false;
+	public boolean doneNightmare = false;
+	public boolean inNightmare = false;
+	public boolean usingBed = false;
 
-	public static void nightmare(Graphics2D g2) throws IOException {
+	public void nightmare(Graphics2D g2) throws IOException {
 		if (usingBed && !inNightmare && !doneNightmare) {
 			Items.inConfirmation = true;
 			Items.confirmation(g2, "Do you want to sleep?", 180);
@@ -369,7 +393,7 @@ public class Maps {
 
 		if (doneNightmare) {
 			inNightmare = false;
-			Npc.doctor(g2);
+			npc.doctor(g2);
 		}
 	}
 

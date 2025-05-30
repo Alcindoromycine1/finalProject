@@ -9,26 +9,26 @@ import java.util.ArrayList;
 
 public class Minigame {
 
-	public static ArrayList<Point> points = new ArrayList<>();
-	public static boolean isExorcising = false;
-	public static int color;
+	public ArrayList<Point> points = new ArrayList<>();
+	public boolean isExorcising = false;
+	public int color;
 
-	public static void startExorcising() {
+	public void startExorcising() {
 		isExorcising = true;
 	}
 
-	static int sumX = 0;
-	static int sumY = 0;
-	static ArrayList<Point> proper = new ArrayList<>();
-	static int count = 0;
+	int sumX = 0;
+	int sumY = 0;
+	ArrayList<Point> proper = new ArrayList<>();
+	int count = 0;
 
-	static int circleX = 500;
-	static int circleY = 300;
+	int circleX = 500;
+	int circleY = 300;
 
-	static double originalArea = 0;
-	static ArrayList<Point> shapePoints = new ArrayList<>();
+	double originalArea = 0;
+	ArrayList<Point> shapePoints = new ArrayList<>();
 
-	public static void circle(Graphics2D g2) {
+	public void circle(Graphics2D g2) {
 		int radius = 50;
 		originalArea = Math.PI * Math.pow(radius, 2);
 		shapePoints.clear();
@@ -42,7 +42,7 @@ public class Minigame {
 		}
 	}
 
-	public static void calculation() {
+	public void calculation() {
 		sumX = 0;
 		sumY = 0;
 		count = 0;
@@ -56,7 +56,7 @@ public class Minigame {
 		}
 	}
 
-	public static double calculateArea() {
+	public double calculateArea() {
 		double area = 0;
 
 		for (int i = 0; i < newPoints.size(); i++) {
@@ -68,13 +68,13 @@ public class Minigame {
 		return Math.abs(area * 0.5);
 	}
 
-	static int newSumX = 0;
-	static int newSumY = 0;
-	static ArrayList<Point> newPoints = new ArrayList<>();
-	static Point newCentroid;
-	static Point centroid;
+	int newSumX = 0;
+	int newSumY = 0;
+	ArrayList<Point> newPoints = new ArrayList<>();
+	Point newCentroid;
+	Point centroid;
 
-	public static void newCentroid() {
+	public void newCentroid() {
 		newSumX = 0;
 		newSumY = 0;
 		newPoints.clear();
@@ -97,9 +97,9 @@ public class Minigame {
 		newCentroid = new Point(newSumX / Minigame.count, newSumY / Minigame.count);
 	}
 
-	static boolean ready = false;
+	boolean ready = false;
 
-	public static double scaleFactor() {
+	public double scaleFactor() {
 
 		double scale = 0;
 		double area = calculateArea();
@@ -109,7 +109,7 @@ public class Minigame {
 
 	}
 
-	public static boolean isValid(int threshold) {
+	public boolean isValid(int threshold) {
 	    double distanceSum = 0;
 
 	    ArrayList<Point> interpPoints = interpolateNewPoints(2);
@@ -133,7 +133,7 @@ public class Minigame {
 
 
 
-	public static ArrayList<Point> interpolateNewPoints(int pointsBetween) {
+	public ArrayList<Point> interpolateNewPoints(int pointsBetween) {
 		ArrayList<Point> interpolatedNewPoints = new ArrayList<>();
 
 		if (newPoints.size() < 2)
@@ -154,7 +154,7 @@ public class Minigame {
 		return interpolatedNewPoints;
 	}
 
-	public static void calculatedResult() {
+	public void calculatedResult() {
 		int size = Minigame.points.size();
 		if (size < 8) {
 			System.out.println("Not enough points to determine shape.");
@@ -206,7 +206,7 @@ public class Minigame {
 		Minigame.points.clear();
 	}
 
-	public static void drawPoints(Graphics2D g2) {
+	public void drawPoints(Graphics2D g2) {
 
 		for (int i = 1; i < points.size(); i++) {
 			Point p1 = points.get(i - 1);
