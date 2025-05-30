@@ -164,6 +164,8 @@ public class Maps {
 		}
 	}
 
+	public static boolean incrementingUp = true;
+	public static int yVal = -5;
 	public static void drawExorcismRoom(Graphics2D g2) throws IOException {
 
 		try {
@@ -178,12 +180,9 @@ public class Maps {
 		g2.fillRect(0, 0, 280, 71);
 		g2.setFont(new Font("Arial", Font.BOLD, 20));
 		g2.setColor(Color.WHITE);
-		g2.drawString("Draw:", 100, 50);
-
-		int yVal = -30;
-		boolean incrementingUp = true;
+		g2.drawString("Draw:", 15, 40);
 		
-		if (yVal == -30) {
+		if (yVal == -5) {
 			incrementingUp = true;
 		} else if (yVal == 30) {
 			incrementingUp = false;
@@ -197,7 +196,7 @@ public class Maps {
 		
 		
 		Items.minigameGhost(g2, 1200, 820 + yVal, "Square", 250, 196);
-		Items.minigameGhost(g2, 1000, 860 + yVal, "Square", 250, 196);
+		Items.minigameGhost(g2, 1000, 860 + yVal, "Circle", 250, 196);
 
 	}
 

@@ -408,29 +408,66 @@ public class Items {
 	static int graveY = 333;
 	static BufferedImage ghost;
 	static boolean firstTime = true;
+	static int ghostNumber = 0;
 
-	public static void ghost(Graphics2D g2, int ghostGraveYardX, int ghostGraveYardY, int width, int height) throws IOException {
+	public static void ghostRandomizer() {
+
+		ghostNumber = (int) (Math.random() * 2) + 1;
+
+	}
+
+	public static void ghost(Graphics2D g2, int ghostGraveYardX, int ghostGraveYardY, int width, int height)
+			throws IOException {
 
 		int ghostX = ghostGraveYardX - GamePanel.worldX;
 		int ghostY = ghostGraveYardY - GamePanel.worldY;
 
 		ghost = ImageIO.read(new File("src/textures/ghost.png"));
 		g2.drawImage(ghost, ghostX, ghostY, width, height, null);
-		
-		
 
 	}
-	
-	public static void minigameGhost(Graphics2D g2, int ghotsX, int ghotsY, String shape, int width, int height) throws IOException {
+
+	static int level = 1;
+	public static void minigameGhost(Graphics2D g2, int ghotsX, int ghotsY, String shape, int width, int height)
+			throws IOException {
 		int ghostX = ghotsX - GamePanel.worldX;
 		int ghostY = ghotsY - GamePanel.worldY;
 
 		ghost = ImageIO.read(new File("src/textures/minigameghost.png"));
 		ghost(g2, ghostX, ghostY, width, height);
-		
-		int[] xValues = {ghostX - 20, ghostX - 20, ghostX + 20, ghostX + 20};
-		int[] yValues = {ghostY - 100, ghostY - 80, ghostY - 80, ghostY - 100};
-		g2.fillPolygon(xValues, yValues, xValues.length);
+
+		for (int i = 0; i < 5; i++) {
+			int[] xValues = { ghostX - 230 + i, ghostX - 230 + i, ghostX - 290 - i, ghostX - 290 - i };
+			int[] yValues = { ghostY - 360 - i, ghostY - 300 + i, ghostY - 300 + i, ghostY - 360 - i };
+			g2.setColor(Color.RED);
+			g2.drawPolygon(xValues, yValues, xValues.length);
+		}
+		if (level == 1) {
+			ghostRandomizer();
+			level = -1;
+		}
+		int offsetX = 0;
+		if (ghostNumber == 1) {
+			offsetX = 0;
+		} else if (ghostNumber == 2) {
+			offsetX = 30;
+		}
+
+		if (shape.equals("Square")) {
+			for (int i = 0; i < 4; i++) {
+				int[] xSquare = { 90 + i + offsetX, 110 - i + offsetX, 110 - i + offsetX, 90 + i + offsetX };
+				int[] ySquare = { 25 + i, 25 + i, 45 - i, 45 - i };
+				g2.drawPolygon(xSquare, ySquare, 4);
+			}
+
+		} else if (shape.equals("Circle")) {
+			for (int i = 0; i < 4; i++) {
+				g2.drawOval(85 + i + offsetX, 25 + i, 20 - i, 20 - i);
+			}
+
+		} else if (shape.equals("Pentagon")) {
+
+		}
 	}
 
 	public static void graveyard(Graphics2D g2) throws IOException {
@@ -455,37 +492,37 @@ public class Items {
 		if (!inConfirmation) {
 			return;
 		}
-			g2.setColor(Color.BLACK);
-			g2.drawRoundRect(160, 150, 225 * 2, 155 * 2, 10, 10);
-			g2.setColor(Color.DARK_GRAY);
-			g2.fillRoundRect(160, 150, 226 * 2, 156 * 2, 10, 10);
-			g2.setColor(Color.LIGHT_GRAY);
-			g2.fillRoundRect(168, 158, 218 * 2, 148 * 2, 10, 10);
-			g2.setFont(new Font("Monospaced", Font.BOLD, 33));
-			g2.setColor(Color.BLACK);
-			g2.drawString(text, textX, 250);
-			g2.setFont(new Font("Calibri", Font.BOLD, 30));
+		g2.setColor(Color.BLACK);
+		g2.drawRoundRect(160, 150, 225 * 2, 155 * 2, 10, 10);
+		g2.setColor(Color.DARK_GRAY);
+		g2.fillRoundRect(160, 150, 226 * 2, 156 * 2, 10, 10);
+		g2.setColor(Color.LIGHT_GRAY);
+		g2.fillRoundRect(168, 158, 218 * 2, 148 * 2, 10, 10);
+		g2.setFont(new Font("Monospaced", Font.BOLD, 33));
+		g2.setColor(Color.BLACK);
+		g2.drawString(text, textX, 250);
+		g2.setFont(new Font("Calibri", Font.BOLD, 30));
 
-			if (hoveringYes) {
-				// Yes box
-				g2.setColor(selected);
-				g2.fillRoundRect(225, 355, 130, 45, 10, 10);
-			} else {
-				// Yes box
-				g2.setColor(unselected);
-				g2.fillRoundRect(225, 355, 130, 45, 10, 10);
-			}
-			if (hoveringNo) {
-				// No box
-				g2.setColor(selected);
-				g2.fillRoundRect(425, 355, 130, 45, 10, 10);
-			} else {
-				// No box
-				g2.setColor(unselected);
-				g2.fillRoundRect(425, 355, 130, 45, 10, 10);
-			}
-			g2.setColor(Color.WHITE);
-			g2.drawString("Yes", 270, 385);
-			g2.drawString("No", 472, 385);
+		if (hoveringYes) {
+			// Yes box
+			g2.setColor(selected);
+			g2.fillRoundRect(225, 355, 130, 45, 10, 10);
+		} else {
+			// Yes box
+			g2.setColor(unselected);
+			g2.fillRoundRect(225, 355, 130, 45, 10, 10);
 		}
+		if (hoveringNo) {
+			// No box
+			g2.setColor(selected);
+			g2.fillRoundRect(425, 355, 130, 45, 10, 10);
+		} else {
+			// No box
+			g2.setColor(unselected);
+			g2.fillRoundRect(425, 355, 130, 45, 10, 10);
+		}
+		g2.setColor(Color.WHITE);
+		g2.drawString("Yes", 270, 385);
+		g2.drawString("No", 472, 385);
+	}
 }
