@@ -275,6 +275,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	static boolean isCircle;
 	static boolean isZigzag;
 	static boolean isTriangle;
+
 	@Override
 	public void mouseReleased(MouseEvent e) {
 
@@ -287,23 +288,28 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 			Minigame.calculatedResult();
 
 			Minigame.circle();
-			isCircle = Minigame.isValid(50);
+			isCircle = Minigame.isValid(20);
 
 			Minigame.triangle();
-			isTriangle = Minigame.isValid(20);
+			isTriangle = Minigame.isValid(25);
 
 			Minigame.zigzag();
-			isZigzag = Minigame.isValid(12);
-
-			if (isCircle) {
+			isZigzag = Minigame.isValid(15);
+			
+			if (isCircle && Items.ghostShape.equals("Circle")) {
+				Items.ghostCount++;
 				System.out.println("Circle Detected");
-			} else if (isTriangle) {
+			} else if (isTriangle && Items.ghostShape.equals("Triangle")) {
+				Items.ghostCount++;
 				System.out.println("Triangle Detected");
-			} else if (isZigzag) {
+			} else if (isZigzag && Items.ghostShape.equals("Zigzag")) {
+				Items.ghostCount++;
 				System.out.println("Zigzag Detected");
-			} else if (Minigame.currentShape.equals("vertical")) {
+			} else if (Minigame.currentShape.equals("vertical") && Items.ghostShape.equals("Vertical")) {
+				Items.ghostCount++;
 				System.out.println("Vertical Line Detected");
-			} else if (Minigame.currentShape.equals("horizontal")) {
+			} else if (Minigame.currentShape.equals("horizontal") && Items.ghostShape.equals("Horizontal")) {
+				Items.ghostCount++;
 				System.out.println("Horizontal Line Detected");
 			}
 			Minigame.points.clear();
