@@ -411,8 +411,12 @@ public class Items {
 	static boolean firstTime = true;
 
 	public static int ghostRandomizer() {
-
-		return (int) (Math.random() * 5) + 1;
+		if (level == 1) {
+			return (int) (Math.random() * 5) + 1;
+		} else if (level == 2) {
+			return (int) (Math.random() * 4) + 6;
+		}
+		return 0;
 
 	}
 
@@ -442,13 +446,21 @@ public class Items {
 			Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "Vertical", 250, 196);
 		} else if (ghostNumber == 5 && !Minigame.currentShape.equals("horizontal")) {
 			Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "Horizontal", 250, 196);
+		} else if (ghostNumber == 6) {
+			Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "duoGhost", 250, 196);
+		} else if (ghostNumber == 7) {
+			Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "duoGhost", 250, 196);
+		} else if (ghostNumber == 8) {
+			Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "bossGhost", 250, 196);
+		} else if (ghostNumber == 9) {
+			System.out.println("2nd Ghost");
 		}
-
 	}
 
 	public static int ghostNumberLeft;
 	public static int ghostNumberRight;
 	public static boolean ghostAppeared = false;
+	static int ghostCount = 1;
 
 	public static void ghostLogic(Graphics2D g2) throws IOException {
 		if (level == 1) {
@@ -457,9 +469,25 @@ public class Items {
 				ghostNumberRight = ghostRandomizer();
 				ghostAppeared = true;
 			}
-
+		}
+		if (level == 2) {
+			if (!ghostAppeared) {
+				ghostNumberLeft = ghostRandomizer();
+				ghostNumberRight = ghostRandomizer();
+				ghostAppeared = true;
+			}
+			System.out.println(ghostNumberLeft + " , " + ghostNumberRight);
+		}
+		if (ghostCount == 1) {
 			drawGhost(g2, ghostNumberLeft, -160, 30);
+		}
+		if (ghostCount == 2) {
 			drawGhost(g2, ghostNumberRight, 0, 0);
+		}
+		if (ghostCount == 3) {
+			level++;
+			ghostCount = 1;
+			ghostAppeared = false;
 		}
 	}
 
@@ -492,6 +520,10 @@ public class Items {
 		} else if (shape.equals("Horizontal")) {
 			g2.setColor(Color.RED);
 			g2.fillRect(ghostX - 290, ghostY - 290, 60, 4);
+		} else if (shape.equals("duoGhost")) {
+			
+		} else if (shape.equals("bossGhost")) {
+
 		}
 
 		/*
