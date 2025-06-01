@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -408,11 +409,10 @@ public class Items {
 	static int graveY = 333;
 	static BufferedImage ghost;
 	static boolean firstTime = true;
-	static int ghostNumber = 0;
 
-	public static void ghostRandomizer() {
+	public static int ghostRandomizer() {
 
-		ghostNumber = (int) (Math.random() * 2) + 1;
+		return (int) (Math.random() * 5) + 1;
 
 	}
 
@@ -428,46 +428,85 @@ public class Items {
 	}
 
 	static int level = 1;
+	static String ghostShape = " ";
+
+	public static void drawGhost(Graphics2D g2, int ghostNumber, int offsetX, int offsetY) throws IOException {
+
+		if (ghostNumber == 1 && !Input.isTriangle) {
+			Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "Triangle", 250, 196);
+		} else if (ghostNumber == 2 && !Input.isCircle) {
+			Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "Circle", 250, 196);
+		} else if (ghostNumber == 3 && !Input.isZigzag) {
+			Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "Zigzag", 250, 196);
+		} else if (ghostNumber == 4 && !Minigame.currentShape.equals("vertical")) {
+			Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "Vertical", 250, 196);
+		} else if (ghostNumber == 5 && !Minigame.currentShape.equals("horizontal")) {
+			Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "Horizontal", 250, 196);
+		}
+
+	}
+
+	public static int ghostNumberLeft;
+	public static int ghostNumberRight;
+	public static boolean ghostAppeared = false;
+
+	public static void ghostLogic(Graphics2D g2) throws IOException {
+		if (level == 1) {
+			if (!ghostAppeared) {
+				ghostNumberLeft = ghostRandomizer();
+				ghostNumberRight = ghostRandomizer();
+				ghostAppeared = true;
+			}
+
+			drawGhost(g2, ghostNumberLeft, -160, 30);
+			drawGhost(g2, ghostNumberRight, 0, 0);
+		}
+	}
+
 	public static void minigameGhost(Graphics2D g2, int ghotsX, int ghotsY, String shape, int width, int height)
 			throws IOException {
 		int ghostX = ghotsX - GamePanel.worldX;
 		int ghostY = ghotsY - GamePanel.worldY;
-
+		ghostShape = shape;
 		ghost = ImageIO.read(new File("src/textures/minigameghost.png"));
 		ghost(g2, ghostX, ghostY, width, height);
-
-		for (int i = 0; i < 5; i++) {
-			int[] xValues = { ghostX - 230 + i, ghostX - 230 + i, ghostX - 290 - i, ghostX - 290 - i };
-			int[] yValues = { ghostY - 360 - i, ghostY - 300 + i, ghostY - 300 + i, ghostY - 360 - i };
+		if (shape.equals("Triangle")) {
+			g2.setStroke(new BasicStroke(4));
 			g2.setColor(Color.RED);
-			g2.drawPolygon(xValues, yValues, xValues.length);
-		}
-		if (level == 1) {
-			ghostRandomizer();
-			level = -1;
-		}
-		int offsetX = 0;
-		if (ghostNumber == 1) {
-			offsetX = 0;
-		} else if (ghostNumber == 2) {
-			offsetX = 30;
-		}
-
-		if (shape.equals("Square")) {
-			for (int i = 0; i < 4; i++) {
-				int[] xSquare = { 90 + i + offsetX, 110 - i + offsetX, 110 - i + offsetX, 90 + i + offsetX };
-				int[] ySquare = { 25 + i, 25 + i, 45 - i, 45 - i };
-				g2.drawPolygon(xSquare, ySquare, 4);
-			}
-
+			int[] xTriangle = { ghostX - 260, ghostX - 230, ghostX - 290 };
+			int[] yTriangle = { ghostY - 350, ghostY - 290, ghostY - 290 };
+			g2.drawPolygon(xTriangle, yTriangle, 3);
 		} else if (shape.equals("Circle")) {
-			for (int i = 0; i < 4; i++) {
-				g2.drawOval(85 + i + offsetX, 25 + i, 20 - i, 20 - i);
-			}
-
-		} else if (shape.equals("Pentagon")) {
-
+			g2.setStroke(new BasicStroke(4));
+			g2.setColor(Color.RED);
+			g2.drawOval(ghostX - 290, ghostY - 350, 60, 60);
+		} else if (shape.equals("Zigzag")) {
+			g2.setStroke(new BasicStroke(4));
+			g2.setColor(Color.RED);
+			int[] xZigzag = { ghostX - 150 - 140, ghostX - 100 - 140, ghostX - 150 - 140, ghostX - 100 - 140 };
+			int[] yZigzag = { ghostY - 195 - 140, ghostY - 195 - 140, ghostY - 145 - 140, ghostY - 145 - 140 };
+			g2.drawPolyline(xZigzag, yZigzag, 4);
+		} else if (shape.equals("Vertical")) {
+			g2.setColor(Color.RED);
+			g2.fillRect(ghostX - 260, ghostY - 355, 4, 60);
+		} else if (shape.equals("Horizontal")) {
+			g2.setColor(Color.RED);
+			g2.fillRect(ghostX - 290, ghostY - 290, 60, 4);
 		}
+
+		/*
+		 * else if (shape.equals("Circle")) { for (int i = 0; i < 4; i++) {
+		 * g2.drawOval(85 + i, 25 + i, 20 - i, 20 - i); }
+		 * 
+		 * }
+		 */
+
+		/*
+		 * if (shape.equals("Square")) { for (int i = 0; i < 4; i++) { int[] xSquare = {
+		 * 90 + i + offsetX, 110 - i + offsetX, 110 - i + offsetX, 90 + i + offsetX };
+		 * int[] ySquare = { 25 + i, 25 + i, 45 - i, 45 - i }; g2.drawPolygon(xSquare,
+		 * ySquare, 4); }
+		 */
 	}
 
 	public static void graveyard(Graphics2D g2) throws IOException {

@@ -302,17 +302,8 @@ public class GamePanel extends JPanel implements Runnable {
 			e.printStackTrace();
 		}
 		
-		
-		
 		Minigame.startExorcising();
-		
 		Minigame.drawPoints(g2);
-		
-		
-		if (Minigame.ready) {
-			Minigame.circle(g2);
-		}
-		
 		
 		try {
 			Items.doctrine(g2);
@@ -338,6 +329,11 @@ public class GamePanel extends JPanel implements Runnable {
 		
 		try {
 			Maps.nightmare(g2);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			Items.ghostLogic(g2);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

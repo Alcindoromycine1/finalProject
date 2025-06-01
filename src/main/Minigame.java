@@ -28,7 +28,7 @@ public class Minigame {
 	static double originalArea = 0;
 	static ArrayList<Point> shapePoints = new ArrayList<>();
 
-	public static void circle(Graphics2D g2) {
+	public static void circle() {
 		int radius = 50;
 		originalArea = Math.PI * Math.pow(radius, 2);
 		shapePoints.clear();
@@ -38,6 +38,86 @@ public class Minigame {
 			double theta = 2 * Math.PI * i / numPoints;
 			int x = (int) (circleX + radius * Math.cos(theta));
 			int y = (int) (circleY + radius * Math.sin(theta));
+			shapePoints.add(new Point(x, y));
+		}
+	}
+
+	public static void zigzag() {
+		shapePoints.clear();
+
+		Point vertex1 = new Point(0, 100);
+		Point vertex2 = new Point(100, 100);
+		Point vertex3 = new Point(0, 0);
+		Point vertex4 = new Point(100, 0);
+		newPoints.add(vertex1);
+		newPoints.add(vertex2);
+		newPoints.add(vertex3);
+		newPoints.add(vertex4);
+
+		int numberOfPoints = 50;// number of points in every line
+
+		// top horizontal line
+		for (int i = 0; i <= numberOfPoints; i++) {
+			double t = (double) i / numberOfPoints;
+			int x = (int) (vertex1.x + t * (vertex2.x - vertex1.x));
+			int y = (int) (vertex1.y + t * (vertex2.y - vertex1.y));
+			shapePoints.add(new Point(x, y));
+		}
+
+		// diagonal line
+		for (int i = 0; i <= numberOfPoints; i++) {
+			double t = (double) i / numberOfPoints;
+			int x = (int) (vertex2.x + t * (vertex3.x - vertex2.x));
+			int y = (int) (vertex2.y + t * (vertex3.y - vertex2.y));
+			shapePoints.add(new Point(x, y));
+		}
+
+		// bottom horizontal line
+		for (int i = 0; i <= numberOfPoints; i++) {
+			double t = (double) i / numberOfPoints;
+			int x = (int) (vertex3.x + t * (vertex4.x - vertex3.x));
+			int y = (int) (vertex3.y + t * (vertex4.y - vertex3.y));
+			shapePoints.add(new Point(x, y));
+		}
+
+		originalArea = calculateArea();// area of the zigzag shape
+	}
+
+	public static void triangle() {
+		shapePoints.clear();
+
+		Point vertex1 = new Point(455, 210);
+		Point vertex2 = new Point(599, 305);
+		Point vertex3 = new Point(444, 383);
+		originalArea = Math.abs((vertex1.x * (vertex2.y - vertex3.y) + vertex2.x * (vertex3.y - vertex1.y)
+				+ vertex3.x * (vertex1.y - vertex2.y)) / 2.0);// Area of the equilateral triangle
+
+		// Interpolates the points that are between the vertices of the triangle
+		int numberOfPoints = 33;// how many points each side of the triangle will have
+		// Linear interpolation to find the points between the vertices
+		// https://www.geeksforgeeks.org/linear-interpolation-formula/
+
+		// Interpolate from vertex1 to vertex2
+		for (int j = 0; j < numberOfPoints; j++) {
+			double t = (double) j / numberOfPoints;
+			int x = (int) (vertex1.x + t * (vertex2.x - vertex1.x));
+			int y = (int) (vertex1.y + t * (vertex2.y - vertex1.y));
+			shapePoints.add(new Point(x, y));
+		}
+
+		// Interpolate from vertex2 to vertex3
+		for (int j = 0; j < numberOfPoints; j++) {
+			double t = (double) j / numberOfPoints;
+			int x = (int) (vertex2.x + t * (vertex3.x - vertex2.x));
+			int y = (int) (vertex2.y + t * (vertex3.y - vertex2.y));
+			shapePoints.add(new Point(x, y));
+		}
+
+		// Interpolate from vertex3 to vertex1
+		for (int j = 0; j < numberOfPoints; j++) {
+			double t = (double) j / numberOfPoints;
+			int x = (int) (vertex3.x + t * (vertex1.x - vertex3.x));
+			int y = (int) (vertex3.y + t * (vertex1.y - vertex3.y));
 			shapePoints.add(new Point(x, y));
 		}
 	}
@@ -109,29 +189,30 @@ public class Minigame {
 
 	}
 
+	static boolean triangleLogic = false;
+	static boolean circleLogic = false;
+
 	public static boolean isValid(int threshold) {
-	    double distanceSum = 0;
+		double distanceSum = 0;
 
-	    ArrayList<Point> interpPoints = interpolateNewPoints(2);
+		ArrayList<Point> interpPoints = interpolateNewPoints(2);
 
-	    for (Point currentPoint : shapePoints) {
-	        double minDistance = Double.MAX_VALUE;
+		for (Point currentPoint : shapePoints) {
+			double minDistance = Double.MAX_VALUE;
 
-	        for (Point interpPoint : interpPoints) {
-	            double distance = currentPoint.distance(interpPoint);
-	            if (distance < minDistance) {
-	                minDistance = distance;
-	            }
-	        }
+			for (Point interpPoint : interpPoints) {
+				double distance = currentPoint.distance(interpPoint);
+				if (distance < minDistance) {
+					minDistance = distance;
+				}
+			}
 
-	        distanceSum += minDistance;
-	    }
+			distanceSum += minDistance;
+		}
 
-	    double averageDistance = distanceSum / shapePoints.size();
-	    return averageDistance <= threshold;
+		double averageDistance = distanceSum / shapePoints.size();
+		return averageDistance <= threshold;
 	}
-
-
 
 	public static ArrayList<Point> interpolateNewPoints(int pointsBetween) {
 		ArrayList<Point> interpolatedNewPoints = new ArrayList<>();
@@ -154,26 +235,20 @@ public class Minigame {
 		return interpolatedNewPoints;
 	}
 
+	static String currentShape = " ";
+
 	public static void calculatedResult() {
 		int size = Minigame.points.size();
-		if (size < 8) {
+		if (size < 4) {
 			System.out.println("Not enough points to determine shape.");
 			return;
 		}
 
-		Point[] p = new Point[8];
+		Point[] p = new Point[4];
 		p[0] = Minigame.points.get(0);
 		p[1] = Minigame.points.get(size - 1);
-		p[2] = Minigame.points.get(size / 2 - 1);
-		p[3] = Minigame.points.get(size / 2);
-		p[4] = Minigame.points.get(size / 2 + 1);
-		p[5] = Minigame.points.get(size / 4);
-		p[6] = Minigame.points.get(size * 3 / 4);
-		if (size * 7 / 8 < size) {
-			p[7] = Minigame.points.get(size * 7 / 8);
-		} else {
-			p[7] = Minigame.points.get(size - 1);
-		}
+		p[2] = Minigame.points.get(size / 2);
+		p[3] = Minigame.points.get(size / 3);
 
 		int threshold = 30;
 		boolean allHorizontal = true;
@@ -188,20 +263,17 @@ public class Minigame {
 			}
 		}
 
-		String currentShape;
 		if (allHorizontal) {
 			currentShape = "horizontal";
+			Minigame.color = 1;
 		} else if (allVertical) {
 			currentShape = "vertical";
+			Minigame.color = 2;
 		} else {
 			currentShape = "none";
 		}
-		if (currentShape.equals("horizontal")) {
-			Minigame.color = 1;
-		} else if (currentShape.equals("vertical")) {
-			Minigame.color = 2;
-		}
-		// System.out.println("Detected shape: " + currentShape);
+
+		// System.out.println("Line: " + currentShape);
 
 		Minigame.points.clear();
 	}

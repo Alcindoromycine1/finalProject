@@ -195,8 +195,8 @@ public class Maps {
 		}
 		
 		
-		Items.minigameGhost(g2, 1200, 820 + yVal, "Square", 250, 196);
-		Items.minigameGhost(g2, 1000, 860 + yVal, "Circle", 250, 196);
+		/*Items.minigameGhost(g2, 1200, 820 + yVal, "Square", 250, 196);
+		Items.minigameGhost(g2, 1000, 860 + yVal, "Circle", 250, 196);*/
 
 	}
 
