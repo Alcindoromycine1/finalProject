@@ -272,19 +272,40 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		}
 	}
 
+	static boolean isCircle;
+	static boolean isZigzag;
+	static boolean isTriangle;
 	@Override
 	public void mouseReleased(MouseEvent e) {
 
 		mouseClicked = false;
 		mouseHolding = false;
 		mouseDragging = false;
-
 		if (Minigame.isExorcising) {
 			Minigame.calculation();
 			Minigame.newCentroid();
 			Minigame.calculatedResult();
-			Minigame.ready = true;
-			System.out.println(Minigame.isValid(20));
+
+			Minigame.circle();
+			isCircle = Minigame.isValid(50);
+
+			Minigame.triangle();
+			isTriangle = Minigame.isValid(20);
+
+			Minigame.zigzag();
+			isZigzag = Minigame.isValid(12);
+
+			if (isCircle) {
+				System.out.println("Circle Detected");
+			} else if (isTriangle) {
+				System.out.println("Triangle Detected");
+			} else if (isZigzag) {
+				System.out.println("Zigzag Detected");
+			} else if (Minigame.currentShape.equals("vertical")) {
+				System.out.println("Vertical Line Detected");
+			} else if (Minigame.currentShape.equals("horizontal")) {
+				System.out.println("Horizontal Line Detected");
+			}
 			Minigame.points.clear();
 		}
 	}
