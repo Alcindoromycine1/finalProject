@@ -367,6 +367,9 @@ public class GamePanel extends JPanel implements Runnable {
 				ambientAudio.stop();
 			}
 		}
+		
+		Items.help(g2);
+		
 		g2.dispose();
 
 	}
