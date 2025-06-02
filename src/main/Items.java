@@ -411,12 +411,12 @@ public class Items {
 	static boolean firstTime = true;
 
 	public static int ghostRandomizer() {
-		if (level == 1) {
-			return (int) (Math.random() * 5) + 1;
-		} else if (level == 2) {
-			return (int) (Math.random() * 4) + 6;
-		}
-		return 0;
+		// if (level == 1) {
+		return (int) (Math.random() * 5) + 1;
+		// } else if (level == 2) {
+		// return (int) (Math.random() * 4) + 6;
+		// }
+		// return 0;
 
 	}
 
@@ -435,7 +435,6 @@ public class Items {
 	static String ghostShape = " ";
 
 	public static void drawGhost(Graphics2D g2, int ghostNumber, int offsetX, int offsetY) throws IOException {
-
 		if (ghostNumber == 1 && !Input.isTriangle) {
 			Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "Triangle", 250, 196);
 		} else if (ghostNumber == 2 && !Input.isCircle) {
@@ -451,9 +450,9 @@ public class Items {
 		} else if (ghostNumber == 7) {
 			Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "duoGhost", 250, 196);
 		} else if (ghostNumber == 8) {
-			Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "bossGhost", 250, 196);
+			Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "duoGhost", 250, 196);
 		} else if (ghostNumber == 9) {
-			System.out.println("2nd Ghost");
+			Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "duoGhost", 250, 196);
 		}
 	}
 
@@ -470,16 +469,21 @@ public class Items {
 				ghostAppeared = true;
 			}
 		}
+		System.out.println(level + " : " + ghostCount + " : " + ghostAppeared);
 		if (level == 2) {
 			if (!ghostAppeared) {
-				ghostNumberLeft = ghostRandomizer();
-				ghostNumberRight = ghostRandomizer();
+				duoShapeLeft = ghostRandomizer();
+				duoShapeRight = ghostRandomizer();
 				ghostAppeared = true;
 			}
-			System.out.println(ghostNumberLeft + " , " + ghostNumberRight);
 		}
 		if (ghostCount == 1) {
-			drawGhost(g2, ghostNumberLeft, -160, 30);
+			if (level == 1) {
+				drawGhost(g2, ghostNumberLeft, -160, 30);
+			} else if (level == 2) {
+				drawGhost(g2, duoShapeLeft, -160, -30);
+				drawGhost(g2, duoShapeRight, -120, -30);
+			}
 		}
 		if (ghostCount == 2) {
 			drawGhost(g2, ghostNumberRight, 0, 0);
@@ -491,6 +495,45 @@ public class Items {
 		}
 	}
 
+	public static void randomShape(String shape, int ghostX, int ghostY, Graphics2D g2, int offsetX) {
+
+		if (shape.equals("Triangle")) {
+			g2.setStroke(new BasicStroke(4));
+			g2.setColor(Color.RED);
+			int[] xTriangle = { ghostX - 260 + offsetX, ghostX - 230 + offsetX, ghostX - 290 + offsetX };
+			int[] yTriangle = { ghostY - 350, ghostY - 290, ghostY - 290 };
+			g2.drawPolygon(xTriangle, yTriangle, 3);
+		} else if (shape.equals("Circle")) {
+			g2.setStroke(new BasicStroke(4));
+			g2.setColor(Color.RED);
+			g2.drawOval(ghostX - 290 + offsetX, ghostY - 350, 60, 60);
+		} else if (shape.equals("Zigzag")) {
+			g2.setStroke(new BasicStroke(4));
+			g2.setColor(Color.RED);
+			int[] xZigzag = { ghostX - 150 - 140 + offsetX, ghostX - 100 - 140 + offsetX, ghostX - 150 - 140 + offsetX,
+					ghostX - 100 - 140 + offsetX };
+			int[] yZigzag = { ghostY - 195 - 140, ghostY - 195 - 140, ghostY - 145 - 140, ghostY - 145 - 140 };
+			g2.drawPolyline(xZigzag, yZigzag, 4);
+		} else if (shape.equals("Vertical")) {
+			g2.setColor(Color.RED);
+			g2.fillRect(ghostX - 260 + offsetX, ghostY - 355, 4, 60);
+		} else if (shape.equals("Horizontal")) {
+			g2.setColor(Color.RED);
+			g2.fillRect(ghostX - 290 + offsetX, ghostY - 290, 60, 4);
+		}
+	}
+
+	static int counting = 0;
+	static boolean duoGhostInitialized = false;
+	static int duoShapeLeft = 0;
+	static int duoShapeRight = 0;
+
+	public void shapeRandomizer() {
+		
+		String shapes [] = {"Triangle", "Circle", "Zigzag", "Vertical", "Horizontal"};
+		int num = (int) (Math.random() * shapes.length) + 1;
+	}
+	
 	public static void minigameGhost(Graphics2D g2, int ghotsX, int ghotsY, String shape, int width, int height)
 			throws IOException {
 		int ghostX = ghotsX - GamePanel.worldX;
@@ -498,32 +541,13 @@ public class Items {
 		ghostShape = shape;
 		ghost = ImageIO.read(new File("src/textures/minigameghost.png"));
 		ghost(g2, ghostX, ghostY, width, height);
-		if (shape.equals("Triangle")) {
-			g2.setStroke(new BasicStroke(4));
-			g2.setColor(Color.RED);
-			int[] xTriangle = { ghostX - 260, ghostX - 230, ghostX - 290 };
-			int[] yTriangle = { ghostY - 350, ghostY - 290, ghostY - 290 };
-			g2.drawPolygon(xTriangle, yTriangle, 3);
-		} else if (shape.equals("Circle")) {
-			g2.setStroke(new BasicStroke(4));
-			g2.setColor(Color.RED);
-			g2.drawOval(ghostX - 290, ghostY - 350, 60, 60);
-		} else if (shape.equals("Zigzag")) {
-			g2.setStroke(new BasicStroke(4));
-			g2.setColor(Color.RED);
-			int[] xZigzag = { ghostX - 150 - 140, ghostX - 100 - 140, ghostX - 150 - 140, ghostX - 100 - 140 };
-			int[] yZigzag = { ghostY - 195 - 140, ghostY - 195 - 140, ghostY - 145 - 140, ghostY - 145 - 140 };
-			g2.drawPolyline(xZigzag, yZigzag, 4);
-		} else if (shape.equals("Vertical")) {
-			g2.setColor(Color.RED);
-			g2.fillRect(ghostX - 260, ghostY - 355, 4, 60);
-		} else if (shape.equals("Horizontal")) {
-			g2.setColor(Color.RED);
-			g2.fillRect(ghostX - 290, ghostY - 290, 60, 4);
-		} else if (shape.equals("duoGhost")) {
-			
-		} else if (shape.equals("bossGhost")) {
-
+		if (level == 2) {
+			ghostShape = "Triangle";
+			randomShape(ghostShape, ghostX, ghostY, g2, 40);
+			ghostShape = "Circle";
+			randomShape(ghostShape, ghostX, ghostY, g2, -40);
+		} else {
+			randomShape(ghostShape, ghostX, ghostY, g2, 0);
 		}
 
 		/*

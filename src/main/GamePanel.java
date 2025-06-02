@@ -53,18 +53,16 @@ public class GamePanel extends JPanel implements Runnable {
 	Maps m = new Maps();
 	static Jumpscare j = new Jumpscare();
 	// ChangeScene cs = new ChangeScene(WIDTH, HEIGHT);
-	Player p; // Player object
+	Player p;
 	Npc n = new Npc();
 	Items it = new Items();
 	Input id;
-	Sound ambientAudio;
-	Sound mainMenuSound;
-	
 
 	static int screenX;
 	static int screenY;
 
 	// sound
+	private Sound footstepSound;
 
 	private MainMenu mainMenu = new MainMenu();
 	private Minigame minigame = new Minigame();
@@ -90,7 +88,7 @@ public class GamePanel extends JPanel implements Runnable {
 		screenY = HEIGHT / 2 - (tileSize / 2); // centers the player in the middle of the screen
 
 		// Background
-		m.changeMap(3);
+		m.changeMap(5);
 		// Find trees in the map
 		m.findTrees();
 		Tiles.tileCreating();
@@ -100,15 +98,10 @@ public class GamePanel extends JPanel implements Runnable {
 		p.loadCharacterImages();
 
 		try {
-		//https://www.youtube.com/watch?v=tmlZeYnfw7g
-		ambientAudio = new Sound("src/sound/ambientAudio.wav");
-		
-		//https://www.youtube.com/watch?v=1a7kscUeItk
-		mainMenuSound = new Sound("src/sound/mainMenuSound.wav");
-		}
-		catch (Exception e) {
+			footstepSound = new Sound("src/sound/walkingSoundEffect.wav");
+			System.out.println("Sound loaded successfully");
+		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("Error loading sound file: " + e.getMessage());
 		}
 	}
 
@@ -271,13 +264,14 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 		}
 		
+		
 		try {
 			if (!Maps.hasJumpscared && !Maps.hasDoctrined) {
 				m.fade(2, 3, g2, 248, 216, 82, 48, 414, 48, 145, 126);
 				Input.changeMapPressed = false;
 				Items.inHouse = true;
 			}
-			if (Maps.stepCount == -1 && Items.inHouse && !Maps.inNightmare) {
+			if (Maps.stepCount == -1 && Items.inHouse) {
 				Npc.text(g2, 5);
 				Items.inHouse = false;
 			}
@@ -332,47 +326,22 @@ public class GamePanel extends JPanel implements Runnable {
 			mainMenu.mainMenu(g2);
 		}
 		
+		
 		try {
-			Maps.nightmare(g2, this);
+			Maps.nightmare(g2);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		try {
 			Items.ghostLogic(g2);
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		p.footStepSounds();
-		p.carSound();
-		m.playNightmareSound(); 
-		m.playDoctrineSound();
-		
-		if (MainMenu.inMenu) {
-			if (!mainMenuSound.isPlaying()) {
-				mainMenuSound.play();
-				mainMenuSound.volume(-10.0f); 
-			}
-		}
-		
-		if (Maps.currentMap == 3 && !MainMenu.inMenu) {
-			if (mainMenuSound.isPlaying()) {
-				mainMenuSound.stop();
-			}
-			if (!ambientAudio.isPlaying()) {
-				ambientAudio.play();
-				ambientAudio.volume(-20.0f); 
-			}
-		}
-		
-		if (Maps.currentMap != 3) {
-			if (ambientAudio.isPlaying()) {
-				ambientAudio.stop();
-			}
-		}
-		
-		
 		g2.dispose();	
+		
+
 	}
 
 	public int getTileSize() {

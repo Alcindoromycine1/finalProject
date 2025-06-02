@@ -95,14 +95,10 @@ public class Npc {
 			if (textIndex < textJeff.length) {
 				textBubble(g2, textJeff[textIndex]);
 			}
-		} else if(list == 6) {
-			String textNightmare [] = {"What am I doing here?", "What is that thing on the table?", "What is this doctor doing to it?", "Is that one of those evil AI?", "This can't be real, it's just another hallucination."};
-			
+		}else if(list == 6) {
+			String textNightmare [] = {"yo", "I'm tired, I think I'll take a nap here."};
 			if (textIndex < textNightmare.length) {
 				textBubble(g2, textNightmare[textIndex]);
-			}
-			else {
-				Maps.doneNightmare = true;
 			}
 		}
 	}
