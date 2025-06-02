@@ -31,5 +31,19 @@ public class Sound {
 	public boolean isPlaying() {
 		return clip != null && clip.isRunning();
 	}
+	
+	
+	public void stop() {
+		if (clip != null && clip.isRunning()) {
+			clip.stop();
+		}
+	}
+
+	public void volume(float volume) {
+		if (clip != null) {
+			FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+			gainControl.setValue(volume); // volume in decibels
+		}
+	}
 
 }

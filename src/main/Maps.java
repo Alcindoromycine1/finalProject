@@ -1,11 +1,13 @@
 package main;
 
-import Horror.Jumpscare;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
+
 /*
  * Noah Sussman, Akhilan Saravanan and Rudra Garg
  * Ms. Krasteva
@@ -33,11 +35,28 @@ public class Maps {
 	public static ArrayList<int[]> grassPositions = new ArrayList<>();
 	public static ArrayList<int[]> waterPositions = new ArrayList<>();
 	public static ArrayList<int[]> bookPositions = new ArrayList<>();
+	public static BufferedImage nightmare;
+	public static ImageIcon doctor;
+	Sound nightmareSound;
+	Sound doctrineSound;
 
 	// Player p = new Player();
 	// GamePanel gp = new GamePanel();
 	Tiles t = new Tiles();
 	static int currentMap;
+	
+	public Maps() {
+		try {
+			nightmare = ImageIO.read(new File("src/textures/nightmare.png"));
+			// https://www.youtube.com/watch?v=X4BPQ65vFzA
+			nightmareSound = new Sound("src/sound/hittingMetal.wav");
+
+			doctrineSound = new Sound("src/sound/doctrine.wav");
+			doctor = new ImageIcon("src/textures/doctor.gif");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public String changeMap(Graphics2D g, int mapToChange) {
 		if (mapToChange == 1) {
@@ -118,7 +137,6 @@ public class Maps {
 
 		BufferedReader r = new BufferedReader(new FileReader("src/maps/mapIntro.txt"));
 		String lines = "";
-		int numberOfLines = 0;
 		// Count the number of lines in the file
 		// Iterate through the 2D array to find occurrences of 1
 		for (int row = 0; row < tiles.size(); row++) {
@@ -224,12 +242,12 @@ public class Maps {
 	static int stepCount = 0;
 	static int hasFaded = 0;
 
-	public void fading(Graphics2D g2, Tiles t, GamePanel m, int newMap, int originalMap) throws IOException {
+	public void fading(Graphics2D g2, Tiles t, int newMap, int originalMap) throws IOException {
 
 		if (stepCount == 0) {// fade out
 			Color fadeColor = new Color(0, 0, 0, fadeValue);
 			g2.setColor(fadeColor);
-			g2.fillRect(0, 0, m.WIDTH, m.HEIGHT);
+			g2.fillRect(0, 0, 768, 576);
 			fadeValue += 2;
 			if (fadeValue >= 255) {
 				fadeValue = 255;
@@ -259,7 +277,7 @@ public class Maps {
 					Tiles.tileImages.add(row);
 				}
 
-				g2.fillRect(-10000, -10000, m.WIDTH + 20000, m.HEIGHT + 20000); // Clear the screen
+				g2.fillRect(-10000, -10000, 768 + 20000, 576 + 20000); // Clear the screen
 				// Change to the new map
 				if (goOut) {
 					changeMap(newMap);
@@ -282,7 +300,7 @@ public class Maps {
 
 		else if (stepCount == 2) {// fade in
 			g2.setColor(new Color(0, 0, 0, fadeValue));
-			g2.fillRect(0, 0, m.WIDTH, m.HEIGHT);
+			g2.fillRect(0, 0, 768, 576);
 			fadeValue -= 2;
 			if (fadeValue <= 0) {
 				fading = false;
@@ -318,8 +336,6 @@ public class Maps {
 	public void fade(int changeMap, int oldMap, Graphics2D g2, int worX, int worY, int width, int height, int oldworX,
 			int oldworY, int oldWidth, int oldHeight) throws IOException {
 
-		GamePanel gp = new GamePanel();
-
 		if (Input.changeMapPressed && GamePanel.worldX >= oldworX && GamePanel.worldX <= oldworX + oldWidth
 				&& GamePanel.worldY >= oldworY && GamePanel.worldY <= oldworY + oldHeight) {
 			fading = true;
@@ -335,7 +351,7 @@ public class Maps {
 			goOut = true;
 		}
 		if (fading) {
-			fading(g2, t, gp, oldMap, changeMap);
+			fading(g2, t, oldMap, changeMap);
 		}
 	}
 
@@ -343,7 +359,11 @@ public class Maps {
 	public static boolean inNightmare = false;
 	public static boolean usingBed = false;
 
-	public static void nightmare(Graphics2D g2) throws IOException {
+	static boolean once = false;
+	static int fade2Value = 0;
+	static boolean faded = false;
+	static boolean doneFade = false;
+	public static void nightmare(Graphics2D g2, Component observer) throws IOException {
 		if (usingBed && !inNightmare && !doneNightmare) {
 			Items.inConfirmation = true;
 			Items.confirmation(g2, "Do you want to sleep?", 180);
@@ -364,12 +384,63 @@ public class Maps {
 		}
 
 		if (inNightmare) {
-			Npc.text(g2, 6);
+				if (!faded) {
+				Color fadeColor = new Color(0, 0, 0, fade2Value);
+				g2.setColor(fadeColor);
+				g2.fillRect(0, 0, 768, 576);
+				fade2Value += 2;
+				if (fade2Value >= 255) {
+					fade2Value = 255;
+					faded = true;
+				}
+			}
+			if (faded) {
+				g2.drawImage(nightmare, 0, 0, 768, 576, null);
+				g2.drawImage(doctor.getImage(), 300, 160, 400, 300, observer);
+				g2.setColor(new Color(0, 0, 0, fade2Value));
+				g2.fillRect(0, 0, 768, 576);
+				fade2Value -= 2;
+				if (fade2Value <= 0) {
+					fade2Value = 0;
+					doneFade = true;
+				}
+			}
+			if (doneFade) {
+				g2.drawImage(nightmare, 0, 0, 768, 576, null);
+				g2.drawImage(doctor.getImage(), 300, 160, 400, 300, observer);
+				if (!once) {
+					Npc.textIndex = 0;
+					once = true;
+				}
+				Npc.text(g2, 6);
+			}
 		}
 
 		if (doneNightmare) {
 			inNightmare = false;
 			Npc.doctor(g2);
+		}
+	}
+	
+	public void playNightmareSound() {
+		if (inNightmare && doneFade) {
+			if (!nightmareSound.isPlaying()) {
+				nightmareSound.play();
+			}
+		} else if (doneNightmare) {
+			nightmareSound.stop();
+		}
+	}
+
+	public void playDoctrineSound() {
+		if (currentMap == 4 ) {
+			if (!doctrineSound.isPlaying()) {
+				doctrineSound.play();
+			}
+		} else {
+			if (doctrineSound.isPlaying()) {
+				doctrineSound.stop();
+			}
 		}
 	}
 
