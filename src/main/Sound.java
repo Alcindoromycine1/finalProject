@@ -1,6 +1,5 @@
 package main;
 
-import Horror.Jumpscare;
 import javax.sound.sampled.*;
 import java.io.*;
 
@@ -30,6 +29,20 @@ public class Sound {
 
 	public boolean isPlaying() {
 		return clip != null && clip.isRunning();
+	}
+	
+	public void stop() {
+		if (clip != null && clip.isRunning()) {
+			clip.stop();
+			clip.close();
+		}
+	}
+	
+	public void volume(float volume) {
+		if (clip != null) {
+			FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+			gainControl.setValue(volume); // volume in decibels
+		}
 	}
 
 }
