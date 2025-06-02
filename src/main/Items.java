@@ -529,11 +529,11 @@ public class Items {
 	static int duoShapeRight = 0;
 
 	public void shapeRandomizer() {
-		
-		String shapes [] = {"Triangle", "Circle", "Zigzag", "Vertical", "Horizontal"};
+
+		String shapes[] = { "Triangle", "Circle", "Zigzag", "Vertical", "Horizontal" };
 		int num = (int) (Math.random() * shapes.length) + 1;
 	}
-	
+
 	public static void minigameGhost(Graphics2D g2, int ghotsX, int ghotsY, String shape, int width, int height)
 			throws IOException {
 		int ghostX = ghotsX - GamePanel.worldX;
@@ -619,5 +619,42 @@ public class Items {
 		g2.setColor(Color.WHITE);
 		g2.drawString("Yes", 270, 385);
 		g2.drawString("No", 472, 385);
+	}
+
+	public static boolean helpPressed = false;
+
+	public static void help(Graphics2D g2) {
+		if (helpPressed) {
+			g2.setColor(Color.BLACK);
+			g2.drawRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
+			g2.setColor(Color.DARK_GRAY);
+			g2.fillRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
+			g2.setColor(Color.LIGHT_GRAY);
+			g2.fillRoundRect(60, 60, 218 * 3, 148 * 3, 10, 10);
+			g2.setFont(new Font("Monospaced", Font.BOLD, 40));
+			g2.setColor(Color.BLACK);
+			g2.drawString("Help", 345, 115);
+			g2.fillRect(344, 117, 98, 2);
+			g2.setFont(new Font("Calibri", Font.PLAIN, 20));
+			g2.drawString("Ensure that your audio is enabled before you begin the game.", 100 - 10, 175 + 10);
+			g2.drawString("It is a vital component to the game.", 100 - 10, 205 + 10);
+			g2.drawString("If you are ever stuck, and don't know what to do, you can use your cursor", 100 - 10, 260 + 23);
+			g2.drawString("to hover and click on the instructions menu in the top right. You can then", 100 - 10, 290 + 23);
+			g2.drawString("navigate through different topics to find what you are having troubles", 100 - 10, 320 + 23);
+			g2.drawString("For example, if you don't know what the keybinds are to move, go to", 100 - 10, 350 + 23);
+			g2.drawString("the movement section.", 100 - 10, 380 + 20);
+
+			g2.drawString("When you enter the house, after you've slept in the bed, you should", 100 - 10, 435 + 20);
+			g2.drawString("go back to the entrance again to go back outside of the house.", 100 - 10, 465 + 20);
+
+			// Subtitles
+			g2.setFont(new Font("Calibri", Font.BOLD, 22));
+			g2.drawString("Guide House", 335, 425);
+			g2.fillRect(335, 427, 117, 2);
+			g2.drawString("Stuck", 370, 253);
+			g2.fillRect(370, 255, 52, 2);
+			g2.drawString("Audio", 370, 155);
+			g2.fillRect(370, 157, 54, 2);d
+		}
 	}
 }
