@@ -30,7 +30,7 @@ public class Npc {
 
 		int doctorX = 480 - GamePanel.worldX;
 		int doctorY = 260 - GamePanel.worldY;
-		
+
 		BufferedImage doctor = null;
 		doctor = ImageIO.read(new File("src/textures/doctor.png"));
 		g2.drawImage(doctor, doctorX, doctorY, null);
@@ -86,19 +86,24 @@ public class Npc {
 				textBubble(g2, textDoctor[textIndex]);
 			}
 		} else if (list == 4) {
-			String textDoctrineGhost[] = {"Don't hurt me. Please leave me alone.","If you must, go inside the door at the end of this path! To   get rid of my kind."};
+			String textDoctrineGhost[] = { "Don't hurt me. Please leave me alone.",
+					"If you must, go inside the door at the end of this path! To   get rid of my kind." };
 			if (textIndex < textDoctrineGhost.length) {
 				textBubble(g2, textDoctrineGhost[textIndex]);
 			}
-		} else if(list == 5) {
-			String textJeff [] = {"What is this place?", "I'm tired, I think I'll take a nap here."};
+		} else if (list == 5) {
+			String textJeff[] = { "What is this place?", "I'm tired, I think I'll take a nap here." };
 			if (textIndex < textJeff.length) {
 				textBubble(g2, textJeff[textIndex]);
 			}
-		}else if(list == 6) {
-			String textNightmare [] = {"yo", "I'm tired, I think I'll take a nap here."};
+		} else if (list == 6) {
+			String textNightmare[] = { "What am I doing here?", "What is that thing on the table?",
+					"What is this doctor doing to it?", "Is that one of those evil AI?",
+					"This can't be real, it's just another hallucination." };
 			if (textIndex < textNightmare.length) {
 				textBubble(g2, textNightmare[textIndex]);
+			} else {
+				Maps.doneNightmare = true;
 			}
 		}
 	}
