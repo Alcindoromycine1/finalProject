@@ -2,6 +2,7 @@ package main;
 
 import Horror.Jumpscare;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -16,6 +17,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 public class Maps {
 
@@ -33,11 +35,22 @@ public class Maps {
 	public static ArrayList<int[]> grassPositions = new ArrayList<>();
 	public static ArrayList<int[]> waterPositions = new ArrayList<>();
 	public static ArrayList<int[]> bookPositions = new ArrayList<>();
+	public static BufferedImage nightmare;
+	public static ImageIcon doctor;
 
 	// Player p = new Player();
 	// GamePanel gp = new GamePanel();
 	Tiles t = new Tiles();
 	static int currentMap;
+
+	public Maps() {
+		try {
+			nightmare = ImageIO.read(new File("src/textures/nightmare.png"));
+			doctor = new ImageIcon("src/textures/doctor.gif");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public String changeMap(Graphics2D g, int mapToChange) {
 		if (mapToChange == 1) {
@@ -166,6 +179,7 @@ public class Maps {
 
 	public static boolean incrementingUp = true;
 	public static int yVal = -5;
+
 	public static void drawExorcismRoom(Graphics2D g2) throws IOException {
 
 		try {
@@ -181,22 +195,23 @@ public class Maps {
 		g2.setFont(new Font("Arial", Font.BOLD, 20));
 		g2.setColor(Color.WHITE);
 		g2.drawString("Draw:", 15, 40);
-		
+
 		if (yVal == -5) {
 			incrementingUp = true;
 		} else if (yVal == 30) {
 			incrementingUp = false;
 		}
-		
+
 		if (incrementingUp) {
 			yVal++;
 		} else {
 			yVal--;
 		}
-		
-		
-		/*Items.minigameGhost(g2, 1200, 820 + yVal, "Square", 250, 196);
-		Items.minigameGhost(g2, 1000, 860 + yVal, "Circle", 250, 196);*/
+
+		/*
+		 * Items.minigameGhost(g2, 1200, 820 + yVal, "Square", 250, 196);
+		 * Items.minigameGhost(g2, 1000, 860 + yVal, "Circle", 250, 196);
+		 */
 
 	}
 
@@ -342,8 +357,12 @@ public class Maps {
 	public static boolean doneNightmare = false;
 	public static boolean inNightmare = false;
 	public static boolean usingBed = false;
-
-	public static void nightmare(Graphics2D g2) throws IOException {
+	static boolean once = false;
+	
+	static int fade2Value = 0;
+	static boolean faded = false;
+	static boolean doneFade = false;
+	public static void nightmare(Graphics2D g2, Component observer) throws IOException {
 		if (usingBed && !inNightmare && !doneNightmare) {
 			Items.inConfirmation = true;
 			Items.confirmation(g2, "Do you want to sleep?", 180);
@@ -362,9 +381,39 @@ public class Maps {
 			}
 			return;
 		}
-
 		if (inNightmare) {
-			System.out.println("In nightmare");
+			if (!faded) {
+				Color fadeColor = new Color(0, 0, 0, fade2Value);
+				g2.setColor(fadeColor);
+				g2.fillRect(0, 0, 768, 576);
+				fade2Value += 2;
+				if (fade2Value >= 255) {
+					fade2Value = 255;
+					faded = true;
+				}
+			}
+			if (faded) {
+				g2.drawImage(nightmare, 0, 0, 768, 576, null);
+				g2.drawImage(doctor.getImage(), 300, 160, 400, 300, observer);
+				g2.setColor(new Color(0, 0, 0, fade2Value));
+				g2.fillRect(0, 0, 768, 576);
+				fade2Value -= 2;
+				if (fade2Value <= 0) {
+					fade2Value = 0;
+					doneFade = true;
+				}
+			}
+			if (doneFade) {
+				g2.drawImage(nightmare, 0, 0, 768, 576, null);
+				g2.drawImage(doctor.getImage(), 300, 160, 400, 300, observer);
+				if (!once) {
+					Npc.textIndex = 0;
+					once = true;
+				}
+				
+				Npc.text(g2, 6); 
+			}
+			
 		}
 
 		if (doneNightmare) {

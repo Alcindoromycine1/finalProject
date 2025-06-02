@@ -88,7 +88,7 @@ public class GamePanel extends JPanel implements Runnable {
 		screenY = HEIGHT / 2 - (tileSize / 2); // centers the player in the middle of the screen
 
 		// Background
-		m.changeMap(5);
+		m.changeMap(3);
 		// Find trees in the map
 		m.findTrees();
 		Tiles.tileCreating();
@@ -264,14 +264,13 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 		}
 		
-		
 		try {
 			if (!Maps.hasJumpscared && !Maps.hasDoctrined) {
 				m.fade(2, 3, g2, 248, 216, 82, 48, 414, 48, 145, 126);
 				Input.changeMapPressed = false;
 				Items.inHouse = true;
 			}
-			if (Maps.stepCount == -1 && Items.inHouse) {
+			if (Maps.stepCount == -1 && Items.inHouse && !Maps.inNightmare) {
 				Npc.text(g2, 5);
 				Items.inHouse = false;
 			}
@@ -326,9 +325,8 @@ public class GamePanel extends JPanel implements Runnable {
 			mainMenu.mainMenu(g2);
 		}
 		
-		
 		try {
-			Maps.nightmare(g2);
+			Maps.nightmare(g2, this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
