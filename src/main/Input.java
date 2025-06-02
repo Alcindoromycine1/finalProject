@@ -35,7 +35,6 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	}
 
 	public Input() {
-
 		// this.npc = new Npc(this);
 		this.i = new Items(this);
 

@@ -53,16 +53,18 @@ public class GamePanel extends JPanel implements Runnable {
 	Maps m = new Maps();
 	static Jumpscare j = new Jumpscare();
 	// ChangeScene cs = new ChangeScene(WIDTH, HEIGHT);
-	Player p;
+	Player p; // Player object
 	Npc n = new Npc();
 	Items it = new Items();
 	Input id;
+	Sound ambientAudio;
+	Sound mainMenuSound;
+	
 
 	static int screenX;
 	static int screenY;
 
 	// sound
-	private Sound footstepSound;
 
 	private MainMenu mainMenu = new MainMenu();
 	private Minigame minigame = new Minigame();
@@ -98,10 +100,15 @@ public class GamePanel extends JPanel implements Runnable {
 		p.loadCharacterImages();
 
 		try {
-			footstepSound = new Sound("src/sound/walkingSoundEffect.wav");
-			System.out.println("Sound loaded successfully");
-		} catch (Exception e) {
+		//https://www.youtube.com/watch?v=tmlZeYnfw7g
+		ambientAudio = new Sound("src/sound/ambientAudio.wav");
+		
+		//https://www.youtube.com/watch?v=1a7kscUeItk
+		mainMenuSound = new Sound("src/sound/mainMenuSound.wav");
+		}
+		catch (Exception e) {
 			e.printStackTrace();
+			System.out.println("Error loading sound file: " + e.getMessage());
 		}
 	}
 
@@ -333,13 +340,39 @@ public class GamePanel extends JPanel implements Runnable {
 		try {
 			Items.ghostLogic(g2);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		g2.dispose();	
+		p.footStepSounds();
+		p.carSound();
+		m.playNightmareSound(); 
+		m.playDoctrineSound();
 		
-
+		if (MainMenu.inMenu) {
+			if (!mainMenuSound.isPlaying()) {
+				mainMenuSound.play();
+				mainMenuSound.volume(-10.0f); 
+			}
+		}
+		
+		if (Maps.currentMap == 3 && !MainMenu.inMenu) {
+			if (mainMenuSound.isPlaying()) {
+				mainMenuSound.stop();
+			}
+			if (!ambientAudio.isPlaying()) {
+				ambientAudio.play();
+				ambientAudio.volume(-20.0f); 
+			}
+		}
+		
+		if (Maps.currentMap != 3) {
+			if (ambientAudio.isPlaying()) {
+				ambientAudio.stop();
+			}
+		}
+		
+		
+		g2.dispose();	
 	}
 
 	public int getTileSize() {

@@ -27,6 +27,8 @@ public class Player {
 	Input input = new Input();
 	Npc n = new Npc(input);
 	Items it = new Items();
+	Sound walkingSound;
+	Sound carSound;
 
 	private BufferedImage character;
 	public static BufferedImage buisnessMan;
@@ -36,10 +38,20 @@ public class Player {
 
 	public Player(Input input) {
 		this.input = input;
+		try {
+			//https://www.youtube.com/watch?v=6LOm1ZlE39I
+			walkingSound = new Sound("src/sound/walkingSoundEffect.wav");
+			
+			//https://www.youtube.com/watch?v=O8s6HkPZ3Io
+			carSound = new Sound("src/sound/carSound.wav");
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Error loading sound file: " + e.getMessage());
+		}
 	}
 
 	public Player() {
-
 	}
 
 	public void collisionChecking() {
@@ -234,7 +246,26 @@ public class Player {
 			return true;
 		}
 		return false; 	
-		
-
+	}
+	
+	public void footStepSounds() {
+		if (keyH.rightPressed || keyH.leftPressed || keyH.upPressed || keyH.downPressed) {
+			if (!walkingSound.isPlaying()) {
+				walkingSound.volume(-10.0f); // Set volume to a lower level
+				walkingSound.play();
+			}
+		} else if (keyH.rightReleased || keyH.leftReleased || keyH.upReleased || keyH.downReleased) {
+			walkingSound.stop();
+		}
+	}
+	
+	public void carSound() {
+		if (Items.carOn) {
+			if (!carSound.isPlaying()) {
+				carSound.play();
+			}
+		} else if (!Items.carOn) {
+			carSound.stop();
+		}
 	}
 }
