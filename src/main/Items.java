@@ -654,7 +654,7 @@ public class Items {
 			g2.drawString("Stuck", 370, 253);
 			g2.fillRect(370, 255, 52, 2);
 			g2.drawString("Audio", 370, 155);
-			g2.fillRect(370, 157, 54, 2);d
+			g2.fillRect(370, 157, 54, 2);
 		}
 	}
 }

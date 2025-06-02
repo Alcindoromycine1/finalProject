@@ -67,6 +67,7 @@ public class GamePanel extends JPanel implements Runnable {
 	private Sound footstepSound;
 
 	private MainMenu mainMenu = new MainMenu();
+	LoadingScreen loadingScreen = new LoadingScreen();
 	private Minigame minigame = new Minigame();
 
 	public GamePanel() {
@@ -168,13 +169,6 @@ public class GamePanel extends JPanel implements Runnable {
 				direction = "right";
 				worldX += playerSpeed; // move the world right when player goes right
 			}
-
-			// footsteps
-			if (p.keyH.upPressed && !p.keyH.upReleased || p.keyH.downPressed && !p.keyH.downReleased
-					|| p.keyH.rightPressed && !p.keyH.rightReleased || p.keyH.leftPressed && !p.keyH.leftReleased) {
-				// System.out.println(footstepSound);
-				// footstepSound.play();
-			}
 		}
 	}
 
@@ -261,7 +255,7 @@ public class GamePanel extends JPanel implements Runnable {
 		 * only runs once delayTimer.start(); }
 		 */
 
-		if (Maps.currentMap == /* 5 */ 5) {
+		if (Maps.currentMap == 5) {
 			try {
 				m.drawExorcismRoom(g2);
 			} catch (IOException e) {
@@ -325,10 +319,6 @@ public class GamePanel extends JPanel implements Runnable {
 			e.printStackTrace();
 		}
 
-		if (MainMenu.inMenu) {
-			mainMenu.mainMenu(g2);
-		}
-
 		try {
 			Maps.nightmare(g2, this);
 		} catch (IOException e) {
@@ -340,19 +330,25 @@ public class GamePanel extends JPanel implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		p.footStepSounds();
 		p.carSound();
 		m.playNightmareSound();
 		m.playDoctrineSound();
 
+		if (LoadingScreen.loadingScreen) {
+			loadingScreen.drawLoadingScreen(g2);
+		}
+		
 		if (MainMenu.inMenu) {
+			mainMenu.mainMenu(g2);
 			if (!mainMenuSound.isPlaying()) {
 				mainMenuSound.play();
 				mainMenuSound.volume(-10.0f);
 			}
 		}
 
-		if (Maps.currentMap == 3 && !MainMenu.inMenu) {
+		if (Maps.currentMap == 3 && !MainMenu.inMenu && !LoadingScreen.loadingScreen) {
 			if (mainMenuSound.isPlaying()) {
 				mainMenuSound.stop();
 			}

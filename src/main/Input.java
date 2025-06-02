@@ -298,7 +298,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 
 			Minigame.zigzag();
 			isZigzag = Minigame.isValid(15);
-			
+
 			if (isCircle && Items.ghostShape.equals("Circle")) {
 				Items.ghostCount++;
 				System.out.println("Circle Detected");
