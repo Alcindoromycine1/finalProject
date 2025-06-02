@@ -622,6 +622,21 @@ public class Items {
 	}
 
 	public static boolean helpPressed = false;
+	public static boolean hoveringX = false;
+	
+	public static void exitMenuOption(Graphics2D g2) {
+		if (hoveringX) {
+			g2.setColor(unselected);
+			
+		}else {
+			g2.setColor(selected);
+		}
+		g2.fillRoundRect(595 + 90, 100 - 40, 30, 30, 10, 10);
+		g2.setStroke(new BasicStroke(4));
+		g2.setColor(Color.WHITE);
+		g2.drawLine(604 + 90 - 5, 105 - 40, 620 + 90, 120 - 40 + 5);
+		g2.drawLine(620 + 90, 105 - 40, 604 + 90 - 5, 120 - 40 + 5);
+	}
 
 	public static void help(Graphics2D g2) {
 		if (helpPressed) {
@@ -638,8 +653,10 @@ public class Items {
 			g2.setFont(new Font("Calibri", Font.PLAIN, 20));
 			g2.drawString("Ensure that your audio is enabled before you begin the game.", 100 - 10, 175 + 10);
 			g2.drawString("It is a vital component to the game.", 100 - 10, 205 + 10);
-			g2.drawString("If you are ever stuck, and don't know what to do, you can use your cursor", 100 - 10, 260 + 23);
-			g2.drawString("to hover and click on the instructions menu in the top right. You can then", 100 - 10, 290 + 23);
+			g2.drawString("If you are ever stuck, and don't know what to do, you can use your cursor", 100 - 10,
+					260 + 23);
+			g2.drawString("to hover and click on the instructions menu in the top right. You can then", 100 - 10,
+					290 + 23);
 			g2.drawString("navigate through different topics to find what you are having troubles", 100 - 10, 320 + 23);
 			g2.drawString("For example, if you don't know what the keybinds are to move, go to", 100 - 10, 350 + 23);
 			g2.drawString("the movement section.", 100 - 10, 380 + 20);
@@ -654,7 +671,8 @@ public class Items {
 			g2.drawString("Stuck", 370, 253);
 			g2.fillRect(370, 255, 52, 2);
 			g2.drawString("Audio", 370, 155);
-			g2.fillRect(370, 157, 54, 2);d
+			g2.fillRect(370, 157, 54, 2);
 		}
+		exitMenuOption(g2);
 	}
 }

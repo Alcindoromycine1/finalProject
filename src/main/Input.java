@@ -196,6 +196,11 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		} else {
 			Items.hoveringNo = false;
 		}
+		if (mouseX >= 685 && mouseX <= 715 && mouseY >= 60 && mouseY <= 90 && Items.helpPressed) {
+			Items.hoveringX = true;
+		} else {
+			Items.hoveringX = false;
+		}
 	}
 
 	@Override
