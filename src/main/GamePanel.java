@@ -165,7 +165,7 @@ public class GamePanel extends JPanel implements Runnable {
 			} else if (Player.keyH.leftPressed) {
 				direction = "left";
 				worldX -= playerSpeed; // move the world left when player goes left
-			} else if (p.keyH.rightPressed) {
+			} else if (Player.keyH.rightPressed) {
 				direction = "right";
 				worldX += playerSpeed; // move the world right when player goes right
 			}

@@ -684,8 +684,20 @@ public class Items {
 			g2.fillRoundRect(60, 60, 218 * 3, 148 * 3, 10, 10);
 			g2.setFont(new Font("Monospaced", Font.BOLD, 40));
 			g2.setColor(Color.BLACK);
-			g2.drawString("Credits", 330, 115);
-			g2.fillRect(330, 117, 167, 2);
+			g2.drawString("Credits", 325, 115);
+			g2.fillRect(325, 117, 167, 2);
+			
+			g2.setFont(new Font("Calibri", Font.BOLD, 20));
+			g2.drawString("Project Lead", 100, 175);
+			g2.fillRect(100, 177, 150, 2);
+			g2.drawString ("Noah Sussman", 100, 180);
+			g2.drawString ("Senior Developer: Akhilan Saravanan", 100, 205);
+			g2.drawString ("Junior Developer", 100, 235);
+			g2.drawString("UX/UI Designer: Rudra Garg", 100, 235);
+			g2.drawString("Voice Actor", 100, 265);
+			g2.drawString("Playtester", 100, 270);
+			g2.fillRect(100, 267, 150, 2);
+			g2.drawString("Sammy Jiang", 100, 270);
 		}
 	}
 }
