@@ -62,7 +62,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 	static int screenX;
 	static int screenY;
-
+	
 	// sound
 	private Sound footstepSound;
 
@@ -336,9 +336,9 @@ public class GamePanel extends JPanel implements Runnable {
 		m.playNightmareSound();
 		m.playDoctrineSound();
 
-		if (LoadingScreen.loadingScreen) {
+		/*if (LoadingScreen.loadingScreen) {
 			loadingScreen.drawLoadingScreen(g2);
-		}
+		}*/
 		
 		if (MainMenu.inMenu) {
 			mainMenu.mainMenu(g2);
@@ -365,6 +365,7 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 		
 		Items.help(g2);
+		Items.credits(g2);
 		
 		g2.dispose();
 
