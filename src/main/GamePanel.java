@@ -244,6 +244,7 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 		System.out.println(Jumpscare.jumpscare);
 		if (Jumpscare.jumpscare) {
+			
 			j.playSound();
 			j.drawJumpscare(g2);
 		} // Render the jumpscare image
