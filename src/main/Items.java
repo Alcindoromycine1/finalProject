@@ -279,10 +279,6 @@ public class Items {
 		}
 	}
 
-	public void credits(Graphics2D g2) {
-
-	}
-
 	static boolean backPressed = false;
 	static boolean hoveringBack = false;
 	static boolean keybindPrompts = false;
@@ -469,7 +465,7 @@ public class Items {
 				ghostAppeared = true;
 			}
 		}
-		System.out.println(level + " : " + ghostCount + " : " + ghostAppeared);
+		// System.out.println(level + " : " + ghostCount + " : " + ghostAppeared);
 		if (level == 2) {
 			if (!ghostAppeared) {
 				duoShapeLeft = ghostRandomizer();
@@ -623,13 +619,13 @@ public class Items {
 
 	public static boolean helpPressed = false;
 	public static boolean hoveringX = false;
-	
+
 	public static void exitMenuOption(Graphics2D g2) {
 		if (hoveringX) {
-			g2.setColor(unselected);
-			
-		}else {
 			g2.setColor(selected);
+
+		} else {
+			g2.setColor(unselected);
 		}
 		g2.fillRoundRect(595 + 90, 100 - 40, 30, 30, 10, 10);
 		g2.setStroke(new BasicStroke(4));
@@ -672,7 +668,24 @@ public class Items {
 			g2.fillRect(370, 255, 52, 2);
 			g2.drawString("Audio", 370, 155);
 			g2.fillRect(370, 157, 54, 2);
+			exitMenuOption(g2);
 		}
-		exitMenuOption(g2);
+	}
+
+	public static boolean creditsPressed = false;
+
+	public static void credits(Graphics2D g2) {
+		if (creditsPressed) {
+			g2.setColor(Color.BLACK);
+			g2.drawRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
+			g2.setColor(Color.DARK_GRAY);
+			g2.fillRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
+			g2.setColor(Color.LIGHT_GRAY);
+			g2.fillRoundRect(60, 60, 218 * 3, 148 * 3, 10, 10);
+			g2.setFont(new Font("Monospaced", Font.BOLD, 40));
+			g2.setColor(Color.BLACK);
+			g2.drawString("Credits", 330, 115);
+			g2.fillRect(330, 117, 167, 2);
+		}
 	}
 }

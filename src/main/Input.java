@@ -278,6 +278,17 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 290 && mouseY <= 350) {
 			Items.helpPressed = true;
 		}
+		if (mouseX >= 685 && mouseX <= 715 && mouseY >= 60 && mouseY <= 90 && Items.helpPressed) {
+			Items.helpPressed = false;
+		}
+
+		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 290 && mouseY <= 350) {
+			Items.helpPressed = true;
+		}
+		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 360 && mouseY <= 420 && MainMenu.inMenu) {
+			Items.creditsPressed = true;
+		}
+
 	}
 
 	static boolean isCircle;
