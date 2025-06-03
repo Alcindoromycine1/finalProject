@@ -6,6 +6,8 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,22 +16,32 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.Timer;
+
+import Horror.Jumpscare;
 
 public class Items {
 
 	private int inventoryBoxX = 300;
 	private int inventoryBoxY = 300;
 
+	static Jumpscare j = new Jumpscare();
 	Input input;
+	Sound bookFlip;
 
 	public Items(Input input) {
 
 		this.input = input;
+		try {
+			bookFlip = new Sound("src/sound/bookFlip.wav");
+		} catch (Exception e) {
+			System.out.println("Error loading book flip sound: " + e.getMessage());
+		}
 
 	}
 
 	public Items() {
-
+		
 	}
 
 	public void baseballBat(Graphics g, boolean inventoryCollision) throws IOException {
@@ -171,7 +183,6 @@ public class Items {
 				&& GamePanel.playerY + 72 > carY && GamePanel.playerY < carY + 192 && Player.keyH.ePressed) {
 
 			carOn = true;
-			carUsed = true;
 			Player.disableCharacterMovement();
 			visible = false;
 			animationFrame = 0;
@@ -394,6 +405,8 @@ public class Items {
 			if (carWorldX >= 4700) {
 				carWorldX = 4700;
 				carOn = false;
+				carUsed = true;
+				Jumpscare.jumpscare = true;
 				visible = true;
 				Player.disableCharacterMovement();
 			}
@@ -700,4 +713,26 @@ public class Items {
 			g2.drawString("Sammy Jiang", 100, 270);
 		}
 	}
+	
+	public void playBookSound() {
+		bookFlip.play();
+	}
+	
+	//Timer created from https://stackoverflow.com/questions/1006611/java-swing-timer
+		static Timer time;
+		public static void timer() {
+		    time = new Timer(723, new ActionListener() {
+		        @Override
+		        public void actionPerformed(ActionEvent e) {
+		            Items.playGif = false;
+		   		    Items.staticImageBook = true;
+		            time.stop();
+		        }
+		    });
+		    if (time != null && time.isRunning()) {
+		        time.stop();
+		    }
+		    time.setRepeats(false);
+		    time.start();
+		}
 }

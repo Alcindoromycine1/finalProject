@@ -341,7 +341,6 @@ public class Maps {
 			fading = true;
 			Player.disableCharacterMovement();
 			Input.changeMapPressed = false;
-			GamePanel.j.setJumpscare(true);
 		}
 		if (!fading && Input.changeMapPressed && GamePanel.worldX >= worX && GamePanel.worldX <= worX + width
 				&& GamePanel.worldY >= worY && GamePanel.worldY <= worY + height) {
