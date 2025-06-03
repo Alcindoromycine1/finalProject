@@ -5,6 +5,7 @@ import javax.swing.*;
 import Horror.Jumpscare;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.Timer;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -62,7 +63,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 	static int screenX;
 	static int screenY;
-	
+
 	// sound
 	private Sound footstepSound;
 
@@ -241,27 +242,20 @@ public class GamePanel extends JPanel implements Runnable {
 			it.prompts(g2);
 			it.backMenu(g2);
 		}
-		/*
-		 * if (j.isJumpscare()) { if (j.getOnce() == false) { // makes sound run only
-		 * once j.playSound(); j.setOnce(true); } // Render the jumpscare image
-		 * j.drawJumpscare(g2);
-		 * 
-		 * // Use a Timer to introduce a delay after rendering Timer delayTimer = new
-		 * Timer(2000, new ActionListener() {
-		 * 
-		 * @Override public void actionPerformed(ActionEvent e) { j.setJumpscare(false);
-		 * // Reset the jumpscare state after 2 seconds ((Timer) e.getSource()).stop();
-		 * // Stop the timer } }); delayTimer.setRepeats(false); // Ensure the timer
-		 * only runs once delayTimer.start(); }
-		 */
+		System.out.println(Jumpscare.jumpscare);
+		if (Jumpscare.jumpscare) {
+			j.playSound();
+			j.drawJumpscare(g2);
+		} // Render the jumpscare image
 
 		if (Maps.currentMap == 5) {
-			try {
-				m.drawExorcismRoom(g2);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+				try {
+					m.drawExorcismRoom(g2);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 		}
 
 		try {
@@ -327,19 +321,18 @@ public class GamePanel extends JPanel implements Runnable {
 		try {
 			Items.ghostLogic(g2);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		p.footStepSounds();
 		p.carSound();
 		m.playNightmareSound();
 		m.playDoctrineSound();
 
-		/*if (LoadingScreen.loadingScreen) {
+		if (LoadingScreen.loadingScreen) {
 			loadingScreen.drawLoadingScreen(g2);
-		}*/
-		
+		}
+
 		if (MainMenu.inMenu) {
 			mainMenu.mainMenu(g2);
 			if (!mainMenuSound.isPlaying()) {
@@ -363,10 +356,10 @@ public class GamePanel extends JPanel implements Runnable {
 				ambientAudio.stop();
 			}
 		}
-		
+
 		Items.help(g2);
 		Items.credits(g2);
-		
+
 		g2.dispose();
 
 	}

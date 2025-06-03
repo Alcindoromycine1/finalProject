@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 public class MainMenu {
 
 	private BufferedImage background;
-	public static boolean inMenu = true;
+	public static boolean inMenu = false;
 	public static boolean hoveringPlay = false;
 	public static boolean hoveringHelp = false;
 	public static boolean hoveringExit = false;

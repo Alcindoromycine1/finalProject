@@ -130,7 +130,7 @@ public class Player {
 			int bookY = Maps.bookPositions.get(i)[1] - GamePanel.worldY;
 			if (GamePanel.playerX + 32 > bookX // Right side of hitbox is past left side of tree
 					&& GamePanel.playerX < bookX + 48 // Left side of hitbox is before right side of tree
-					&& GamePanel.playerY + 72 > bookY + 48 // Bottom side of hitbox is below top side of tree
+					&& GamePanel.playerY + 72 > bookY  // Bottom side of hitbox is below top side of tree
 					&& GamePanel.playerY < bookY + 48 && Player.keyH.useBookPressed) { // Top side of hitbox is above
 																						// bottom side of tree
 				Items.enterBook = true;

@@ -104,8 +104,9 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 			rightPressed = false;
 			rightReleased = true;
 
+		} else if (code == KeyEvent.VK_B) {
+			useBookPressed = false;
 		}
-
 	}
 
 	public boolean mouseClicked = false;
@@ -250,10 +251,11 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 
 		if (Items.enterBook) {
 			if (mouseX >= 530 && mouseX <= 680 && mouseY >= 445 && mouseY <= 485) {
+				i.playBookSound();
 				Items.playGif = true;
 				Items.staticImageBook = false;
 				Items.nextPage++;
-				Jumpscare.timer();
+				Items.timer();
 				int maxPages = 5;
 				if (Items.nextPage > maxPages) {
 					Items.nextPage = maxPages;

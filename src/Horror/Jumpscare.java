@@ -14,8 +14,7 @@ public class Jumpscare {
 
 	private BufferedImage creepyMan;
 	Sound sound;
-	boolean jumpscare = false;
-	boolean once = false;
+	public static boolean jumpscare = false;
 
 	public Jumpscare() {
 		loadStuff();
@@ -35,41 +34,11 @@ public class Jumpscare {
 	}
 
 	public void playSound() {
-		sound.play();
+		if (!sound.isPlaying()) {
+			sound.play();
+		}
 	}
 	
-	public boolean isJumpscare() {
-		return jumpscare;
-	}
 	
-	public boolean getOnce() {
-		return once;
-	}
 	
-	public void setOnce(boolean once) {
-		this.once = once;
-	}
-	
-	public void setJumpscare(boolean jumpscare) {
-		this.jumpscare = jumpscare;
-		once = false; //makes sure sound plays as well
-	}
-	
-	//Timer created from https://stackoverflow.com/questions/1006611/java-swing-timer
-	static Timer time;
-	public static void timer() {
-	    time = new Timer(723, new ActionListener() {
-	        @Override
-	        public void actionPerformed(ActionEvent e) {
-	            Items.playGif = false;
-	   		    Items.staticImageBook = true;
-	            time.stop();
-	        }
-	    });
-	    if (time != null && time.isRunning()) {
-	        time.stop();
-	    }
-	    time.setRepeats(false);
-	    time.start();
-	}
 }
