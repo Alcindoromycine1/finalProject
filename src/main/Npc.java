@@ -14,23 +14,42 @@ import javax.swing.plaf.basic.BasicComboBoxUI.KeyHandler;
 
 public class Npc {
 
-	public static boolean collisionNpc = false;
-	public static boolean dialogue = false;
+	public boolean collisionNpc = false;
+	public boolean dialogue = false;
+	
 	Input input;
-
-	public Npc(Input input) {
-		this.input = input;
+	Items items;
+	
+	private int playerX;
+	private int playerY;
+	
+	private int worldX;
+	private int worldY;
+	
+	public Npc(GamePanel gp) {
+		input = gp.id;
+		items = gp.it;
+		
+		playerX = gp.getPlayerX();
+		playerY = gp.getPlayerY();
+		
+		worldX = gp.getWorldX();
+		worldY = gp.getWorldY();
 	}
 
-	public Npc() {
 
+	public void updateNpcValues(int playerX, int playerY, int worldX, int worldY) {
+		this.playerX = playerX;
+		this.playerY = playerY;
+		this.worldX = worldX;
+		this.worldY = worldY;
 	}
+	
+	public void doctor(Graphics2D g2) throws IOException {
 
-	public static void doctor(Graphics2D g2) throws IOException {
-
-		int doctorX = 480 - GamePanel.worldX;
-		int doctorY = 260 - GamePanel.worldY;
-
+		int doctorX = 480 - worldX;
+		int doctorY = 260 - worldY;
+		
 		BufferedImage doctor = null;
 		doctor = ImageIO.read(new File("src/textures/doctor.png"));
 		g2.drawImage(doctor, doctorX, doctorY, null);
@@ -41,10 +60,10 @@ public class Npc {
 
 		int businessManX = 550;
 		int businessManY = 120;
-		if (GamePanel.playerX + 32 > businessManX // Right side of hitbox is past left side of tree
-				&& GamePanel.playerX < businessManX + 50 // Left side of hitbox is before right side of tree
-				&& GamePanel.playerY + 72 > businessManY // Bottom side of hitbox is below top side of tree
-				&& GamePanel.playerY < businessManY + 78) { // Top side of hitbox is above bottom side of tree
+		if (playerX + 32 > businessManX // Right side of hitbox is past left side of tree
+				&& playerX < businessManX + 50 // Left side of hitbox is before right side of tree
+				&& playerY + 72 > businessManY // Bottom side of hitbox is below top side of tree
+				&& playerY < businessManY + 78) { // Top side of hitbox is above bottom side of tree
 			collisionNpc = true;
 		} else {
 			collisionNpc = false;
@@ -60,9 +79,9 @@ public class Npc {
 		}
 	}
 
-	static int textIndex = 0;
+	int textIndex = 0;
 
-	public static void text(Graphics2D g2, int list) {
+	public void text(Graphics2D g2, int list) {
 
 		if (list == 1) {
 			String textBadGuy[] = { "Hehehehe! I'm back.", "I'm going to slash your tires." };
@@ -76,7 +95,7 @@ public class Npc {
 			if (textIndex < textGhostGraveyard.length) {
 				textBubble(g2, textGhostGraveyard[textIndex]);
 			} else {
-				Items.firstTime = false;
+				items.firstTime = false;
 			}
 		} else if (list == 3) {
 			String textDoctor[] = { "I don't have much time left.",
@@ -86,29 +105,19 @@ public class Npc {
 				textBubble(g2, textDoctor[textIndex]);
 			}
 		} else if (list == 4) {
-			String textDoctrineGhost[] = { "Don't hurt me. Please leave me alone.",
-					"If you must, go inside the door at the end of this path! To   get rid of my kind." };
+			String textDoctrineGhost[] = {"Don't hurt me. Please leave me alone.","If you must, go inside the door at the end of this path! To   get rid of my kind."};
 			if (textIndex < textDoctrineGhost.length) {
 				textBubble(g2, textDoctrineGhost[textIndex]);
 			}
-		} else if (list == 5) {
-			String textJeff[] = { "What is this place?", "I'm tired, I think I'll take a nap here." };
+		} else if(list == 5) {
+			String textJeff [] = {"What is this place?", "I'm tired, I think I'll take a nap here."};
 			if (textIndex < textJeff.length) {
 				textBubble(g2, textJeff[textIndex]);
-			}
-		} else if (list == 6) {
-			String textNightmare[] = { "What am I doing here?", "What is that thing on the table?",
-					"What is this doctor doing to it?", "Is that one of those evil AI?",
-					"This can't be real, it's just another hallucination." };
-			if (textIndex < textNightmare.length) {
-				textBubble(g2, textNightmare[textIndex]);
-			} else {
-				Maps.doneNightmare = true;
 			}
 		}
 	}
 
-	public static void textBubble(Graphics2D g2, String dialogue) {
+	public void textBubble(Graphics2D g2, String dialogue) {
 		final int maxTextLength = 62;// max number of characters per line
 		final int lineSpacing = 30;// spacing between lines
 		final int textX = 90;// x position of text
@@ -141,4 +150,14 @@ public class Npc {
 		}
 	}
 
+
+	public void setInput(Input input) {
+		this.input = input;
+	}
+
+
+	public void setItems(Items items) {
+		this.items = items;
+	}
+	
 }
