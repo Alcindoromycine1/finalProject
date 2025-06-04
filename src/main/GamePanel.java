@@ -41,8 +41,7 @@ public class GamePanel extends JPanel implements Runnable {
 	int playerY = 576 / 2;
 	int worldX = 768 / 2; // world position
 	int worldY = 576 / 2; // world position
-	
-	
+
 	// Game Thread
 	Thread gameThread; // keeps the program running until closed
 
@@ -53,46 +52,48 @@ public class GamePanel extends JPanel implements Runnable {
 	private long lastTime = System.nanoTime(); // Time of the last FPS calculation
 	private double fps = 0; // FPS value
 
-	// Game components
+
 	public Tiles t;
 	public Maps m;
 	public Jumpscare j;
-	
+
 	public Player p;
 	public Npc n;
 	public Items it;
 	public Input id;
 	public MainMenu mainMenu;
 	public Minigame minigame;
-	
-	
+
+
 	int screenX;
 	int screenY;
+	// ChangeScene cs = new ChangeScene(WIDTH, HEIGHT);
+	Sound ambientAudio;
+	Sound mainMenuSound;
 
 	// sound
 	private Sound footstepSound;
+	LoadingScreen loadingScreen = new LoadingScreen();
 
-	
 
 	public GamePanel() {
 	}
 
 	// Constructor
 	public GamePanel(JFrame window) throws IOException {
-		
 		j = new Jumpscare(this);
 		it = new Items(this);
 		n = new Npc(this);
 		m = new Maps(this);
 		t = new Tiles(this);
-		
+
 		mainMenu = new MainMenu();
 		minigame = new Minigame();
 		id = new Input(this);
 		p = new Player(this);
-		
+
 		m.setTiles(t);
-		
+
 		this.window = window;
 		this.setPreferredSize(new Dimension(WIDTH, HEIGHT)); // Preferred window size
 		this.setDoubleBuffered(true); // Improves rendering performance
@@ -113,8 +114,9 @@ public class GamePanel extends JPanel implements Runnable {
 		
 		m.findTrees();
 
+		t.tileCreating();
+
 		// Load character
-		
 		p.loadCharacterImages();
 
 		try {
@@ -123,26 +125,25 @@ public class GamePanel extends JPanel implements Runnable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
+    
 		m.setP(p);
 		m.setItems(it);
 		m.setNpc(n);
 		m.setJ(j);
 		m.setT(t);
-		
+
 		it.setP(p);
 		it.setInput(id);
 		it.setNpc(n);
-		
+
 		n.setInput(id);
 		n.setItems(it);
-		
+
 		p.setM(m);
 		p.setN(n);
 		p.setIt(it);
 		p.setKeyH(id);
-		
+
 	}
 
 	// Start the game thread
@@ -228,6 +229,7 @@ public class GamePanel extends JPanel implements Runnable {
 		m.updateMapValues(worldX, worldY);
 		n.updateNpcValues(playerX, playerY, worldX, worldY);
 		it.updateItemsValues(playerX, playerY, worldX, worldY);
+
 		
 		window.setTitle("Are we Cooked? FPS: " + fps);
 		p.collisionChecking();
@@ -319,6 +321,7 @@ public class GamePanel extends JPanel implements Runnable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+
 		}
 		
 		
