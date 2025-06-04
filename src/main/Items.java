@@ -28,28 +28,30 @@ public class Items {
 	static ImageIcon pageFlipping;
 	static BufferedImage doctrine;
 	static BufferedImage mirror;
+	BufferedImage brokenCar;
+	BufferedImage car;
 
-	static Jumpscare j = new Jumpscare();
 	Input input;
 	Sound bookFlip;
 
 	public Items(Input input) {
 
 		this.input = input;
+
+	}
+
+	public Items() {
 		try {
 			bookFlip = new Sound("src/sound/bookFlip.wav");
 			book = ImageIO.read(new File("src/textures/books.png"));
 			pageFlipping = new ImageIcon("src/textures/books.gif");
 			doctrine = ImageIO.read(new File("src/textures/doctrine.png"));
 			mirror = ImageIO.read(new File("src/textures/jeffMirror.png"));
+			brokenCar = ImageIO.read(new File("src/textures/destroyedCar.png"));
+			car = ImageIO.read(new File("src/textures/car.png"));
 		} catch (Exception e) {
 			System.out.println("Error loading file: " + e.getMessage());
 		}
-
-	}
-
-	public Items() {
-		
 	}
 
 	public static void houseMirror(Graphics2D g2) {
@@ -135,12 +137,7 @@ public class Items {
 	public void car(Graphics g) throws IOException {
 		int carX = carWorldX - GamePanel.worldX;
 		int carY = carWorldY - GamePanel.worldY;
-
-		BufferedImage car = ImageIO.read(new File("src/textures/car.png"));
 		g.drawImage(car, carX, carY, 96, 192, null);
-		// BufferedImage brokenCar = ImageIO.read(new
-		// File("src/textures/destroyedCar.png"));
-		// g.drawImage(brokenCar, carX, carY, 96, 192, null);
 		if (!carOn && !carUsed && GamePanel.playerX + 32 > carX && GamePanel.playerX < carX + 96
 				&& GamePanel.playerY + 72 > carY && GamePanel.playerY < carY + 192 && Player.keyH.cPressed) {
 
@@ -187,7 +184,7 @@ public class Items {
 		}
 
 		if (carWorldX >= 3120 && carWorldX <= 4600) {
-			g2.drawString("Are We Cooked 2D", 180, 280);
+			g2.drawString("Whispers Of The Decieved", 180, 280);
 		}
 	}
 

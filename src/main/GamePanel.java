@@ -116,6 +116,7 @@ public class GamePanel extends JPanel implements Runnable {
 			jeffBack = ImageIO.read(new File("src/textures/jeffBack.png"));
 			jeffRight = ImageIO.read(new File("src/textures/jeffRight.png"));
 			jeffLeft = ImageIO.read(new File("src/textures/jeffLeft.png"));
+			
 		} catch (Exception e) {
 			System.out.println("Error loading sound or image files: " + e.getMessage());
 		}

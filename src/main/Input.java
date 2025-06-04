@@ -73,6 +73,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 			Npc.textIndex++;
 		} else if (code == KeyEvent.VK_C) {
 			cPressed = true;
+			Items.visible = false;
 	}
 	}
 
