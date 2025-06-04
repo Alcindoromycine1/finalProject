@@ -24,6 +24,10 @@ public class Items {
 
 	private int inventoryBoxX = 300;
 	private int inventoryBoxY = 300;
+	static BufferedImage book;
+	static ImageIcon pageFlipping;
+	static BufferedImage doctrine;
+	static BufferedImage mirror;
 
 	static Jumpscare j = new Jumpscare();
 	Input input;
@@ -34,8 +38,12 @@ public class Items {
 		this.input = input;
 		try {
 			bookFlip = new Sound("src/sound/bookFlip.wav");
+			book = ImageIO.read(new File("src/textures/books.png"));
+			pageFlipping = new ImageIcon("src/textures/books.gif");
+			doctrine = ImageIO.read(new File("src/textures/doctrine.png"));
+			mirror = ImageIO.read(new File("src/textures/jeffMirror.png"));
 		} catch (Exception e) {
-			System.out.println("Error loading book flip sound: " + e.getMessage());
+			System.out.println("Error loading file: " + e.getMessage());
 		}
 
 	}
@@ -44,46 +52,8 @@ public class Items {
 		
 	}
 
-	public void baseballBat(Graphics g, boolean inventoryCollision) throws IOException {
-
-		BufferedImage baseballBat = ImageIO.read(new File("src/textures/baseballBat.png"));// https://as2.ftcdn.net/jpg/03/13/10/75/1000_F_313107572_KTaHs8vB8IOSkKiC9DE7yhBIO3w7e3mo.jpg
-		// g.drawImage(baseballBat, 126, 160, 70, 70, null);
-		// If the user is hovering over the inventory button
-		/*
-		 * if (inventoryCollision) {
-		 * 
-		 * g.setColor(Color.red); g.drawImage(baseBallBat, 160, 80, 70, 15, 15);
-		 * 
-		 * }
-		 */
-
-		// If the user has clicked on the inventory button
-
-		if (input.mouseDragging && input.mouseHolding) {
-			inventoryBoxX = input.mouseX - 40;
-			inventoryBoxY = input.mouseY - 40;
-		}
-		g.setColor(Color.BLACK);
-		g.drawImage(baseballBat, inventoryBoxX, inventoryBoxY, 70, 70, null);
-	}
-
-	public void communicate(Graphics g) {
-
-		Graphics2D g2 = (Graphics2D) g;
-		g2.fillRect(400, 400, 100, 400);
-
-	}
-
-	public static void houseMirror(Graphics2D g2) throws IOException {
-
-		BufferedImage mirror;
-		try {
-			mirror = ImageIO.read(new File("src/textures/jeffMirror.png"));
+	public static void houseMirror(Graphics2D g2) {
 			g2.drawImage(mirror, 360, 200, 50, 50, null);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
 	}
 
 	static boolean carOn = false;
@@ -100,8 +70,6 @@ public class Items {
 		int doctrineX = doctrineWorldX - GamePanel.worldX;
 		int doctrineY = doctrineWorldY - GamePanel.worldY;
 
-		BufferedImage doctrine;
-		doctrine = ImageIO.read(new File("src/textures/doctrine.png"));
 		g2.drawImage(doctrine, doctrineX, doctrineY, 260, 390, null);
 		g2.setColor(Color.WHITE);
 		g2.setFont(new Font("Monospaced", Font.BOLD, 20));
@@ -127,15 +95,9 @@ public class Items {
 		g2.setFont(new Font("calibri", Font.BOLD, 18));
 		if (enterBook) {
 			if (!playGif || staticImageBook) {
-				BufferedImage book;
-				try {
-					book = ImageIO.read(new File("src/textures/books.png"));
+				
 					g2.drawImage(book, -70, 0, 900, 587, null);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
 			} else {
-				ImageIcon pageFlipping = new ImageIcon("src/textures/books.gif");
 				g2.drawImage(pageFlipping.getImage(), -70, 0, 900, 587, observer);
 			}
 
@@ -157,11 +119,11 @@ public class Items {
 			g2.drawString("Close Book", 562, 125);
 			g2.drawString("Next Page", 565, 470);
 
-			if (nextPage == 1) {
+			if (nextPage == 0) {
 				g2.setColor(Color.BLACK);
 				g2.drawString("How To Do An Exorcism", 100, 100);
 				g2.fillRect(100, 100, 150, 2);
-				g2.drawString("When you see a ghost, press E to exorcsie it.", 100, 150);
+				g2.drawString("When you see a ghost, press E to exorcise it.", 100, 150);
 				g2.drawString("At the Top of the screen you will see a certain shape.", 100, 250);
 				g2.drawString("You will need to replicate that shape by dragging your mouse around the screen.", 100,
 						300);
@@ -180,11 +142,10 @@ public class Items {
 		// File("src/textures/destroyedCar.png"));
 		// g.drawImage(brokenCar, carX, carY, 96, 192, null);
 		if (!carOn && !carUsed && GamePanel.playerX + 32 > carX && GamePanel.playerX < carX + 96
-				&& GamePanel.playerY + 72 > carY && GamePanel.playerY < carY + 192 && Player.keyH.ePressed) {
+				&& GamePanel.playerY + 72 > carY && GamePanel.playerY < carY + 192 && Player.keyH.cPressed) {
 
 			carOn = true;
 			Player.disableCharacterMovement();
-			visible = false;
 			animationFrame = 0;
 
 		}

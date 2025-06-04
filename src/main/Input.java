@@ -20,7 +20,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	public int mouseY = 0;
 	public boolean upPressed, downPressed, leftPressed, rightPressed;
 	public static boolean changeMapPressed;
-	public boolean ePressed;
+	public boolean ePressed, cPressed;
 	public boolean useBookPressed;
 	public boolean upReleased, downReleased, leftReleased, rightReleased;
 	public int mouseOffsetX = 0;
@@ -63,11 +63,6 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		} else if (code == KeyEvent.VK_D) {
 			rightPressed = true;
 			rightReleased = false;
-		} else if (code == KeyEvent.VK_E) {
-			if (Npc.collisionNpc) {
-				Npc.dialogue = !Npc.dialogue;
-			}
-			ePressed = true;
 		} else if (code == KeyEvent.VK_F) {
 			changeMapPressed = true;
 		} else if (code == KeyEvent.VK_B) {
@@ -76,7 +71,9 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 			System.exit(0);
 		} else if (code == KeyEvent.VK_SPACE) {
 			Npc.textIndex++;
-		}
+		} else if (code == KeyEvent.VK_C) {
+			cPressed = true;
+	}
 	}
 
 	@Override
@@ -264,6 +261,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		}
 		if (Items.enterBook && mouseX >= 530 && mouseX <= 530 + 150 && mouseY >= 100 && mouseY <= 100 + 40) {
 			Items.enterBook = false;
+			Items.nextPage = 0;
 		}
 		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 220 && mouseY <= 280 && MainMenu.inMenu) {
 			MainMenu.inMenu = false;
@@ -277,15 +275,11 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		if (mouseX >= 425 && mouseX <= 425 + 130 && mouseY >= 355 && mouseY <= 355 + 45 && Items.inConfirmation) {
 			Items.noPressed = true;
 		}
-		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 290 && mouseY <= 350) {
+		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 290 && mouseY <= 350 && MainMenu.inMenu && !LoadingScreen.loadingScreen) {
 			Items.helpPressed = true;
 		}
 		if (mouseX >= 685 && mouseX <= 715 && mouseY >= 60 && mouseY <= 90 && Items.helpPressed) {
 			Items.helpPressed = false;
-		}
-
-		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 290 && mouseY <= 350) {
-			Items.helpPressed = true;
 		}
 		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 360 && mouseY <= 420 && MainMenu.inMenu) {
 			Items.creditsPressed = true;

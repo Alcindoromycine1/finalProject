@@ -71,6 +71,11 @@ public class GamePanel extends JPanel implements Runnable {
 	LoadingScreen loadingScreen = new LoadingScreen();
 	private Minigame minigame = new Minigame();
 
+	BufferedImage jeffFront;
+	BufferedImage jeffBack;
+	BufferedImage jeffRight;
+	BufferedImage jeffLeft;
+
 	public GamePanel() {
 	}
 
@@ -104,12 +109,15 @@ public class GamePanel extends JPanel implements Runnable {
 		try {
 			// https://www.youtube.com/watch?v=tmlZeYnfw7g
 			ambientAudio = new Sound("src/sound/ambientAudio.wav");
-
 			// https://www.youtube.com/watch?v=1a7kscUeItk
 			mainMenuSound = new Sound("src/sound/mainMenuSound.wav");
-		} catch (Exception e) {
 			footstepSound = new Sound("src/sound/walkingSoundEffect.wav");
-			System.out.println("Sound loaded successfully");
+			jeffFront = ImageIO.read(new File("src/textures/charAI.png"));
+			jeffBack = ImageIO.read(new File("src/textures/jeffBack.png"));
+			jeffRight = ImageIO.read(new File("src/textures/jeffRight.png"));
+			jeffLeft = ImageIO.read(new File("src/textures/jeffLeft.png"));
+		} catch (Exception e) {
+			System.out.println("Error loading sound or image files: " + e.getMessage());
 		}
 	}
 
@@ -184,11 +192,6 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public void characterImage(Graphics g) throws IOException {
 
-		BufferedImage jeffFront = ImageIO.read(new File("src/textures/charAI.png"));
-		BufferedImage jeffBack = ImageIO.read(new File("src/textures/jeffBack.png"));
-		BufferedImage jeffRight = ImageIO.read(new File("src/textures/jeffRight.png"));
-		BufferedImage jeffLeft = ImageIO.read(new File("src/textures/jeffLeft.png"));
-
 		BufferedImage character = null;
 		if (Items.visible) {
 			if (direction.equals("back")) {
@@ -242,20 +245,18 @@ public class GamePanel extends JPanel implements Runnable {
 			it.prompts(g2);
 			it.backMenu(g2);
 		}
-		System.out.println(Jumpscare.jumpscare);
 		if (Jumpscare.jumpscare) {
-			
 			j.playSound();
 			j.drawJumpscare(g2);
 		} // Render the jumpscare image
 
 		if (Maps.currentMap == 5) {
-				try {
-					m.drawExorcismRoom(g2);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			try {
+				m.drawExorcismRoom(g2);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 		}
 

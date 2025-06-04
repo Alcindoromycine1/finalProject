@@ -31,6 +31,7 @@ public class Jumpscare {
 
 	public void drawJumpscare(Graphics2D g2) {
 		g2.drawImage(creepyMan, 0, 0, null);
+		timer();
 	}
 
 	public void playSound() {
@@ -38,7 +39,23 @@ public class Jumpscare {
 			sound.play();
 		}
 	}
-	
-	
-	
+
+	// Timer created from
+	// https://stackoverflow.com/questions/1006611/java-swing-timer
+	Timer time;
+	public void timer() {
+		time = new Timer(4000, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				jumpscare = false; // resets the jumpscare boolean
+				time.stop();
+			}
+		});
+		if (time != null && time.isRunning()) {
+			time.stop();
+		}
+		time.setRepeats(false);
+		time.start();
+	}
+
 }
