@@ -35,10 +35,10 @@ public class GamePanel extends JPanel implements Runnable {
 	final int HEIGHT = tileSize * maxScreenRow; // screen height in pixels (576 pixels)
 	final int FPS_TARGET = 60; // Frame rate target // Character position
 	// Character position
-	static int playerX = 768 / 2;
-	static int playerY = 576 / 2;
-	static int worldX = 768 / 2; // world position
-	static int worldY = 576 / 2; // world position
+	int playerX = 768 / 2;
+	int playerY = 576 / 2;
+	int worldX = 768 / 2; // world position
+	int worldY = 576 / 2; // world position
 	// Game Thread
 	Thread gameThread; // keeps the program running until closed
 
@@ -49,43 +49,51 @@ public class GamePanel extends JPanel implements Runnable {
 	private long lastTime = System.nanoTime(); // Time of the last FPS calculation
 	private double fps = 0; // FPS value
 
-	// Game components
-	Tiles t = new Tiles();
-	Maps m = new Maps();
-	static Jumpscare j = new Jumpscare();
+	public Tiles t;
+	public Maps m;
+	public Jumpscare j;
+
+	public Player p;
+	public Npc n;
+	public Items it;
+	public Input id;
+	public MainMenu mainMenu;
+	public Minigame minigame;
+
+	int screenX;
+	int screenY;
 	// ChangeScene cs = new ChangeScene(WIDTH, HEIGHT);
-	Player p;
-	Npc n = new Npc();
-	Items it = new Items();
-	Input id;
 	Sound ambientAudio;
 	Sound mainMenuSound;
 
-	static int screenX;
-	static int screenY;
-
 	// sound
 	private Sound footstepSound;
-
-	private MainMenu mainMenu = new MainMenu();
 	LoadingScreen loadingScreen = new LoadingScreen();
-	private Minigame minigame = new Minigame();
 
 	public GamePanel() {
 	}
 
 	// Constructor
 	public GamePanel(JFrame window) throws IOException {
-		Input input = new Input();
-		id = new Input(n);
-		Npc n = new Npc(input);
+		j = new Jumpscare(this);
+		it = new Items(this);
+		n = new Npc(this);
+		m = new Maps(this);
+		t = new Tiles(this);
+
+		mainMenu = new MainMenu();
+		minigame = new Minigame();
+		id = new Input(this);
+		p = new Player(this);
+
+		m.setTiles(t);
 
 		this.window = window;
 		this.setPreferredSize(new Dimension(WIDTH, HEIGHT)); // Preferred window size
 		this.setDoubleBuffered(true); // Improves rendering performance
-		this.addKeyListener(Player.keyH); // Recognizes key inputs
-		this.addMouseMotionListener(input); // Recognizes mouse movement
-		this.addMouseListener(input); // Recognize mouse clicks
+		this.addKeyListener(p.keyH); // Recognizes key inputs
+		this.addMouseMotionListener(id); // Recognizes mouse movement
+		this.addMouseListener(id); // Recognize mouse clicks
 		this.setFocusable(true);
 
 		screenX = WIDTH / 2 - (tileSize / 2); // centers the player in the middle of the screen
@@ -95,10 +103,9 @@ public class GamePanel extends JPanel implements Runnable {
 		m.changeMap(3);
 		// Find trees in the map
 		m.findTrees();
-		Tiles.tileCreating();
+		t.tileCreating();
 
 		// Load character
-		p = new Player(input);
 		p.loadCharacterImages();
 
 		try {
@@ -111,6 +118,23 @@ public class GamePanel extends JPanel implements Runnable {
 			footstepSound = new Sound("src/sound/walkingSoundEffect.wav");
 			System.out.println("Sound loaded successfully");
 		}
+		m.setP(p);
+		m.setItems(it);
+		m.setNpc(n);
+		m.setJ(j);
+		m.setT(t);
+
+		it.setP(p);
+		it.setInput(id);
+		it.setNpc(n);
+
+		n.setInput(id);
+		n.setItems(it);
+
+		p.setM(m);
+		p.setN(n);
+		p.setIt(it);
+		p.setKeyH(id);
 	}
 
 	// Start the game thread
@@ -158,17 +182,36 @@ public class GamePanel extends JPanel implements Runnable {
 		// Character movement
 		if (Player.disableCharacterMovement() == false) {
 			if (Player.keyH.upPressed) {
-				direction = "back";
-				worldY -= playerSpeed; // move the world up when player presses up
-			} else if (Player.keyH.downPressed) {
-				direction = "front";
-				worldY += playerSpeed; // move the world down when player goes down
-			} else if (Player.keyH.leftPressed) {
-				direction = "left";
-				worldX -= playerSpeed; // move the world left when player goes left
-			} else if (Player.keyH.rightPressed) {
-				direction = "right";
-				worldX += playerSpeed; // move the world right when player goes right
+				if (p.disableCharacterMovement() == false) {
+					if (p.keyH.upPressed) {
+						direction = "back";
+						worldY -= playerSpeed; // move the world up when player presses up
+					} else if (Player.keyH.downPressed) {
+
+					} else if (p.keyH.downPressed) {
+						direction = "front";
+						worldY += playerSpeed; // move the world down when player goes down
+					} else if (Player.keyH.leftPressed) {
+
+					} else if (p.keyH.leftPressed) {
+						direction = "left";
+						worldX -= playerSpeed; // move the world left when player goes left
+					} else if (Player.keyH.rightPressed) {
+
+					} else if (p.keyH.rightPressed) {
+						direction = "right";
+						worldX += playerSpeed; // move the world right when player goes right
+
+					}
+
+					// footsteps
+					if (p.keyH.upPressed && !p.keyH.upReleased || p.keyH.downPressed && !p.keyH.downReleased
+							|| p.keyH.rightPressed && !p.keyH.rightReleased
+							|| p.keyH.leftPressed && !p.keyH.leftReleased) {
+						// System.out.println(footstepSound);
+						// footstepSound.play();
+					}
+				}
 			}
 		}
 	}
@@ -244,18 +287,18 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 		System.out.println(Jumpscare.jumpscare);
 		if (Jumpscare.jumpscare) {
-			
+
 			j.playSound();
 			j.drawJumpscare(g2);
 		} // Render the jumpscare image
 
 		if (Maps.currentMap == 5) {
-				try {
-					m.drawExorcismRoom(g2);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			try {
+				m.drawExorcismRoom(g2);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 		}
 
