@@ -1,13 +1,10 @@
 package main;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,32 +13,42 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.Timer;
-
-import Horror.Jumpscare;
 
 public class Items {
 
 	private int inventoryBoxX = 300;
 	private int inventoryBoxY = 300;
 
-	static Jumpscare j = new Jumpscare();
 	Input input;
-	Sound bookFlip;
+	Npc npc;
+	Player p;
+	
+	private int playerX;
+	private int playerY;
+	
+	private int worldX;
+	private int worldY;
+	
+	
+	public Items(GamePanel gp) {
 
-	public Items(Input input) {
-
-		this.input = input;
-		try {
-			bookFlip = new Sound("src/sound/bookFlip.wav");
-		} catch (Exception e) {
-			System.out.println("Error loading book flip sound: " + e.getMessage());
-		}
-
+		this.input = gp.id;
+		this.npc = gp.n;
+		this.p = gp.p;
+		
+		playerX = gp.getPlayerX();
+		playerY = gp.getPlayerY();
+		
+		worldX = gp.getWorldX();
+		worldY = gp.getWorldY();
 	}
 
-	public Items() {
+	public void updateItemsValues(int worldX, int worldY, int playerX, int playerY) {
+		this.worldX = worldX;
+		this.worldY = worldY;
 		
+		this.playerX = playerX;
+		this.playerY = playerY;
 	}
 
 	public void baseballBat(Graphics g, boolean inventoryCollision) throws IOException {
@@ -74,7 +81,7 @@ public class Items {
 
 	}
 
-	public static void houseMirror(Graphics2D g2) throws IOException {
+	public void houseMirror(Graphics2D g2) throws IOException {
 
 		BufferedImage mirror;
 		try {
@@ -86,44 +93,44 @@ public class Items {
 
 	}
 
-	static boolean carOn = false;
-	static int animationFrame = 0;
-	static int carWorldX = 1300;
-	static int carWorldY = 770;
-	static int doctrineWorldX = 6000;
-	static int doctrineWorldY = 525;
-	static boolean visible = true;
-	static boolean carUsed = false;
+	boolean carOn = false;
+	int animationFrame = 0;
+	int carWorldX = 1300;
+	int carWorldY = 770;
+	int doctrineWorldX = 6000;
+	int doctrineWorldY = 525;
+	boolean visible = true;
+	boolean carUsed = false;
 
-	public static void doctrine(Graphics2D g2) throws IOException {
+	public void doctrine(Graphics2D g2) throws IOException {
 
-		int doctrineX = doctrineWorldX - GamePanel.worldX;
-		int doctrineY = doctrineWorldY - GamePanel.worldY;
+		int doctrineX = doctrineWorldX - worldX;
+		int doctrineY = doctrineWorldY - worldY;
 
 		BufferedImage doctrine;
 		doctrine = ImageIO.read(new File("src/textures/doctrine.png"));
 		g2.drawImage(doctrine, doctrineX, doctrineY, 260, 390, null);
 		g2.setColor(Color.WHITE);
 		g2.setFont(new Font("Monospaced", Font.BOLD, 20));
-		g2.drawString("Doctrine", 6080 - GamePanel.worldX, 715 - GamePanel.worldY);
+		g2.drawString("Doctrine", 5080 - worldX, 715 - worldY);
 
 	}
 
-	public static void insideDoctrine(Graphics2D g2) throws IOException {
+	public void insideDoctrine(Graphics2D g2) throws IOException {
 		ghost(g2, 1110, 120, 125, 98);
-		Npc.text(g2, 4);
+		npc.text(g2, 4);
 	}
 
-	static boolean enterBook = false;
-	static int nextPage = 0;
-	static boolean hoveringNextPage = false;
-	public static boolean playGif = false;
-	public static boolean staticImageBook = false;
-	public static boolean hoveringExitPage = false;
+	boolean enterBook = false;
+	int nextPage = 0;
+	boolean hoveringNextPage = false;
+	public boolean playGif = false;
+	public boolean staticImageBook = false;
+	public boolean hoveringExitPage = false;
 
 	// Stackoverflow used for GIF:
 	// https://stackoverflow.com/questions/12566311/displaying-gif-animation-in-java
-	public static void book(Graphics2D g2, Component observer) {
+	public void book(Graphics2D g2, Component observer) {
 		g2.setFont(new Font("calibri", Font.BOLD, 18));
 		if (enterBook) {
 			if (!playGif || staticImageBook) {
@@ -171,19 +178,20 @@ public class Items {
 	}
 
 	public void car(Graphics g) throws IOException {
-		int carX = carWorldX - GamePanel.worldX;
-		int carY = carWorldY - GamePanel.worldY;
+		int carX = carWorldX - worldX;
+		int carY = carWorldY - worldY;
 
 		BufferedImage car = ImageIO.read(new File("src/textures/car.png"));
 		g.drawImage(car, carX, carY, 96, 192, null);
 		// BufferedImage brokenCar = ImageIO.read(new
 		// File("src/textures/destroyedCar.png"));
 		// g.drawImage(brokenCar, carX, carY, 96, 192, null);
-		if (!carOn && !carUsed && GamePanel.playerX + 32 > carX && GamePanel.playerX < carX + 96
-				&& GamePanel.playerY + 72 > carY && GamePanel.playerY < carY + 192 && Player.keyH.ePressed) {
+		if (!carOn && !carUsed && playerX + 32 > carX && playerX < carX + 96
+				&& playerY + 72 > carY && playerY < carY + 192 && p.keyH.ePressed) {
 
 			carOn = true;
-			Player.disableCharacterMovement();
+			carUsed = true;
+			p.disableCharacterMovement();
 			visible = false;
 			animationFrame = 0;
 
@@ -230,15 +238,15 @@ public class Items {
 		}
 	}
 
-	static boolean movementPrompt = false;
+	boolean movementPrompt = false;
 	public int instructionsX = 640;
 	public int instructionsY = 10;
-	public static boolean hoveringInstructions = false;
-	public static boolean instructionsPrompt = false;
-	public static boolean hoveringKeybind = false;
-	public static boolean hoveringMovement = false;
-	static Color selected = new Color(144, 50, 50);
-	static Color unselected = new Color(193, 45, 57);
+	public boolean hoveringInstructions = false;
+	public boolean instructionsPrompt = false;
+	public boolean hoveringKeybind = false;
+	public boolean hoveringMovement = false;
+	Color selected = new Color(144, 50, 50);
+	Color unselected = new Color(193, 45, 57);
 
 	public void instructions(Graphics2D g2) {
 		Font calibri = new Font("Calibri", Font.BOLD, 18);
@@ -290,10 +298,14 @@ public class Items {
 		}
 	}
 
-	static boolean backPressed = false;
-	static boolean hoveringBack = false;
-	static boolean keybindPrompts = false;
-	static boolean inHouse = false;
+	public void credits(Graphics2D g2) {
+
+	}
+
+	boolean backPressed = false;
+	boolean hoveringBack = false;
+	boolean keybindPrompts = false;
+	boolean inHouse = false;
 
 	public void backMenu(Graphics2D g2) {
 		if (!hoveringBack) {
@@ -396,202 +408,110 @@ public class Items {
 		}
 	}
 
-	public static void animation() {
+	public void animation() {
 		if (carOn) {
 			carWorldX += 3;
-			GamePanel.worldX += 3;
+			worldX += 3;
 			animationFrame++;
 
 			if (carWorldX >= 4700) {
 				carWorldX = 4700;
 				carOn = false;
-				carUsed = true;
-				Jumpscare.jumpscare = true;
 				visible = true;
-				Player.disableCharacterMovement();
+				p.disableCharacterMovement();
 			}
 		}
 	}
 
-	static boolean inGraveYard = false;
-	static int graveX = 4600;
-	static int graveY = 333;
-	static BufferedImage ghost;
-	static boolean firstTime = true;
+	boolean inGraveYard = false;
+	int graveX = 4600;
+	int graveY = 333;
+	BufferedImage ghost;
+	boolean firstTime = true;
+	int ghostNumber = 0;
 
-	public static int ghostRandomizer() {
-		// if (level == 1) {
-		return (int) (Math.random() * 5) + 1;
-		// } else if (level == 2) {
-		// return (int) (Math.random() * 4) + 6;
-		// }
-		// return 0;
+	public void ghostRandomizer() {
+
+		ghostNumber = (int) (Math.random() * 2) + 1;
 
 	}
 
-	public static void ghost(Graphics2D g2, int ghostGraveYardX, int ghostGraveYardY, int width, int height)
+	public void ghost(Graphics2D g2, int ghostGraveYardX, int ghostGraveYardY, int width, int height)
 			throws IOException {
 
-		int ghostX = ghostGraveYardX - GamePanel.worldX;
-		int ghostY = ghostGraveYardY - GamePanel.worldY;
+		int ghostX = ghostGraveYardX - worldX;
+		int ghostY = ghostGraveYardY - worldY;
 
 		ghost = ImageIO.read(new File("src/textures/ghost.png"));
 		g2.drawImage(ghost, ghostX, ghostY, width, height, null);
 
 	}
 
-	static int level = 1;
-	static String ghostShape = " ";
-
-	public static void drawGhost(Graphics2D g2, int ghostNumber, int offsetX, int offsetY) throws IOException {
-		if (ghostNumber == 1 && !Input.isTriangle) {
-			Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "Triangle", 250, 196);
-		} else if (ghostNumber == 2 && !Input.isCircle) {
-			Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "Circle", 250, 196);
-		} else if (ghostNumber == 3 && !Input.isZigzag) {
-			Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "Zigzag", 250, 196);
-		} else if (ghostNumber == 4 && !Minigame.currentShape.equals("vertical")) {
-			Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "Vertical", 250, 196);
-		} else if (ghostNumber == 5 && !Minigame.currentShape.equals("horizontal")) {
-			Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "Horizontal", 250, 196);
-		} else if (ghostNumber == 6) {
-			Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "duoGhost", 250, 196);
-		} else if (ghostNumber == 7) {
-			Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "duoGhost", 250, 196);
-		} else if (ghostNumber == 8) {
-			Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "duoGhost", 250, 196);
-		} else if (ghostNumber == 9) {
-			Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "duoGhost", 250, 196);
-		}
-	}
-
-	public static int ghostNumberLeft;
-	public static int ghostNumberRight;
-	public static boolean ghostAppeared = false;
-	static int ghostCount = 1;
-
-	public static void ghostLogic(Graphics2D g2) throws IOException {
-		if (level == 1) {
-			if (!ghostAppeared) {
-				ghostNumberLeft = ghostRandomizer();
-				ghostNumberRight = ghostRandomizer();
-				ghostAppeared = true;
-			}
-		}
-		// System.out.println(level + " : " + ghostCount + " : " + ghostAppeared);
-		if (level == 2) {
-			if (!ghostAppeared) {
-				duoShapeLeft = ghostRandomizer();
-				duoShapeRight = ghostRandomizer();
-				ghostAppeared = true;
-			}
-		}
-		if (ghostCount == 1) {
-			if (level == 1) {
-				drawGhost(g2, ghostNumberLeft, -160, 30);
-			} else if (level == 2) {
-				drawGhost(g2, duoShapeLeft, -160, -30);
-				drawGhost(g2, duoShapeRight, -120, -30);
-			}
-		}
-		if (ghostCount == 2) {
-			drawGhost(g2, ghostNumberRight, 0, 0);
-		}
-		if (ghostCount == 3) {
-			level++;
-			ghostCount = 1;
-			ghostAppeared = false;
-		}
-	}
-
-	public static void randomShape(String shape, int ghostX, int ghostY, Graphics2D g2, int offsetX) {
-
-		if (shape.equals("Triangle")) {
-			g2.setStroke(new BasicStroke(4));
-			g2.setColor(Color.RED);
-			int[] xTriangle = { ghostX - 260 + offsetX, ghostX - 230 + offsetX, ghostX - 290 + offsetX };
-			int[] yTriangle = { ghostY - 350, ghostY - 290, ghostY - 290 };
-			g2.drawPolygon(xTriangle, yTriangle, 3);
-		} else if (shape.equals("Circle")) {
-			g2.setStroke(new BasicStroke(4));
-			g2.setColor(Color.RED);
-			g2.drawOval(ghostX - 290 + offsetX, ghostY - 350, 60, 60);
-		} else if (shape.equals("Zigzag")) {
-			g2.setStroke(new BasicStroke(4));
-			g2.setColor(Color.RED);
-			int[] xZigzag = { ghostX - 150 - 140 + offsetX, ghostX - 100 - 140 + offsetX, ghostX - 150 - 140 + offsetX,
-					ghostX - 100 - 140 + offsetX };
-			int[] yZigzag = { ghostY - 195 - 140, ghostY - 195 - 140, ghostY - 145 - 140, ghostY - 145 - 140 };
-			g2.drawPolyline(xZigzag, yZigzag, 4);
-		} else if (shape.equals("Vertical")) {
-			g2.setColor(Color.RED);
-			g2.fillRect(ghostX - 260 + offsetX, ghostY - 355, 4, 60);
-		} else if (shape.equals("Horizontal")) {
-			g2.setColor(Color.RED);
-			g2.fillRect(ghostX - 290 + offsetX, ghostY - 290, 60, 4);
-		}
-	}
-
-	static int counting = 0;
-	static boolean duoGhostInitialized = false;
-	static int duoShapeLeft = 0;
-	static int duoShapeRight = 0;
-
-	public void shapeRandomizer() {
-
-		String shapes[] = { "Triangle", "Circle", "Zigzag", "Vertical", "Horizontal" };
-		int num = (int) (Math.random() * shapes.length) + 1;
-	}
-
-	public static void minigameGhost(Graphics2D g2, int ghotsX, int ghotsY, String shape, int width, int height)
+	int level = 1;
+	public void minigameGhost(Graphics2D g2, int ghotsX, int ghotsY, String shape, int width, int height)
 			throws IOException {
-		int ghostX = ghotsX - GamePanel.worldX;
-		int ghostY = ghotsY - GamePanel.worldY;
-		ghostShape = shape;
+		int ghostX = ghotsX - worldX;
+		int ghostY = ghotsY - worldY;
+
 		ghost = ImageIO.read(new File("src/textures/minigameghost.png"));
 		ghost(g2, ghostX, ghostY, width, height);
-		if (level == 2) {
-			ghostShape = "Triangle";
-			randomShape(ghostShape, ghostX, ghostY, g2, 40);
-			ghostShape = "Circle";
-			randomShape(ghostShape, ghostX, ghostY, g2, -40);
-		} else {
-			randomShape(ghostShape, ghostX, ghostY, g2, 0);
+
+		for (int i = 0; i < 5; i++) {
+			int[] xValues = { ghostX - 230 + i, ghostX - 230 + i, ghostX - 290 - i, ghostX - 290 - i };
+			int[] yValues = { ghostY - 360 - i, ghostY - 300 + i, ghostY - 300 + i, ghostY - 360 - i };
+			g2.setColor(Color.RED);
+			g2.drawPolygon(xValues, yValues, xValues.length);
 		}
+		//if (level == 1) {
+		//	ghostRandomizer();
+		//	level = -1;
+		//}
+		//int offsetX = 0;
+		//if (ghostNumber == 1) {
+		//	offsetX = 0;
+		//} else if (ghostNumber == 2) {
+		//	offsetX = 30;
+		//}
 
-		/*
-		 * else if (shape.equals("Circle")) { for (int i = 0; i < 4; i++) {
-		 * g2.drawOval(85 + i, 25 + i, 20 - i, 20 - i); }
-		 * 
-		 * }
-		 */
 
-		/*
-		 * if (shape.equals("Square")) { for (int i = 0; i < 4; i++) { int[] xSquare = {
-		 * 90 + i + offsetX, 110 - i + offsetX, 110 - i + offsetX, 90 + i + offsetX };
-		 * int[] ySquare = { 25 + i, 25 + i, 45 - i, 45 - i }; g2.drawPolygon(xSquare,
-		 * ySquare, 4); }
-		 */
+	}
+	
+	public void minigameShapes(Graphics2D g2, String shape, int shapeOffset) {
+		if (shape.equals("Square")) {
+			for (int i = 0; i < 4; i++) {
+				int[] xSquare = { 85 + i + shapeOffset, 105 - i + shapeOffset, 105 - i + shapeOffset, 85 + i + shapeOffset };
+				int[] ySquare = { 24 + i, 24 + i, 44 - i, 44 - i };
+				g2.drawPolygon(xSquare, ySquare, 4);
+			}
+
+		} else if (shape.equals("Circle")) {
+			for (int i = 0; i < 4; i++) {
+				g2.drawOval(85 + i + shapeOffset, 25 + i, 20 - i, 20 - i);
+			}
+
+		} else if (shape.equals("Pentagon")) {
+
+		}
 	}
 
-	public static void graveyard(Graphics2D g2) throws IOException {
+	public void graveyard(Graphics2D g2) throws IOException {
 
-		int inGraveYardX = graveX - GamePanel.worldX;
-		int inGraveYardY = graveY - GamePanel.worldY;
+		int inGraveYardX = graveX - worldX;
+		int inGraveYardY = graveY - worldY;
 		if (inGraveYard) {
 			g2.drawImage(ghost, 480, 280, 250, 196, null);
-			Npc.text(g2, 2);
+		//	Npc.text(g2, 2);        ligga(Suss)man pls replace 
 		}
 
 	}
 
-	public static boolean hoveringYes = false;
-	public static boolean hoveringNo = false;
-	public static boolean inConfirmation = false;
-	public static boolean yesPressed = false;
-	public static boolean noPressed = false;
+	public boolean hoveringYes = false;
+	public boolean hoveringNo = false;
+	public boolean inConfirmation = false;
+	public boolean yesPressed = false;
+	public boolean noPressed = false;
 
-	public static void confirmation(Graphics2D g2, String text, int textX) {
+	public void confirmation(Graphics2D g2, String text, int textX) {
 
 		if (!inConfirmation) {
 			return;
@@ -630,109 +550,17 @@ public class Items {
 		g2.drawString("No", 472, 385);
 	}
 
-	public static boolean helpPressed = false;
-	public static boolean hoveringX = false;
-
-	public static void exitMenuOption(Graphics2D g2) {
-		if (hoveringX) {
-			g2.setColor(selected);
-
-		} else {
-			g2.setColor(unselected);
-		}
-		g2.fillRoundRect(595 + 90, 100 - 40, 30, 30, 10, 10);
-		g2.setStroke(new BasicStroke(4));
-		g2.setColor(Color.WHITE);
-		g2.drawLine(604 + 90 - 5, 105 - 40, 620 + 90, 120 - 40 + 5);
-		g2.drawLine(620 + 90, 105 - 40, 604 + 90 - 5, 120 - 40 + 5);
+	public void setInput(Input input) {
+		this.input = input;
 	}
 
-	public static void help(Graphics2D g2) {
-		if (helpPressed) {
-			g2.setColor(Color.BLACK);
-			g2.drawRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
-			g2.setColor(Color.DARK_GRAY);
-			g2.fillRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
-			g2.setColor(Color.LIGHT_GRAY);
-			g2.fillRoundRect(60, 60, 218 * 3, 148 * 3, 10, 10);
-			g2.setFont(new Font("Monospaced", Font.BOLD, 40));
-			g2.setColor(Color.BLACK);
-			g2.drawString("Help", 345, 115);
-			g2.fillRect(344, 117, 98, 2);
-			g2.setFont(new Font("Calibri", Font.PLAIN, 20));
-			g2.drawString("Ensure that your audio is enabled before you begin the game.", 100 - 10, 175 + 10);
-			g2.drawString("It is a vital component to the game.", 100 - 10, 205 + 10);
-			g2.drawString("If you are ever stuck, and don't know what to do, you can use your cursor", 100 - 10,
-					260 + 23);
-			g2.drawString("to hover and click on the instructions menu in the top right. You can then", 100 - 10,
-					290 + 23);
-			g2.drawString("navigate through different topics to find what you are having troubles", 100 - 10, 320 + 23);
-			g2.drawString("For example, if you don't know what the keybinds are to move, go to", 100 - 10, 350 + 23);
-			g2.drawString("the movement section.", 100 - 10, 380 + 20);
-
-			g2.drawString("When you enter the house, after you've slept in the bed, you should", 100 - 10, 435 + 20);
-			g2.drawString("go back to the entrance again to go back outside of the house.", 100 - 10, 465 + 20);
-
-			// Subtitles
-			g2.setFont(new Font("Calibri", Font.BOLD, 22));
-			g2.drawString("Guide House", 335, 425);
-			g2.fillRect(335, 427, 117, 2);
-			g2.drawString("Stuck", 370, 253);
-			g2.fillRect(370, 255, 52, 2);
-			g2.drawString("Audio", 370, 155);
-			g2.fillRect(370, 157, 54, 2);
-			exitMenuOption(g2);
-		}
+	public void setNpc(Npc npc) {
+		this.npc = npc;
 	}
 
-	public static boolean creditsPressed = false;
-
-	public static void credits(Graphics2D g2) {
-		if (creditsPressed) {
-			g2.setColor(Color.BLACK);
-			g2.drawRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
-			g2.setColor(Color.DARK_GRAY);
-			g2.fillRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
-			g2.setColor(Color.LIGHT_GRAY);
-			g2.fillRoundRect(60, 60, 218 * 3, 148 * 3, 10, 10);
-			g2.setFont(new Font("Monospaced", Font.BOLD, 40));
-			g2.setColor(Color.BLACK);
-			g2.drawString("Credits", 325, 115);
-			g2.fillRect(325, 117, 167, 2);
-			
-			g2.setFont(new Font("Calibri", Font.BOLD, 20));
-			g2.drawString("Project Lead", 100, 175);
-			g2.fillRect(100, 177, 150, 2);
-			g2.drawString ("Noah Sussman", 100, 180);
-			g2.drawString ("Senior Developer: Akhilan Saravanan", 100, 205);
-			g2.drawString ("Junior Developer", 100, 235);
-			g2.drawString("UX/UI Designer: Rudra Garg", 100, 235);
-			g2.drawString("Voice Actor", 100, 265);
-			g2.drawString("Playtester", 100, 270);
-			g2.fillRect(100, 267, 150, 2);
-			g2.drawString("Sammy Jiang", 100, 270);
-		}
+	public void setP(Player p) {
+		this.p = p;
 	}
 	
-	public void playBookSound() {
-		bookFlip.play();
-	}
 	
-	//Timer created from https://stackoverflow.com/questions/1006611/java-swing-timer
-		static Timer time;
-		public static void timer() {
-		    time = new Timer(723, new ActionListener() {
-		        @Override
-		        public void actionPerformed(ActionEvent e) {
-		            Items.playGif = false;
-		   		    Items.staticImageBook = true;
-		            time.stop();
-		        }
-		    });
-		    if (time != null && time.isRunning()) {
-		        time.stop();
-		    }
-		    time.setRepeats(false);
-		    time.start();
-		}
 }

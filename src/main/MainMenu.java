@@ -1,7 +1,6 @@
 package main;
 
 import java.awt.image.*;
-
 import java.awt.*;
 import java.io.*;
 import javax.imageio.ImageIO;
@@ -9,7 +8,8 @@ import javax.imageio.ImageIO;
 public class MainMenu {
 
 	private BufferedImage background;
-	public static boolean inMenu = false;
+	private BufferedImage car;
+	public static boolean inMenu = true;
 	public static boolean hoveringPlay = false;
 	public static boolean hoveringHelp = false;
 	public static boolean hoveringExit = false;
@@ -22,6 +22,7 @@ public class MainMenu {
 	public void loadImages() {
 		try {
 			background = ImageIO.read(new File("src/textures/mainMenu.png"));
+			car = ImageIO.read(new File("src/textures/car.png"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

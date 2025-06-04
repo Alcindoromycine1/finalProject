@@ -13,17 +13,19 @@ import javax.swing.Timer;
 public class Jumpscare {
 
 	private BufferedImage creepyMan;
+	
 	Sound sound;
+
 
 		Items items;
 		boolean jumpscare = false;
 		boolean once = false;
-
+  
 	public Jumpscare(GamePanel gp) {
 		loadStuff();
 		items = gp.it;
 	}
-
+	
 	public void loadStuff() {
 		try {
 			creepyMan = ImageIO.read(new File("src/textures/creepyMan.png"));
@@ -38,6 +40,7 @@ public class Jumpscare {
 	}
 
 	public void playSound() {
+
 		public void setOnce(boolean once) {
 			this.once = once;
 		}
@@ -64,5 +67,6 @@ public class Jumpscare {
 		    time.setRepeats(false);
 		    time.start();
 		}
+
 
 }
