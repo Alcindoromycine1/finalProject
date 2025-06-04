@@ -9,11 +9,11 @@ import javax.imageio.ImageIO;
 public class MainMenu {
 
 	private BufferedImage background;
-	public static boolean inMenu = false;
-	public static boolean hoveringPlay = false;
-	public static boolean hoveringHelp = false;
-	public static boolean hoveringExit = false;
-	public static boolean hoveringCredits = false;
+	public boolean inMenu = true;
+	public boolean hoveringPlay = false;
+	public boolean hoveringHelp = false;
+	public boolean hoveringExit = false;
+	public boolean hoveringCredits = false;
 	
 	public MainMenu() {
 		loadImages();

@@ -8,6 +8,8 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 
+import Horror.Jumpscare;
+
 /*
  * Noah Sussman, Akhilan Saravanan and Rudra Garg
  * Ms. Krasteva
@@ -22,30 +24,47 @@ import javax.imageio.ImageIO;
 public class Maps {
 
 	// WORLD SETTINGS
-	static int maxWorldCol;
-	static int maxWorldRow;
-	final static int worldWidth = 48 * maxWorldCol; // world width in pixels (2400 pixels)
-	final static int worldHeight = 48 * maxWorldRow; // world height in pixels (2400 pixels)
+	int maxWorldCol;
+	int maxWorldRow;
+	final int worldWidth = 48 * maxWorldCol; // world width in pixels (2400 pixels)
+	final int worldHeight = 48 * maxWorldRow; // world height in pixels (2400 pixels)
 
-	public static ArrayList<ArrayList<Integer>> tiles = new ArrayList<>();
-	public static ArrayList<int[]> treePositions = new ArrayList<>();
-	public static ArrayList<int[]> housePositions = new ArrayList<>();
-	public static ArrayList<int[]> bedPositions = new ArrayList<>();
-	public static ArrayList<int[]> houseWallPositions = new ArrayList<>();
-	public static ArrayList<int[]> grassPositions = new ArrayList<>();
-	public static ArrayList<int[]> waterPositions = new ArrayList<>();
-	public static ArrayList<int[]> bookPositions = new ArrayList<>();
-	public static BufferedImage nightmare;
-	public static ImageIcon doctor;
+	public ArrayList<ArrayList<Integer>> tiles = new ArrayList<>();
+	public ArrayList<int[]> treePositions = new ArrayList<>();
+	public ArrayList<int[]> housePositions = new ArrayList<>();
+	public ArrayList<int[]> bedPositions = new ArrayList<>();
+	public ArrayList<int[]> houseWallPositions = new ArrayList<>();
+	public ArrayList<int[]> grassPositions = new ArrayList<>();
+	public ArrayList<int[]> waterPositions = new ArrayList<>();
+	public ArrayList<int[]> bookPositions = new ArrayList<>();
+	public BufferedImage nightmare;
+	public ImageIcon doctor;
+
+	Tiles t;
+	Npc npc;
+	Jumpscare j;
+	Player p;
+	Items items;
+	Input inp;
+
 	Sound nightmareSound;
 	Sound doctrineSound;
 
-	// Player p = new Player();
-	// GamePanel gp = new GamePanel();
-	Tiles t = new Tiles();
-	static int currentMap;
-	
-	public Maps() {
+	int worldX;
+	int worldY;
+	int currentMap;
+
+	public Maps(GamePanel gp) {
+		this.worldX = gp.getWorldX();
+		this.worldY = gp.getWorldY();
+
+		this.inp = gp.id;
+		this.items = gp.it;
+		this.npc = gp.n;
+		this.t = gp.t;
+		this.j = gp.j;
+		this.p = gp.p;
+
 		try {
 			nightmare = ImageIO.read(new File("src/textures/nightmare.png"));
 			// https://www.youtube.com/watch?v=X4BPQ65vFzA
@@ -56,6 +75,11 @@ public class Maps {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void updateMapValues(int worldX, int worldY) {
+		this.worldX = worldX;
+		this.worldY = worldY;
 	}
 
 	public String changeMap(Graphics2D g, int mapToChange) {
@@ -98,7 +122,7 @@ public class Maps {
 
 	}
 
-	public static void mapIntro(String filePath) {
+	public void mapIntro(String filePath) {
 		tiles.clear(); // Clear old tile data before loading new map
 
 		try (BufferedReader r = new BufferedReader(new FileReader(filePath))) {
@@ -182,9 +206,10 @@ public class Maps {
 		}
 	}
 
-	public static boolean incrementingUp = true;
-	public static int yVal = -5;
-	public static void drawExorcismRoom(Graphics2D g2) throws IOException {
+	public boolean incrementingUp = true;
+	public int yVal = -5;
+
+	public void drawExorcismRoom(Graphics2D g2) throws IOException {
 
 		try {
 
@@ -199,37 +224,38 @@ public class Maps {
 		g2.setFont(new Font("Arial", Font.BOLD, 20));
 		g2.setColor(Color.WHITE);
 		g2.drawString("Draw:", 15, 40);
-		
+
 		if (yVal == -5) {
 			incrementingUp = true;
 		} else if (yVal == 30) {
 			incrementingUp = false;
 		}
-		
+
 		if (incrementingUp) {
 			yVal++;
 		} else {
 			yVal--;
 		}
-		
-		
-		/*Items.minigameGhost(g2, 1200, 820 + yVal, "Square", 250, 196);
-		Items.minigameGhost(g2, 1000, 860 + yVal, "Circle", 250, 196);*/
+
+		/*
+		 * Items.minigameGhost(g2, 1200, 820 + yVal, "Square", 250, 196);
+		 * Items.minigameGhost(g2, 1000, 860 + yVal, "Circle", 250, 196);
+		 */
 
 	}
 
-	public void camera(Graphics g2) {
+	public void camera(Graphics g2, GamePanel gp) {
 		try {
 			for (int worldRow = 0; worldRow < maxWorldRow; worldRow++) {
 				for (int worldCol = 0; worldCol < maxWorldCol; worldCol++) {
 
 					// where on the screen the tile will be drawn
-					int screenX = worldCol * 48 - GamePanel.worldX;
-					int screenY = worldRow * 48 - GamePanel.worldY;
+					int screenX = worldCol * 48 - gp.getWorldX();
+					int screenY = worldRow * 48 - gp.getWorldY();
 
 					// only draws the tiles that are on the screen
 					if (screenX + 48 > 0 && screenX < 768 && screenY + 48 > 0 && screenY < 576) {
-						g2.drawImage(Tiles.tileImages.get(worldRow).get(worldCol), screenX, screenY, 48, 48, null);
+						g2.drawImage(t.tileImages.get(worldRow).get(worldCol), screenX, screenY, 48, 48, null);
 					}
 				}
 			}
@@ -239,8 +265,8 @@ public class Maps {
 
 	// change scene variables
 	int fadeValue = 0;
-	static int stepCount = 0;
-	static int hasFaded = 0;
+	int stepCount = 0;
+	int hasFaded = 0;
 
 	public void fading(Graphics2D g2, Tiles t, int newMap, int originalMap) throws IOException {
 
@@ -267,14 +293,14 @@ public class Maps {
 				grassPositions.clear();
 				waterPositions.clear();
 
-				Tiles.tileImages.clear();
+				t.tileImages.clear();
 
-				for (int i = 0; i < Maps.maxWorldRow; i++) {
+				for (int i = 0; i < maxWorldRow; i++) {
 					ArrayList<BufferedImage> row = new ArrayList<>();
-					for (int j = 0; j < Maps.maxWorldCol; j++) {
+					for (int j = 0; j < maxWorldCol; j++) {
 						row.add(null); // initialize each cell with null
 					}
-					Tiles.tileImages.add(row);
+					t.tileImages.add(row);
 				}
 
 				g2.fillRect(-10000, -10000, 768 + 20000, 576 + 20000); // Clear the screen
@@ -286,11 +312,11 @@ public class Maps {
 				}
 				// Load the new map's tiles
 				// Reinitialize the new map's data
-				Tiles.tileCreating();
+				t.tileCreating();
 				findIntroHouse();
 				findTrees();
-				GamePanel.worldX = 288;
-				GamePanel.worldY = 216;
+				worldX = 288;
+				worldY = 216;
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -304,7 +330,7 @@ public class Maps {
 			fadeValue -= 2;
 			if (fadeValue <= 0) {
 				fading = false;
-				Player.disableCharacterMovement();
+				p.disableCharacterMovement();
 				stepCount = -1;
 				fadeValue = 0;
 				hasFaded++;
@@ -328,24 +354,25 @@ public class Maps {
 		}
 	}
 
-	static boolean fading = false;
+	boolean fading = false;
 	boolean goOut = false;
-	static boolean hasJumpscared = false;
-	static boolean hasDoctrined = false;
+	boolean hasJumpscared = false;
+	boolean hasDoctrined = false;
 
 	public void fade(int changeMap, int oldMap, Graphics2D g2, int worX, int worY, int width, int height, int oldworX,
 			int oldworY, int oldWidth, int oldHeight) throws IOException {
 
-		if (Input.changeMapPressed && GamePanel.worldX >= oldworX && GamePanel.worldX <= oldworX + oldWidth
-				&& GamePanel.worldY >= oldworY && GamePanel.worldY <= oldworY + oldHeight) {
+		if (inp.changeMapPressed && worldX >= oldworX && worldX <= oldworX + oldWidth && worldY >= oldworY
+				&& worldY <= oldworY + oldHeight) {
 			fading = true;
-			Player.disableCharacterMovement();
-			Input.changeMapPressed = false;
+			p.disableCharacterMovement();
+			inp.changeMapPressed = false;
+			j.setJumpscare(true);
 		}
-		if (!fading && Input.changeMapPressed && GamePanel.worldX >= worX && GamePanel.worldX <= worX + width
-				&& GamePanel.worldY >= worY && GamePanel.worldY <= worY + height) {
+		if (!fading && inp.changeMapPressed && worldX >= worX && worldX <= worX + width && worldY >= worY
+				&& worldY <= worY + height) {
 			fading = true;
-			Player.disableCharacterMovement();
+			p.disableCharacterMovement();
 			stepCount = 0;
 			goOut = true;
 		}
@@ -354,36 +381,37 @@ public class Maps {
 		}
 	}
 
-	public static boolean doneNightmare = false;
-	public static boolean inNightmare = false;
-	public static boolean usingBed = false;
+	public boolean doneNightmare = false;
+	public boolean inNightmare = false;
+	public boolean usingBed = false;
 
-	static boolean once = false;
-	static int fade2Value = 0;
-	static boolean faded = false;
-	static boolean doneFade = false;
-	public static void nightmare(Graphics2D g2, Component observer) throws IOException {
+	boolean once = false;
+	int fade2Value = 0;
+	boolean faded = false;
+	boolean doneFade = false;
+
+	public void nightmare(Graphics2D g2, Component observer) throws IOException {
 		if (usingBed && !inNightmare && !doneNightmare) {
-			Items.inConfirmation = true;
-			Items.confirmation(g2, "Do you want to sleep?", 180);
+			items.inConfirmation = true;
+			items.confirmation(g2, "Do you want to sleep?", 180);
 
-			if (Items.yesPressed) {
+			if (items.yesPressed) {
 				inNightmare = true;
 				usingBed = false;
-				Items.yesPressed = false;
-				Items.inConfirmation = false;
+				items.yesPressed = false;
+				items.inConfirmation = false;
 			}
-			if (Items.noPressed) {
+			if (items.noPressed) {
 				inNightmare = false;
 				usingBed = false;
-				Items.noPressed = false;
-				Items.inConfirmation = false;
+				items.noPressed = false;
+				items.inConfirmation = false;
 			}
 			return;
 		}
 
 		if (inNightmare) {
-				if (!faded) {
+			if (!faded) {
 				Color fadeColor = new Color(0, 0, 0, fade2Value);
 				g2.setColor(fadeColor);
 				g2.fillRect(0, 0, 768, 576);
@@ -408,19 +436,19 @@ public class Maps {
 				g2.drawImage(nightmare, 0, 0, 768, 576, null);
 				g2.drawImage(doctor.getImage(), 300, 160, 400, 300, observer);
 				if (!once) {
-					Npc.textIndex = 0;
+					npc.textIndex = 0;
 					once = true;
 				}
-				Npc.text(g2, 6);
+				npc.text(g2, 6);
 			}
 		}
 
 		if (doneNightmare) {
 			inNightmare = false;
-			Npc.doctor(g2);
+			npc.doctor(g2);
 		}
 	}
-	
+
 	public void playNightmareSound() {
 		if (inNightmare && doneFade) {
 			if (!nightmareSound.isPlaying()) {
@@ -432,7 +460,7 @@ public class Maps {
 	}
 
 	public void playDoctrineSound() {
-		if (currentMap == 4 ) {
+		if (currentMap == 4) {
 			if (!doctrineSound.isPlaying()) {
 				doctrineSound.play();
 			}
@@ -441,6 +469,26 @@ public class Maps {
 				doctrineSound.stop();
 			}
 		}
+	}
+
+	public void setT(Tiles t) {
+		this.t = t;
+	}
+
+	public void setNpc(Npc npc) {
+		this.npc = npc;
+	}
+
+	public void setJ(Jumpscare j) {
+		this.j = j;
+	}
+
+	public void setP(Player p) {
+		this.p = p;
+	}
+
+	public void setItems(Items items) {
+		this.items = items;
 	}
 
 }

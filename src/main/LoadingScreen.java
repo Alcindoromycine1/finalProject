@@ -16,8 +16,11 @@ public class LoadingScreen {
 	private boolean logoIn = false;
 	private boolean volumeDone = false;
 
-	public LoadingScreen() {
+	MainMenu mainMenu;
+	
+	public LoadingScreen(GamePanel gp) {
 		loadImages();
+		mainMenu = gp.mainMenu;
 	}
 
 	public void loadImages() {
@@ -69,7 +72,7 @@ public class LoadingScreen {
 			if (fadeValue >= 255) {
 				fadeValue = 255;
 				loadingScreen = false; // End the loading screen
-				MainMenu.inMenu = true; // Switch to the main menu
+				mainMenu.inMenu = true; // Switch to the main menu
 			}
 		}
 	}
