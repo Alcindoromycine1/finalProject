@@ -55,7 +55,7 @@ public class Items {
 	}
 
 	public static void houseMirror(Graphics2D g2) {
-			g2.drawImage(mirror, 360, 200, 50, 50, null);
+		g2.drawImage(mirror, 360, 200, 50, 50, null);
 	}
 
 	static boolean carOn = false;
@@ -80,8 +80,10 @@ public class Items {
 	}
 
 	public static void insideDoctrine(Graphics2D g2) throws IOException {
-		ghost(g2, 1110, 120, 125, 98);
-		Npc.text(g2, 4);
+		if (Maps.currentMap == 4) {
+			ghost(g2, 1110, 120, 125, 98);
+		}
+		//Npc.text(g2, 4);
 	}
 
 	static boolean enterBook = false;
@@ -97,8 +99,8 @@ public class Items {
 		g2.setFont(new Font("calibri", Font.BOLD, 18));
 		if (enterBook) {
 			if (!playGif || staticImageBook) {
-				
-					g2.drawImage(book, -70, 0, 900, 587, null);
+
+				g2.drawImage(book, -70, 0, 900, 587, null);
 			} else {
 				g2.drawImage(pageFlipping.getImage(), -70, 0, 900, 587, observer);
 			}
@@ -658,13 +660,13 @@ public class Items {
 			g2.setColor(Color.BLACK);
 			g2.drawString("Credits", 325, 115);
 			g2.fillRect(325, 117, 167, 2);
-			
+
 			g2.setFont(new Font("Calibri", Font.BOLD, 20));
 			g2.drawString("Project Lead", 100, 175);
 			g2.fillRect(100, 177, 150, 2);
-			g2.drawString ("Noah Sussman", 100, 180);
-			g2.drawString ("Senior Developer: Akhilan Saravanan", 100, 205);
-			g2.drawString ("Junior Developer", 100, 235);
+			g2.drawString("Noah Sussman", 100, 180);
+			g2.drawString("Senior Developer: Akhilan Saravanan", 100, 205);
+			g2.drawString("Junior Developer", 100, 235);
 			g2.drawString("UX/UI Designer: Rudra Garg", 100, 235);
 			g2.drawString("Voice Actor", 100, 265);
 			g2.drawString("Playtester", 100, 270);
@@ -672,26 +674,28 @@ public class Items {
 			g2.drawString("Sammy Jiang", 100, 270);
 		}
 	}
-	
+
 	public void playBookSound() {
 		bookFlip.play();
 	}
-	
-	//Timer created from https://stackoverflow.com/questions/1006611/java-swing-timer
-		static Timer time;
-		public static void timer() {
-		    time = new Timer(723, new ActionListener() {
-		        @Override
-		        public void actionPerformed(ActionEvent e) {
-		            Items.playGif = false;
-		   		    Items.staticImageBook = true;
-		            time.stop();
-		        }
-		    });
-		    if (time != null && time.isRunning()) {
-		        time.stop();
-		    }
-		    time.setRepeats(false);
-		    time.start();
+
+	// Timer created from
+	// https://stackoverflow.com/questions/1006611/java-swing-timer
+	static Timer time;
+
+	public static void timer() {
+		time = new Timer(723, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Items.playGif = false;
+				Items.staticImageBook = true;
+				time.stop();
+			}
+		});
+		if (time != null && time.isRunning()) {
+			time.stop();
 		}
+		time.setRepeats(false);
+		time.start();
+	}
 }

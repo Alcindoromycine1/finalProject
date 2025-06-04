@@ -271,9 +271,10 @@ public class GamePanel extends JPanel implements Runnable {
 				Npc.text(g2, 5);
 				Items.inHouse = false;
 			}
-			if (!Maps.hasDoctrined && Maps.hasJumpscared) {
+			if (!Maps.hasDoctrined && Maps.hasJumpscared) { //doctrine room
 				m.fade(3, 4, g2, 168, -159, 100, 100, 5550, 520, 150, 100);
 				Input.changeMapPressed = false;
+				
 			}
 			if (Maps.hasDoctrined) { // exorcism room
 				m.fade(4, 5, g2, 838, 216, 55, 55, 838, 216, 55, 55);
@@ -292,7 +293,7 @@ public class GamePanel extends JPanel implements Runnable {
 				Maps.hasFaded = 0;
 			}
 			// Npc.text(g2, 3);
-			// Items.insideDoctrine(g2);
+		 Items.insideDoctrine(g2);
 			// Items.houseMirror(g2);
 		} catch (IOException e) {
 			e.printStackTrace();
