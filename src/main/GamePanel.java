@@ -5,7 +5,6 @@ import javax.swing.*;
 import Horror.Jumpscare;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.Timer;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -35,10 +34,10 @@ public class GamePanel extends JPanel implements Runnable {
 	final int HEIGHT = tileSize * maxScreenRow; // screen height in pixels (576 pixels)
 	final int FPS_TARGET = 60; // Frame rate target // Character position
 	// Character position
-	static int playerX = 768 / 2;
-	static int playerY = 576 / 2;
-	static int worldX = 768 / 2; // world position
-	static int worldY = 576 / 2; // world position
+	int playerX = 768 / 2;
+	int playerY = 576 / 2;
+	int worldX = 768 / 2; // world position
+	int worldY = 576 / 2; // world position
 	// Game Thread
 	Thread gameThread; // keeps the program running until closed
 
@@ -50,47 +49,50 @@ public class GamePanel extends JPanel implements Runnable {
 	private double fps = 0; // FPS value
 
 	// Game components
-	Tiles t = new Tiles();
-	Maps m = new Maps();
-	static Jumpscare j = new Jumpscare();
-	// ChangeScene cs = new ChangeScene(WIDTH, HEIGHT);
-	Player p;
-	Npc n = new Npc();
-	Items it = new Items();
-	Input id;
-	Sound ambientAudio;
-	Sound mainMenuSound;
+	public Tiles t;
+	public Maps m;
+	public Jumpscare j;
 
-	static int screenX;
-	static int screenY;
+	public Player p;
+	public Npc n;
+	public Items it;
+	public Input id;
+	public MainMenu mainMenu;
+	public Minigame minigame;
+
+	int screenX;
+	int screenY;
 
 	// sound
 	private Sound footstepSound;
 
-	private MainMenu mainMenu = new MainMenu();
 	LoadingScreen loadingScreen = new LoadingScreen();
-	private Minigame minigame = new Minigame();
-
-	BufferedImage jeffFront;
-	BufferedImage jeffBack;
-	BufferedImage jeffRight;
-	BufferedImage jeffLeft;
 
 	public GamePanel() {
 	}
 
 	// Constructor
 	public GamePanel(JFrame window) throws IOException {
-		Input input = new Input();
-		id = new Input(n);
-		Npc n = new Npc(input);
+
+		j = new Jumpscare(this);
+		it = new Items(this);
+		n = new Npc(this);
+		m = new Maps(this);
+		t = new Tiles(this);
+
+		mainMenu = new MainMenu();
+		minigame = new Minigame();
+		id = new Input(this);
+		p = new Player(this);
+
+		m.setTiles(t);
 
 		this.window = window;
 		this.setPreferredSize(new Dimension(WIDTH, HEIGHT)); // Preferred window size
 		this.setDoubleBuffered(true); // Improves rendering performance
-		this.addKeyListener(Player.keyH); // Recognizes key inputs
-		this.addMouseMotionListener(input); // Recognizes mouse movement
-		this.addMouseListener(input); // Recognize mouse clicks
+		this.addKeyListener(p.keyH); // Recognizes key inputs
+		this.addMouseMotionListener(id); // Recognizes mouse movement
+		this.addMouseListener(id); // Recognize mouse clicks
 		this.setFocusable(true);
 
 		screenX = WIDTH / 2 - (tileSize / 2); // centers the player in the middle of the screen
@@ -99,26 +101,43 @@ public class GamePanel extends JPanel implements Runnable {
 		// Background
 		m.changeMap(3);
 		// Find trees in the map
+
+		// load tiles init
+		t.tileCreating();
+
 		m.findTrees();
-		Tiles.tileCreating();
 
 		// Load character
-		p = new Player(input);
+
 		p.loadCharacterImages();
+
+		m.setP(p);
+		m.setItems(it);
+		m.setNpc(n);
+		m.setJ(j);
+		m.setT(t);
+
+		it.setP(p);
+		it.setInput(id);
+		it.setNpc(n);
+
+		n.setInput(id);
+		n.setItems(it);
+
+		p.setM(m);
+		p.setN(n);
+		p.setIt(it);
+		p.setKeyH(id);
 
 		try {
 			// https://www.youtube.com/watch?v=tmlZeYnfw7g
 			ambientAudio = new Sound("src/sound/ambientAudio.wav");
+
 			// https://www.youtube.com/watch?v=1a7kscUeItk
 			mainMenuSound = new Sound("src/sound/mainMenuSound.wav");
-			footstepSound = new Sound("src/sound/walkingSoundEffect.wav");
-			jeffFront = ImageIO.read(new File("src/textures/charAI.png"));
-			jeffBack = ImageIO.read(new File("src/textures/jeffBack.png"));
-			jeffRight = ImageIO.read(new File("src/textures/jeffRight.png"));
-			jeffLeft = ImageIO.read(new File("src/textures/jeffLeft.png"));
-			
 		} catch (Exception e) {
-			System.out.println("Error loading sound or image files: " + e.getMessage());
+			footstepSound = new Sound("src/sound/walkingSoundEffect.wav");
+			System.out.println("Sound loaded successfully");
 		}
 	}
 
@@ -164,37 +183,60 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 
 	public void characterMovement() {
-		// Character movement
-		if (Player.disableCharacterMovement() == false) {
-			if (Player.keyH.upPressed) {
+		if (p.disableCharacterMovement() == false) {
+			if (p.keyH.upPressed) {
 				direction = "back";
 				worldY -= playerSpeed; // move the world up when player presses up
-			} else if (Player.keyH.downPressed) {
+
+			} else if (p.keyH.downPressed) {
 				direction = "front";
 				worldY += playerSpeed; // move the world down when player goes down
-			} else if (Player.keyH.leftPressed) {
+
+			} else if (p.keyH.leftPressed) {
 				direction = "left";
 				worldX -= playerSpeed; // move the world left when player goes left
-			} else if (Player.keyH.rightPressed) {
+
+			} else if (p.keyH.rightPressed) {
 				direction = "right";
 				worldX += playerSpeed; // move the world right when player goes right
+
+			}
+
+			// footsteps
+			if (p.keyH.upPressed && !p.keyH.upReleased || p.keyH.downPressed && !p.keyH.downReleased
+					|| p.keyH.rightPressed && !p.keyH.rightReleased || p.keyH.leftPressed && !p.keyH.leftReleased) {
+				// System.out.println(footstepSound);
+				// footstepSound.play();
 			}
 		}
+
+		System.out.println("World X,Y: " + worldX + ", " + worldY);
+		System.out.println("Player.world X,Y: " + p.worldX + ", " + p.worldY);
 	}
 
 	// Update game elements
 	public void update() {
+		p.updatePlayerPosition(worldX, worldY, playerX, playerY, screenX, screenY);
+		m.updateMapValues(worldX, worldY);
+		n.updateNpcValues(playerX, playerY, worldX, worldY);
+		it.updateItemsValues(playerX, playerY, worldX, worldY);
+		
 		window.setTitle("Are we Cooked? FPS: " + fps);
 		p.collisionChecking();
-		p.collision();
+		p.collision(this);
 		characterMovement();
-		Items.animation();
+		it.animation();
 	}
 
 	public void characterImage(Graphics g) throws IOException {
 
+		BufferedImage jeffFront = ImageIO.read(new File("src/textures/charAI.png"));
+		BufferedImage jeffBack = ImageIO.read(new File("src/textures/jeffBack.png"));
+		BufferedImage jeffRight = ImageIO.read(new File("src/textures/jeffRight.png"));
+		BufferedImage jeffLeft = ImageIO.read(new File("src/textures/jeffLeft.png"));
+
 		BufferedImage character = null;
-		if (Items.visible) {
+		if (it.visible) {
 			if (direction.equals("back")) {
 
 				character = jeffBack;
@@ -213,7 +255,7 @@ public class GamePanel extends JPanel implements Runnable {
 			} else {
 				character = jeffFront;
 			}
-			if (Maps.currentMap != 5) {
+			if (m.currentMap != 5) {
 				g.drawImage(character, screenX, screenY, null);// draws the character in the middle of the screen
 			}
 		}
@@ -233,98 +275,106 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 
 		try {
-			Items.car(g2);
+			it.car(g2);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		if (Items.animationFrame >= 150) {
+		if (it.animationFrame >= 150) {
 			it.titleScreen(g2);
 		}
 		// Npc.text(g2);
 		it.instructions(g2);
-		if (Input.instructionsPressed) {
+		if (id.instructionsPressed) {
 			it.prompts(g2);
 			it.backMenu(g2);
 		}
-		if (Jumpscare.jumpscare) {
-			j.playSound();
-			j.drawJumpscare(g2);
-		} // Render the jumpscare image
+		/*
+		 * if (j.isJumpscare()) { if (j.getOnce() == false) { // makes sound run only
+		 * once j.playSound(); j.setOnce(true); } // Render the jumpscare image
+		 * j.drawJumpscare(g2);
+		 * 
+		 * // Use a Timer to introduce a delay after rendering Timer delayTimer = new
+		 * Timer(2000, new ActionListener() {
+		 * 
+		 * @Override public void actionPerformed(ActionEvent e) { j.setJumpscare(false);
+		 * // Reset the jumpscare state after 2 seconds ((Timer) e.getSource()).stop();
+		 * // Stop the timer } }); delayTimer.setRepeats(false); // Ensure the timer
+		 * only runs once delayTimer.start(); }
+		 */
 
-		if (Maps.currentMap == 5) {
+		if (m.currentMap == 5) {
 			try {
 				m.drawExorcismRoom(g2);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
 		}
 
-		try {
-			if (!Maps.hasJumpscared && !Maps.hasDoctrined) {
+				try {
+			if (!m.hasJumpscared && !m.hasDoctrined) {
 				m.fade(2, 3, g2, 248, 216, 82, 48, 414, 48, 145, 126);
 				Input.changeMapPressed = false;
-				Items.inHouse = true;
+				it.inHouse = true;
 			}
-			if (Maps.stepCount == -1 && Items.inHouse && !Maps.inNightmare) {
-				Npc.text(g2, 5);
-				Items.inHouse = false;
+			if (m.stepCount == -1 && it.inHouse) {
+				n.text(g2, 5);
+				it.inHouse = false;
 			}
-			if (!Maps.hasDoctrined && Maps.hasJumpscared) { //doctrine room
+			if (!m.hasDoctrined && m.hasJumpscared) {
 				m.fade(3, 4, g2, 168, -159, 100, 100, 5550, 520, 150, 100);
 				Input.changeMapPressed = false;
-				
 			}
-			if (Maps.hasDoctrined) { // exorcism room
+			if (m.hasDoctrined) { // exorcism room
 				m.fade(4, 5, g2, 838, 216, 55, 55, 838, 216, 55, 55);
 				Input.changeMapPressed = false;
-				Player.disableCharacterMovement();
+				p.disableCharacterMovement();
 			}
-			if (Maps.hasFaded == 2) {
-				if (Maps.hasJumpscared && !Maps.hasDoctrined) {
+			if (m.hasFaded == 2) {
+				if (m.hasJumpscared && !m.hasDoctrined) {
 					worldX = 384;
 					worldY = 288;
 				}
-				if (Maps.hasJumpscared && Maps.hasDoctrined) {
+				if (m.hasJumpscared && m.hasDoctrined) {
 					worldX = 0;
 					worldY = 0;
 				}
-				Maps.hasFaded = 0;
+				m.hasFaded = 0;
 			}
 			// Npc.text(g2, 3);
-		 Items.insideDoctrine(g2);
+			// Items.insideDoctrine(g2);
 			// Items.houseMirror(g2);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		Minigame.startExorcising();
-		Minigame.drawPoints(g2);
+		minigame.startExorcising();
+		minigame.drawPoints(g2);
 
 		try {
-			Items.doctrine(g2);
+			it.doctrine(g2);
 		} catch (IOException e) {
 
 			e.printStackTrace();
 		}
 
 		try {
-			Items.graveyard(g2);
-			Items.ghost(g2, 5100, 320, 125, 98);
-			Items.book(g2, this);
+			it.graveyard(g2);
+			it.ghost(g2, 5100, 320, 125, 98);
+			it.book(g2, this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 		try {
-			Maps.nightmare(g2, this);
+			m.nightmare(g2, this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		try {
-			Items.ghostLogic(g2);
+			it.ghostLogic(g2);
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -333,11 +383,11 @@ public class GamePanel extends JPanel implements Runnable {
 		m.playNightmareSound();
 		m.playDoctrineSound();
 
-		if (LoadingScreen.loadingScreen) {
-			loadingScreen.drawLoadingScreen(g2);
-		}
+		/*
+		 * if (LoadingScreen.loadingScreen) { loadingScreen.drawLoadingScreen(g2); }
+		 */
 
-		if (MainMenu.inMenu) {
+		if (mainMenu.inMenu) {
 			mainMenu.mainMenu(g2);
 			if (!mainMenuSound.isPlaying()) {
 				mainMenuSound.play();
@@ -345,7 +395,7 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 		}
 
-		if (Maps.currentMap == 3 && !MainMenu.inMenu && !LoadingScreen.loadingScreen) {
+		if (m.currentMap == 3 && !mainMenu.inMenu && !LoadingScreen.loadingScreen) {
 			if (mainMenuSound.isPlaying()) {
 				mainMenuSound.stop();
 			}
@@ -355,20 +405,235 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 		}
 
-		if (Maps.currentMap != 3) {
+		if (m.currentMap != 3) {
 			if (ambientAudio.isPlaying()) {
 				ambientAudio.stop();
 			}
 		}
 
-		Items.help(g2);
-		Items.credits(g2);
+		it.help(g2);
+		it.credits(g2);
 
 		g2.dispose();
 
 	}
 
+
+	public int getWorldX() {
+		return worldX;
+	}
+
+	public int getWorldY() {
+		return worldY;
+	}
+
 	public int getTileSize() {
 		return tileSize;
 	}
+	
+
+	public int getOriginalTileSize() {
+		return originalTileSize;
+	}
+
+	public int getScale() {
+		return scale;
+	}
+
+	public int getPlayerSpeed() {
+		return playerSpeed;
+	}
+
+	public int getMaxScreenCol() {
+		return maxScreenCol;
+	}
+
+	public int getMaxScreenRow() {
+		return maxScreenRow;
+	}
+
+	public int getWIDTH() {
+		return WIDTH;
+	}
+
+	public int getHEIGHT() {
+		return HEIGHT;
+	}
+
+	public int getFPS_TARGET() {
+		return FPS_TARGET;
+	}
+
+	public int getPlayerX() {
+		return playerX;
+	}
+
+	public int getPlayerY() {
+		return playerY;
+	}
+
+	public Thread getGameThread() {
+		return gameThread;
+	}
+
+	public JFrame getWindow() {
+		return window;
+	}
+
+	public long getFrameCount() {
+		return frameCount;
+	}
+
+	public long getLastTime() {
+		return lastTime;
+	}
+
+	public double getFps() {
+		return fps;
+	}
+
+	public Tiles getT() {
+		return t;
+	}
+
+	public Maps getM() {
+		return m;
+	}
+
+	public Jumpscare getJ() {
+		return j;
+	}
+
+	public Player getP() {
+		return p;
+	}
+
+	public Npc getN() {
+		return n;
+	}
+
+	public Items getIt() {
+		return it;
+	}
+
+	public Input getId() {
+		return id;
+	}
+
+	public int getScreenX() {
+		return screenX;
+	}
+
+	public int getScreenY() {
+		return screenY;
+	}
+
+	public Sound getFootstepSound() {
+		return footstepSound;
+	}
+
+	public MainMenu getMainMenu() {
+		return mainMenu;
+	}
+
+	public Minigame getMinigame() {
+		return minigame;
+	}
+
+	public String getDirection() {
+		return direction;
+	}
+
+	public void setPlayerSpeed(int playerSpeed) {
+		this.playerSpeed = playerSpeed;
+	}
+
+	public void setPlayerX(int playerX) {
+		this.playerX = playerX;
+	}
+
+	public void setPlayerY(int playerY) {
+		this.playerY = playerY;
+	}
+
+	public void setWorldX(int worldX) {
+		this.worldX = worldX;
+	}
+
+	public void setWorldY(int worldY) {
+		this.worldY = worldY;
+	}
+
+	public void setGameThread(Thread gameThread) {
+		this.gameThread = gameThread;
+	}
+
+	public void setWindow(JFrame window) {
+		this.window = window;
+	}
+
+	public void setFrameCount(long frameCount) {
+		this.frameCount = frameCount;
+	}
+
+	public void setLastTime(long lastTime) {
+		this.lastTime = lastTime;
+	}
+
+	public void setFps(double fps) {
+		this.fps = fps;
+	}
+
+	public void setT(Tiles t) {
+		this.t = t;
+	}
+
+	public void setM(Maps m) {
+		this.m = m;
+	}
+
+	public void setJ(Jumpscare j) {
+		this.j = j;
+	}
+
+	public void setP(Player p) {
+		this.p = p;
+	}
+
+	public void setN(Npc n) {
+		this.n = n;
+	}
+
+	public void setIt(Items it) {
+		this.it = it;
+	}
+
+	public void setId(Input id) {
+		this.id = id;
+	}
+
+	public void setMainMenu(MainMenu mainMenu) {
+		this.mainMenu = mainMenu;
+	}
+
+	public void setMinigame(Minigame minigame) {
+		this.minigame = minigame;
+	}
+
+	public void setScreenX(int screenX) {
+		this.screenX = screenX;
+	}
+
+	public void setScreenY(int screenY) {
+		this.screenY = screenY;
+	}
+
+	public void setFootstepSound(Sound footstepSound) {
+		this.footstepSound = footstepSound;
+	}
+
+	public void setDirection(String direction) {
+		this.direction = direction;
+	}
+	
 }

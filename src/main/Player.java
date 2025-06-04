@@ -17,18 +17,25 @@ import javax.imageio.ImageIO;
  * Final Project ICS4U0
  */
 public class Player {
+	
+	int worldX;
+	int worldY;
+	
+	private int screenX;
+	private int screenY;
+	
+	private int playerX;
+	private int playerY;
+	
 
-	public static Input keyH = new Input();// Creates an object to call
-	Maps m = new Maps();
 	// Players initial position
 	private int beforeCollisionX = GamePanel.worldX;
 	private int beforeCollisionY = GamePanel.worldY;
-	Jumpscare j = new Jumpscare();
-	Input input = new Input();
-	Npc n = new Npc(input);
-	Items it = new Items();
-	Sound walkingSound;
-	Sound carSound;
+	
+	Npc n;
+	Maps m;
+	Items it;
+	Input keyH;
 
 	private BufferedImage character;
 	public static BufferedImage buisnessMan;
@@ -130,7 +137,7 @@ public class Player {
 			int bookY = Maps.bookPositions.get(i)[1] - GamePanel.worldY;
 			if (GamePanel.playerX + 32 > bookX // Right side of hitbox is past left side of tree
 					&& GamePanel.playerX < bookX + 48 // Left side of hitbox is before right side of tree
-					&& GamePanel.playerY + 72 > bookY  // Bottom side of hitbox is below top side of tree
+					&& GamePanel.playerY + 72 > bookY + 48 // Bottom side of hitbox is below top side of tree
 					&& GamePanel.playerY < bookY + 48 && Player.keyH.useBookPressed) { // Top side of hitbox is above
 																						// bottom side of tree
 				Items.enterBook = true;

@@ -6,8 +6,6 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,23 +14,13 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.Timer;
-
-import Horror.Jumpscare;
 
 public class Items {
 
 	private int inventoryBoxX = 300;
 	private int inventoryBoxY = 300;
-	static BufferedImage book;
-	static ImageIcon pageFlipping;
-	static BufferedImage doctrine;
-	static BufferedImage mirror;
-	static BufferedImage brokenCar;
-	static BufferedImage car;
 
 	Input input;
-	Sound bookFlip;
 
 	public Items(Input input) {
 
@@ -41,21 +29,49 @@ public class Items {
 	}
 
 	public Items() {
-		try {
-			bookFlip = new Sound("src/sound/bookFlip.wav");
-			book = ImageIO.read(new File("src/textures/books.png"));
-			pageFlipping = new ImageIcon("src/textures/books.gif");
-			doctrine = ImageIO.read(new File("src/textures/doctrine.png"));
-			mirror = ImageIO.read(new File("src/textures/jeffMirror.png"));
-			brokenCar = ImageIO.read(new File("src/textures/destroyedCar.png"));
-			car = ImageIO.read(new File("src/textures/car.png"));
-		} catch (Exception e) {
-			System.out.println("Error loading file: " + e.getMessage());
-		}
+
 	}
 
-	public static void houseMirror(Graphics2D g2) {
-		g2.drawImage(mirror, 360, 200, 50, 50, null);
+	public void baseballBat(Graphics g, boolean inventoryCollision) throws IOException {
+
+		BufferedImage baseballBat = ImageIO.read(new File("src/textures/baseballBat.png"));// https://as2.ftcdn.net/jpg/03/13/10/75/1000_F_313107572_KTaHs8vB8IOSkKiC9DE7yhBIO3w7e3mo.jpg
+		// g.drawImage(baseballBat, 126, 160, 70, 70, null);
+		// If the user is hovering over the inventory button
+		/*
+		 * if (inventoryCollision) {
+		 * 
+		 * g.setColor(Color.red); g.drawImage(baseBallBat, 160, 80, 70, 15, 15);
+		 * 
+		 * }
+		 */
+
+		// If the user has clicked on the inventory button
+
+		if (input.mouseDragging && input.mouseHolding) {
+			inventoryBoxX = input.mouseX - 40;
+			inventoryBoxY = input.mouseY - 40;
+		}
+		g.setColor(Color.BLACK);
+		g.drawImage(baseballBat, inventoryBoxX, inventoryBoxY, 70, 70, null);
+	}
+
+	public void communicate(Graphics g) {
+
+		Graphics2D g2 = (Graphics2D) g;
+		g2.fillRect(400, 400, 100, 400);
+
+	}
+
+	public static void houseMirror(Graphics2D g2) throws IOException {
+
+		BufferedImage mirror;
+		try {
+			mirror = ImageIO.read(new File("src/textures/jeffMirror.png"));
+			g2.drawImage(mirror, 360, 200, 50, 50, null);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	static boolean carOn = false;
@@ -72,6 +88,8 @@ public class Items {
 		int doctrineX = doctrineWorldX - GamePanel.worldX;
 		int doctrineY = doctrineWorldY - GamePanel.worldY;
 
+		BufferedImage doctrine;
+		doctrine = ImageIO.read(new File("src/textures/doctrine.png"));
 		g2.drawImage(doctrine, doctrineX, doctrineY, 260, 390, null);
 		g2.setColor(Color.WHITE);
 		g2.setFont(new Font("Monospaced", Font.BOLD, 20));
@@ -80,10 +98,8 @@ public class Items {
 	}
 
 	public static void insideDoctrine(Graphics2D g2) throws IOException {
-		if (Maps.currentMap == 4) {
-			ghost(g2, 1110, 120, 125, 98);
-		}
-		//Npc.text(g2, 4);
+		ghost(g2, 1110, 120, 125, 98);
+		Npc.text(g2, 4);
 	}
 
 	static boolean enterBook = false;
@@ -99,9 +115,15 @@ public class Items {
 		g2.setFont(new Font("calibri", Font.BOLD, 18));
 		if (enterBook) {
 			if (!playGif || staticImageBook) {
-
-				g2.drawImage(book, -70, 0, 900, 587, null);
+				BufferedImage book;
+				try {
+					book = ImageIO.read(new File("src/textures/books.png"));
+					g2.drawImage(book, -70, 0, 900, 587, null);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			} else {
+				ImageIcon pageFlipping = new ImageIcon("src/textures/books.gif");
 				g2.drawImage(pageFlipping.getImage(), -70, 0, 900, 587, observer);
 			}
 
@@ -123,11 +145,11 @@ public class Items {
 			g2.drawString("Close Book", 562, 125);
 			g2.drawString("Next Page", 565, 470);
 
-			if (nextPage == 0) {
+			if (nextPage == 1) {
 				g2.setColor(Color.BLACK);
 				g2.drawString("How To Do An Exorcism", 100, 100);
 				g2.fillRect(100, 100, 150, 2);
-				g2.drawString("When you see a ghost, press E to exorcise it.", 100, 150);
+				g2.drawString("When you see a ghost, press E to exorcsie it.", 100, 150);
 				g2.drawString("At the Top of the screen you will see a certain shape.", 100, 250);
 				g2.drawString("You will need to replicate that shape by dragging your mouse around the screen.", 100,
 						300);
@@ -136,15 +158,22 @@ public class Items {
 		}
 	}
 
-	public static void car(Graphics g) throws IOException {
+	public void car(Graphics g) throws IOException {
 		int carX = carWorldX - GamePanel.worldX;
 		int carY = carWorldY - GamePanel.worldY;
+
+		BufferedImage car = ImageIO.read(new File("src/textures/car.png"));
 		g.drawImage(car, carX, carY, 96, 192, null);
+		// BufferedImage brokenCar = ImageIO.read(new
+		// File("src/textures/destroyedCar.png"));
+		// g.drawImage(brokenCar, carX, carY, 96, 192, null);
 		if (!carOn && !carUsed && GamePanel.playerX + 32 > carX && GamePanel.playerX < carX + 96
-				&& GamePanel.playerY + 72 > carY && GamePanel.playerY < carY + 192 && Player.keyH.cPressed) {
+				&& GamePanel.playerY + 72 > carY && GamePanel.playerY < carY + 192 && Player.keyH.ePressed) {
 
 			carOn = true;
+			carUsed = true;
 			Player.disableCharacterMovement();
+			visible = false;
 			animationFrame = 0;
 
 		}
@@ -186,7 +215,7 @@ public class Items {
 		}
 
 		if (carWorldX >= 3120 && carWorldX <= 4600) {
-			g2.drawString("Whispers Of The Decieved", 180, 280);
+			g2.drawString("Are We Cooked 2D", 180, 280);
 		}
 	}
 
@@ -365,9 +394,6 @@ public class Items {
 			if (carWorldX >= 4700) {
 				carWorldX = 4700;
 				carOn = false;
-				carUsed = true;
-				car = brokenCar;
-				Jumpscare.jumpscare = true;
 				visible = true;
 				Player.disableCharacterMovement();
 			}
@@ -660,42 +686,18 @@ public class Items {
 			g2.setColor(Color.BLACK);
 			g2.drawString("Credits", 325, 115);
 			g2.fillRect(325, 117, 167, 2);
-
+			
 			g2.setFont(new Font("Calibri", Font.BOLD, 20));
 			g2.drawString("Project Lead", 100, 175);
 			g2.fillRect(100, 177, 150, 2);
-			g2.drawString("Noah Sussman", 100, 180);
-			g2.drawString("Senior Developer: Akhilan Saravanan", 100, 205);
-			g2.drawString("Junior Developer", 100, 235);
+			g2.drawString ("Noah Sussman", 100, 180);
+			g2.drawString ("Senior Developer: Akhilan Saravanan", 100, 205);
+			g2.drawString ("Junior Developer", 100, 235);
 			g2.drawString("UX/UI Designer: Rudra Garg", 100, 235);
 			g2.drawString("Voice Actor", 100, 265);
 			g2.drawString("Playtester", 100, 270);
 			g2.fillRect(100, 267, 150, 2);
 			g2.drawString("Sammy Jiang", 100, 270);
 		}
-	}
-
-	public void playBookSound() {
-		bookFlip.play();
-	}
-
-	// Timer created from
-	// https://stackoverflow.com/questions/1006611/java-swing-timer
-	static Timer time;
-
-	public static void timer() {
-		time = new Timer(723, new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Items.playGif = false;
-				Items.staticImageBook = true;
-				time.stop();
-			}
-		});
-		if (time != null && time.isRunning()) {
-			time.stop();
-		}
-		time.setRepeats(false);
-		time.start();
 	}
 }
