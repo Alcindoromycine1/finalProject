@@ -19,26 +19,30 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	public int mouseX = 0;
 	public int mouseY = 0;
 	public boolean upPressed, downPressed, leftPressed, rightPressed;
-	public static boolean changeMapPressed;
-	public boolean ePressed, cPressed;
+	public  boolean changeMapPressed;
+	public boolean ePressed;
 	public boolean useBookPressed;
 	public boolean upReleased, downReleased, leftReleased, rightReleased;
 	public int mouseOffsetX = 0;
 	public int mouseOffsetY = 0;
 	Npc npc;
-	Items i;
+	Items items;
+	Minigame minigame;
+	Jumpscare jumpscare;
+	MainMenu mainMenu;
 
-	public Input(Npc npc) {
+	public Input(GamePanel gp) {
 
-		this.npc = npc;
+		jumpscare = gp.j;
+		items = gp.it;
+		npc = gp.n;
+		minigame = gp.minigame;
+		mainMenu = gp.mainMenu;
 
 	}
 
-	public Input() {
-
-		// this.npc = new Npc(this);
-		this.i = new Items(this);
-
+	public void setJumpscare(Jumpscare j) {
+		this.jumpscare = j;
 	}
 
 	@Override
@@ -63,6 +67,11 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		} else if (code == KeyEvent.VK_D) {
 			rightPressed = true;
 			rightReleased = false;
+		} else if (code == KeyEvent.VK_E) {
+			if (npc.collisionNpc) {
+				npc.dialogue = !npc.dialogue;
+			}
+			ePressed = true;
 		} else if (code == KeyEvent.VK_F) {
 			changeMapPressed = true;
 		} else if (code == KeyEvent.VK_B) {
@@ -70,11 +79,8 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		} else if (code == KeyEvent.VK_ESCAPE) {
 			System.exit(0);
 		} else if (code == KeyEvent.VK_SPACE) {
-			Npc.textIndex++;
-		} else if (code == KeyEvent.VK_C) {
-			cPressed = true;
-			Items.visible = false;
-	}
+			npc.textIndex++;
+		}
 	}
 
 	@Override
@@ -102,9 +108,8 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 			rightPressed = false;
 			rightReleased = true;
 
-		} else if (code == KeyEvent.VK_B) {
-			useBookPressed = false;
 		}
+
 	}
 
 	public boolean mouseClicked = false;
@@ -118,8 +123,8 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 
 		mouseX = e.getX();
 		mouseY = e.getY();
-		if (Minigame.isExorcising) {
-			Minigame.points.add(e.getPoint());
+		if (minigame.isExorcising) {
+			minigame.points.add(e.getPoint());
 		}
 	}
 
@@ -133,79 +138,79 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		mouseX = e.getX();
 		mouseY = e.getY();
 		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 220 && mouseY <= 280) {
-			MainMenu.hoveringPlay = true;
+			mainMenu.hoveringPlay = true;
 		} else {
-			MainMenu.hoveringPlay = false;
+			mainMenu.hoveringPlay = false;
 		}
 		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 290 && mouseY <= 350) {
-			MainMenu.hoveringHelp = true;
+			mainMenu.hoveringHelp = true;
 		} else {
-			MainMenu.hoveringHelp = false;
+			mainMenu.hoveringHelp = false;
 		}
 		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 360 && mouseY <= 420) {
-			MainMenu.hoveringCredits = true;
+			mainMenu.hoveringCredits = true;
 		} else {
-			MainMenu.hoveringCredits = false;
+			mainMenu.hoveringCredits = false;
 		}
 		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 430 && mouseY <= 490) {
-			MainMenu.hoveringExit = true;
+			mainMenu.hoveringExit = true;
 		} else {
-			MainMenu.hoveringExit = false;
+			mainMenu.hoveringExit = false;
 		}
 		if (mouseX >= instructionsX && mouseX <= instructionsX + 120 && mouseY >= instructionsY
 				&& mouseY <= instructionsY + 40) {
-			Items.hoveringInstructions = true;
+			items.hoveringInstructions = true;
 		} else {
-			Items.hoveringInstructions = false;
+			items.hoveringInstructions = false;
 		}
 		if (mouseX >= backX && mouseX <= backX + 120 && mouseY >= backY && mouseY <= backY + 40) {
-			Items.hoveringBack = true;
+			items.hoveringBack = true;
 		} else {
-			Items.hoveringBack = false;
+			items.hoveringBack = false;
 		}
 
 		if (mouseX >= 305 && mouseX <= 305 + 195 && mouseY >= 160 && mouseY <= 160 + 62) {
-			Items.hoveringMovement = true;
+			items.hoveringMovement = true;
 		} else {
-			Items.hoveringMovement = false;
+			items.hoveringMovement = false;
 		}
 
 		if (mouseX >= 305 && mouseX <= 305 + 195 && mouseY >= 250 && mouseY <= 250 + 62) {
-			Items.hoveringKeybind = true;
+			items.hoveringKeybind = true;
 		} else {
-			Items.hoveringKeybind = false;
+			items.hoveringKeybind = false;
 		}
-		if (Items.enterBook && mouseX >= 530 && mouseX <= 530 + 150 && mouseY >= 445 && mouseY <= 445 + 40) {
-			Items.hoveringNextPage = true;
+		if (items.enterBook && mouseX >= 530 && mouseX <= 530 + 150 && mouseY >= 445 && mouseY <= 445 + 40) {
+			items.hoveringNextPage = true;
 		} else {
-			Items.hoveringNextPage = false;
+			items.hoveringNextPage = false;
 		}
-		if (Items.enterBook && mouseX >= 530 && mouseX <= 530 + 150 && mouseY >= 100 && mouseY <= 100 + 40) {
-			Items.hoveringExitPage = true;
+		if (items.enterBook && mouseX >= 530 && mouseX <= 530 + 150 && mouseY >= 100 && mouseY <= 100 + 40) {
+			items.hoveringExitPage = true;
 		} else {
-			Items.hoveringExitPage = false;
+			items.hoveringExitPage = false;
 		}
-		if (mouseX >= 225 && mouseX <= 225 + 130 && mouseY >= 355 && mouseY <= 355 + 45 && Items.inConfirmation) {
-			Items.hoveringYes = true;
+		if (mouseX >= 225 && mouseX <= 225 + 130 && mouseY >= 355 && mouseY <= 355 + 45 && items.inConfirmation) {
+			items.hoveringYes = true;
 		} else {
-			Items.hoveringYes = false;
+			items.hoveringYes = false;
 		}
-		if (mouseX >= 425 && mouseX <= 425 + 130 && mouseY >= 355 && mouseY <= 355 + 45 && Items.inConfirmation) {
-			Items.hoveringNo = true;
+		if (mouseX >= 425 && mouseX <= 425 + 130 && mouseY >= 355 && mouseY <= 355 + 45 && items.inConfirmation) {
+			items.hoveringNo = true;
 		} else {
-			Items.hoveringNo = false;
+			items.hoveringNo = false;
 		}
-		if (mouseX >= 685 && mouseX <= 715 && mouseY >= 60 && mouseY <= 90 && Items.helpPressed) {
-			Items.hoveringX = true;
+		if (mouseX >= 685 && mouseX <= 715 && mouseY >= 60 && mouseY <= 90 && items.helpPressed) {
+			items.hoveringX = true;
 		} else {
-			Items.hoveringX = false;
+			items.hoveringX = false;
 		}
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (Minigame.isExorcising) {
-			Minigame.points.add(e.getPoint());
+		if (minigame.isExorcising) {
+			minigame.points.add(e.getPoint());
 		}
 	}
 
@@ -225,72 +230,74 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		if (mouseX >= instructionsX && mouseX <= instructionsX + 135 && mouseY >= instructionsY
 				&& mouseY <= instructionsY + 45) {
 			Input.instructionsPressed = true;
-			Items.instructionsPrompt = true;
+			items.instructionsPrompt = true;
 			return;
 		}
 
-		if ((Items.instructionsPrompt || Items.movementPrompt || Items.keybindPrompts) && mouseX >= backX
+		if ((items.instructionsPrompt || items.movementPrompt || items.keybindPrompts) && mouseX >= backX
 				&& mouseX <= backX + 120 && mouseY >= backY && mouseY <= backY + 40) {
-			Items.backPressed = true;
+			items.backPressed = true;
 			return;
 		}
 
-		if (Items.instructionsPrompt && mouseX >= 305 && mouseX <= 305 + 195 && mouseY >= 160 && mouseY <= 160 + 62) {
-			Items.movementPrompt = true;
-			Items.instructionsPrompt = false;
+		if (items.instructionsPrompt && mouseX >= 305 && mouseX <= 305 + 195 && mouseY >= 160 && mouseY <= 160 + 62) {
+			items.movementPrompt = true;
+			items.instructionsPrompt = false;
 			return;
 		}
 
-		if (Items.instructionsPrompt && mouseX >= 305 && mouseX <= 305 + 195 && mouseY >= 250 && mouseY <= 250 + 62) {
-			Items.keybindPrompts = true;
-			Items.instructionsPrompt = false;
+		if (items.instructionsPrompt && mouseX >= 305 && mouseX <= 305 + 195 && mouseY >= 250 && mouseY <= 250 + 62) {
+			items.keybindPrompts = true;
+			items.instructionsPrompt = false;
 			return;
 		}
 
-		if (Items.enterBook) {
+		if (items.enterBook) {
 			if (mouseX >= 530 && mouseX <= 680 && mouseY >= 445 && mouseY <= 485) {
-				i.playBookSound();
-				Items.playGif = true;
-				Items.staticImageBook = false;
-				Items.nextPage++;
-				Items.timer();
+				items.playGif = true;
+				items.staticImageBook = false;
+				items.nextPage++;
+				jumpscare.timer();
 				int maxPages = 5;
-				if (Items.nextPage > maxPages) {
-					Items.nextPage = maxPages;
+				if (items.nextPage > maxPages) {
+					items.nextPage = maxPages;
 				}
 			}
 		}
-		if (Items.enterBook && mouseX >= 530 && mouseX <= 530 + 150 && mouseY >= 100 && mouseY <= 100 + 40) {
-			Items.enterBook = false;
-			Items.nextPage = 0;
+		if (items.enterBook && mouseX >= 530 && mouseX <= 530 + 150 && mouseY >= 100 && mouseY <= 100 + 40) {
+			items.enterBook = false;
 		}
-		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 220 && mouseY <= 280 && MainMenu.inMenu) {
-			MainMenu.inMenu = false;
+		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 220 && mouseY <= 280 && mainMenu.inMenu) {
+			mainMenu.inMenu = false;
 		}
-		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 430 && mouseY <= 490 && MainMenu.inMenu) {
+		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 430 && mouseY <= 490 && mainMenu.inMenu) {
 			System.exit(0);
 		}
-		if (mouseX >= 225 && mouseX <= 225 + 130 && mouseY >= 355 && mouseY <= 355 + 45 && Items.inConfirmation) {
-			Items.yesPressed = true;
+		if (mouseX >= 225 && mouseX <= 225 + 130 && mouseY >= 355 && mouseY <= 355 + 45 && items.inConfirmation) {
+			items.yesPressed = true;
 		}
-		if (mouseX >= 425 && mouseX <= 425 + 130 && mouseY >= 355 && mouseY <= 355 + 45 && Items.inConfirmation) {
-			Items.noPressed = true;
+		if (mouseX >= 425 && mouseX <= 425 + 130 && mouseY >= 355 && mouseY <= 355 + 45 && items.inConfirmation) {
+			items.noPressed = true;
 		}
-		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 290 && mouseY <= 350 && MainMenu.inMenu && !LoadingScreen.loadingScreen) {
-			Items.helpPressed = true;
+		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 290 && mouseY <= 350) {
+			items.helpPressed = true;
 		}
-		if (mouseX >= 685 && mouseX <= 715 && mouseY >= 60 && mouseY <= 90 && Items.helpPressed) {
-			Items.helpPressed = false;
+		if (mouseX >= 685 && mouseX <= 715 && mouseY >= 60 && mouseY <= 90 && items.helpPressed) {
+			items.helpPressed = false;
 		}
-		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 360 && mouseY <= 420 && MainMenu.inMenu) {
-			Items.creditsPressed = true;
+
+		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 290 && mouseY <= 350) {
+			items.helpPressed = true;
+		}
+		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 360 && mouseY <= 420 && mainMenu.inMenu) {
+			items.creditsPressed = true;
 		}
 
 	}
 
-	static boolean isCircle;
-	static boolean isZigzag;
-	static boolean isTriangle;
+	 boolean isCircle;
+	 boolean isZigzag;
+	 boolean isTriangle;
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
@@ -298,37 +305,37 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		mouseClicked = false;
 		mouseHolding = false;
 		mouseDragging = false;
-		if (Minigame.isExorcising) {
-			Minigame.calculation();
-			Minigame.newCentroid();
-			Minigame.calculatedResult();
+		if (minigame.isExorcising) {
+			minigame.calculation();
+			minigame.newCentroid();
+			minigame.calculatedResult();
 
-			Minigame.circle();
-			isCircle = Minigame.isValid(20);
+			minigame.circle();
+			isCircle = minigame.isValid(20);
 
-			Minigame.triangle();
-			isTriangle = Minigame.isValid(25);
+			minigame.triangle();
+			isTriangle = minigame.isValid(25);
 
-			Minigame.zigzag();
-			isZigzag = Minigame.isValid(15);
+			minigame.zigzag();
+			isZigzag = minigame.isValid(15);
 
-			if (isCircle && Items.ghostShape.equals("Circle")) {
-				Items.ghostCount++;
+			if (isCircle && items.ghostShape.equals("Circle")) {
+				items.ghostCount++;
 				System.out.println("Circle Detected");
-			} else if (isTriangle && Items.ghostShape.equals("Triangle")) {
-				Items.ghostCount++;
+			} else if (isTriangle && items.ghostShape.equals("Triangle")) {
+				items.ghostCount++;
 				System.out.println("Triangle Detected");
-			} else if (isZigzag && Items.ghostShape.equals("Zigzag")) {
-				Items.ghostCount++;
+			} else if (isZigzag && items.ghostShape.equals("Zigzag")) {
+				items.ghostCount++;
 				System.out.println("Zigzag Detected");
-			} else if (Minigame.currentShape.equals("vertical") && Items.ghostShape.equals("Vertical")) {
-				Items.ghostCount++;
+			} else if (minigame.currentShape.equals("vertical") && items.ghostShape.equals("Vertical")) {
+				items.ghostCount++;
 				System.out.println("Vertical Line Detected");
-			} else if (Minigame.currentShape.equals("horizontal") && Items.ghostShape.equals("Horizontal")) {
-				Items.ghostCount++;
+			} else if (minigame.currentShape.equals("horizontal") && items.ghostShape.equals("Horizontal")) {
+				items.ghostCount++;
 				System.out.println("Horizontal Line Detected");
 			}
-			Minigame.points.clear();
+			minigame.points.clear();
 		}
 	}
 

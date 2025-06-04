@@ -14,22 +14,42 @@ import javax.swing.plaf.basic.BasicComboBoxUI.KeyHandler;
 
 public class Npc {
 
-	public static boolean collisionNpc = false;
-	public static boolean dialogue = false;
+	public boolean collisionNpc = false;
+	public boolean dialogue = false;
+
 	Input input;
+	Items items;
+	Maps maps;
 
-	public Npc(Input input) {
-		this.input = input;
+	private int playerX;
+	private int playerY;
+
+	private int worldX;
+	private int worldY;
+
+	public Npc(GamePanel gp) {
+		input = gp.id;
+		items = gp.it;
+		maps = gp.m;
+
+		playerX = gp.getPlayerX();
+		playerY = gp.getPlayerY();
+
+		worldX = gp.getWorldX();
+		worldY = gp.getWorldY();
 	}
 
-	public Npc() {
-
+	public void updateNpcValues(int playerX, int playerY, int worldX, int worldY) {
+		this.playerX = playerX;
+		this.playerY = playerY;
+		this.worldX = worldX;
+		this.worldY = worldY;
 	}
 
-	public static void doctor(Graphics2D g2) throws IOException {
+	public void doctor(Graphics2D g2) throws IOException {
 
-		int doctorX = 480 - GamePanel.worldX;
-		int doctorY = 260 - GamePanel.worldY;
+		int doctorX = 480 - worldX;
+		int doctorY = 260 - worldY;
 
 		BufferedImage doctor = null;
 		doctor = ImageIO.read(new File("src/textures/doctor.png"));
@@ -41,10 +61,10 @@ public class Npc {
 
 		int businessManX = 550;
 		int businessManY = 120;
-		if (GamePanel.playerX + 32 > businessManX // Right side of hitbox is past left side of tree
-				&& GamePanel.playerX < businessManX + 50 // Left side of hitbox is before right side of tree
-				&& GamePanel.playerY + 72 > businessManY // Bottom side of hitbox is below top side of tree
-				&& GamePanel.playerY < businessManY + 78) { // Top side of hitbox is above bottom side of tree
+		if (playerX + 32 > businessManX // Right side of hitbox is past left side of tree
+				&& playerX < businessManX + 50 // Left side of hitbox is before right side of tree
+				&& playerY + 72 > businessManY // Bottom side of hitbox is below top side of tree
+				&& playerY < businessManY + 78) { // Top side of hitbox is above bottom side of tree
 			collisionNpc = true;
 		} else {
 			collisionNpc = false;
@@ -60,9 +80,9 @@ public class Npc {
 		}
 	}
 
-	static int textIndex = 0;
+	int textIndex = 0;
 
-	public static void text(Graphics2D g2, int list) {
+	public void text(Graphics2D g2, int list) {
 
 		if (list == 1) {
 			String textBadGuy[] = { "Hehehehe! I'm back.", "I'm going to slash your tires." };
@@ -76,7 +96,7 @@ public class Npc {
 			if (textIndex < textGhostGraveyard.length) {
 				textBubble(g2, textGhostGraveyard[textIndex]);
 			} else {
-				Items.firstTime = false;
+				items.firstTime = false;
 			}
 		} else if (list == 3) {
 			String textDoctor[] = { "I don't have much time left.",
@@ -103,12 +123,12 @@ public class Npc {
 			if (textIndex < textNightmare.length) {
 				textBubble(g2, textNightmare[textIndex]);
 			} else {
-				Maps.doneNightmare = true;
+				maps.doneNightmare = true;
 			}
 		}
 	}
 
-	public static void textBubble(Graphics2D g2, String dialogue) {
+	public void textBubble(Graphics2D g2, String dialogue) {
 		final int maxTextLength = 62;// max number of characters per line
 		final int lineSpacing = 30;// spacing between lines
 		final int textX = 90;// x position of text
@@ -139,6 +159,14 @@ public class Npc {
 																			// changes what line the text is drawn on)
 			lineNumber++;
 		}
+	}
+
+	public void setInput(Input input) {
+		this.input = input;
+	}
+
+	public void setItems(Items items) {
+		this.items = items;
 	}
 
 }
