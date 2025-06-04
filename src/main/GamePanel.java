@@ -233,7 +233,7 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 
 		try {
-			it.car(g2);
+			Items.car(g2);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

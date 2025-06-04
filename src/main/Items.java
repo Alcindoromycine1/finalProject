@@ -28,8 +28,8 @@ public class Items {
 	static ImageIcon pageFlipping;
 	static BufferedImage doctrine;
 	static BufferedImage mirror;
-	BufferedImage brokenCar;
-	BufferedImage car;
+	static BufferedImage brokenCar;
+	static BufferedImage car;
 
 	Input input;
 	Sound bookFlip;
@@ -134,7 +134,7 @@ public class Items {
 		}
 	}
 
-	public void car(Graphics g) throws IOException {
+	public static void car(Graphics g) throws IOException {
 		int carX = carWorldX - GamePanel.worldX;
 		int carY = carWorldY - GamePanel.worldY;
 		g.drawImage(car, carX, carY, 96, 192, null);
@@ -364,6 +364,7 @@ public class Items {
 				carWorldX = 4700;
 				carOn = false;
 				carUsed = true;
+				car = brokenCar;
 				Jumpscare.jumpscare = true;
 				visible = true;
 				Player.disableCharacterMovement();
