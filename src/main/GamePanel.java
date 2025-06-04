@@ -218,11 +218,17 @@ public class GamePanel extends JPanel implements Runnable {
 
 	// Update game elements
 	public void update() {
+		p.updatePlayerPosition(worldX, worldY, playerX, playerY, screenX, screenY);
+		m.updateMapValues(worldX, worldY);
+		n.updateNpcValues(playerX, playerY, worldX, worldY);
+		it.updateItemsValues(playerX, playerY, worldX, worldY);
 		window.setTitle("Are we Cooked? FPS: " + fps);
 		p.collisionChecking();
 		p.collision();
+		p.collision(this);
 		characterMovement();
 		Items.animation();
+		it.animation();
 	}
 
 	public void characterImage(Graphics g) throws IOException {
@@ -233,7 +239,7 @@ public class GamePanel extends JPanel implements Runnable {
 		BufferedImage jeffLeft = ImageIO.read(new File("src/textures/jeffLeft.png"));
 
 		BufferedImage character = null;
-		if (Items.visible) {
+		if (it.visible) {
 			if (direction.equals("back")) {
 
 				character = jeffBack;
@@ -252,7 +258,7 @@ public class GamePanel extends JPanel implements Runnable {
 			} else {
 				character = jeffFront;
 			}
-			if (Maps.currentMap != 5) {
+			if (m.currentMap != 5) {
 				g.drawImage(character, screenX, screenY, null);// draws the character in the middle of the screen
 			}
 		}
@@ -265,7 +271,7 @@ public class GamePanel extends JPanel implements Runnable {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		try {
-			m.camera(g);// camera method
+			m.camera(g2, this);// camera method
 			characterImage(g);// draws the character depending on the direction
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -276,7 +282,7 @@ public class GamePanel extends JPanel implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		if (Items.animationFrame >= 150) {
+		if (it.animationFrame >= 150) {
 			it.titleScreen(g2);
 		}
 		// Npc.text(g2);
