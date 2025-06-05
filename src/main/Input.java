@@ -51,11 +51,11 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	public void setNpc(Npc npc) {
 		this.npc = npc;
 	}
-	
+
 	public void setLs(LoadingScreen ls) {
 		this.ls = ls;
 	}
-	
+
 	@Override
 	public void keyTyped(KeyEvent e) {
 
@@ -305,9 +305,9 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 				items.helpPressed = true;
 
 			}
-			if (mouseX >= 245 && mouseX <= 525 && mouseY >= 360 && mouseY <= 420 && mainMenu.inMenu) {
-				items.creditsPressed = true;
-			}
+		}
+		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 360 && mouseY <= 420 && mainMenu.inMenu) {
+			items.creditsPressed = true;
 		}
 	}
 

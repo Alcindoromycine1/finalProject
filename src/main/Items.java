@@ -715,7 +715,6 @@ public class Items {
 	public boolean creditsPressed = false;
 
 	public void credits(Graphics2D g2) {
-		System.out.println(creditsPressed);
 		if (creditsPressed) {
 			g2.setColor(Color.BLACK);
 			g2.drawRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
