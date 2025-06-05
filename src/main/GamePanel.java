@@ -132,7 +132,7 @@ public class GamePanel extends JPanel implements Runnable {
 		id.setNpc(n);
 		id.setJumpscare(j);
 		
-		
+		t.setM(m);
 
 		try {
 			// https://www.youtube.com/watch?v=tmlZeYnfw7g
