@@ -19,7 +19,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	public int mouseX = 0;
 	public int mouseY = 0;
 	public boolean upPressed, downPressed, leftPressed, rightPressed;
-	public  boolean changeMapPressed;
+	public boolean changeMapPressed;
 	public boolean ePressed;
 	public boolean useBookPressed;
 	public boolean upReleased, downReleased, leftReleased, rightReleased;
@@ -81,7 +81,6 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		} else if (code == KeyEvent.VK_SPACE) {
 			npc.textIndex++;
 		} else if (code == KeyEvent.VK_C) {
-			cPressed = true;
 			items.visible = false;
 
 		}
@@ -290,41 +289,21 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		if (mouseX >= 685 && mouseX <= 715 && mouseY >= 60 && mouseY <= 90 && items.helpPressed) {
 			items.helpPressed = false;
 
-		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 290 && mouseY <= 350 && MainMenu.inMenu
-				&& !LoadingScreen.loadingScreen) {
-			items.helpPressed = true;
+			if (mouseX >= 245 && mouseX <= 525 && mouseY >= 290 && mouseY <= 350 && mainMenu.inMenu
+					&& !LoadingScreen.loadingScreen) {
+				items.helpPressed = true;
+
+			}
+			if (mouseX >= 245 && mouseX <= 525 && mouseY >= 360 && mouseY <= 420 && mainMenu.inMenu) {
+				items.creditsPressed = true;
+			}
 
 		}
-		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 360 && mouseY <= 420 && mainMenu.inMenu) {
-			items.creditsPressed = true;
-		}
-
 	}
 
-	 boolean isCircle;
-	 boolean isZigzag;
-	 boolean isTriangle;
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-
-		mouseClicked = false;
-		mouseHolding = false;
-		mouseDragging = false;
-		if (minigame.isExorcising) {
-			minigame.calculation();
-			minigame.newCentroid();
-			minigame.calculatedResult();
-
-			minigame.circle();
-			isCircle = minigame.isValid(20);
-
-
-			minigame.triangle();
-			isTriangle = minigame.isValid(25);
-
-			minigame.zigzag();
-			isZigzag = minigame.isValid(15);
+	boolean isCircle;
+	boolean isZigzag;
+	boolean isTriangle;
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
@@ -365,10 +344,6 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 				if (items.destroyHorizontal && items.destroyZigzag) {
 					items.destroyDuoGhost = true;
 				}
-			}
-			minigame.points.clear();
-		}
-	}
 			}
 			minigame.points.clear();
 		}

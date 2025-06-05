@@ -91,7 +91,7 @@ public class Items {
 
 	}
 
-	public static void insideDoctrine(Graphics2D g2) throws IOException {
+	public void insideDoctrine(Graphics2D g2) throws IOException {
 		if (m.currentMap == 4) {
 			ghost(g2, 1110, 120, 125, 98);
 		}
