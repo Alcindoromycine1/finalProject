@@ -163,8 +163,8 @@ public class Items {
 		// BufferedImage brokenCar = ImageIO.read(new
 		// File("src/textures/destroyedCar.png"));
 		// g.drawImage(brokenCar, carX, carY, 96, 192, null);
-		if (!carOn && !carUsed && playerX + 32 > carX && playerX < carX + 96 && playerY + 72 > carY
-				&& playerY < carY + 192 && p.keyH.ePressed) {
+		if (!carOn && !carUsed && gp.getPlayerX() + 32 > carX && gp.getPlayerX() < carX + 96 && gp.getPlayerY() + 72 > carY
+				&& gp.getPlayerY() < carY + 192 && p.keyH.cPressed) {
 
 			carOn = true;
 			carUsed = true;
@@ -381,10 +381,10 @@ public class Items {
 		}
 	}
 
-	public void animation() {
+	public void animation(GamePanel gp) {
 		if (carOn) {
 			carWorldX += 3;
-			worldX += 3;
+			gp.setWorldX(gp.getWorldX() + 3);
 			animationFrame++;
 
 			if (carWorldX >= 4700) {

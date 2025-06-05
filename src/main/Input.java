@@ -21,6 +21,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	public boolean upPressed, downPressed, leftPressed, rightPressed;
 	public boolean changeMapPressed;
 	public boolean ePressed;
+	public boolean cPressed;
 	public boolean useBookPressed;
 	public boolean upReleased, downReleased, leftReleased, rightReleased;
 	public int mouseOffsetX = 0;
@@ -84,7 +85,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		} else if (code == KeyEvent.VK_SPACE) {
 			npc.textIndex++;
 		} else if (code == KeyEvent.VK_C) {
-			items.visible = false;
+			cPressed = true;
 
 		}
 	}
