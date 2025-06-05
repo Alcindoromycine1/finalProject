@@ -80,6 +80,10 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 			System.exit(0);
 		} else if (code == KeyEvent.VK_SPACE) {
 			npc.textIndex++;
+		} else if (code == KeyEvent.VK_C) {
+			cPressed = true;
+			items.visible = false;
+
 		}
 	}
 
@@ -282,12 +286,14 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 290 && mouseY <= 350) {
 			items.helpPressed = true;
 		}
+
 		if (mouseX >= 685 && mouseX <= 715 && mouseY >= 60 && mouseY <= 90 && items.helpPressed) {
 			items.helpPressed = false;
-		}
 
-		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 290 && mouseY <= 350) {
+		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 290 && mouseY <= 350 && MainMenu.inMenu
+				&& !LoadingScreen.loadingScreen) {
 			items.helpPressed = true;
+
 		}
 		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 360 && mouseY <= 420 && mainMenu.inMenu) {
 			items.creditsPressed = true;
@@ -313,6 +319,27 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 			minigame.circle();
 			isCircle = minigame.isValid(20);
 
+
+			minigame.triangle();
+			isTriangle = minigame.isValid(25);
+
+			minigame.zigzag();
+			isZigzag = minigame.isValid(15);
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+
+		mouseClicked = false;
+		mouseHolding = false;
+		mouseDragging = false;
+		if (minigame.isExorcising) {
+			minigame.calculation();
+			minigame.newCentroid();
+			minigame.calculatedResult();
+
+			minigame.circle();
+			isCircle = minigame.isValid(15);
+
 			minigame.triangle();
 			isTriangle = minigame.isValid(25);
 
@@ -320,20 +347,28 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 			isZigzag = minigame.isValid(15);
 
 			if (isCircle && items.ghostShape.equals("Circle")) {
+				items.destroyCircle = true;
 				items.ghostCount++;
-				System.out.println("Circle Detected");
 			} else if (isTriangle && items.ghostShape.equals("Triangle")) {
+				items.destroyTriangle = true;
 				items.ghostCount++;
-				System.out.println("Triangle Detected");
 			} else if (isZigzag && items.ghostShape.equals("Zigzag")) {
+				items.destroyZigzag = true;
 				items.ghostCount++;
-				System.out.println("Zigzag Detected");
 			} else if (minigame.currentShape.equals("vertical") && items.ghostShape.equals("Vertical")) {
+				items.destroyVertical = true;
 				items.ghostCount++;
-				System.out.println("Vertical Line Detected");
 			} else if (minigame.currentShape.equals("horizontal") && items.ghostShape.equals("Horizontal")) {
+				items.destroyHorizontal = true;
 				items.ghostCount++;
-				System.out.println("Horizontal Line Detected");
+			} else if (items.ghostShape.equals("duoghost1")) {
+				if (items.destroyHorizontal && items.destroyZigzag) {
+					items.destroyDuoGhost = true;
+				}
+			}
+			minigame.points.clear();
+		}
+	}
 			}
 			minigame.points.clear();
 		}

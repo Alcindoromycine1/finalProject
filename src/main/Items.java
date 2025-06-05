@@ -24,7 +24,8 @@ public class Items {
 	Npc npc;
 	Player p;
 	Minigame minigame;
-
+  Maps m;
+  
 	private int playerX;
 	private int playerY;
 
@@ -37,7 +38,8 @@ public class Items {
 		this.npc = gp.n;
 		this.p = gp.p;
 		this.minigame = gp.minigame;
-
+    this.m = gp.getM();
+    
 		playerX = gp.getPlayerX();
 		playerY = gp.getPlayerY();
 
@@ -52,6 +54,7 @@ public class Items {
 
 		this.playerX = playerX;
 		this.playerY = playerY;
+    
 	}
 
 	public void houseMirror(Graphics2D g2) throws IOException {
@@ -88,9 +91,11 @@ public class Items {
 
 	}
 
-	public void insideDoctrine(Graphics2D g2) throws IOException {
-		ghost(g2, 1110, 120, 125, 98);
-		npc.text(g2, 4);
+	public static void insideDoctrine(Graphics2D g2) throws IOException {
+		if (m.currentMap == 4) {
+			ghost(g2, 1110, 120, 125, 98);
+		}
+		// npc.text(g2, 4);
 	}
 
 	 boolean enterBook = false;
@@ -404,7 +409,6 @@ public class Items {
 		// return (int) (Math.random() * 4) + 6;
 		// }
 		// return 0;
-
 	}
 
 	public void ghost(Graphics2D g2, int ghostGraveYardX, int ghostGraveYardY, int width, int height)
@@ -418,72 +422,109 @@ public class Items {
 
 	}
 
-	 int level = 1;
-	 String ghostShape = " ";
+	int level = 1;
+	String ghostShape = " ";
 
-	public void drawGhost(Graphics2D g2, int ghostNumber, int offsetX, int offsetY) throws IOException {
-		if (ghostNumber == 1 && !input.isTriangle) {
-			minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "Triangle", 250, 196);
-		} else if (ghostNumber == 2 && !input.isCircle) {
-			minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "Circle", 250, 196);
-		} else if (ghostNumber == 3 && !input.isZigzag) {
-			minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "Zigzag", 250, 196);
-		} else if (ghostNumber == 4 && !minigame.currentShape.equals("vertical")) {
-			minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "Vertical", 250, 196);
-		} else if (ghostNumber == 5 && !minigame.currentShape.equals("horizontal")) {
-			minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "Horizontal", 250, 196);
-		} else if (ghostNumber == 6) {
-			minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "duoGhost", 250, 196);
-		} else if (ghostNumber == 7) {
-			minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "duoGhost", 250, 196);
-		} else if (ghostNumber == 8) {
-			minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "duoGhost", 250, 196);
-		} else if (ghostNumber == 9) {
-			minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "duoGhost", 250, 196);
-		}
-	}
-
-	public  int ghostNumberLeft;
-	public  int ghostNumberRight;
-	public  boolean ghostAppeared = false;
-	 int ghostCount = 1;
-
-	public  void ghostLogic(Graphics2D g2) throws IOException {
+	public void drawGhost(Graphics2D g2, int offsetY) throws IOException {
+		System.out.println(level);
 		if (level == 1) {
-			if (!ghostAppeared) {
-				ghostNumberLeft = ghostRandomizer();
-				ghostNumberRight = ghostRandomizer();
-				ghostAppeared = true;
+			if (!destroyTriangle) {
+				minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "Triangle", 250, 196);
 			}
-		}
-		// System.out.println(level + " : " + ghostCount + " : " + ghostAppeared);
-		if (level == 2) {
-			if (!ghostAppeared) {
-				duoShapeLeft = ghostRandomizer();
-				duoShapeRight = ghostRandomizer();
-				ghostAppeared = true;
+			if (!destroyCircle) {
+				minigameGhost(g2, 1200 - 20, 820 + 50 + offsetY, "Circle", 250, 196);
 			}
-		}
-		if (ghostCount == 1) {
-			if (level == 1) {
-				drawGhost(g2, ghostNumberLeft, -160, 30);
-			} else if (level == 2) {
-				drawGhost(g2, duoShapeLeft, -160, -30);
-				drawGhost(g2, duoShapeRight, -120, -30);
+		} else if (level == 2) {
+			if (!destroyZigzag) {
+				minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "Zigzag", 250, 196);
 			}
+			if (!destroyHorizontal) {
+				minigameGhost(g2, 1200 - 20, 820 + 50 + offsetY, "Horizontal", 250, 196);
+			}
+		} else if (level == 3) {
+			if (!destroyHorizontal) {
+				minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "Horizontal", 250, 196);
+			}
+			if (!destroyVertical) {
+				minigameGhost(g2, 1200 - 20, 820 + 50 + offsetY, "Vertical", 250, 196);
+			}
+		} else if (level == 4) {
+			if (!destroyTriangle) {
+				minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "Triangle", 250, 196);
+			}
+			if (!destroyHorizontal) {
+				minigameGhost(g2, 1200 - 20, 820 + 50 + offsetY, "Horizontal", 250, 196);
+			}
+		} else if (level == 5) {
+			minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "duoghost1", 250, 196);
 		}
-		if (ghostCount == 2) {
-			drawGhost(g2, ghostNumberRight, 0, 0);
-		}
-		if (ghostCount == 3) {
-			level++;
-			ghostCount = 1;
-			ghostAppeared = false;
-		}
+		/*
+		 * if (ghostNumber == 1 && !Input.isTriangle) { Items.minigameGhost(g2, 1200 +
+		 * offsetX, 820 + offsetY, "Triangle", 250, 196); } else if (ghostNumber == 2 &&
+		 * !Input.isCircle) { Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY,
+		 * "Circle", 250, 196); } else if (ghostNumber == 3 && !Input.isZigzag) {
+		 * Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "Zigzag", 250, 196); }
+		 * else if (ghostNumber == 4 && !Minigame.currentShape.equals("vertical")) {
+		 * Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "Vertical", 250, 196);
+		 * } else if (ghostNumber == 5 && !Minigame.currentShape.equals("horizontal")) {
+		 * Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "Horizontal", 250,
+		 * 196); } else if (ghostNumber == 6) { Items.minigameGhost(g2, 1200 + offsetX,
+		 * 820 + offsetY, "duoGhost", 250, 196); } else if (ghostNumber == 7) {
+		 * Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "duoGhost", 250, 196);
+		 * } else if (ghostNumber == 8) { Items.minigameGhost(g2, 1200 + offsetX, 820 +
+		 * offsetY, "duoGhost", 250, 196); } else if (ghostNumber == 9) {
+		 * Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "duoGhost", 250, 196);
+		 * }
+		 */
 	}
 
-	public  void randomShape(String shape, int ghostX, int ghostY, Graphics2D g2, int offsetX) {
+	public int ghostNumberLeft;
+	public int ghostNumberRight;
+	public boolean ghostAppeared = false;
+	int ghostCount = 0;
+	boolean reachedPeak = false;
 
+	int yVal = 0;
+
+	public void ghostLogic(Graphics2D g2) throws IOException {
+		// Hovering ghost
+		if (!reachedPeak) {
+			if (yVal <= 40) {
+				yVal++;
+			}
+			if (yVal == 40) {
+				reachedPeak = true;
+			}
+		}
+		if (reachedPeak) {
+			if (yVal >= -40) {
+				yVal--;
+			}
+			if (yVal == -40) {
+				reachedPeak = false;
+			}
+		}
+
+		if (ghostCount == 2) {
+			level++;
+			ghostCount = 0;
+			destroyCircle = false;
+			destroyTriangle = false;
+			destroyZigzag = false;
+			destroyHorizontal = false;
+			destroyVertical = false;
+		}
+		
+		if(destroyDuoGhost) {
+			ghostCount++;
+		}
+		
+		drawGhost(g2, yVal);
+	}
+
+	public boolean destroyDuoGhost = false;
+	
+	public void randomShape(String shape, int ghostX, int ghostY, Graphics2D g2, int offsetX) {
 		if (shape.equals("Triangle")) {
 			g2.setStroke(new BasicStroke(4));
 			g2.setColor(Color.RED);
@@ -507,6 +548,17 @@ public class Items {
 		} else if (shape.equals("Horizontal")) {
 			g2.setColor(Color.RED);
 			g2.fillRect(ghostX - 290 + offsetX, ghostY - 290, 60, 4);
+		} else if (shape.equals("duoghost1")) {
+			g2.setColor(Color.RED);
+
+			g2.fillRect(ghostX - 335 + offsetX, ghostY - 320, 60, 4);
+
+			int[] xZigzag = { ghostX - 260 + offsetX, ghostX - 210 + offsetX, ghostX - 260 + offsetX,
+					ghostX - 210 + offsetX };
+			int[] yZigzag = { ghostY - 340, ghostY - 340, ghostY - 290, ghostY - 290 };
+
+			g2.setStroke(new BasicStroke(4));
+			g2.drawPolyline(xZigzag, yZigzag, 4);
 		}
 	}
 
@@ -521,21 +573,21 @@ public class Items {
 		int num = (int) (Math.random() * shapes.length) + 1;
 	}
 
+
+	boolean destroyCircle = false;
+	boolean destroyTriangle = false;
+	boolean destroyZigzag = false;
+	boolean destroyHorizontal = false;
+	boolean destroyVertical = false;
+
 	public void minigameGhost(Graphics2D g2, int ghotsX, int ghotsY, String shape, int width, int height)
 			throws IOException {
 		int ghostX = ghotsX - worldX;
 		int ghostY = ghotsY - worldY;
 		ghostShape = shape;
 		ghost = ImageIO.read(new File("src/textures/minigameghost.png"));
+		randomShape(ghostShape, ghostX, ghostY, g2, 0);
 		ghost(g2, ghostX, ghostY, width, height);
-		if (level == 2) {
-			ghostShape = "Triangle";
-			randomShape(ghostShape, ghostX, ghostY, g2, 40);
-			ghostShape = "Circle";
-			randomShape(ghostShape, ghostX, ghostY, g2, -40);
-		} else {
-			randomShape(ghostShape, ghostX, ghostY, g2, 0);
-		}
 
 		/*
 		 * else if (shape.equals("Circle")) { for (int i = 0; i < 4; i++) {
@@ -681,14 +733,21 @@ public class Items {
 			g2.setFont(new Font("Calibri", Font.BOLD, 20));
 			g2.drawString("Project Lead", 100, 175);
 			g2.fillRect(100, 177, 150, 2);
-			g2.drawString("Noah Sussman", 100, 180);
-			g2.drawString("Senior Developer: Akhilan Saravanan", 100, 205);
-			g2.drawString("Junior Developer", 100, 235);
-			g2.drawString("UX/UI Designer: Rudra Garg", 100, 235);
-			g2.drawString("Voice Actor", 100, 265);
-			g2.drawString("Playtester", 100, 270);
-			g2.fillRect(100, 267, 150, 2);
-			g2.drawString("Sammy Jiang", 100, 270);
+			g2.drawString("Noah Sussman", 100, 195);
+			g2.drawString("Senior Developer",100, 230);
+			g2.fillRect(100, 232, 150, 2);
+			g2.drawString("Akhilan Saravanan", 100, 252);
+			g2.drawString("Junior Developer", 100, 280);
+			g2.fillRect(100, 282, 150, 2);
+			g2.drawString("Rudra Garg", 100, 300);
+			g2.drawString("UX/UI Designer", 100, 335);
+			g2.fillRect(100, 337, 150, 2);
+			g2.drawString("Rudra Garg", 100, 355);
+			g2.drawString("Playtester", 100, 385);
+			g2.fillRect(100, 387, 150, 2);
+			g2.drawString("Sammy Jiang", 100, 405);
+			g2.drawString("Voice Actor", 100, 440);
+			g2.fillRect(100, 387, 150, 2);
 		}
 	}
 	
@@ -703,4 +762,8 @@ public class Items {
 	public void setP(Player p) {
 		this.p = p;
 	}
+  
+  public void setM(Maps m) {
+    this.m = m;
+  }
 }

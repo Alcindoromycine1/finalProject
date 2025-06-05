@@ -382,9 +382,11 @@ public class GamePanel extends JPanel implements Runnable {
 		m.playNightmareSound();
 		m.playDoctrineSound();
 
+
 		/*
 		 * if (LoadingScreen.loadingScreen) { loadingScreen.drawLoadingScreen(g2); }
 		 */
+
 
 		if (mainMenu.inMenu) {
 			mainMenu.mainMenu(g2);
