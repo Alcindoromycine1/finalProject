@@ -65,7 +65,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 	Sound ambientAudio;
 	Sound mainMenuSound;
-	
+
 	// sound
 	private Sound footstepSound;
 
@@ -116,7 +116,7 @@ public class GamePanel extends JPanel implements Runnable {
 		m.setJ(j);
 		m.setT(t);
 		m.setInp(id);
-		
+
 		it.setP(p);
 		it.setInput(id);
 		it.setNpc(n);
@@ -128,11 +128,13 @@ public class GamePanel extends JPanel implements Runnable {
 		p.setN(n);
 		p.setIt(it);
 		p.setKeyH(id);
-		
+
 		id.setNpc(n);
 		id.setJumpscare(j);
-		
+
 		t.setM(m);
+		
+		id.setLs(ls);
 
 		try {
 			// https://www.youtube.com/watch?v=tmlZeYnfw7g
@@ -214,9 +216,6 @@ public class GamePanel extends JPanel implements Runnable {
 				// footstepSound.play();
 			}
 		}
-
-		System.out.println("World X,Y: " + worldX + ", " + worldY);
-		System.out.println("Player.world X,Y: " + p.worldX + ", " + p.worldY);
 	}
 
 	// Update game elements
@@ -225,7 +224,7 @@ public class GamePanel extends JPanel implements Runnable {
 		m.updateMapValues(worldX, worldY);
 		n.updateNpcValues(playerX, playerY, worldX, worldY);
 		it.updateItemsValues(playerX, playerY, worldX, worldY);
-		
+
 		window.setTitle("Are we Cooked? FPS: " + fps);
 		p.collisionChecking();
 		p.collision(this);
@@ -315,8 +314,8 @@ public class GamePanel extends JPanel implements Runnable {
 				e.printStackTrace();
 			}
 		}
-		
-				try {
+
+		try {
 			if (!m.hasJumpscared && !m.hasDoctrined) {
 				m.fade(2, 3, g2, 248, 216, 82, 48, 414, 48, 145, 126, this);
 				id.changeMapPressed = false;
@@ -388,21 +387,18 @@ public class GamePanel extends JPanel implements Runnable {
 		m.playNightmareSound();
 		m.playDoctrineSound();
 
-
-		/*
-		 * if (LoadingScreen.loadingScreen) { loadingScreen.drawLoadingScreen(g2); }
-		 */
-
-
+		/*if (ls.loadingScreen) {
+			ls.drawLoadingScreen(g2);
+		}*/
 		if (mainMenu.inMenu) {
 			mainMenu.mainMenu(g2);
-			/*if (!mainMenuSound.isPlaying()) {
-				mainMenuSound.play();
-				mainMenuSound.volume(-10.0f);
-			}*/
+			/*
+			 * if (!mainMenuSound.isPlaying()) { mainMenuSound.play();
+			 * mainMenuSound.volume(-10.0f); }
+			 */
 		}
 
-		if (m.currentMap == 3 && !mainMenu.inMenu && !LoadingScreen.loadingScreen) {
+		if (m.currentMap == 3 && !mainMenu.inMenu && !ls.loadingScreen) {
 			if (mainMenuSound.isPlaying()) {
 				mainMenuSound.stop();
 			}
@@ -425,7 +421,6 @@ public class GamePanel extends JPanel implements Runnable {
 
 	}
 
-
 	public int getWorldX() {
 		return worldX;
 	}
@@ -437,7 +432,6 @@ public class GamePanel extends JPanel implements Runnable {
 	public int getTileSize() {
 		return tileSize;
 	}
-	
 
 	public int getOriginalTileSize() {
 		return originalTileSize;
@@ -642,5 +636,5 @@ public class GamePanel extends JPanel implements Runnable {
 	public void setDirection(String direction) {
 		this.direction = direction;
 	}
-	
+
 }

@@ -31,6 +31,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	Minigame minigame;
 	Jumpscare jumpscare;
 	MainMenu mainMenu;
+	LoadingScreen ls;
 
 	public Input(GamePanel gp) {
 
@@ -39,6 +40,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		npc = gp.n;
 		minigame = gp.minigame;
 		mainMenu = gp.mainMenu;
+		ls = gp.ls;
 
 	}
 
@@ -49,6 +51,11 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	public void setNpc(Npc npc) {
 		this.npc = npc;
 	}
+	
+	public void setLs(LoadingScreen ls) {
+		this.ls = ls;
+	}
+	
 	@Override
 	public void keyTyped(KeyEvent e) {
 
@@ -294,14 +301,13 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 			items.helpPressed = false;
 
 			if (mouseX >= 245 && mouseX <= 525 && mouseY >= 290 && mouseY <= 350 && mainMenu.inMenu
-					&& !LoadingScreen.loadingScreen) {
+					&& !ls.loadingScreen) {
 				items.helpPressed = true;
 
 			}
 			if (mouseX >= 245 && mouseX <= 525 && mouseY >= 360 && mouseY <= 420 && mainMenu.inMenu) {
 				items.creditsPressed = true;
 			}
-
 		}
 	}
 
@@ -311,7 +317,6 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-
 		mouseClicked = false;
 		mouseHolding = false;
 		mouseDragging = false;

@@ -70,7 +70,7 @@ public class Items {
 
 	boolean carOn = false;
 	int animationFrame = 0;
-	int carWorldX = 1300;
+	int carWorldX = 1295;
 	int carWorldY = 770;
 	int doctrineWorldX = 6000;
 	int doctrineWorldY = 525;
@@ -165,7 +165,6 @@ public class Items {
 		// g.drawImage(brokenCar, carX, carY, 96, 192, null);
 		if (!carOn && !carUsed && gp.getPlayerX() + 32 > carX && gp.getPlayerX() < carX + 96 && gp.getPlayerY() + 72 > carY
 				&& gp.getPlayerY() < carY + 192 && p.keyH.cPressed) {
-
 			carOn = true;
 			carUsed = true;
 			p.disableCharacterMovement();
@@ -426,7 +425,6 @@ public class Items {
 	String ghostShape = " ";
 
 	public void drawGhost(Graphics2D g2, int offsetY) throws IOException {
-		System.out.println(level);
 		if (level == 1) {
 			if (!destroyTriangle) {
 				minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "Triangle", 250, 196);
@@ -717,6 +715,7 @@ public class Items {
 	public boolean creditsPressed = false;
 
 	public void credits(Graphics2D g2) {
+		System.out.println(creditsPressed);
 		if (creditsPressed) {
 			g2.setColor(Color.BLACK);
 			g2.drawRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);

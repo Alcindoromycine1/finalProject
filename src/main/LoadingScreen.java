@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 public class LoadingScreen {
 
 	private BufferedImage loadingImage, volumeUp;
-	public static boolean loadingScreen = true;
+	public boolean loadingScreen = true;
 	private int fadeValue = 255;
 	private boolean logoFaded = false;
 	private boolean logoIn = false;
