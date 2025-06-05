@@ -9,23 +9,28 @@ import javax.imageio.ImageIO;
 
 public class Tiles {
 
-	public static ArrayList<ArrayList<BufferedImage>> tileImages = new ArrayList<>();
-
-	public static void tileCreating() throws IOException {
+	public ArrayList<ArrayList<BufferedImage>> tileImages = new ArrayList<>();
+	
+	Maps m;
+	
+	public Tiles(GamePanel gp) {
+		this.m = gp.m;
+	}
+	public void tileCreating() throws IOException {
 
 		tileImages.clear();
-		for (int i = 0; i < Maps.tiles.size(); i++) {
+		for (int i = 0; i < m.tiles.size(); i++) {
 			ArrayList<BufferedImage> rowImages = new ArrayList<>();
-			for (int j = 0; j < Maps.tiles.get(i).size(); j++) {
+			for (int j = 0; j < m.tiles.get(i).size(); j++) {
 				rowImages.add(null);
 			}
 			tileImages.add(rowImages);
 		}
-
+		
 		// Then assign images
-		for (int i = 0; i < Maps.tiles.size(); i++) {
-			for (int j = 0; j < Maps.tiles.get(i).size(); j++) {
-				int tileCode = Maps.tiles.get(i).get(j);
+		for (int i = 0; i < m.tiles.size(); i++) {
+			for (int j = 0; j < m.tiles.get(i).size(); j++) {
+				int tileCode = m.tiles.get(i).get(j);
 				BufferedImage image = null;
 
 				if (tileCode == 62) {
@@ -184,14 +189,20 @@ public class Tiles {
 					image = ImageIO.read(new File("src/textures/sideDoorDown.png"));
 				} else if (tileCode == 87) {
 					image = ImageIO.read(new File("src/textures/sideDoorUp.png"));
-				}
+				}	
 				else {
 					image = ImageIO.read(new File("src/textures/void.png"));
 				}
-
+				//System.out.println(image);
 				tileImages.get(i).set(j, image);
+				
+				
 			}
 		}
 	}
+	public void setM(Maps m) {
+		this.m = m;
+	}
+	
 
 }
