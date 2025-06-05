@@ -214,7 +214,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		} else {
 			items.hoveringNo = false;
 		}
-		if (mouseX >= 685 && mouseX <= 715 && mouseY >= 60 && mouseY <= 90 && items.helpPressed) {
+		if (mouseX >= 685 && mouseX <= 715 && mouseY >= 60 && mouseY <= 90 && (items.helpPressed || items.creditsPressed)) {
 			items.hoveringX = true;
 		} else {
 			items.hoveringX = false;
@@ -308,6 +308,9 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		}
 		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 360 && mouseY <= 420 && mainMenu.inMenu) {
 			items.creditsPressed = true;
+		}
+		if (mouseX >= 685 && mouseX <= 715 && mouseY >= 60 && mouseY <= 90 && (items.helpPressed || items.creditsPressed)) {
+			items.creditsPressed = false;
 		}
 	}
 

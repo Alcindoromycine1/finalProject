@@ -745,6 +745,7 @@ public class Items {
 			g2.drawString("Sammy Jiang", 100, 405);
 			g2.drawString("Voice Actor", 100, 440);
 			g2.fillRect(100, 387, 150, 2);
+			exitMenuOption(g2);
 		}
 	}
 
