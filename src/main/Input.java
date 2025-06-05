@@ -74,7 +74,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		} else if (code == KeyEvent.VK_C) {
 			cPressed = true;
 			Items.visible = false;
-	}
+		}
 	}
 
 	@Override
@@ -276,7 +276,8 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		if (mouseX >= 425 && mouseX <= 425 + 130 && mouseY >= 355 && mouseY <= 355 + 45 && Items.inConfirmation) {
 			Items.noPressed = true;
 		}
-		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 290 && mouseY <= 350 && MainMenu.inMenu && !LoadingScreen.loadingScreen) {
+		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 290 && mouseY <= 350 && MainMenu.inMenu
+				&& !LoadingScreen.loadingScreen) {
 			Items.helpPressed = true;
 		}
 		if (mouseX >= 685 && mouseX <= 715 && mouseY >= 60 && mouseY <= 90 && Items.helpPressed) {
@@ -304,7 +305,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 			Minigame.calculatedResult();
 
 			Minigame.circle();
-			isCircle = Minigame.isValid(20);
+			isCircle = Minigame.isValid(15);
 
 			Minigame.triangle();
 			isTriangle = Minigame.isValid(25);
@@ -313,20 +314,24 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 			isZigzag = Minigame.isValid(15);
 
 			if (isCircle && Items.ghostShape.equals("Circle")) {
+				Items.destroyCircle = true;
 				Items.ghostCount++;
-				System.out.println("Circle Detected");
 			} else if (isTriangle && Items.ghostShape.equals("Triangle")) {
+				Items.destroyTriangle = true;
 				Items.ghostCount++;
-				System.out.println("Triangle Detected");
 			} else if (isZigzag && Items.ghostShape.equals("Zigzag")) {
+				Items.destroyZigzag = true;
 				Items.ghostCount++;
-				System.out.println("Zigzag Detected");
 			} else if (Minigame.currentShape.equals("vertical") && Items.ghostShape.equals("Vertical")) {
+				Items.destroyVertical = true;
 				Items.ghostCount++;
-				System.out.println("Vertical Line Detected");
 			} else if (Minigame.currentShape.equals("horizontal") && Items.ghostShape.equals("Horizontal")) {
+				Items.destroyHorizontal = true;
 				Items.ghostCount++;
-				System.out.println("Horizontal Line Detected");
+			} else if (Items.ghostShape.equals("duoghost1")) {
+				if (Items.destroyHorizontal && Items.destroyZigzag) {
+					Items.destroyDuoGhost = true;
+				}
 			}
 			Minigame.points.clear();
 		}
