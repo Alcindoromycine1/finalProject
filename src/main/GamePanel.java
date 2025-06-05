@@ -115,7 +115,8 @@ public class GamePanel extends JPanel implements Runnable {
 		m.setNpc(n);
 		m.setJ(j);
 		m.setT(t);
-
+		m.setInp(id);
+		
 		it.setP(p);
 		it.setInput(id);
 		it.setNpc(n);
@@ -130,6 +131,7 @@ public class GamePanel extends JPanel implements Runnable {
 		
 		id.setNpc(n);
 		id.setJumpscare(j);
+		
 		
 
 		try {

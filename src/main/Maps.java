@@ -82,24 +82,6 @@ public class Maps {
 		this.worldY = worldY;
 	}
 
-	public String changeMap(Graphics2D g, int mapToChange) {
-		if (mapToChange == 1) {
-			mapIntro("src/maps/mapIntro.txt");// intro map
-			currentMap = 1;
-		} else if (mapToChange == 2) {
-
-			mapIntro("src/maps/mapHouse.txt");// house map
-			currentMap = 2;
-		} else if (mapToChange == 3) {
-			mapIntro("src/maps/openMap.txt");// open map
-			currentMap = 3;
-		} else if (mapToChange == 4) {
-			mapIntro("src/maps/doctrine.txt");
-			currentMap = 4;
-		}
-		return "-1";// no map found
-
-	}
 
 	public String changeMap(int mapToChange) {
 		if (mapToChange == 1) {
@@ -367,7 +349,7 @@ public class Maps {
 			fading = true;
 			p.disableCharacterMovement();
 			inp.changeMapPressed = false;
-			j.setJumpscare(true);
+			//j.setJumpscare(true);
 		}
 		if (!fading && inp.changeMapPressed && worldX >= worX && worldX <= worX + width && worldY >= worY
 				&& worldY <= worY + height) {
@@ -379,6 +361,8 @@ public class Maps {
 		if (fading) {
 			fading(g2, t, oldMap, changeMap);
 		}
+		
+		System.out.println(maxWorldRow + ", " + maxWorldCol);
 	}
 
 	public boolean doneNightmare = false;
@@ -490,5 +474,8 @@ public class Maps {
 	public void setItems(Items items) {
 		this.items = items;
 	}
-
+	
+	public void setInp(Input inp) {
+		this.inp = inp;
+	}
 }
