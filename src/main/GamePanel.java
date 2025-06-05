@@ -97,7 +97,7 @@ public class GamePanel extends JPanel implements Runnable {
 		screenY = HEIGHT / 2 - (tileSize / 2); // centers the player in the middle of the screen
 
 		// Background
-		m.changeMap(5);
+		m.changeMap(3);
 		// Find trees in the map
 		m.findTrees();
 		Tiles.tileCreating();
@@ -337,13 +337,13 @@ public class GamePanel extends JPanel implements Runnable {
 			loadingScreen.drawLoadingScreen(g2);
 		}*/
 
-		/*if (MainMenu.inMenu) {
+		if (MainMenu.inMenu) {
 			mainMenu.mainMenu(g2);
 			if (!mainMenuSound.isPlaying()) {
 				mainMenuSound.play();
 				mainMenuSound.volume(-10.0f);
 			}
-		}*/
+		}
 
 		if (Maps.currentMap == 3 && !MainMenu.inMenu && !LoadingScreen.loadingScreen) {
 			if (mainMenuSound.isPlaying()) {
