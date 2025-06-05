@@ -24,8 +24,8 @@ public class Items {
 	Npc npc;
 	Player p;
 	Minigame minigame;
-  Maps m;
-  
+	Maps m;
+
 	private int playerX;
 	private int playerY;
 
@@ -38,8 +38,8 @@ public class Items {
 		this.npc = gp.n;
 		this.p = gp.p;
 		this.minigame = gp.minigame;
-    this.m = gp.getM();
-    
+		this.m = gp.getM();
+
 		playerX = gp.getPlayerX();
 		playerY = gp.getPlayerY();
 
@@ -54,7 +54,7 @@ public class Items {
 
 		this.playerX = playerX;
 		this.playerY = playerY;
-    
+
 	}
 
 	public void houseMirror(Graphics2D g2) throws IOException {
@@ -98,12 +98,12 @@ public class Items {
 		// npc.text(g2, 4);
 	}
 
-	 boolean enterBook = false;
-	 int nextPage = 0;
-	 boolean hoveringNextPage = false;
-	public  boolean playGif = false;
-	public  boolean staticImageBook = false;
-	public  boolean hoveringExitPage = false;
+	boolean enterBook = false;
+	int nextPage = 0;
+	boolean hoveringNextPage = false;
+	public boolean playGif = false;
+	public boolean staticImageBook = false;
+	public boolean hoveringExitPage = false;
 
 	// Stackoverflow used for GIF:
 	// https://stackoverflow.com/questions/12566311/displaying-gif-animation-in-java
@@ -163,8 +163,8 @@ public class Items {
 		// BufferedImage brokenCar = ImageIO.read(new
 		// File("src/textures/destroyedCar.png"));
 		// g.drawImage(brokenCar, carX, carY, 96, 192, null);
-		if (!carOn && !carUsed && playerX + 32 > carX && playerX < carX + 96
-				&& playerY + 72 > carY && playerY < carY + 192 && p.keyH.ePressed) {
+		if (!carOn && !carUsed && playerX + 32 > carX && playerX < carX + 96 && playerY + 72 > carY
+				&& playerY < carY + 192 && p.keyH.ePressed) {
 
 			carOn = true;
 			carUsed = true;
@@ -215,171 +215,171 @@ public class Items {
 		}
 	}
 
-	 boolean movementPrompt = false;
+	boolean movementPrompt = false;
 	public int instructionsX = 640;
 	public int instructionsY = 10;
-	public  boolean hoveringInstructions = false;
-	public  boolean instructionsPrompt = false;
-	public  boolean hoveringKeybind = false;
+	public boolean hoveringInstructions = false;
+	public boolean instructionsPrompt = false;
+	public boolean hoveringKeybind = false;
 	public boolean hoveringMovement = false;
-	 Color selected = new Color(144, 50, 50);
-	 Color unselected = new Color(193, 45, 57);
+	Color selected = new Color(144, 50, 50);
+	Color unselected = new Color(193, 45, 57);
 
-	 public void instructions(Graphics2D g2) {
-			Font calibri = new Font("Calibri", Font.BOLD, 18);
-			g2.setFont(calibri);
-			if (hoveringInstructions) {
-				g2.setColor(selected);
-				g2.fillRoundRect(instructionsX, instructionsY, 120, 40, 10, 10);
-				g2.setColor(Color.WHITE);
-				g2.drawString("Instructions", 655, 35);
+	public void instructions(Graphics2D g2) {
+		Font calibri = new Font("Calibri", Font.BOLD, 18);
+		g2.setFont(calibri);
+		if (hoveringInstructions) {
+			g2.setColor(selected);
+			g2.fillRoundRect(instructionsX, instructionsY, 120, 40, 10, 10);
+			g2.setColor(Color.WHITE);
+			g2.drawString("Instructions", 655, 35);
 
-			} else {
-				g2.setColor(unselected);
-				g2.fillRoundRect(instructionsX, instructionsY, 120, 40, 10, 10);
-				g2.setColor(Color.WHITE);
-				g2.drawString("Instructions", 655, 35);
-			}
-			if (instructionsPrompt) {
-				g2.setColor(Color.BLACK);
-				g2.drawRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
-				g2.setColor(Color.DARK_GRAY);
-				g2.fillRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
-				g2.setColor(Color.LIGHT_GRAY);
-				g2.fillRoundRect(60, 60, 218 * 3, 148 * 3, 10, 10);
-				g2.setFont(new Font("Monospaced", Font.BOLD, 40));
-				g2.setColor(Color.BLACK);
-				g2.drawString("Instructions", 260, 115);
-				g2.fillRect(263, 117, 283, 2);
-
-				// Movement
-				if (hoveringMovement) {
-					g2.setColor(selected);
-					g2.fillRoundRect(305, 160, 195, 62, 20, 20);
-				} else if (!hoveringMovement) {
-					g2.setColor(unselected);
-					g2.fillRoundRect(305, 160, 195, 62, 20, 20);
-				}
-				if (hoveringKeybind) {
-					g2.setColor(selected);
-					g2.fillRoundRect(305, 250, 195, 62, 20, 20);
-				} else if (!hoveringKeybind) {
-					g2.setColor(unselected);
-					g2.fillRoundRect(305, 250, 195, 62, 20, 20);
-				}
-
-				g2.setFont(new Font("Calibri", Font.BOLD, 30));
-				g2.setColor(Color.WHITE);
-				g2.drawString("Movement", 335, 200);
-				g2.drawString("Keybinds", 348, 290);
-			}
+		} else {
+			g2.setColor(unselected);
+			g2.fillRoundRect(instructionsX, instructionsY, 120, 40, 10, 10);
+			g2.setColor(Color.WHITE);
+			g2.drawString("Instructions", 655, 35);
 		}
+		if (instructionsPrompt) {
+			g2.setColor(Color.BLACK);
+			g2.drawRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
+			g2.setColor(Color.DARK_GRAY);
+			g2.fillRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
+			g2.setColor(Color.LIGHT_GRAY);
+			g2.fillRoundRect(60, 60, 218 * 3, 148 * 3, 10, 10);
+			g2.setFont(new Font("Monospaced", Font.BOLD, 40));
+			g2.setColor(Color.BLACK);
+			g2.drawString("Instructions", 260, 115);
+			g2.fillRect(263, 117, 283, 2);
 
-	 boolean backPressed = false;
-	 boolean hoveringBack = false;
-	 boolean keybindPrompts = false;
-	 boolean inHouse = false;
-
-	 public void backMenu(Graphics2D g2) {
-			if (!hoveringBack) {
-				g2.setColor(unselected);
-				g2.fillRoundRect(345, 430, 130, 45, 10, 10);
-				g2.setFont(new Font("Calibri", Font.BOLD, 25));
-				g2.setColor(Color.WHITE);
-				g2.drawString("Go Back", 367, 460);
-			} else {
+			// Movement
+			if (hoveringMovement) {
 				g2.setColor(selected);
-				g2.fillRoundRect(345, 430, 130, 45, 10, 10);
-				g2.setFont(new Font("Calibri", Font.BOLD, 25));
-				g2.setColor(Color.WHITE);
-				g2.drawString("Go Back", 367, 460);
+				g2.fillRoundRect(305, 160, 195, 62, 20, 20);
+			} else if (!hoveringMovement) {
+				g2.setColor(unselected);
+				g2.fillRoundRect(305, 160, 195, 62, 20, 20);
 			}
-			if (backPressed) {
-				if (movementPrompt) {
-					movementPrompt = false;
-					instructionsPrompt = true;
-				} else if (keybindPrompts) {
-					keybindPrompts = false;
-					instructionsPrompt = true;
-				}
+			if (hoveringKeybind) {
+				g2.setColor(selected);
+				g2.fillRoundRect(305, 250, 195, 62, 20, 20);
+			} else if (!hoveringKeybind) {
+				g2.setColor(unselected);
+				g2.fillRoundRect(305, 250, 195, 62, 20, 20);
+			}
 
-				else if (instructionsPrompt) {
-					instructionsPrompt = false;
-					Input.instructionsPressed = false;
-				}
-				backPressed = false;
-			}
+			g2.setFont(new Font("Calibri", Font.BOLD, 30));
+			g2.setColor(Color.WHITE);
+			g2.drawString("Movement", 335, 200);
+			g2.drawString("Keybinds", 348, 290);
 		}
+	}
 
-	 public void prompts(Graphics2D g2) {
+	boolean backPressed = false;
+	boolean hoveringBack = false;
+	boolean keybindPrompts = false;
+	boolean inHouse = false;
+
+	public void backMenu(Graphics2D g2) {
+		if (!hoveringBack) {
+			g2.setColor(unselected);
+			g2.fillRoundRect(345, 430, 130, 45, 10, 10);
+			g2.setFont(new Font("Calibri", Font.BOLD, 25));
+			g2.setColor(Color.WHITE);
+			g2.drawString("Go Back", 367, 460);
+		} else {
+			g2.setColor(selected);
+			g2.fillRoundRect(345, 430, 130, 45, 10, 10);
+			g2.setFont(new Font("Calibri", Font.BOLD, 25));
+			g2.setColor(Color.WHITE);
+			g2.drawString("Go Back", 367, 460);
+		}
+		if (backPressed) {
 			if (movementPrompt) {
-				instructionsPrompt = false;
-				BufferedImage wasdKey;
-				g2.setColor(Color.BLACK);
-				g2.drawRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
-				g2.setColor(Color.DARK_GRAY);
-				g2.fillRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
-				g2.setColor(Color.LIGHT_GRAY);
-				g2.fillRoundRect(60, 60, 218 * 3, 148 * 3, 10, 10);
-				try {
-					wasdKey = ImageIO.read(new File("src/textures/wasdKey.png"));// https://media.istockphoto.com/id/1193231012/vector/computer-gamer-keyboard-wasd-keys-vector-illustration-wasd-keys-game-control-keyboard-buttons.jpg?s=612x612&w=0&k=20&c=-DJ6CFewXZ_Oofp_BsYya5KniByRkVW3EAHYICWIOaU=
-					g2.drawImage(wasdKey, 285, 146 + 20, 250, 250, null);
-					g2.setFont(new Font("Monospaced", Font.BOLD, 40));
-					g2.setColor(Color.BLACK);
-					g2.drawString("Movement", 310, 112 + 10);
-					g2.fillRect(307, 115 + 10, 195, 2);
-					g2.drawString("Left", 210, 305 + 20);
-					g2.drawString("Right", 530, 305 + 20);
-					g2.drawString("Up", 382, 178 + 20);
-					g2.drawString("Down", 351, 368 + 20);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				movementPrompt = false;
+				instructionsPrompt = true;
+			} else if (keybindPrompts) {
+				keybindPrompts = false;
+				instructionsPrompt = true;
 			}
-			if (keybindPrompts) {
+
+			else if (instructionsPrompt) {
 				instructionsPrompt = false;
-				BufferedImage car;
-				BufferedImage door;
-				BufferedImage exorcism;
-				BufferedImage bed;
-				g2.setColor(Color.BLACK);
-				g2.drawRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
-				g2.setColor(Color.DARK_GRAY);
-				g2.fillRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
-				g2.setColor(Color.LIGHT_GRAY);
-				g2.fillRoundRect(60, 60, 218 * 3, 148 * 3, 10, 10);
+				Input.instructionsPressed = false;
+			}
+			backPressed = false;
+		}
+	}
+
+	public void prompts(Graphics2D g2) {
+		if (movementPrompt) {
+			instructionsPrompt = false;
+			BufferedImage wasdKey;
+			g2.setColor(Color.BLACK);
+			g2.drawRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
+			g2.setColor(Color.DARK_GRAY);
+			g2.fillRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
+			g2.setColor(Color.LIGHT_GRAY);
+			g2.fillRoundRect(60, 60, 218 * 3, 148 * 3, 10, 10);
+			try {
+				wasdKey = ImageIO.read(new File("src/textures/wasdKey.png"));// https://media.istockphoto.com/id/1193231012/vector/computer-gamer-keyboard-wasd-keys-vector-illustration-wasd-keys-game-control-keyboard-buttons.jpg?s=612x612&w=0&k=20&c=-DJ6CFewXZ_Oofp_BsYya5KniByRkVW3EAHYICWIOaU=
+				g2.drawImage(wasdKey, 285, 146 + 20, 250, 250, null);
 				g2.setFont(new Font("Monospaced", Font.BOLD, 40));
 				g2.setColor(Color.BLACK);
-				g2.drawString("Keybinds", 310, 112 + 10);
-				g2.fillRect(310, 116 + 10, 189, 2);
-				try {
-					car = ImageIO.read(new File("src/textures/car.png"));// https://media.istockphoto.com/id/1193231012/vector/computer-gamer-keyboard-wasd-keys-vector-illustration-wasd-keys-game-control-keyboard-buttons.jpg?s=612x612&w=0&k=20&c=-DJ6CFewXZ_Oofp_BsYya5KniByRkVW3EAHYICWIOaU=
-					door = ImageIO.read(new File("src/textures/door.png"));// https://img.freepik.com/premium-vector/open-close-door-pixel-art-style_475147-1239.jpgd
-					exorcism = ImageIO.read(new File("src/textures/exorcism.png"));// https://www.creativefabrica.com/wp-content/uploads/2023/03/22/pixel-art-wooden-cross-vector-Graphics-65026120-1.jpg
-					bed = ImageIO.read(new File("src/textures/bed.png"));
-					g2.drawImage(car, 130 - 10, 30 + 80, 96, 192, null);
-					g2.drawImage(door, 300 + 18, 50 + 80, 150, 150, null);
-					g2.drawImage(exorcism, 545, 95 + 80, 120, 75, null);
-					g2.drawImage(bed, 160, 300, 75, 75, null);
-					g2.setFont(new Font("Monospaced", Font.BOLD, 20));
-					g2.setColor(Color.BLACK);
-					// Car keybind
-					g2.drawString("Press C to", 120 - 10, 180 + 80);
-					g2.drawString("Enter Car", 124 - 10, 200 + 80);
-					// Fading keybind
-					g2.drawString("Press F to", 320 + 18, 180 + 80);
-					g2.drawString("Walk into Area", 290 + 18, 200 + 80);
-					// Exorcism keybind
-					g2.drawString("Press E to", 545, 180 + 80);
-					g2.drawString("Exorcise Ghosts", 515, 200 + 80);
-					// Bed keybind
-					g2.drawString("Walk into a bed", 105, 395);
-					g2.drawString("to sleep", 150, 415);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				g2.drawString("Movement", 310, 112 + 10);
+				g2.fillRect(307, 115 + 10, 195, 2);
+				g2.drawString("Left", 210, 305 + 20);
+				g2.drawString("Right", 530, 305 + 20);
+				g2.drawString("Up", 382, 178 + 20);
+				g2.drawString("Down", 351, 368 + 20);
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
+		if (keybindPrompts) {
+			instructionsPrompt = false;
+			BufferedImage car;
+			BufferedImage door;
+			BufferedImage exorcism;
+			BufferedImage bed;
+			g2.setColor(Color.BLACK);
+			g2.drawRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
+			g2.setColor(Color.DARK_GRAY);
+			g2.fillRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
+			g2.setColor(Color.LIGHT_GRAY);
+			g2.fillRoundRect(60, 60, 218 * 3, 148 * 3, 10, 10);
+			g2.setFont(new Font("Monospaced", Font.BOLD, 40));
+			g2.setColor(Color.BLACK);
+			g2.drawString("Keybinds", 310, 112 + 10);
+			g2.fillRect(310, 116 + 10, 189, 2);
+			try {
+				car = ImageIO.read(new File("src/textures/car.png"));// https://media.istockphoto.com/id/1193231012/vector/computer-gamer-keyboard-wasd-keys-vector-illustration-wasd-keys-game-control-keyboard-buttons.jpg?s=612x612&w=0&k=20&c=-DJ6CFewXZ_Oofp_BsYya5KniByRkVW3EAHYICWIOaU=
+				door = ImageIO.read(new File("src/textures/door.png"));// https://img.freepik.com/premium-vector/open-close-door-pixel-art-style_475147-1239.jpgd
+				exorcism = ImageIO.read(new File("src/textures/exorcism.png"));// https://www.creativefabrica.com/wp-content/uploads/2023/03/22/pixel-art-wooden-cross-vector-Graphics-65026120-1.jpg
+				bed = ImageIO.read(new File("src/textures/bed.png"));
+				g2.drawImage(car, 130 - 10, 30 + 80, 96, 192, null);
+				g2.drawImage(door, 300 + 18, 50 + 80, 150, 150, null);
+				g2.drawImage(exorcism, 545, 95 + 80, 120, 75, null);
+				g2.drawImage(bed, 160, 300, 75, 75, null);
+				g2.setFont(new Font("Monospaced", Font.BOLD, 20));
+				g2.setColor(Color.BLACK);
+				// Car keybind
+				g2.drawString("Press C to", 120 - 10, 180 + 80);
+				g2.drawString("Enter Car", 124 - 10, 200 + 80);
+				// Fading keybind
+				g2.drawString("Press F to", 320 + 18, 180 + 80);
+				g2.drawString("Walk into Area", 290 + 18, 200 + 80);
+				// Exorcism keybind
+				g2.drawString("Press E to", 545, 180 + 80);
+				g2.drawString("Exorcise Ghosts", 515, 200 + 80);
+				// Bed keybind
+				g2.drawString("Walk into a bed", 105, 395);
+				g2.drawString("to sleep", 150, 415);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	public void animation() {
 		if (carOn) {
@@ -396,11 +396,11 @@ public class Items {
 		}
 	}
 
-	 boolean inGraveYard = false;
-	 int graveX = 4600;
-	 int graveY = 333;
-	 BufferedImage ghost;
-	 boolean firstTime = true;
+	boolean inGraveYard = false;
+	int graveX = 4600;
+	int graveY = 333;
+	BufferedImage ghost;
+	boolean firstTime = true;
 
 	public static int ghostRandomizer() {
 		// if (level == 1) {
@@ -514,16 +514,16 @@ public class Items {
 			destroyHorizontal = false;
 			destroyVertical = false;
 		}
-		
-		if(destroyDuoGhost) {
+
+		if (destroyDuoGhost) {
 			ghostCount++;
 		}
-		
+
 		drawGhost(g2, yVal);
 	}
 
 	public boolean destroyDuoGhost = false;
-	
+
 	public void randomShape(String shape, int ghostX, int ghostY, Graphics2D g2, int offsetX) {
 		if (shape.equals("Triangle")) {
 			g2.setStroke(new BasicStroke(4));
@@ -562,17 +562,16 @@ public class Items {
 		}
 	}
 
-	 int counting = 0;
-	 boolean duoGhostInitialized = false;
-	 int duoShapeLeft = 0;
-	 int duoShapeRight = 0;
+	int counting = 0;
+	boolean duoGhostInitialized = false;
+	int duoShapeLeft = 0;
+	int duoShapeRight = 0;
 
 	public void shapeRandomizer() {
 
 		String shapes[] = { "Triangle", "Circle", "Zigzag", "Vertical", "Horizontal" };
 		int num = (int) (Math.random() * shapes.length) + 1;
 	}
-
 
 	boolean destroyCircle = false;
 	boolean destroyTriangle = false;
@@ -615,11 +614,11 @@ public class Items {
 
 	}
 
-	public  boolean hoveringYes = false;
-	public  boolean hoveringNo = false;
-	public  boolean inConfirmation = false;
-	public  boolean yesPressed = false;
-	public  boolean noPressed = false;
+	public boolean hoveringYes = false;
+	public boolean hoveringNo = false;
+	public boolean inConfirmation = false;
+	public boolean yesPressed = false;
+	public boolean noPressed = false;
 
 	public void confirmation(Graphics2D g2, String text, int textX) {
 
@@ -660,10 +659,10 @@ public class Items {
 		g2.drawString("No", 472, 385);
 	}
 
-	public  boolean helpPressed = false;
-	public  boolean hoveringX = false;
+	public boolean helpPressed = false;
+	public boolean hoveringX = false;
 
-	public  void exitMenuOption(Graphics2D g2) {
+	public void exitMenuOption(Graphics2D g2) {
 		if (hoveringX) {
 			g2.setColor(selected);
 
@@ -715,7 +714,7 @@ public class Items {
 		}
 	}
 
-	public  boolean creditsPressed = false;
+	public boolean creditsPressed = false;
 
 	public void credits(Graphics2D g2) {
 		if (creditsPressed) {
@@ -734,7 +733,7 @@ public class Items {
 			g2.drawString("Project Lead", 100, 175);
 			g2.fillRect(100, 177, 150, 2);
 			g2.drawString("Noah Sussman", 100, 195);
-			g2.drawString("Senior Developer",100, 230);
+			g2.drawString("Senior Developer", 100, 230);
 			g2.fillRect(100, 232, 150, 2);
 			g2.drawString("Akhilan Saravanan", 100, 252);
 			g2.drawString("Junior Developer", 100, 280);
@@ -750,7 +749,7 @@ public class Items {
 			g2.fillRect(100, 387, 150, 2);
 		}
 	}
-	
+
 	public void setInput(Input input) {
 		this.input = input;
 	}
@@ -762,8 +761,8 @@ public class Items {
 	public void setP(Player p) {
 		this.p = p;
 	}
-  
-  public void setM(Maps m) {
-    this.m = m;
-  }
+
+	public void setM(Maps m) {
+		this.m = m;
+	}
 }

@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 public class Tiles {
 
 	public ArrayList<ArrayList<BufferedImage>> tileImages = new ArrayList<>();
-	
+
 	Maps m;
 	
 	public Tiles(GamePanel gp) {

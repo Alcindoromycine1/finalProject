@@ -396,10 +396,10 @@ public class GamePanel extends JPanel implements Runnable {
 
 		if (mainMenu.inMenu) {
 			mainMenu.mainMenu(g2);
-			if (!mainMenuSound.isPlaying()) {
+			/*if (!mainMenuSound.isPlaying()) {
 				mainMenuSound.play();
 				mainMenuSound.volume(-10.0f);
-			}
+			}*/
 		}
 
 		if (m.currentMap == 3 && !mainMenu.inMenu && !LoadingScreen.loadingScreen) {
