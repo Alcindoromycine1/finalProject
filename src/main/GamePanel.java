@@ -98,7 +98,7 @@ public class GamePanel extends JPanel implements Runnable {
 		screenY = HEIGHT / 2 - (tileSize / 2); // centers the player in the middle of the screen
 
 		// Background
-		m.changeMap(3);
+		m.changeMap(5);
 		// Find trees in the map
 
 		// load tiles init
@@ -280,7 +280,7 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 
 		try {
-			it.car(g2);
+			it.car(g2, this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -318,7 +318,7 @@ public class GamePanel extends JPanel implements Runnable {
 		
 				try {
 			if (!m.hasJumpscared && !m.hasDoctrined) {
-				m.fade(2, 3, g2, 248, 216, 82, 48, 414, 48, 145, 126);
+				m.fade(2, 3, g2, 248, 216, 82, 48, 414, 48, 145, 126, this);
 				id.changeMapPressed = false;
 				it.inHouse = true;
 			}
@@ -327,11 +327,11 @@ public class GamePanel extends JPanel implements Runnable {
 				it.inHouse = false;
 			}
 			if (!m.hasDoctrined && m.hasJumpscared) {
-				m.fade(3, 4, g2, 168, -159, 100, 100, 5550, 520, 150, 100);
+				m.fade(3, 4, g2, 168, -159, 100, 100, 5550, 520, 150, 100, this);
 				id.changeMapPressed = false;
 			}
 			if (m.hasDoctrined) { // exorcism room
-				m.fade(4, 5, g2, 838, 216, 55, 55, 838, 216, 55, 55);
+				m.fade(4, 5, g2, 838, 216, 55, 55, 838, 216, 55, 55, this);
 				id.changeMapPressed = false;
 				p.disableCharacterMovement();
 			}
@@ -357,14 +357,14 @@ public class GamePanel extends JPanel implements Runnable {
 		minigame.drawPoints(g2);
 
 		try {
-			it.doctrine(g2);
+			it.doctrine(g2, this);
 		} catch (IOException e) {
 
 			e.printStackTrace();
 		}
 
 		try {
-			it.graveyard(g2);
+			it.graveyard(g2, this);
 			it.ghost(g2, 5100, 320, 125, 98);
 			it.book(g2, this);
 		} catch (IOException e) {
@@ -372,7 +372,7 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 
 		try {
-			m.nightmare(g2, this);
+			m.nightmare(g2, this, this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

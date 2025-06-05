@@ -82,7 +82,6 @@ public class Maps {
 		this.worldY = worldY;
 	}
 
-
 	public String changeMap(int mapToChange) {
 		if (mapToChange == 1) {
 			mapIntro("src/maps/mapIntro.txt");
@@ -195,8 +194,7 @@ public class Maps {
 
 		try {
 
-			BufferedImage exorcismRoom = ImageIO.read(new File(
-					"src/textures/the_room_where_spiritual_purification_and_demonic_entity_expulsion_through_sacred_rituals_occurs_with_the_presence_of_religion_certified_exorcists_in_white_robes.png"));
+			BufferedImage exorcismRoom = ImageIO.read(new File("src/textures/exorcist.png"));
 			g2.drawImage(exorcismRoom, 0, 0, null);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -250,7 +248,7 @@ public class Maps {
 	int stepCount = 0;
 	int hasFaded = 0;
 
-	public void fading(Graphics2D g2, Tiles t, int newMap, int originalMap) throws IOException {
+	public void fading(Graphics2D g2, Tiles t, int newMap, int originalMap, GamePanel gp) throws IOException {
 
 		if (stepCount == 0) {// fade out
 			Color fadeColor = new Color(0, 0, 0, fadeValue);
@@ -297,8 +295,8 @@ public class Maps {
 				t.tileCreating();
 				findIntroHouse();
 				findTrees();
-				worldX = 288;
-				worldY = 216;
+				gp.setWorldX(288);
+				gp.setWorldY(216);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -342,27 +340,26 @@ public class Maps {
 	boolean hasDoctrined = false;
 
 	public void fade(int changeMap, int oldMap, Graphics2D g2, int worX, int worY, int width, int height, int oldworX,
-			int oldworY, int oldWidth, int oldHeight) throws IOException {
+			int oldworY, int oldWidth, int oldHeight, GamePanel gp) throws IOException {
 
-		if (inp.changeMapPressed && worldX >= oldworX && worldX <= oldworX + oldWidth && worldY >= oldworY
-				&& worldY <= oldworY + oldHeight) {
+		if (inp.changeMapPressed && gp.getWorldX() >= oldworX && gp.getWorldX() <= oldworX + oldWidth
+				&& gp.getWorldY() >= oldworY && gp.getWorldY() <= oldworY + oldHeight) {
 			fading = true;
 			p.disableCharacterMovement();
 			inp.changeMapPressed = false;
-			//j.setJumpscare(true);
+			// j.setJumpscare(true);
 		}
-		if (!fading && inp.changeMapPressed && worldX >= worX && worldX <= worX + width && worldY >= worY
-				&& worldY <= worY + height) {
+		if (!fading && inp.changeMapPressed && gp.getWorldX() >= worX && gp.getWorldX() <= worX + width
+				&& gp.getWorldY() >= worY && gp.getWorldY() <= worY + height) {
 			fading = true;
 			p.disableCharacterMovement();
 			stepCount = 0;
 			goOut = true;
 		}
 		if (fading) {
-			fading(g2, t, oldMap, changeMap);
+			fading(g2, t, oldMap, changeMap, gp);
 		}
-		
-		System.out.println(maxWorldRow + ", " + maxWorldCol);
+
 	}
 
 	public boolean doneNightmare = false;
@@ -374,7 +371,7 @@ public class Maps {
 	boolean faded = false;
 	boolean doneFade = false;
 
-	public void nightmare(Graphics2D g2, Component observer) throws IOException {
+	public void nightmare(Graphics2D g2, Component observer, GamePanel gp) throws IOException {
 		if (usingBed && !inNightmare && !doneNightmare) {
 			items.inConfirmation = true;
 			items.confirmation(g2, "Do you want to sleep?", 180);
@@ -429,7 +426,7 @@ public class Maps {
 
 		if (doneNightmare) {
 			inNightmare = false;
-			npc.doctor(g2);
+			npc.doctor(g2, gp);
 		}
 	}
 
@@ -474,7 +471,7 @@ public class Maps {
 	public void setItems(Items items) {
 		this.items = items;
 	}
-	
+
 	public void setInp(Input inp) {
 		this.inp = inp;
 	}

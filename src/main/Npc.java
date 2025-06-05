@@ -46,10 +46,10 @@ public class Npc {
 		this.worldY = worldY;
 	}
 
-	public void doctor(Graphics2D g2) throws IOException {
+	public void doctor(Graphics2D g2, GamePanel gp) throws IOException {
 
-		int doctorX = 480 - worldX;
-		int doctorY = 260 - worldY;
+		int doctorX = 480 - gp.getWorldX();
+		int doctorY = 260 - gp.getWorldY();
 
 		BufferedImage doctor = null;
 		doctor = ImageIO.read(new File("src/textures/doctor.png"));

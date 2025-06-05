@@ -77,10 +77,10 @@ public class Items {
 	boolean visible = true;
 	boolean carUsed = false;
 
-	public void doctrine(Graphics2D g2) throws IOException {
+	public void doctrine(Graphics2D g2, GamePanel gp) throws IOException {
 
-		int doctrineX = doctrineWorldX - worldX;
-		int doctrineY = doctrineWorldY - worldY;
+		int doctrineX = doctrineWorldX - gp.getWorldX();
+		int doctrineY = doctrineWorldY - gp.getWorldY();
 
 		BufferedImage doctrine;
 		doctrine = ImageIO.read(new File("src/textures/doctrine.png"));
@@ -154,9 +154,9 @@ public class Items {
 		}
 	}
 
-	public void car(Graphics g) throws IOException {
-		int carX = carWorldX - worldX;
-		int carY = carWorldY - worldY;
+	public void car(Graphics g, GamePanel gp) throws IOException {
+		int carX = carWorldX - gp.getWorldX();
+		int carY = carWorldY - gp.getWorldY();
 
 		BufferedImage car = ImageIO.read(new File("src/textures/car.png"));
 		g.drawImage(car, carX, carY, 96, 192, null);
@@ -603,10 +603,10 @@ public class Items {
 		 */
 	}
 
-	public void graveyard(Graphics2D g2) throws IOException {
+	public void graveyard(Graphics2D g2, GamePanel gp) throws IOException {
 
-		int inGraveYardX = graveX - worldX;
-		int inGraveYardY = graveY - worldY;
+		int inGraveYardX = graveX - gp.getWorldX();
+		int inGraveYardY = graveY - gp.getWorldY();
 		if (inGraveYard) {
 			g2.drawImage(ghost, 480, 280, 250, 196, null);
 			npc.text(g2, 2);
