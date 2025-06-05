@@ -45,6 +45,9 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		this.jumpscare = j;
 	}
 
+	public void setNpc(Npc npc) {
+		this.npc = npc;
+	}
 	@Override
 	public void keyTyped(KeyEvent e) {
 
