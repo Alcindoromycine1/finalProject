@@ -295,8 +295,13 @@ public class Maps {
 				t.tileCreating();
 				findIntroHouse();
 				findTrees();
-				gp.setWorldX(288);
-				gp.setWorldY(216);
+				if (currentMap == 2) {
+					gp.setWorldX(287);
+					gp.setWorldY(200);
+				} else if (currentMap == 3) {
+					gp.setWorldX(509);
+					gp.setWorldY(63);
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -304,7 +309,9 @@ public class Maps {
 			stepCount = 2;
 		}
 
-		else if (stepCount == 2) {// fade in
+		else if (stepCount == 2)
+
+		{// fade in
 			g2.setColor(new Color(0, 0, 0, fadeValue));
 			g2.fillRect(0, 0, 768, 576);
 			fadeValue -= 2;
