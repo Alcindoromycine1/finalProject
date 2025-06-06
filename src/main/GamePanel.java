@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.MalformedURLException;
 
+import java.awt.geom.Point2D;
 /*
  * Noah Sussman, Akhilan Saravanan, and Rudra Garg
  * Ms. Krasteva
@@ -264,7 +265,27 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 		}
 	}
-
+	
+	public void drawTint(Graphics2D g2) {
+		if (it.animationFrame >= 150) {
+			it.titleScreen(g2);
+		}
+		
+		Point2D centerPoint = new Point2D.Float(playerX, playerY);
+		float radiusTint = (float) 210;
+		
+		Color transparentColor = new Color(0, 0, 0, 0);
+		Color darkColor = new Color(0, 0, 0, 255); // Dark color with alpha for transparency
+		
+		RadialGradientPaint gradient = new RadialGradientPaint(centerPoint, radiusTint, new float[] {(float) 0.0, (float) 1.0}, new Color[] {transparentColor, darkColor});
+		
+		g2.setPaint(gradient);
+		g2.fillRect(playerX - 384, playerY - 288, playerX + 384, playerY + 288); // Fill the entire panel with the gradient
+		
+		
+	}
+	
+	
 	String direction = "";// stores the direction the player is facing
 
 	// where all the drawing happens
@@ -274,48 +295,49 @@ public class GamePanel extends JPanel implements Runnable {
 		try {
 			m.camera(g, this);// camera method
 			characterImage(g);// draws the character depending on the direction
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		try {
+		
 			it.car(g2, this);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		if (it.animationFrame >= 150) {
-			it.titleScreen(g2);
-		}
-		// Npc.text(g2);
-		it.instructions(g2);
-		if (id.instructionsPressed) {
-			it.prompts(g2);
-			it.backMenu(g2);
-		}
-		/*
-		 * if (j.isJumpscare()) { if (j.getOnce() == false) { // makes sound run only
-		 * once j.playSound(); j.setOnce(true); } // Render the jumpscare image
-		 * j.drawJumpscare(g2);
-		 * 
-		 * // Use a Timer to introduce a delay after rendering Timer delayTimer = new
-		 * Timer(2000, new ActionListener() {
-		 * 
-		 * @Override public void actionPerformed(ActionEvent e) { j.setJumpscare(false);
-		 * // Reset the jumpscare state after 2 seconds ((Timer) e.getSource()).stop();
-		 * // Stop the timer } }); delayTimer.setRepeats(false); // Ensure the timer
-		 * only runs once delayTimer.start(); }
-		 */
-
-		if (m.currentMap == 5) {
-			try {
-				m.drawExorcismRoom(g2);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			
+			it.doctrine(g2, this);
+			
+			
+			if (m.currentMap == 3) {
+				drawTint(g2);
 			}
-		}
+			
+			
+			// Npc.text(g2);
+			it.instructions(g2);
+			if (id.instructionsPressed) {
+				it.prompts(g2);
+				it.backMenu(g2);
+			}
+			
 
-		try {
+			/*
+			 * if (j.isJumpscare()) { if (j.getOnce() == false) { // makes sound run only
+			 * once j.playSound(); j.setOnce(true); } // Render the jumpscare image
+			 * j.drawJumpscare(g2);
+			 * 
+			 * // Use a Timer to introduce a delay after rendering Timer delayTimer = new
+			 * Timer(2000, new ActionListener() {
+			 * 
+			 * @Override public void actionPerformed(ActionEvent e) { j.setJumpscare(false);
+			 * // Reset the jumpscare state after 2 seconds ((Timer) e.getSource()).stop();
+			 * // Stop the timer } }); delayTimer.setRepeats(false); // Ensure the timer
+			 * only runs once delayTimer.start(); }
+			 */
+
+			if (m.currentMap == 5) {
+				try {
+					m.drawExorcismRoom(g2);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+			
 			if (!m.hasJumpscared && !m.hasDoctrined) {
 				m.fade(2, 3, g2, 248, 216, 82, 48, 414, 48, 145, 126, this);
 				id.changeMapPressed = false;
@@ -348,74 +370,74 @@ public class GamePanel extends JPanel implements Runnable {
 			// Npc.text(g2, 3);
 			// Items.insideDoctrine(g2);
 			// Items.houseMirror(g2);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		minigame.startExorcising();
-		minigame.drawPoints(g2);
-
-		try {
-			it.doctrine(g2, this);
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
-
-		try {
+			
+			
+			if (m.currentMap == 5) {
+				minigame.startExorcising();
+				minigame.drawPoints(g2);
+			}
+			
+			
+			
+			
 			it.graveyard(g2, this);
 			it.ghost(g2, 5100, 320, 125, 98);
 			it.book(g2, this);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		try {
+			
 			m.nightmare(g2, this, this);
+			
+			if (m.currentMap == 5) {
+					it.ghostLogic(g2);
+			}
+			
+
+			
+			
+			p.footStepSounds();
+			p.carSound();
+			m.playNightmareSound();
+			m.playDoctrineSound();
+
+			/*if (ls.loadingScreen) {
+				ls.drawLoadingScreen(g2);
+			}*/
+			if (mainMenu.inMenu) {
+				mainMenu.mainMenu(g2);
+				/*
+				 * if (!mainMenuSound.isPlaying()) { mainMenuSound.play();
+				 * mainMenuSound.volume(-10.0f); }
+				 */
+			}
+
+			if (m.currentMap == 3 && !mainMenu.inMenu && !ls.loadingScreen) {
+				if (mainMenuSound.isPlaying()) {
+					mainMenuSound.stop();
+				}
+				if (!ambientAudio.isPlaying()) {
+					ambientAudio.play();
+					ambientAudio.volume(-20.0f);
+				}
+			}
+
+			if (m.currentMap != 3) {
+				if (ambientAudio.isPlaying()) {
+					ambientAudio.stop();
+				}
+			}
+
+			it.help(g2);
+			it.credits(g2);
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		try {
-			it.ghostLogic(g2);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		
 
-		p.footStepSounds();
-		p.carSound();
-		m.playNightmareSound();
-		m.playDoctrineSound();
+		
 
-		/*if (ls.loadingScreen) {
-			ls.drawLoadingScreen(g2);
-		}*/
-		if (mainMenu.inMenu) {
-			mainMenu.mainMenu(g2);
-			/*
-			 * if (!mainMenuSound.isPlaying()) { mainMenuSound.play();
-			 * mainMenuSound.volume(-10.0f); }
-			 */
-		}
 
-		if (m.currentMap == 3 && !mainMenu.inMenu && !ls.loadingScreen) {
-			if (mainMenuSound.isPlaying()) {
-				mainMenuSound.stop();
-			}
-			if (!ambientAudio.isPlaying()) {
-				ambientAudio.play();
-				ambientAudio.volume(-20.0f);
-			}
-		}
 
-		if (m.currentMap != 3) {
-			if (ambientAudio.isPlaying()) {
-				ambientAudio.stop();
-			}
-		}
-
-		it.help(g2);
-		it.credits(g2);
 
 		g2.dispose();
 
