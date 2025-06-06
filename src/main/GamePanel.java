@@ -358,8 +358,8 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 			if (m.hasFaded == 2) {
 				if (m.hasJumpscared && !m.hasDoctrined) {
-					worldX = 384;
-					worldY = 288;
+				//	worldX = 384;
+					//worldY = 288;
 				}
 				if (m.hasJumpscared && m.hasDoctrined) {
 					worldX = 0;
@@ -435,8 +435,8 @@ public class GamePanel extends JPanel implements Runnable {
 		
 
 		
-
-
+		System.out.println("Player X: " + worldX + ", Player Y: " + worldY);
+		System.out.println(m.currentMap);
 
 
 		g2.dispose();
