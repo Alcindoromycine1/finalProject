@@ -103,6 +103,8 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 			System.exit(0);
 		} else if (code == KeyEvent.VK_SPACE) {
 			npc.setTextIndex(npc.getTextIndex() + 1);
+			npc.setOnce(false);
+			
 		} else if (code == KeyEvent.VK_C) {
 			cPressed = true;
 		}

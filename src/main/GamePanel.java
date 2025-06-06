@@ -279,7 +279,7 @@ System.out.println(worldX + " , " + worldY);
 			if (m.getCurrentMap() == 3) {
 				m.drawTint(g2, this);
 			}
-			m.confirmationCollision(this, g2);
+			//m.confirmationCollision(this, g2);
 			// Npc.text(g2);
 			it.instructions(g2);
 			if (id.isInstructionsPressed()) {
@@ -306,7 +306,7 @@ System.out.println(worldX + " , " + worldY);
 				id.setChangeMapPressed(false);
 				it.setInHouse(true);
 			}
-			if (m.getStepCount() == -1 && it.isInHouse()) {
+			if (m.getStepCount() == -1 && it.isInHouse() && !m.isInNightmare()) {
 				n.text(g2, 5);
 				it.setInHouse(false);
 			}
@@ -359,10 +359,9 @@ System.out.println(worldX + " , " + worldY);
 				j.playSound();
 			}
 
-			/*if (ls.isLoadingScreen()) {
+			if (ls.isLoadingScreen()) {
 				ls.drawLoadingScreen(g2);
-			}*/
-			//System.out.println(worldX + " , " + worldY);
+			}
 
 			if (mainMenu.isInMenu()) {
 				mainMenu.mainMenu(g2);
