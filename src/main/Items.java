@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -43,7 +44,8 @@ public class Items {
 	
 	private ImageIcon pageFlipping;
 	private Sound bookFlipSound;
-
+	
+	private ArrayList<String> shapesArray = new ArrayList<String>();
 	public Items(GamePanel gp) {
 
 		this.input = gp.getId();
@@ -426,39 +428,45 @@ public class Items {
 	}
 
 	private int level = 1;
-	private String ghostShape = " ";
+	private String ghostShape = "";
 
 	public void drawGhost(Graphics2D g2, int offsetY, GamePanel gp) throws IOException {
-		if (level == 1) {
-			if (!destroyTriangle) {
-				minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "Triangle", 250, 196, gp);
-			}
+		if (level == 5) {
 			if (!destroyCircle) {
 				minigameGhost(g2, 1200 - 20, 820 + 50 + offsetY, "Circle", 250, 196, gp);
 			}
-		} else if (level == 2) {
-			if (!destroyZigzag) {
-				minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "Zigzag", 250, 196, gp);
-			}
-			if (!destroyHorizontal) {
-				minigameGhost(g2, 1200 - 20, 820 + 50 + offsetY, "Horizontal", 250, 196, gp);
-			}
-		} else if (level == 3) {
-			if (!destroyHorizontal) {
-				minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "Horizontal", 250, 196, gp);
-			}
-			if (!destroyVertical) {
-				minigameGhost(g2, 1200 - 20, 820 + 50 + offsetY, "Vertical", 250, 196, gp);
-			}
-		} else if (level == 4) {
 			if (!destroyTriangle) {
 				minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "Triangle", 250, 196, gp);
 			}
+			
+		} else if (level == 2) {
 			if (!destroyHorizontal) {
 				minigameGhost(g2, 1200 - 20, 820 + 50 + offsetY, "Horizontal", 250, 196, gp);
 			}
-		} else if (level == 5) {
+
+			if (!destroyZigzag) {
+				minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "Zigzag", 250, 196, gp);
+			}
+			
+		} else if (level == 3) {
+			if (!destroyVertical) {
+				minigameGhost(g2, 1200 - 20, 820 + 50 + offsetY, "Vertical", 250, 196, gp);
+			}
+			if (!destroyHorizontal) {
+				minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "Horizontal", 250, 196, gp);
+			}
+			
+		} else if (level == 4) {
+			if (!destroyHorizontal) {
+				minigameGhost(g2, 1200 - 20, 820 + 50 + offsetY, "Horizontal", 250, 196, gp);
+			}
+			if (!destroyTriangle) {
+				minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "Triangle", 250, 196, gp);
+			}
+			
+		} else if (level == 1) {
 			minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "duoghost1", 250, 196, gp);
+			
 		}
 		/*
 		 * if (ghostNumber == 1 && !Input.isTriangle) { Items.minigameGhost(g2, 1200 +
@@ -527,40 +535,53 @@ public class Items {
 	private boolean destroyDuoGhost = false;
 
 	public void randomShape(String shape, int ghostX, int ghostY, Graphics2D g2, int offsetX) {
-		if (shape.equals("Triangle")) {
+		if (shape.equalsIgnoreCase("Triangle")) {
 			g2.setStroke(new BasicStroke(4));
 			g2.setColor(Color.RED);
 			int[] xTriangle = { ghostX - 260 + offsetX, ghostX - 230 + offsetX, ghostX - 290 + offsetX };
 			int[] yTriangle = { ghostY - 350, ghostY - 290, ghostY - 290 };
 			g2.drawPolygon(xTriangle, yTriangle, 3);
-		} else if (shape.equals("Circle")) {
+		} else if (shape.equalsIgnoreCase("Circle")) {
 			g2.setStroke(new BasicStroke(4));
 			g2.setColor(Color.RED);
 			g2.drawOval(ghostX - 290 + offsetX, ghostY - 350, 60, 60);
-		} else if (shape.equals("Zigzag")) {
+		} else if (shape.equalsIgnoreCase("Zigzag")) {
 			g2.setStroke(new BasicStroke(4));
 			g2.setColor(Color.RED);
 			int[] xZigzag = { ghostX - 150 - 140 + offsetX, ghostX - 100 - 140 + offsetX, ghostX - 150 - 140 + offsetX,
 					ghostX - 100 - 140 + offsetX };
 			int[] yZigzag = { ghostY - 195 - 140, ghostY - 195 - 140, ghostY - 145 - 140, ghostY - 145 - 140 };
 			g2.drawPolyline(xZigzag, yZigzag, 4);
-		} else if (shape.equals("Vertical")) {
+		} else if (shape.equalsIgnoreCase("Vertical")) {
 			g2.setColor(Color.RED);
 			g2.fillRect(ghostX - 260 + offsetX, ghostY - 355, 4, 60);
-		} else if (shape.equals("Horizontal")) {
+		} else if (shape.equalsIgnoreCase("Horizontal")) {
 			g2.setColor(Color.RED);
-			g2.fillRect(ghostX - 290 + offsetX, ghostY - 290, 60, 4);
-		} else if (shape.equals("duoghost1")) {
-			g2.setColor(Color.RED);
+			g2.fillRect(ghostX - 290 + offsetX, ghostY - 313, 60, 4);
+		} else if (shape.equalsIgnoreCase("duoghost1")) {
+			//g2.setColor(Color.RED);
+				
+			//g2.fillRect(ghostX - 335 + offsetX, ghostY - 320, 60, 4);
+			shapesArray.add("horizontal");
+			shapesArray.add("zigzag");
+			
+			System.out.println(shapesArray);
+			for (int i = 0; i < shapesArray.size(); i++) {
+				randomShape(shapesArray.get(i), ghostX, ghostY, g2, offsetX - 40 + (80 * i));
+				System.out.println("Shape: " + shapesArray.get(i));
+			}
+			
+			if (destroyHorizontal && shapesArray.contains("horizontal")) {
+				shapesArray.remove("horizontal");
 
-			g2.fillRect(ghostX - 335 + offsetX, ghostY - 320, 60, 4);
+				
+			}
+			shapesArray.clear();
+			//int[] xZigzag = { ghostX - 260 + offsetX, ghostX - 210 + offsetX, ghostX - 260 + offsetX, ghostX - 210 + offsetX };
+			//int[] yZigzag = { ghostY - 340, ghostY - 340, ghostY - 290, ghostY - 290 };
 
-			int[] xZigzag = { ghostX - 260 + offsetX, ghostX - 210 + offsetX, ghostX - 260 + offsetX,
-					ghostX - 210 + offsetX };
-			int[] yZigzag = { ghostY - 340, ghostY - 340, ghostY - 290, ghostY - 290 };
-
-			g2.setStroke(new BasicStroke(4));
-			g2.drawPolyline(xZigzag, yZigzag, 4);
+			//g2.setStroke(new BasicStroke(4));
+			//g2.drawPolyline(xZigzag, yZigzag, 4);
 		}
 	}
 
