@@ -10,17 +10,17 @@ import javax.imageio.ImageIO;
 public class LoadingScreen {
 
 	private BufferedImage loadingImage, volumeUp;
-	public boolean loadingScreen = true;
+	private boolean loadingScreen = true;
 	private int fadeValue = 255;
 	private boolean logoFaded = false;
 	private boolean logoIn = false;
 	private boolean volumeDone = false;
 
-	MainMenu mainMenu;
+	private MainMenu mainMenu;
 	
 	public LoadingScreen(GamePanel gp) {
 		loadImages();
-		mainMenu = gp.mainMenu;
+		mainMenu = gp.getMainMenu();
 	}
 
 	public void loadImages() {
@@ -72,9 +72,13 @@ public class LoadingScreen {
 			if (fadeValue >= 255) {
 				fadeValue = 255;
 				loadingScreen = false; // End the loading screen
-				mainMenu.inMenu = true; // Switch to the main menu
+				mainMenu.setInMenu(true); // Switch to the main menu
 			}
 		}
+	}
+	
+	public boolean isLoadingScreen() {
+		return loadingScreen;
 	}
 
 }

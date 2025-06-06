@@ -14,23 +14,23 @@ public class Tiles {
 	Maps m;
 	
 	public Tiles(GamePanel gp) {
-		this.m = gp.m;
+		this.m = gp.getM();
 	}
 	public void tileCreating() throws IOException {
 
 		tileImages.clear();
-		for (int i = 0; i < m.tiles.size(); i++) {
+		for (int i = 0; i < m.getTiles().size(); i++) {
 			ArrayList<BufferedImage> rowImages = new ArrayList<>();
-			for (int j = 0; j < m.tiles.get(i).size(); j++) {
+			for (int j = 0; j < m.getTiles().get(i).size(); j++) {
 				rowImages.add(null);
 			}
 			tileImages.add(rowImages);
 		}
 		
 		// Then assign images
-		for (int i = 0; i < m.tiles.size(); i++) {
-			for (int j = 0; j < m.tiles.get(i).size(); j++) {
-				int tileCode = m.tiles.get(i).get(j);
+		for (int i = 0; i < m.getTiles().size(); i++) {
+			for (int j = 0; j < m.getTiles().get(i).size(); j++) {
+				int tileCode = m.getTiles().get(i).get(j);
 				BufferedImage image = null;
 
 				if (tileCode == 62) {

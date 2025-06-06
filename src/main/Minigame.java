@@ -9,24 +9,37 @@ import java.util.ArrayList;
 
 public class Minigame {
 
-	public ArrayList<Point> points = new ArrayList<>();
-	public boolean isExorcising = false;
-	public int color;
+	private ArrayList<Point> points = new ArrayList<>();
+	private boolean isExorcising = false;
+	private int color;
+	private int sumX = 0;
+	private int sumY = 0;
+	private ArrayList<Point> proper = new ArrayList<>();
+	private int count = 0;
 
+	private int circleX = 500;
+	private int circleY = 300;
+
+	private double originalArea = 0;
+	private ArrayList<Point> shapePoints = new ArrayList<>();
+
+ 	private int newSumX = 0;
+	private int newSumY = 0;
+	private ArrayList<Point> newPoints = new ArrayList<>();
+	private Point newCentroid;
+	private Point centroid;
+	
+	private String currentShape = " ";
+	
+	private boolean ready = false;
+	
+	private boolean triangleLogic = false;
+	private boolean circleLogic = false;
+	
+	
 	public void startExorcising() {
 		isExorcising = true;
 	}
-
-	int sumX = 0;
-	int sumY = 0;
-	ArrayList<Point> proper = new ArrayList<>();
-	int count = 0;
-
-	int circleX = 500;
-	int circleY = 300;
-
-	double originalArea = 0;
-	ArrayList<Point> shapePoints = new ArrayList<>();
 
 	public void circle() {
 		int radius = 50;
@@ -148,11 +161,7 @@ public class Minigame {
 		return Math.abs(area * 0.5);
 	}
 
-	int newSumX = 0;
-	int newSumY = 0;
-	ArrayList<Point> newPoints = new ArrayList<>();
-	Point newCentroid;
-	Point centroid;
+
 
 	public void newCentroid() {
 		newSumX = 0;
@@ -177,7 +186,7 @@ public class Minigame {
 		newCentroid = new Point(newSumX / count, newSumY / count);
 	}
 
-	boolean ready = false;
+	
 
 	public double scaleFactor() {
 
@@ -188,9 +197,8 @@ public class Minigame {
 		return scale;
 
 	}
-
-	boolean triangleLogic = false;
-	boolean circleLogic = false;
+	
+	
 
 	public boolean isValid(int threshold) {
 		double distanceSum = 0;
@@ -235,7 +243,7 @@ public class Minigame {
 		return interpolatedNewPoints;
 	}
 
-	static String currentShape = " ";
+	
 
 	public void calculatedResult() {
 		int size = points.size();
@@ -301,4 +309,26 @@ public class Minigame {
 		}
 
 	}
+	
+	// Getters and Setters
+	public ArrayList<Point> getPoints() {
+		return points;
+	}
+
+	public boolean getIsExorcising() {
+		return isExorcising;
+	}
+
+	public void setPoints(ArrayList<Point> points) {
+		this.points = points;
+	}
+
+	public String getCurrentShape() {
+		return currentShape;
+	}
+
+	public void setCurrentShape(String currentShape) {
+		this.currentShape = currentShape;
+	}
+	
 }
