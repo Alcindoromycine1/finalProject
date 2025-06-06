@@ -592,5 +592,9 @@ public class Maps {
 	public void setUsingBed(boolean usingBed) {
 		this.usingBed = usingBed;
 	}
+	
+	public boolean isInNightmare() {
+		return inNightmare;
+	}
 
 }
