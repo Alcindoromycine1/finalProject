@@ -272,15 +272,14 @@ public class GamePanel extends JPanel implements Runnable {
 		try {
 			m.camera(g, this);// camera method
 			characterImage(g);// draws the character depending on the direction
-
+System.out.println(worldX + " , " + worldY);
 			it.car(g2, this);
-
 			it.doctrine(g2, this);
 
 			if (m.getCurrentMap() == 3) {
 				m.drawTint(g2, this);
 			}
-
+			m.confirmationCollision(this, g2);
 			// Npc.text(g2);
 			it.instructions(g2);
 			if (id.isInstructionsPressed()) {
@@ -296,8 +295,13 @@ public class GamePanel extends JPanel implements Runnable {
 					e.printStackTrace();
 				}
 			}
-
+			//System.out.println(it.isInConfirmation());
 			if (!m.hasJumpscared && !m.hasDoctrined) {
+					it.confirmation(g2, "Do you want to enter this place?", 200);
+				
+					if(it.isYesPressed()) {
+						id.setChangeMapPressed(true);
+					}
 				m.fade(2, 3, g2, 248, 216, 82, 48, 414, 48, 145, 126, this);
 				id.setChangeMapPressed(false);
 				it.setInHouse(true);
@@ -355,9 +359,10 @@ public class GamePanel extends JPanel implements Runnable {
 				j.playSound();
 			}
 
-			if (ls.isLoadingScreen()) {
+			/*if (ls.isLoadingScreen()) {
 				ls.drawLoadingScreen(g2);
-			}
+			}*/
+			//System.out.println(worldX + " , " + worldY);
 
 			if (mainMenu.isInMenu()) {
 				mainMenu.mainMenu(g2);
@@ -387,10 +392,8 @@ public class GamePanel extends JPanel implements Runnable {
 				g2.drawImage(jeffFront, 580, 320, 96, 144, null);
 				n.text(g2, 7);
 			}
-
 			it.help(g2);
 			it.credits(g2);
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -822,6 +822,9 @@ public class Items {
 		return carWorldX;
 	}
 
+	public boolean isInHouse(boolean inHouse) {
+		return inHouse;
+	}
 
 	public int getCarWorldY() {
 		return carWorldY;

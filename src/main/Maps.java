@@ -384,6 +384,7 @@ public class Maps {
 	}
 
 	public void nightmare(Graphics2D g2, Component observer, GamePanel gp) throws IOException {
+
 		if (usingBed && !inNightmare && !doneNightmare) {
 			items.setInConfirmation(true);
 			items.confirmation(g2, "Do you want to sleep?", 180);
@@ -460,6 +461,26 @@ public class Maps {
 		} else {
 			if (doctrineSound.isPlaying()) {
 				doctrineSound.stop();
+			}
+		}
+	}
+
+	public void confirmationCollision(GamePanel gp, Graphics2D g2) {
+		if (currentMap == 3) {
+			if (gp.getWorldX() >= 450 && gp.getWorldX() <= 600 && gp.getWorldY() >= 38 && gp.getWorldY() <= 138) {
+				items.setInConfirmation(true);
+				items.confirmation(g2, "Do you want to enter this place?", 180);
+				if (items.isYesPressed()) {
+					items.setYesPressed(false);
+					items.setInConfirmation(false);
+				} else if (items.isNoPressed()) {
+					items.setNoPressed(false);
+					items.setInConfirmation(false);
+				}
+			} if (gp.getWorldX() >= 5584 && gp.getWorldX() <= 5684 &&
+			        gp.getWorldY() >= 550 && gp.getWorldY() <= 650) {//doctrine collision
+				items.setInConfirmation(true);
+				items.confirmation(g2, "Do you want to enter the doctrine?", 180);
 			}
 		}
 	}
