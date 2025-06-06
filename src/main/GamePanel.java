@@ -12,6 +12,7 @@ import java.io.*;
 import java.net.MalformedURLException;
 
 import java.awt.geom.Point2D;
+
 /*
  * Noah Sussman, Akhilan Saravanan, and Rudra Garg
  * Ms. Krasteva
@@ -21,26 +22,26 @@ import java.awt.geom.Point2D;
 public class GamePanel extends JPanel implements Runnable {
 
 	// These are the settings for the window
-	final int originalTileSize = 16; // 16x16 pixel tile size
-	final int scale = 3; // scales everything to appear much larger on the window
-	public final int tileSize = originalTileSize * scale; // scales every tile to appear much larger on the window
+	private final int originalTileSize = 16; // 16x16 pixel tile size
+	private final int scale = 3; // scales everything to appear much larger on the window
+	private final int tileSize = originalTileSize * scale; // scales every tile to appear much larger on the window
 															// (48x48)
 
-	int playerSpeed = 25;
+	private int playerSpeed = 25;
 
 	// Window dimensions
-	final int maxScreenCol = 16; // window is 16 tiles wide
-	final int maxScreenRow = 12; // window is 12 tiles long
-	final int WIDTH = tileSize * maxScreenCol; // screen width in pixels (768 pixels)
-	final int HEIGHT = tileSize * maxScreenRow; // screen height in pixels (576 pixels)
-	final int FPS_TARGET = 60; // Frame rate target // Character position
+	private final int maxScreenCol = 16; // window is 16 tiles wide
+	private final int maxScreenRow = 12; // window is 12 tiles long
+	private final int WIDTH = tileSize * maxScreenCol; // screen width in pixels (768 pixels)
+	private final int HEIGHT = tileSize * maxScreenRow; // screen height in pixels (576 pixels)
+	private final int FPS_TARGET = 60; // Frame rate target // Character position
 	// Character position
-	int playerX = 768 / 2;
-	int playerY = 576 / 2;
-	int worldX = 768 / 2; // world position
-	int worldY = 576 / 2; // world position
+	private int playerX = 768 / 2;
+	private int playerY = 576 / 2;
+	private int worldX = 768 / 2; // world position
+	private int worldY = 576 / 2; // world position
 	// Game Thread
-	Thread gameThread; // keeps the program running until closed
+	private Thread gameThread; // keeps the program running until closed
 
 	private JFrame window;
 
@@ -50,27 +51,31 @@ public class GamePanel extends JPanel implements Runnable {
 	private double fps = 0; // FPS value
 
 	// Game components
-	public Tiles t;
-	public Maps m;
-	public Jumpscare j;
+	private Tiles t;
+	private Maps m;
+	private Jumpscare j;
 
-	public Player p;
-	public Npc n;
-	public Items it;
-	public Input id;
-	public MainMenu mainMenu;
-	public Minigame minigame;
+	private Player p;
+	private Npc n;
+	private Items it;
+	private Input id;
+	private MainMenu mainMenu;
+	private Minigame minigame;
+	private LoadingScreen ls;
 
-	int screenX;
-	int screenY;
+	private String direction = "";// stores the direction the player is facing
 
-	Sound ambientAudio;
-	Sound mainMenuSound;
+	private int screenX;
+	private int screenY;
 
-	// sound
+	private Sound ambientAudio;
+	private Sound mainMenuSound;
 	private Sound footstepSound;
 
-	LoadingScreen ls;
+	BufferedImage jeffFront;
+	BufferedImage jeffBack;
+	BufferedImage jeffRight;
+	BufferedImage jeffLeft;
 
 	// Constructor
 	public GamePanel(JFrame window) throws IOException {
@@ -102,7 +107,7 @@ public class GamePanel extends JPanel implements Runnable {
 		m.changeMap(3);
 		// Find trees in the map
 
-		// load tiles init
+		// load tiles
 		t.tileCreating();
 
 		m.findTrees();
@@ -121,7 +126,9 @@ public class GamePanel extends JPanel implements Runnable {
 		it.setP(p);
 		it.setInput(id);
 		it.setNpc(n);
-
+		it.setJ(j);
+		it.setM(m);
+		
 		n.setInput(id);
 		n.setItems(it);
 
@@ -134,16 +141,20 @@ public class GamePanel extends JPanel implements Runnable {
 		id.setJumpscare(j);
 
 		t.setM(m);
-		
+
 		id.setLs(ls);
 
 		try {
 			// https://www.youtube.com/watch?v=tmlZeYnfw7g
 			ambientAudio = new Sound("src/sound/ambientAudio.wav");
-
 			// https://www.youtube.com/watch?v=1a7kscUeItk
 			mainMenuSound = new Sound("src/sound/mainMenuSound.wav");
 			footstepSound = new Sound("src/sound/walkingSoundEffect.wav");
+
+			jeffFront = ImageIO.read(new File("src/textures/charAI.png"));
+			jeffBack = ImageIO.read(new File("src/textures/jeffBack.png"));
+			jeffRight = ImageIO.read(new File("src/textures/jeffRight.png"));
+			jeffLeft = ImageIO.read(new File("src/textures/jeffLeft.png"));
 		} catch (Exception e) {
 			System.out.println("Sound loaded successfully");
 		}
@@ -192,29 +203,22 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public void characterMovement() {
 		if (p.disableCharacterMovement() == false) {
-			if (p.keyH.upPressed) {
+			if (p.keyH.isUpPressed()) {
 				direction = "back";
 				worldY -= playerSpeed; // move the world up when player presses up
 
-			} else if (p.keyH.downPressed) {
+			} else if (p.keyH.isDownPressed()) {
 				direction = "front";
 				worldY += playerSpeed; // move the world down when player goes down
 
-			} else if (p.keyH.leftPressed) {
+			} else if (p.keyH.isLeftPressed()) {
 				direction = "left";
 				worldX -= playerSpeed; // move the world left when player goes left
 
-			} else if (p.keyH.rightPressed) {
+			} else if (p.keyH.isRightPressed()) {
 				direction = "right";
 				worldX += playerSpeed; // move the world right when player goes right
 
-			}
-
-			// footsteps
-			if (p.keyH.upPressed && !p.keyH.upReleased || p.keyH.downPressed && !p.keyH.downReleased
-					|| p.keyH.rightPressed && !p.keyH.rightReleased || p.keyH.leftPressed && !p.keyH.leftReleased) {
-				// System.out.println(footstepSound);
-				// footstepSound.play();
 			}
 		}
 	}
@@ -235,13 +239,8 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public void characterImage(Graphics g) throws IOException {
 
-		BufferedImage jeffFront = ImageIO.read(new File("src/textures/charAI.png"));
-		BufferedImage jeffBack = ImageIO.read(new File("src/textures/jeffBack.png"));
-		BufferedImage jeffRight = ImageIO.read(new File("src/textures/jeffRight.png"));
-		BufferedImage jeffLeft = ImageIO.read(new File("src/textures/jeffLeft.png"));
-
 		BufferedImage character = null;
-		if (it.visible) {
+		if (it.isVisible()) {
 			if (direction.equals("back")) {
 
 				character = jeffBack;
@@ -260,33 +259,11 @@ public class GamePanel extends JPanel implements Runnable {
 			} else {
 				character = jeffFront;
 			}
-			if (m.currentMap != 5) {
+			if (m.getCurrentMap() != 5) {
 				g.drawImage(character, screenX, screenY, null);// draws the character in the middle of the screen
 			}
 		}
 	}
-	
-	public void drawTint(Graphics2D g2) {
-		if (it.animationFrame >= 150) {
-			it.titleScreen(g2);
-		}
-		
-		Point2D centerPoint = new Point2D.Float(playerX, playerY);
-		float radiusTint = (float) 210;
-		
-		Color transparentColor = new Color(0, 0, 0, 0);
-		Color darkColor = new Color(0, 0, 0, 255); // Dark color with alpha for transparency
-		
-		RadialGradientPaint gradient = new RadialGradientPaint(centerPoint, radiusTint, new float[] {(float) 0.0, (float) 1.0}, new Color[] {transparentColor, darkColor});
-		
-		g2.setPaint(gradient);
-		g2.fillRect(playerX - 384, playerY - 288, playerX + 384, playerY + 288); // Fill the entire panel with the gradient
-		
-		
-	}
-	
-	
-	String direction = "";// stores the direction the player is facing
 
 	// where all the drawing happens
 	public void paintComponent(Graphics g) {
@@ -295,40 +272,23 @@ public class GamePanel extends JPanel implements Runnable {
 		try {
 			m.camera(g, this);// camera method
 			characterImage(g);// draws the character depending on the direction
-		
+
 			it.car(g2, this);
-			
+
 			it.doctrine(g2, this);
-			
-			
-			if (m.currentMap == 3) {
-				drawTint(g2);
+
+			if (m.getCurrentMap() == 3) {
+				m.drawTint(g2, this);
 			}
-			
-			
+
 			// Npc.text(g2);
 			it.instructions(g2);
-			if (id.instructionsPressed) {
+			if (id.isInstructionsPressed()) {
 				it.prompts(g2);
 				it.backMenu(g2);
 			}
-			
 
-			/*
-			 * if (j.isJumpscare()) { if (j.getOnce() == false) { // makes sound run only
-			 * once j.playSound(); j.setOnce(true); } // Render the jumpscare image
-			 * j.drawJumpscare(g2);
-			 * 
-			 * // Use a Timer to introduce a delay after rendering Timer delayTimer = new
-			 * Timer(2000, new ActionListener() {
-			 * 
-			 * @Override public void actionPerformed(ActionEvent e) { j.setJumpscare(false);
-			 * // Reset the jumpscare state after 2 seconds ((Timer) e.getSource()).stop();
-			 * // Stop the timer } }); delayTimer.setRepeats(false); // Ensure the timer
-			 * only runs once delayTimer.start(); }
-			 */
-
-			if (m.currentMap == 5) {
+			if (m.getCurrentMap() == 5) {
 				try {
 					m.drawExorcismRoom(g2);
 				} catch (IOException e) {
@@ -337,79 +297,77 @@ public class GamePanel extends JPanel implements Runnable {
 				}
 			}
 
-			
 			if (!m.hasJumpscared && !m.hasDoctrined) {
 				m.fade(2, 3, g2, 248, 216, 82, 48, 414, 48, 145, 126, this);
-				id.changeMapPressed = false;
-				it.inHouse = true;
+				id.setChangeMapPressed(false);
+				it.setInHouse(true);
 			}
-			if (m.stepCount == -1 && it.inHouse) {
+			if (m.getStepCount() == -1 && it.isInHouse()) {
 				n.text(g2, 5);
-				it.inHouse = false;
+				it.setInHouse(false);
 			}
 			if (!m.hasDoctrined && m.hasJumpscared) {
 				m.fade(3, 4, g2, 168, -159, 100, 100, 5550, 520, 150, 100, this);
-				id.changeMapPressed = false;
+				id.setChangeMapPressed(false);
 			}
 			if (m.hasDoctrined) { // exorcism room
 				m.fade(4, 5, g2, 838, 216, 55, 55, 838, 216, 55, 55, this);
-				id.changeMapPressed = false;
+				id.setChangeMapPressed(false);
 				p.disableCharacterMovement();
 			}
-			if (m.hasFaded == 2) {
+			if (m.getHasFaded() == 2) {
 				if (m.hasJumpscared && !m.hasDoctrined) {
-				//	worldX = 384;
-					//worldY = 288;
+					// worldX = 384;
+					// worldY = 288;
 				}
 				if (m.hasJumpscared && m.hasDoctrined) {
 					worldX = 0;
 					worldY = 0;
 				}
-				m.hasFaded = 0;
+				m.setHasFaded(0);
 			}
-			// Npc.text(g2, 3);
-			// Items.insideDoctrine(g2);
+
+			it.insideDoctrine(g2, this);
 			// Items.houseMirror(g2);
-			
-			
-			if (m.currentMap == 5) {
+
+			if (m.getCurrentMap() == 5) {
 				minigame.startExorcising();
 				minigame.drawPoints(g2);
 			}
-			
-			
-			
-			
-			it.graveyard(g2, this);
-			it.ghost(g2, 5100, 320, 125, 98);
-			it.book(g2, this);
-			
-			m.nightmare(g2, this, this);
-			
-			if (m.currentMap == 5) {
-					it.ghostLogic(g2);
-			}
-			
 
-			
-			
+			it.graveyard(g2, this);
+			it.ghost(g2, 5100, 320, 125, 98, this);
+			it.book(g2, this);
+
+			m.nightmare(g2, this, this);
+
+			if (m.getCurrentMap() == 5) {
+				it.ghostLogic(g2, this);
+			}
+
 			p.footStepSounds();
 			p.carSound();
 			m.playNightmareSound();
 			m.playDoctrineSound();
 
-			/*if (ls.loadingScreen) {
-				ls.drawLoadingScreen(g2);
-			}*/
-			if (mainMenu.inMenu) {
-				mainMenu.mainMenu(g2);
-				/*
-				 * if (!mainMenuSound.isPlaying()) { mainMenuSound.play();
-				 * mainMenuSound.volume(-10.0f); }
-				 */
+			if (j.isJumpscare()) {
+				j.drawJumpscare(g2);
+				j.playSound();
 			}
 
-			if (m.currentMap == 3 && !mainMenu.inMenu && !ls.loadingScreen) {
+			if (ls.isLoadingScreen()) {
+				ls.drawLoadingScreen(g2);
+			}
+
+			if (mainMenu.isInMenu()) {
+				mainMenu.mainMenu(g2);
+				if (!mainMenuSound.isPlaying()) {
+					mainMenuSound.play();
+					mainMenuSound.volume(-10.0f);
+				}
+			}
+
+			if (m.getCurrentMap() == 3 && !mainMenu.isInMenu() && !ls.isLoadingScreen()) {
 				if (mainMenuSound.isPlaying()) {
 					mainMenuSound.stop();
 				}
@@ -419,26 +377,23 @@ public class GamePanel extends JPanel implements Runnable {
 				}
 			}
 
-			if (m.currentMap != 3) {
+			if (m.getCurrentMap() != 3) {
 				if (ambientAudio.isPlaying()) {
 					ambientAudio.stop();
 				}
 			}
+			
+			if (it.isCarUsed() && !it.isCarSceneDone() && !j.isJumpscare()) {
+				g2.drawImage(jeffFront, 580, 320, 96, 144, null);
+				n.text(g2, 7);
+			}
 
 			it.help(g2);
 			it.credits(g2);
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
-
-		
-		System.out.println("Player X: " + worldX + ", Player Y: " + worldY);
-		System.out.println(m.currentMap);
-
-
 		g2.dispose();
 
 	}
@@ -659,4 +614,28 @@ public class GamePanel extends JPanel implements Runnable {
 		this.direction = direction;
 	}
 
+	public Sound getAmbientAudio() {
+		return ambientAudio;
+	}
+
+	public void setAmbientAudio(Sound ambientAudio) {
+		this.ambientAudio = ambientAudio;
+	}
+
+	public Sound getMainMenuSound() {
+		return mainMenuSound;
+	}
+
+	public void setMainMenuSound(Sound mainMenuSound) {
+		this.mainMenuSound = mainMenuSound;
+	}
+
+	public LoadingScreen getLs() {
+		return ls;
+	}
+
+	public void setLs(LoadingScreen ls) {
+		this.ls = ls;
+	}
+	
 }

@@ -38,17 +38,16 @@ public class Player {
 	Sound walkingSound;
 	Sound carSound;
 	private BufferedImage character;
-	public BufferedImage buisnessMan;
 
 	public boolean collision = false;
 	public boolean inventoryCollision = false;
 
 	public Player(GamePanel gp) {
 		// keyH = gp.id;
-		m = gp.m;
-		keyH = gp.id;
-		n = gp.n;
-		it = gp.it;
+		m = gp.getM();
+		keyH = gp.getId();
+		n = gp.getN();
+		it = gp.getIt();
 
 		worldX = gp.getWorldX();
 		worldY = gp.getWorldY();
@@ -85,9 +84,9 @@ public class Player {
 	public void collisionChecking() {
 
 		collision = false;
-		for (int i = 0; i < m.treePositions.size(); i++) {
-			int treeX = m.treePositions.get(i)[0] - worldX;
-			int treeY = m.treePositions.get(i)[1] - worldY;
+		for (int i = 0; i < m.getTreePositions().size(); i++) {
+			int treeX = m.getTreePositions().get(i)[0] - worldX;
+			int treeY = m.getTreePositions().get(i)[1] - worldY;
 
 			if (screenX + 32 > treeX // Right side of hitbox is past left side of tree
 					&& screenX < treeX + 48 // Left side of hitbox is before right side of tree
@@ -97,9 +96,9 @@ public class Player {
 				break; // Stop checking after finding the first collision
 			}
 		}
-		for (int i = 0; i < m.housePositions.size(); i++) {
-			int houseX = m.housePositions.get(i)[0] - worldX;
-			int houseY = m.housePositions.get(i)[1] - worldY;
+		for (int i = 0; i < m.getHousePositions().size(); i++) {
+			int houseX = m.getHousePositions().get(i)[0] - worldX;
+			int houseY = m.getHousePositions().get(i)[1] - worldY;
 			if (playerX + 32 > houseX // Right side of hitbox is past left side of tree
 					&& playerX < houseX + 48 // Left side of hitbox is before right side of tree
 					&& playerY + 72 > houseY // Bottom side of hitbox is below top side of tree
@@ -108,21 +107,21 @@ public class Player {
 				break; // Stop checking after finding the first collision
 			}
 		}
-		for (int i = 0; i < m.bedPositions.size(); i++) {
-			int bedX = m.bedPositions.get(i)[0] - worldX;
-			int bedY = m.bedPositions.get(i)[1] - worldY;
+		for (int i = 0; i < m.getBedPositions().size(); i++) {
+			int bedX = m.getBedPositions().get(i)[0] - worldX;
+			int bedY = m.getBedPositions().get(i)[1] - worldY;
 			if (playerX + 32 > bedX // Right side of hitbox is past left side of tree
 					&& playerX < bedX + 48 // Left side of hitbox is before right side of tree
 					&& playerY + 72 > bedY // Bottom side of hitbox is below top side of tree
 					&& playerY < bedY + 48) { // Top side of hitbox is above bottom side of tree
 				collision = true;
-				m.usingBed = true;
+				m.setUsingBed(true);
 				break; // Stop checking after finding the first collision
 			}
 		}
-		for (int i = 0; i < m.houseWallPositions.size(); i++) {
-			int houseWallX = m.houseWallPositions.get(i)[0] - worldX;
-			int houseWallY = m.houseWallPositions.get(i)[1] - worldY;
+		for (int i = 0; i < m.getHouseWallPositions().size(); i++) {
+			int houseWallX = m.getHouseWallPositions().get(i)[0] - worldX;
+			int houseWallY = m.getHouseWallPositions().get(i)[1] - worldY;
 			if (playerX + 32 > houseWallX // Right side of hitbox is past left side of tree
 					&& playerX < houseWallX + 48 // Left side of hitbox is before right side of tree
 					&& playerY + 72 > houseWallY // Bottom side of hitbox is below top side of tree
@@ -131,9 +130,9 @@ public class Player {
 				break; // Stop checking after finding the first collision
 			}
 		}
-		for (int i = 0; i < m.grassPositions.size(); i++) {
-			int grassX = m.grassPositions.get(i)[0] - worldX;
-			int grassY = m.grassPositions.get(i)[1] - worldY;
+		for (int i = 0; i < m.getGrassPositions().size(); i++) {
+			int grassX = m.getGrassPositions().get(i)[0] - worldX;
+			int grassY = m.getGrassPositions().get(i)[1] - worldY;
 			if (screenX + 32 > grassX // Right side of hitbox is past left side of tree
 					&& screenX < grassX + 48 // Left side of hitbox is before right side of tree
 					&& screenY + 72 > grassY + 30 // Bottom side of hitbox is below top side of tree
@@ -142,9 +141,9 @@ public class Player {
 				break; // Stop checking after finding the first collision
 			}
 		}
-		for (int i = 0; i < m.waterPositions.size(); i++) {
-			int waterX = m.waterPositions.get(i)[0] - worldX;
-			int waterY = m.waterPositions.get(i)[1] - worldY;
+		for (int i = 0; i < m.getWaterPositions().size(); i++) {
+			int waterX = m.getWaterPositions().get(i)[0] - worldX;
+			int waterY = m.getWaterPositions().get(i)[1] - worldY;
 			if (playerX + 32 > waterX // Right side of hitbox is past left side of tree
 					&& playerX < waterX + 48 // Left side of hitbox is before right side of tree
 					&& playerY + 72 > waterY + 48 // Bottom side of hitbox is below top side of tree
@@ -153,22 +152,22 @@ public class Player {
 				break; // Stop checking after finding the first collision
 			}
 		}
-		for (int i = 0; i < m.bookPositions.size(); i++) {
-			int bookX = m.bookPositions.get(i)[0] - worldX;
-			int bookY = m.bookPositions.get(i)[1] - worldY;
+		for (int i = 0; i < m.getBookPositions().size(); i++) {
+			int bookX = m.getBookPositions().get(i)[0] - worldX;
+			int bookY = m.getBookPositions().get(i)[1] - worldY;
 			if (playerX + 32 > bookX // Right side of hitbox is past left side of tree
-					&& playerX < bookX + 48 // Left side of hitbox is before right side of tree
+					&& playerX < bookX + 96 // Left side of hitbox is before right side of tree
 					&& playerY + 72 > bookY + 48 // Bottom side of hitbox is below top side of tree
-					&& playerY < bookY + 48 && keyH.useBookPressed) { // Top side of hitbox is above
+					&& playerY < bookY + 48 && keyH.isUseBookPressed()) { // Top side of hitbox is above
 																						// bottom side of tree
-				it.enterBook = true;
+				it.setEnterBook(true);
 				break; // Stop checking after finding the first collision
 			}
 		}
-		if (keyH.mouseX + 32 > 165 // Right side of hitbox is past left side of tree
-				&& keyH.mouseX < 165 + 200 // Left side of hitbox is before right side of tree
-				&& keyH.mouseY + 72 > 160 // Bottom side of hitbox is below top side of tree
-				&& keyH.mouseY < 160 + 70) { // Top side of hitbox is above bottom side of tree
+		if (keyH.getMouseX() + 32 > 165 // Right side of hitbox is past left side of tree
+				&& keyH.getMouseX() < 165 + 200 // Left side of hitbox is before right side of tree
+				&& keyH.getMouseY() + 72 > 160 // Bottom side of hitbox is below top side of tree
+				&& keyH.getMouseY() < 160 + 70) { // Top side of hitbox is above bottom side of tree
 			inventoryCollision = true;
 		} else {
 
@@ -176,29 +175,27 @@ public class Player {
 
 		}
 
-		if (worldX + 384 + 32 > it.carWorldX && // Player's right side > car's left side
-				worldX + 384 < it.carWorldX + 96 && // Player's left side < car's right side
-				worldY + 288 > it.carWorldY && // Player's bottom side > car's top side
-				worldY + 288 + 72 < it.carWorldY + 192 + 30) { // Player's bottom side < car's bottom side
+		if (worldX + 384 + 32 > it.getCarWorldX() && // Player's right side > car's left side
+				worldX + 384 < it.getCarWorldX() + 96 && // Player's left side < car's right side
+				worldY + 288 > it.getCarWorldY() && // Player's bottom side > car's top side
+				worldY + 288 + 72 < it.getCarWorldY() + 192 + 30) { // Player's bottom side < car's bottom side
 			collision = true;
 		}
-		if (worldX + 384 > it.doctrineWorldX && // Player's right side > doctrine's left side
-				worldX + 384 < it.doctrineWorldX + 260 && // Player's left side < doctrine's right side
-				worldY + 288 + 45 > it.doctrineWorldY && // Player's bottom side > doctrine's top side
-				worldY + 288 < it.doctrineWorldY + 420) { // Player's top side < doctrine's bottom side
+		if (worldX + 384 > it.getDoctrineWorldX() && // Player's right side > doctrine's left side
+				worldX + 384 < it.getDoctrineWorldX() + 260 && // Player's left side < doctrine's right side
+				worldY + 288 + 45 > it.getDoctrineWorldY() && // Player's bottom side > doctrine's top side
+				worldY + 288 < it.getDoctrineWorldY() + 420) { // Player's top side < doctrine's bottom side
 			collision = true;
 		}
-		if (worldX + 384 - 300 > it.graveX && // Right-shifted point > grave's left
-				worldX + 384 - 300 < it.graveX + 160 && // Right-shifted point < grave's right
-				worldY + 288 - 150 > it.graveY && // Down-shifted point > grave's top
-				worldY + 288 - 150 < it.graveY + 120 // Down-shifted point < grave's bottom
-				&& it.firstTime) {
-			it.inGraveYard = true;
+		if (worldX + 384 - 300 > it.getGraveX() && // Right-shifted point > grave's left
+				worldX + 384 - 300 < it.getGraveX() + 160 && // Right-shifted point < grave's right
+				worldY + 288 - 150 > it.getGraveY() && // Down-shifted point > grave's top
+				worldY + 288 - 150 < it.getGraveY() + 120 // Down-shifted point < grave's bottom
+				&& it.isFirstTime()) {
+			it.setInGraveYard(true);
 		} else {
-			it.inGraveYard = false;
+			it.setInGraveYard(false);
 		}
-
-		n.npcs();
 	}
 
 	public boolean getCollision() {
@@ -208,7 +205,7 @@ public class Player {
 	}
 
 	public void collision(GamePanel gp) {
-		if (!collision && !n.collisionNpc) {
+		if (!collision) {
 			beforeCollisionX = worldX;
 			beforeCollisionY = worldY;
 		} else {
@@ -218,18 +215,7 @@ public class Player {
 	}
 
 	public void loadCharacterImages() throws IOException {
-
 		character = ImageIO.read(new File("src/textures/character.png"));
-		buisnessMan = ImageIO.read(new File("src/textures/unknownBuisnessMan.png"));
-
-	}
-
-	public void drawNpcs(Graphics g) {
-
-		Graphics2D g2 = (Graphics2D) g;
-		// Buisness man
-		g2.drawImage(buisnessMan, 550, 120, 50, 78, null);
-
 	}
 
 	public BufferedImage getCharacter() {
@@ -257,22 +243,22 @@ public class Player {
 	}
 
 	public void footStepSounds() {
-		if (keyH.rightPressed || keyH.leftPressed || keyH.upPressed || keyH.downPressed) {
+		if (keyH.isRightPressed() || keyH.isLeftPressed() || keyH.isUpPressed() || keyH.isDownPressed()) {
 			if (!walkingSound.isPlaying()) {
 				walkingSound.volume(-10.0f); // Set volume to a lower level
 				walkingSound.play();
 			}
-		} else if (keyH.rightReleased || keyH.leftReleased || keyH.upReleased || keyH.downReleased) {
+		} else if (keyH.isRightReleased() || keyH.isLeftReleased() || keyH.isUpReleased() || keyH.isDownReleased()) {
 			walkingSound.stop();
 		}
 	}
 
 	public void carSound() {
-		if (it.carOn) {
+		if (it.isCarOn()) {
 			if (!carSound.isPlaying()) {
 				carSound.play();
 			}
-		} else if (!it.carOn) {
+		} else if (!it.isCarOn()) {
 			carSound.stop();
 		}
 
@@ -283,16 +269,12 @@ public class Player {
 		if (m.fading) {
 			return true;
 		}
-		
-		if (it.carOn) {
+		if (it.isCarOn()) {
 			return true;
 		}
-		if (it.carWorldX == 4700) {
+		if (it.isInGraveYard()) {
 			return true;
-		}
-		if (it.inGraveYard) {
-			return true;
-		} if (m.currentMap == 5) {
+		} if (m.getCurrentMap() == 5) {
 			return true;
 		}
 		return false; 	

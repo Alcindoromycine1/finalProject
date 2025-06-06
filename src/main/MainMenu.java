@@ -10,11 +10,11 @@ public class MainMenu {
 
 	private BufferedImage background;
 
-	public boolean inMenu = true;
-	public boolean hoveringPlay = false;
-	public boolean hoveringHelp = false;
-	public boolean hoveringExit = false;
-	public boolean hoveringCredits = false;
+	private boolean inMenu = false;
+	private boolean hoveringPlay = false;
+	private boolean hoveringHelp = false;
+	private boolean hoveringExit = false;
+	private boolean hoveringCredits = false;
 
 	
 	public MainMenu() {
@@ -64,7 +64,7 @@ public class MainMenu {
 			g2.setColor(Color.BLACK);
 			g2.drawRoundRect(245, 240 + 70 - 20, 280, 60, 10, 10);
 			g2.setColor(Color.WHITE);
-			g2.setFont(new Font("DejaVu Math TeX Gyre", Font.BOLD, 24));
+			g2.setFont(new Font("DejaVu Math TeX Gyre", Font.BOLD, 24));				   
 			g2.drawString("Help", 359, 278 + 70 - 20);
 		}
 		if (hoveringCredits) {
@@ -101,6 +101,46 @@ public class MainMenu {
 			g2.setFont(new Font("DejaVu Math TeX Gyre", Font.BOLD, 24));
 			g2.drawString("Exit", 359, 278 + 210 - 20);
 		}
+	}
+
+	public boolean isInMenu() {
+		return inMenu;
+	}
+
+	public boolean isHoveringPlay() {
+		return hoveringPlay;
+	}
+
+	public boolean isHoveringHelp() {
+		return hoveringHelp;
+	}
+
+	public boolean isHoveringExit() {
+		return hoveringExit;
+	}
+
+	public boolean isHoveringCredits() {
+		return hoveringCredits;
+	}
+
+	public void setInMenu(boolean inMenu) {
+		this.inMenu = inMenu;
+	}
+
+	public void setHoveringPlay(boolean hoveringPlay) {
+		this.hoveringPlay = hoveringPlay;
+	}
+
+	public void setHoveringHelp(boolean hoveringHelp) {
+		this.hoveringHelp = hoveringHelp;
+	}
+
+	public void setHoveringExit(boolean hoveringExit) {
+		this.hoveringExit = hoveringExit;
+	}
+
+	public void setHoveringCredits(boolean hoveringCredits) {
+		this.hoveringCredits = hoveringCredits;
 	}
 	
 }

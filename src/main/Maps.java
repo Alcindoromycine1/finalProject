@@ -5,8 +5,11 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Component;
 import java.awt.Graphics2D;
+import java.awt.RadialGradientPaint;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
+
+import java.awt.geom.Point2D;
 
 import Horror.Jumpscare;
 
@@ -24,46 +27,69 @@ import javax.imageio.ImageIO;
 public class Maps {
 
 	// WORLD SETTINGS
-	int maxWorldCol;
-	int maxWorldRow;
-	final int worldWidth = 48 * maxWorldCol; // world width in pixels (2400 pixels)
-	final int worldHeight = 48 * maxWorldRow; // world height in pixels (2400 pixels)
+	private int maxWorldCol;
+	private int maxWorldRow;
+	private final int worldWidth = 48 * maxWorldCol; // world width in pixels (2400 pixels)
+	private final int worldHeight = 48 * maxWorldRow; // world height in pixels (2400 pixels)
 
-	public ArrayList<ArrayList<Integer>> tiles = new ArrayList<>();
-	public ArrayList<int[]> treePositions = new ArrayList<>();
-	public ArrayList<int[]> housePositions = new ArrayList<>();
-	public ArrayList<int[]> bedPositions = new ArrayList<>();
-	public ArrayList<int[]> houseWallPositions = new ArrayList<>();
-	public ArrayList<int[]> grassPositions = new ArrayList<>();
-	public ArrayList<int[]> waterPositions = new ArrayList<>();
-	public ArrayList<int[]> bookPositions = new ArrayList<>();
-	public BufferedImage nightmare;
-	public ImageIcon doctor;
+	private ArrayList<ArrayList<Integer>> tiles = new ArrayList<>();
+	private ArrayList<int[]> treePositions = new ArrayList<>();
+	private ArrayList<int[]> housePositions = new ArrayList<>();
+	private ArrayList<int[]> bedPositions = new ArrayList<>();
+	private ArrayList<int[]> houseWallPositions = new ArrayList<>();
+	private ArrayList<int[]> grassPositions = new ArrayList<>();
+	private ArrayList<int[]> waterPositions = new ArrayList<>();
+	private ArrayList<int[]> bookPositions = new ArrayList<>();
 
-	Tiles t;
-	Npc npc;
-	Jumpscare j;
-	Player p;
-	Items items;
-	Input inp;
+	private BufferedImage nightmare;
+	private ImageIcon doctor;
 
-	Sound nightmareSound;
-	Sound doctrineSound;
+	private Tiles t;
+	private Npc npc;
+	private Jumpscare j;
+	private Player p;
+	private Items items;
+	private Input inp;
 
-	int worldX;
-	int worldY;
-	int currentMap;
+	private Sound nightmareSound;
+	private Sound doctrineSound;
+
+	private int worldX;
+	private int worldY;
+	private int currentMap;
+
+	boolean fading = false;
+	boolean goOut = false;
+	boolean hasJumpscared = false;
+	boolean hasDoctrined = false;
+
+	private boolean doneNightmare = false;
+	private boolean inNightmare = false;
+	private boolean usingBed = false;
+
+	private boolean once = false;
+	private int fade2Value = 0;
+	private boolean faded = false;
+	private boolean doneFade = false;
+
+	// change scene variables
+	private int fadeValue = 0;
+	private int stepCount = 0;
+	private int hasFaded = 0;
+
+	private boolean incrementingUp = true;
+	private int yVal = -5;
 
 	public Maps(GamePanel gp) {
 		this.worldX = gp.getWorldX();
 		this.worldY = gp.getWorldY();
 
-		this.inp = gp.id;
-		this.items = gp.it;
-		this.npc = gp.n;
-		this.t = gp.t;
-		this.j = gp.j;
-		this.p = gp.p;
+		this.inp = gp.getId();
+		this.items = gp.getIt();
+		this.npc = gp.getN();
+		this.t = gp.getT();
+		this.j = gp.getJ();
+		this.p = gp.getP();
 
 		try {
 			nightmare = ImageIO.read(new File("src/textures/nightmare.png"));
@@ -187,9 +213,6 @@ public class Maps {
 		}
 	}
 
-	public boolean incrementingUp = true;
-	public int yVal = -5;
-
 	public void drawExorcismRoom(Graphics2D g2) throws IOException {
 
 		try {
@@ -243,11 +266,6 @@ public class Maps {
 		}
 	}
 
-	// change scene variables
-	int fadeValue = 0;
-	int stepCount = 0;
-	int hasFaded = 0;
-
 	public void fading(Graphics2D g2, Tiles t, int newMap, int originalMap, GamePanel gp) throws IOException {
 
 		if (stepCount == 0) {// fade out
@@ -263,47 +281,49 @@ public class Maps {
 		}
 
 		else if (stepCount == 1) {// change map
-			try {
 
-				// Clear old map data
-				treePositions.clear();
-				housePositions.clear();
-				bedPositions.clear();
-				houseWallPositions.clear();
-				grassPositions.clear();
-				waterPositions.clear();
+			// Clear old map data
+			treePositions.clear();
+			housePositions.clear();
+			bedPositions.clear();
+			houseWallPositions.clear();
+			grassPositions.clear();
+			waterPositions.clear();
 
-				t.tileImages.clear();
+			t.tileImages.clear();
 
-				for (int i = 0; i < maxWorldRow; i++) {
-					ArrayList<BufferedImage> row = new ArrayList<>();
-					for (int j = 0; j < maxWorldCol; j++) {
-						row.add(null); // initialize each cell with null
-					}
-					t.tileImages.add(row);
+			for (int i = 0; i < maxWorldRow; i++) {
+				ArrayList<BufferedImage> row = new ArrayList<>();
+				for (int j = 0; j < maxWorldCol; j++) {
+					row.add(null); // initialize each cell with null
 				}
+				t.tileImages.add(row);
+			}
 
-				g2.fillRect(-10000, -10000, 768 + 20000, 576 + 20000); // Clear the screen
-				// Change to the new map
-				if (goOut) {
-					changeMap(newMap);
-				} else if (!goOut) {
-					changeMap(originalMap);
-				}
-				// Load the new map's tiles
-				// Reinitialize the new map's data
-				t.tileCreating();
-				findIntroHouse();
-				findTrees();
-				if (currentMap == 2) {
-					gp.setWorldX(287);
-					gp.setWorldY(200);
-				} else if (currentMap == 3) {
-					gp.setWorldX(509);
-					gp.setWorldY(63);
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
+			g2.fillRect(-10000, -10000, 768 + 20000, 576 + 20000); // Clear the screen
+			// Change to the new map
+			if (goOut) {
+				changeMap(newMap);
+			} else if (!goOut) {
+				changeMap(originalMap);
+			}
+			// Load the new map's tiles
+			// Reinitialize the new map's data
+			t.tileCreating();
+			findIntroHouse();
+			findTrees();
+			if (currentMap == 2) {
+				gp.setWorldX(287);
+				gp.setWorldY(200);
+				gp.setDirection("back");
+			} else if (currentMap == 3) {
+				gp.setWorldX(509);
+				gp.setWorldY(63);
+				gp.setDirection("front");
+			} else if (currentMap == 4) {
+				gp.setWorldX(190);
+				gp.setWorldY(-125);
+				gp.setDirection("front");
 			}
 
 			stepCount = 2;
@@ -341,22 +361,16 @@ public class Maps {
 		}
 	}
 
-	boolean fading = false;
-	boolean goOut = false;
-	boolean hasJumpscared = false;
-	boolean hasDoctrined = false;
-
 	public void fade(int changeMap, int oldMap, Graphics2D g2, int worX, int worY, int width, int height, int oldworX,
 			int oldworY, int oldWidth, int oldHeight, GamePanel gp) throws IOException {
 
-		if (inp.changeMapPressed && gp.getWorldX() >= oldworX && gp.getWorldX() <= oldworX + oldWidth
+		if (inp.isChangeMapPressed() && gp.getWorldX() >= oldworX && gp.getWorldX() <= oldworX + oldWidth
 				&& gp.getWorldY() >= oldworY && gp.getWorldY() <= oldworY + oldHeight) {
 			fading = true;
 			p.disableCharacterMovement();
-			inp.changeMapPressed = false;
-			// j.setJumpscare(true);
+			inp.setChangeMapPressed(false);
 		}
-		if (!fading && inp.changeMapPressed && gp.getWorldX() >= worX && gp.getWorldX() <= worX + width
+		if (!fading && inp.isChangeMapPressed() && gp.getWorldX() >= worX && gp.getWorldX() <= worX + width
 				&& gp.getWorldY() >= worY && gp.getWorldY() <= worY + height) {
 			fading = true;
 			p.disableCharacterMovement();
@@ -369,31 +383,22 @@ public class Maps {
 
 	}
 
-	public boolean doneNightmare = false;
-	public boolean inNightmare = false;
-	public boolean usingBed = false;
-
-	boolean once = false;
-	int fade2Value = 0;
-	boolean faded = false;
-	boolean doneFade = false;
-
 	public void nightmare(Graphics2D g2, Component observer, GamePanel gp) throws IOException {
 		if (usingBed && !inNightmare && !doneNightmare) {
-			items.inConfirmation = true;
+			items.setInConfirmation(true);
 			items.confirmation(g2, "Do you want to sleep?", 180);
 
-			if (items.yesPressed) {
+			if (items.isYesPressed()) {
 				inNightmare = true;
 				usingBed = false;
-				items.yesPressed = false;
-				items.inConfirmation = false;
+				items.setYesPressed(false);
+				items.setInConfirmation(false);
 			}
-			if (items.noPressed) {
+			if (items.isNoPressed()) {
 				inNightmare = false;
 				usingBed = false;
-				items.noPressed = false;
-				items.inConfirmation = false;
+				items.setNoPressed(false);
+				items.setInConfirmation(false);
 			}
 			return;
 		}
@@ -424,7 +429,7 @@ public class Maps {
 				g2.drawImage(nightmare, 0, 0, 768, 576, null);
 				g2.drawImage(doctor.getImage(), 300, 160, 400, 300, observer);
 				if (!once) {
-					npc.textIndex = 0;
+					npc.setTextIndex(0);
 					once = true;
 				}
 				npc.text(g2, 6);
@@ -459,6 +464,30 @@ public class Maps {
 		}
 	}
 
+	public void drawTint(Graphics2D g2, GamePanel gp) {
+
+		Point2D centerPoint = new Point2D.Float(gp.getPlayerX(), gp.getPlayerY());
+		float radiusTint = (float) 350;
+
+		Color transparentColor = new Color(0, 0, 0, 200);
+		Color darkColor = new Color(0, 0, 0, 255); // Dark color with alpha for transparency
+
+		RadialGradientPaint gradient = new RadialGradientPaint(centerPoint, radiusTint,
+				new float[] { (float) 0.0, (float) 1.0 }, new Color[] { transparentColor, darkColor });
+
+		g2.setPaint(gradient);
+		g2.fillRect(gp.getPlayerX() - 384, gp.getPlayerY() - 288, gp.getPlayerX() + 384, gp.getPlayerY() + 288); // Fill
+																													// the
+																													// entire
+																													// panel
+																													// with
+																													// the
+		// gradient
+		if (items.getAnimationFrame() >= 150) {
+			items.titleScreen(g2);
+		}
+	}
+
 	public void setT(Tiles t) {
 		this.t = t;
 	}
@@ -482,4 +511,65 @@ public class Maps {
 	public void setInp(Input inp) {
 		this.inp = inp;
 	}
+
+	public ArrayList<ArrayList<Integer>> getTiles() {
+		return tiles;
+	}
+
+	public ArrayList<int[]> getTreePositions() {
+		return treePositions;
+	}
+
+	public ArrayList<int[]> getHousePositions() {
+		return housePositions;
+	}
+
+	public ArrayList<int[]> getBedPositions() {
+		return bedPositions;
+	}
+
+	public ArrayList<int[]> getHouseWallPositions() {
+		return houseWallPositions;
+	}
+
+	public ArrayList<int[]> getGrassPositions() {
+		return grassPositions;
+	}
+
+	public ArrayList<int[]> getWaterPositions() {
+		return waterPositions;
+	}
+
+	public ArrayList<int[]> getBookPositions() {
+		return bookPositions;
+	}
+
+	public int getCurrentMap() {
+		return currentMap;
+	}
+
+	public int getStepCount() {
+		return stepCount;
+	}
+
+	public void setNightmare(BufferedImage nightmare) {
+		this.nightmare = nightmare;
+	}
+
+	public void setDoneNightmare(boolean doneNightmare) {
+		this.doneNightmare = doneNightmare;
+	}
+
+	public void setHasFaded(int hasFaded) {
+		this.hasFaded = hasFaded;
+	}
+
+	public int getHasFaded() {
+		return hasFaded;
+	}
+
+	public void setUsingBed(boolean usingBed) {
+		this.usingBed = usingBed;
+	}
+
 }

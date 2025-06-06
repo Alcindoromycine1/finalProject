@@ -14,12 +14,9 @@ import javax.swing.plaf.basic.BasicComboBoxUI.KeyHandler;
 
 public class Npc {
 
-	public boolean collisionNpc = false;
-	public boolean dialogue = false;
-
-	Input input;
-	Items items;
-	Maps maps;
+	private Input input;
+	private Items items;
+	private Maps maps;
 
 	private int playerX;
 	private int playerY;
@@ -28,9 +25,9 @@ public class Npc {
 	private int worldY;
 
 	public Npc(GamePanel gp) {
-		input = gp.id;
-		items = gp.it;
-		maps = gp.m;
+		input = gp.getId();
+		items = gp.getIt();
+		maps = gp.getM();
 
 		playerX = gp.getPlayerX();
 		playerY = gp.getPlayerY();
@@ -57,46 +54,17 @@ public class Npc {
 
 	}
 
-	public void npcs() {
-
-		int businessManX = 550;
-		int businessManY = 120;
-		if (playerX + 32 > businessManX // Right side of hitbox is past left side of tree
-				&& playerX < businessManX + 50 // Left side of hitbox is before right side of tree
-				&& playerY + 72 > businessManY // Bottom side of hitbox is below top side of tree
-				&& playerY < businessManY + 78) { // Top side of hitbox is above bottom side of tree
-			collisionNpc = true;
-		} else {
-			collisionNpc = false;
-		}
-	}
-
-	public void communicate(Graphics g2) {
-		if (dialogue) {
-			g2.setColor(Color.black);
-			g2.fillRect(150, 300, 500, 200);
-			g2.setColor(Color.white);
-			g2.drawString("Hello! I'm a businessman.", 170, 350);
-		}
-	}
-
-	int textIndex = 0;
+	private int textIndex = 0;
 
 	public void text(Graphics2D g2, int list) {
-
-		if (list == 1) {
-			String textBadGuy[] = { "Hehehehe! I'm back.", "I'm going to slash your tires." };
-			if (textIndex < textBadGuy.length) {
-				textBubble(g2, textBadGuy[textIndex]);
-			}
-		} else if (list == 2) {
+		if (list == 2) {
 			String textGhostGraveyard[] = { "AHHHHH! Is that a... ", "Don't kill me please!",
 					"I can help you kill us if you just leave me be.", "Just press B to open that book above you.",
 					"The book will teach you all the knowledge you need to know to get rid of us." };
 			if (textIndex < textGhostGraveyard.length) {
 				textBubble(g2, textGhostGraveyard[textIndex]);
 			} else {
-				items.firstTime = false;
+				items.setFirstTime(false);
 			}
 		} else if (list == 3) {
 			String textDoctor[] = { "I don't have much time left.",
@@ -123,7 +91,15 @@ public class Npc {
 			if (textIndex < textNightmare.length) {
 				textBubble(g2, textNightmare[textIndex]);
 			} else {
-				maps.doneNightmare = true;
+				maps.setDoneNightmare(true);
+			}
+		} else if (list == 7) {
+			String textCarDestroyed[] = { "My brain is playing tricks on me again!",
+					"I crashed the car because of this." };
+			if (textIndex < textCarDestroyed.length) {
+				textBubble(g2, textCarDestroyed[textIndex]);
+			} else {
+				items.setCarSceneDone(true);
 			}
 		}
 	}
@@ -167,6 +143,14 @@ public class Npc {
 
 	public void setItems(Items items) {
 		this.items = items;
+	}
+
+	public int getTextIndex() {
+		return textIndex;
+	}
+	
+	public void setTextIndex(int textIndex) {
+		this.textIndex = textIndex;
 	}
 
 }
