@@ -431,7 +431,7 @@ public class Items {
 	private String ghostShape = "";
 
 	public void drawGhost(Graphics2D g2, int offsetY, GamePanel gp) throws IOException {
-		if (level == 5) {
+		if (level == 1) {
 			if (!destroyCircle) {
 				minigameGhost(g2, 1200 - 20, 820 + 50 + offsetY, "Circle", 250, 196, gp);
 			}
@@ -464,9 +464,16 @@ public class Items {
 				minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "Triangle", 250, 196, gp);
 			}
 
-		} else if (level == 1) {
+		} else if (level == 5) {
 			minigameGhost(g2, 1200 - 20, 820 - 0 + offsetY, "duoghost1", 250, 196, gp);
-			minigameGhost(g2, 1200 - 210, 820 + 50 + offsetY, "duoghost2", 250, 196, gp);
+			if (!destroyLeftGhost) {
+				minigameGhost(g2, 1200 - 210, 820 + 50 + offsetY, "duoghost2", 250, 196, gp);
+			}
+		}else if (level == 6) {
+			minigameGhost(g2, 1200 - 20, 820 - 0 + offsetY, "duoghost3", 250, 196, gp);
+			if (!destroyLeftGhost) {
+				minigameGhost(g2, 1200 - 210, 820 + 50 + offsetY, "duoghost4", 250, 196, gp);
+			}
 		}
 		/*
 		 * if (ghostNumber == 1 && !Input.isTriangle) { Items.minigameGhost(g2, 1200 +
@@ -514,8 +521,9 @@ public class Items {
 				reachedPeak = false;
 			}
 		}
+		System.out.println(ghostCount);
 
-		if (ghostCount == 2) {
+		if (ghostCount == 2 && !levelShape.equals("duoghost1") && !levelShape.equals("duoghost2")) {
 			level++;
 			ghostCount = 0;
 			destroyCircle = false;
@@ -525,8 +533,16 @@ public class Items {
 			destroyVertical = false;
 		}
 
-		if (destroyDuoGhost) {
-			ghostCount++;
+		if (ghostCount == 4 && (levelShape.equals("duoghost1") || levelShape.equals("duoghost2"))) {
+
+			level++;
+			ghostCount = 0;
+			destroyCircle = false;
+			destroyTriangle = false;
+			destroyZigzag = false;
+			destroyHorizontal = false;
+			destroyVertical = false;
+
 		}
 
 		drawGhost(g2, yVal, gp);
@@ -534,6 +550,10 @@ public class Items {
 
 	private boolean destroyDuoGhost = false;
 	private boolean addedShapes = false;
+	public boolean destroyLeftGhost = false;
+	public boolean destroyRightGhost = false;
+
+	private String levelShape = " ";
 
 	public void randomShape(String shape, int ghostX, int ghostY, Graphics2D g2, int offsetX) {
 		if (shape.equalsIgnoreCase("Triangle")) {
@@ -560,6 +580,7 @@ public class Items {
 			g2.setColor(Color.RED);
 			g2.fillRect(ghostX - 290 + offsetX, ghostY - 313, 60, 4);
 		} else if (shape.equalsIgnoreCase("duoghost1")) {
+			levelShape = shape;
 			if (!destroyHorizontal) {
 				ghostShape = "Horizontal";
 			} else if (destroyHorizontal && !destroyZigzag) {
@@ -572,41 +593,49 @@ public class Items {
 				shapesArray.add("Zigzag");
 			}
 
-			System.out.println(destroyHorizontal);
 			for (int i = 0; i < shapesArray.size(); i++) {
 				randomShape(shapesArray.get(i), ghostX, ghostY, g2, offsetX - 40 + (80 * i));
-				System.out.println(shapesArray);
 			}
 
 			if (destroyHorizontal && shapesArray.contains("Horizontal")) {
 				shapesArray.remove("Horizontal");
 				addedShapes = true;
 			}
-			shapesArray.clear();
 
-		} else if (shape.equalsIgnoreCase("duoghost2")) {
-			if (!destroyCircle) {
-				ghostShape = "Circle";
-			} else if (destroyCircle && !destroyVertical) {
-				ghostShape = "Vertical";
+			shapesArray.clear();
+			if (!destroyRightGhost) {
+				if (isDestroyHorizontal() && isDestroyZigzag()) {
+					destroyRightGhost = true;
+				}
 			}
-			if (!addedShapes && !destroyCircle) {
-				shapesArray.add("Circle");
+		} else if (shape.equalsIgnoreCase("duoghost2")) {
+			levelShape = shape;
+			if (!destroyVertical) {
+				ghostShape = "Vertical";
+			} else if (destroyVertical && !destroyCircle) {
+				ghostShape = "Circle";
 			}
 			if (!addedShapes && !destroyVertical) {
 				shapesArray.add("Vertical");
 			}
+			if (!addedShapes && !destroyCircle) {
+				shapesArray.add("Circle");
+			}
 
 			for (int i = 0; i < shapesArray.size(); i++) {
 				randomShape(shapesArray.get(i), ghostX, ghostY, g2, offsetX - 40 + (80 * i));
-				System.out.println(shapesArray);
 			}
 
-			if (destroyCircle && shapesArray.contains("Circle")) {
-				shapesArray.remove("Circle");
+			if (destroyVertical && shapesArray.contains("Vertical")) {
+				shapesArray.remove("Vertical");
 				addedShapes = true;
 			}
 			shapesArray.clear();
+			if (!destroyLeftGhost) {
+				if (isDestroyVertical() && isDestroyCircle()) {
+					destroyLeftGhost = true;
+				}
+			}
 		}
 
 	}

@@ -248,7 +248,6 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 				&& mouseY <= instructionsY + 45) {
 			instructionsPressed = true;
 			items.setInstructionsPrompt(true);
-
 			return;
 		}
 
@@ -335,8 +334,8 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 			minigame.calculatedResult();
 
 			minigame.circle();
-			isCircle = minigame.isValid(15);
-
+			isCircle = minigame.isValid(17);
+			
 			minigame.triangle();
 			isTriangle = minigame.isValid(25);
 
@@ -360,9 +359,16 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 				items.setGhostCount(items.getGhostCount() + 1);
 			} else if (items.getGhostShape().equals("duoghost1")) {
 				if (items.isDestroyHorizontal() && items.isDestroyZigzag()) {
-					items.setDestroyDuoGhost(true);
+					items.destroyRightGhost = true;
+					//items.setGhostCount(items.getGhostCount() + 1);
+				}
+			}else if (items.getGhostShape().equals("duoghost2") && !items.destroyLeftGhost) {
+				if (items.isDestroyVertical() && items.isDestroyCircle()) {
+					items.destroyLeftGhost = true;
+					//items.setGhostCount(items.getGhostCount() + 1);
 				}
 			}
+
 			ArrayList<Point> pointsLocal = minigame.getPoints();
 			pointsLocal.clear();
 			minigame.setPoints(pointsLocal);

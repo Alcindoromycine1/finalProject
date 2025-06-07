@@ -280,6 +280,13 @@ public class Npc {
 			} else {
 				//items.carOn = false;
 			}
+		}else if (list == 7) {
+			String textCarDestroyed[] = {"My brain is playing tricks on me again!", "I crashed the car because of this."};
+			if (textIndex < textCarDestroyed.length) {
+				textBubble(g2, textCarDestroyed[textIndex]);
+			} else {
+				//items.carOn = false;
+			}
 		}
 	}
 

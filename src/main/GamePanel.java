@@ -57,8 +57,8 @@ public class GamePanel extends JPanel implements Runnable {
 
 	private Player p;
 	private Npc n;
-	 Items it;
-	 Input id;
+	Items it;
+	Input id;
 	private MainMenu mainMenu;
 	private Minigame minigame;
 	private LoadingScreen ls;
@@ -104,7 +104,7 @@ public class GamePanel extends JPanel implements Runnable {
 		screenY = HEIGHT / 2 - (tileSize / 2); // centers the player in the middle of the screen
 
 		// Background
-		m.changeMap(3);
+		m.changeMap(5);
 		// Find trees in the map
 
 		// load tiles
@@ -292,7 +292,7 @@ public class GamePanel extends JPanel implements Runnable {
 		try {
 			m.camera(g, this);// camera method
 			characterImage(g);// draws the character depending on the direction
-			//System.out.println(worldX + " , " + worldY);
+			// System.out.println(worldX + " , " + worldY);
 			it.car(g2, this);
 			it.doctrine(g2, this);
 
@@ -371,9 +371,9 @@ public class GamePanel extends JPanel implements Runnable {
 				j.playSound();
 			}
 
-			/*if (ls.isLoadingScreen()) {
-				ls.drawLoadingScreen(g2);
-			}*/
+			/*
+			 * if (ls.isLoadingScreen()) { ls.drawLoadingScreen(g2); }
+			 */
 
 			if (mainMenu.isInMenu()) {
 				mainMenu.mainMenu(g2);
