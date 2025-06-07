@@ -7,6 +7,7 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -469,11 +470,15 @@ public class Items {
 			if (!destroyLeftGhost) {
 				minigameGhost(g2, 1200 - 210, 820 + 50 + offsetY, "duoghost2", 250, 196, gp);
 			}
-		}else if (level == 6) {
+		} else if (level == 6) {
 			minigameGhost(g2, 1200 - 20, 820 - 0 + offsetY, "duoghost3", 250, 196, gp);
 			if (!destroyLeftGhost) {
 				minigameGhost(g2, 1200 - 210, 820 + 50 + offsetY, "duoghost4", 250, 196, gp);
 			}
+		} else if (level == 7) {
+			minigameGhost(g2, 1200 - 20, 820 - 0 + offsetY, "trioghost", 250, 196, gp);
+		} else if (level == 8) {
+			minigameGhost(g2, 1100 - 20, 820 - 0 + offsetY, "bossghost", 250, 196, gp);
 		}
 		/*
 		 * if (ghostNumber == 1 && !Input.isTriangle) { Items.minigameGhost(g2, 1200 +
@@ -523,7 +528,9 @@ public class Items {
 		}
 		System.out.println(ghostCount);
 
-		if (ghostCount == 2 && !levelShape.equals("duoghost1") && !levelShape.equals("duoghost2")) {
+		if (ghostCount == 2 && !levelShape.equals("duoghost1") && !levelShape.equals("duoghost2")
+				&& !levelShape.equals("duoghost3") && !levelShape.equals("duoghost4")
+				&& !levelShape.equals("trioghost") && !levelShape.equals("bossghost")) {
 			level++;
 			ghostCount = 0;
 			destroyCircle = false;
@@ -533,7 +540,8 @@ public class Items {
 			destroyVertical = false;
 		}
 
-		if (ghostCount == 4 && (levelShape.equals("duoghost1") || levelShape.equals("duoghost2"))) {
+		if (ghostCount == 4 && (levelShape.equals("duoghost1") || levelShape.equals("duoghost2")
+				|| levelShape.equals("duoghost3") || levelShape.equals("duoghost4"))) {
 
 			level++;
 			ghostCount = 0;
@@ -542,7 +550,32 @@ public class Items {
 			destroyZigzag = false;
 			destroyHorizontal = false;
 			destroyVertical = false;
+			destroyLeftGhost = false;
+			destroyRightGhost = false;
 
+		}
+
+		if (ghostCount == 3 && destroyTrioGhost) {
+
+			level++;
+			ghostCount = 0;
+			destroyCircle = false;
+			destroyTriangle = false;
+			destroyZigzag = false;
+			destroyHorizontal = false;
+			destroyVertical = false;
+			destroyTrioGhost = false;
+
+		}
+		if(ghostCount == 5 && destroyBossGhost) {
+			level++;
+			System.out.println("Human thingy");
+			destroyCircle = false;
+			destroyTriangle = false;
+			destroyZigzag = false;
+			destroyHorizontal = false;
+			destroyVertical = false;
+			destroyBossGhost = false;
 		}
 
 		drawGhost(g2, yVal, gp);
@@ -552,6 +585,8 @@ public class Items {
 	private boolean addedShapes = false;
 	public boolean destroyLeftGhost = false;
 	public boolean destroyRightGhost = false;
+	public boolean destroyTrioGhost = false;
+	public boolean destroyBossGhost = false;
 
 	private String levelShape = " ";
 
@@ -636,6 +671,144 @@ public class Items {
 					destroyLeftGhost = true;
 				}
 			}
+		} else if (shape.equalsIgnoreCase("duoghost3")) {
+			levelShape = shape;
+			if (!destroyHorizontal) {
+				ghostShape = "Horizontal";
+			} else if (destroyHorizontal && !destroyCircle) {
+				ghostShape = "Circle";
+			}
+			if (!addedShapes && !destroyHorizontal) {
+				shapesArray.add("Horizontal");
+			}
+			if (!addedShapes && !destroyCircle) {
+				shapesArray.add("Circle");
+			}
+
+			for (int i = 0; i < shapesArray.size(); i++) {
+				randomShape(shapesArray.get(i), ghostX, ghostY, g2, offsetX - 40 + (80 * i));
+			}
+
+			if (destroyHorizontal && shapesArray.contains("Horizontal")) {
+				shapesArray.remove("Horizontal");
+				addedShapes = true;
+			}
+
+			shapesArray.clear();
+			if (!destroyRightGhost) {
+				if (isDestroyTriangle() && isDestroyZigzag()) {
+					destroyRightGhost = true;
+				}
+			}
+		} else if (shape.equalsIgnoreCase("duoghost4")) {
+			levelShape = shape;
+			if (!destroyTriangle) {
+				ghostShape = "Triangle";
+			} else if (destroyTriangle && !destroyZigzag) {
+				ghostShape = "Zigzag";
+			}
+			if (!addedShapes && !destroyTriangle) {
+				shapesArray.add("Triangle");
+			}
+			if (!addedShapes && !destroyZigzag) {
+				shapesArray.add("Zigzag");
+			}
+
+			for (int i = 0; i < shapesArray.size(); i++) {
+				randomShape(shapesArray.get(i), ghostX, ghostY, g2, offsetX - 40 + (80 * i));
+			}
+
+			if (destroyHorizontal && shapesArray.contains("Triangle")) {
+				shapesArray.remove("Triangle");
+				addedShapes = true;
+			}
+
+			shapesArray.clear();
+			if (!destroyLeftGhost) {
+				if (isDestroyTriangle() && isDestroyZigzag()) {
+					destroyLeftGhost = true;
+				}
+			}
+		} else if (shape.equalsIgnoreCase("trioghost")) {
+			levelShape = shape;
+			if (!destroyTriangle) {
+				ghostShape = "Triangle";
+			} else if (destroyTriangle && !destroyZigzag) {
+				ghostShape = "Zigzag";
+			} else if (destroyTriangle && destroyZigzag && !destroyCircle) {
+				ghostShape = "Circle";
+			}
+			if (!destroyTriangle) {
+				shapesArray.add("Triangle");
+			}
+			if (!destroyZigzag) {
+				shapesArray.add("Zigzag");
+			}
+			if (!destroyCircle) {
+				shapesArray.add("Circle");
+			}
+
+			for (int i = 0; i < shapesArray.size(); i++) {
+				randomShape(shapesArray.get(i), ghostX, ghostY, g2, offsetX - 40 + (80 * i));
+			}
+
+			if (destroyTriangle && shapesArray.contains("Zigzag")) {
+				shapesArray.remove("Zigzag");
+			}
+			if (destroyZigzag && shapesArray.contains("Circle")) {
+				shapesArray.remove("Circle");
+				destroyTrioGhost = true;
+			}
+			shapesArray.clear();
+		} else if (shape.equalsIgnoreCase("bossghost")) {
+			levelShape = shape;
+			if (!destroyHorizontal) {
+				ghostShape = "Horizontal";
+			} else if (destroyHorizontal && !destroyZigzag) {
+				ghostShape = "Zigzag";
+			} else if (destroyHorizontal && destroyZigzag && !destroyCircle) {
+				ghostShape = "Circle";
+			} else if (destroyHorizontal && destroyZigzag && destroyCircle && !destroyVertical) {
+				ghostShape = "Vertical";
+			} else if (destroyHorizontal && destroyZigzag && destroyCircle && destroyVertical && !destroyTriangle) {
+				ghostShape = "Triangle";
+			}
+			if (!destroyHorizontal) {
+				shapesArray.add("Horizontal");
+			}
+			if (!destroyZigzag) {
+				shapesArray.add("Zigzag");
+			}
+			if (!destroyCircle) {
+				shapesArray.add("Circle");
+			}
+			if (!destroyVertical) {
+				shapesArray.add("Vertical");
+			}
+			if (!destroyTriangle) {
+				shapesArray.add("Triangle");
+				destroyBossGhost = true;
+			}
+			System.out.println(shapesArray);
+
+			for (int i = 0; i < shapesArray.size(); i++) {
+				randomShape(shapesArray.get(i), ghostX, ghostY, g2, offsetX - 40 + (80 * i));
+			}
+
+			if (destroyTriangle && shapesArray.contains("Zigzag")) {
+				shapesArray.remove("Zigzag");
+			}
+			if (destroyZigzag && shapesArray.contains("Circle")) {
+				shapesArray.remove("Circle");
+			}
+			if (destroyZigzag && shapesArray.contains("Vertical")) {
+				shapesArray.remove("Vertical");
+			}
+			if (destroyZigzag && shapesArray.contains("Triangle")) {
+				shapesArray.remove("Triangle");
+			}
+
+				shapesArray.clear();
 		}
 
 	}

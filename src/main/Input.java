@@ -287,7 +287,6 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		}
 		if (items.isEnterBook() && mouseX >= 530 && mouseX <= 530 + 150 && mouseY >= 100 && mouseY <= 100 + 40) {
 			items.setEnterBook(false);
-			;
 		}
 		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 220 && mouseY <= 280 && mainMenu.isInMenu()) {
 			mainMenu.setInMenu(false);
@@ -335,9 +334,9 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 
 			minigame.circle();
 			isCircle = minigame.isValid(17);
-			
+
 			minigame.triangle();
-			isTriangle = minigame.isValid(25);
+			isTriangle = minigame.isValid(33);
 
 			minigame.zigzag();
 			isZigzag = minigame.isValid(15);
@@ -360,12 +359,33 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 			} else if (items.getGhostShape().equals("duoghost1")) {
 				if (items.isDestroyHorizontal() && items.isDestroyZigzag()) {
 					items.destroyRightGhost = true;
-					//items.setGhostCount(items.getGhostCount() + 1);
+					// items.setGhostCount(items.getGhostCount() + 1);
 				}
-			}else if (items.getGhostShape().equals("duoghost2") && !items.destroyLeftGhost) {
+			} else if (items.getGhostShape().equals("duoghost2") && !items.destroyLeftGhost) {
 				if (items.isDestroyVertical() && items.isDestroyCircle()) {
 					items.destroyLeftGhost = true;
-					//items.setGhostCount(items.getGhostCount() + 1);
+					// items.setGhostCount(items.getGhostCount() + 1);
+				}
+			} else if (items.getGhostShape().equals("duoghost3") && !items.destroyLeftGhost) {
+				if (items.isDestroyHorizontal() && items.isDestroyCircle()) {
+					items.destroyRightGhost = true;
+					// items.setGhostCount(items.getGhostCount() + 1);
+				}
+			} else if (items.getGhostShape().equals("duoghost4") && !items.destroyLeftGhost) {
+				if (items.isDestroyTriangle() && items.isDestroyZigzag()) {
+					items.destroyLeftGhost = true;
+					// items.setGhostCount(items.getGhostCount() + 1);
+				}
+			} else if (items.getGhostShape().equals("trioghost")) {
+				if (items.isDestroyTriangle() && items.isDestroyZigzag() && items.isDestroyCircle()) {
+					items.destroyTrioGhost = true;
+					// items.setGhostCount(items.getGhostCount() + 1);
+				}
+			} else if (items.getGhostShape().equals("bossghost")) {
+				if (items.isDestroyHorizontal() && items.isDestroyZigzag() && items.isDestroyCircle()
+						&& items.isDestroyVertical() && items.isDestroyTriangle()) {
+					items.destroyBossGhost = true;
+					// items.setGhostCount(items.getGhostCount() + 1);
 				}
 			}
 
