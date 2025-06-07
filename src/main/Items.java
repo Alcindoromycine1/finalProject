@@ -41,11 +41,12 @@ public class Items {
 	private BufferedImage door;
 	private BufferedImage exorcism;
 	private BufferedImage bed;
-	
+
 	private ImageIcon pageFlipping;
 	private Sound bookFlipSound;
-	
+
 	private ArrayList<String> shapesArray = new ArrayList<String>();
+
 	public Items(GamePanel gp) {
 
 		this.input = gp.getId();
@@ -78,13 +79,13 @@ public class Items {
 		}
 
 	}
-	
+
 	public void playBookFlipSound() {
 		if (!bookFlipSound.isPlaying()) {
 			bookFlipSound.play();
 		}
 	}
-	
+
 	public void stopBookFlipSound() {
 		bookFlipSound.stop();
 	}
@@ -199,7 +200,6 @@ public class Items {
 
 	public void titleScreen(Graphics2D g2) {
 		if (carOn) {
-			System.out.println(carWorldX);
 			if (reset) {
 				transparency = 0;
 				hasFaded = false;
@@ -400,7 +400,7 @@ public class Items {
 			}
 		}
 	}
-	
+
 	private boolean inGraveYard = false;
 	private int graveX = 4600;
 	private int graveY = 333;
@@ -438,7 +438,7 @@ public class Items {
 			if (!destroyTriangle) {
 				minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "Triangle", 250, 196, gp);
 			}
-			
+
 		} else if (level == 2) {
 			if (!destroyHorizontal) {
 				minigameGhost(g2, 1200 - 20, 820 + 50 + offsetY, "Horizontal", 250, 196, gp);
@@ -447,7 +447,7 @@ public class Items {
 			if (!destroyZigzag) {
 				minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "Zigzag", 250, 196, gp);
 			}
-			
+
 		} else if (level == 3) {
 			if (!destroyVertical) {
 				minigameGhost(g2, 1200 - 20, 820 + 50 + offsetY, "Vertical", 250, 196, gp);
@@ -455,7 +455,7 @@ public class Items {
 			if (!destroyHorizontal) {
 				minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "Horizontal", 250, 196, gp);
 			}
-			
+
 		} else if (level == 4) {
 			if (!destroyHorizontal) {
 				minigameGhost(g2, 1200 - 20, 820 + 50 + offsetY, "Horizontal", 250, 196, gp);
@@ -463,10 +463,10 @@ public class Items {
 			if (!destroyTriangle) {
 				minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "Triangle", 250, 196, gp);
 			}
-			
+
 		} else if (level == 1) {
-			minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "duoghost1", 250, 196, gp);
-			
+			minigameGhost(g2, 1200 - 20, 820 - 0 + offsetY, "duoghost1", 250, 196, gp);
+			minigameGhost(g2, 1200 - 210, 820 + 50 + offsetY, "duoghost2", 250, 196, gp);
 		}
 		/*
 		 * if (ghostNumber == 1 && !Input.isTriangle) { Items.minigameGhost(g2, 1200 +
@@ -533,6 +533,7 @@ public class Items {
 	}
 
 	private boolean destroyDuoGhost = false;
+	private boolean addedShapes = false;
 
 	public void randomShape(String shape, int ghostX, int ghostY, Graphics2D g2, int offsetX) {
 		if (shape.equalsIgnoreCase("Triangle")) {
@@ -559,30 +560,55 @@ public class Items {
 			g2.setColor(Color.RED);
 			g2.fillRect(ghostX - 290 + offsetX, ghostY - 313, 60, 4);
 		} else if (shape.equalsIgnoreCase("duoghost1")) {
-			//g2.setColor(Color.RED);
-				
-			//g2.fillRect(ghostX - 335 + offsetX, ghostY - 320, 60, 4);
-			shapesArray.add("horizontal");
-			shapesArray.add("zigzag");
-			
-			System.out.println(shapesArray);
+			if (!destroyHorizontal) {
+				ghostShape = "Horizontal";
+			} else if (destroyHorizontal && !destroyZigzag) {
+				ghostShape = "Zigzag";
+			}
+			if (!addedShapes && !destroyHorizontal) {
+				shapesArray.add("Horizontal");
+			}
+			if (!addedShapes && !destroyZigzag) {
+				shapesArray.add("Zigzag");
+			}
+
+			System.out.println(destroyHorizontal);
 			for (int i = 0; i < shapesArray.size(); i++) {
 				randomShape(shapesArray.get(i), ghostX, ghostY, g2, offsetX - 40 + (80 * i));
-				System.out.println("Shape: " + shapesArray.get(i));
+				System.out.println(shapesArray);
 			}
-			
-			if (destroyHorizontal && shapesArray.contains("horizontal")) {
-				shapesArray.remove("horizontal");
 
-				
+			if (destroyHorizontal && shapesArray.contains("Horizontal")) {
+				shapesArray.remove("Horizontal");
+				addedShapes = true;
 			}
 			shapesArray.clear();
-			//int[] xZigzag = { ghostX - 260 + offsetX, ghostX - 210 + offsetX, ghostX - 260 + offsetX, ghostX - 210 + offsetX };
-			//int[] yZigzag = { ghostY - 340, ghostY - 340, ghostY - 290, ghostY - 290 };
 
-			//g2.setStroke(new BasicStroke(4));
-			//g2.drawPolyline(xZigzag, yZigzag, 4);
+		} else if (shape.equalsIgnoreCase("duoghost2")) {
+			if (!destroyCircle) {
+				ghostShape = "Circle";
+			} else if (destroyCircle && !destroyVertical) {
+				ghostShape = "Vertical";
+			}
+			if (!addedShapes && !destroyCircle) {
+				shapesArray.add("Circle");
+			}
+			if (!addedShapes && !destroyVertical) {
+				shapesArray.add("Vertical");
+			}
+
+			for (int i = 0; i < shapesArray.size(); i++) {
+				randomShape(shapesArray.get(i), ghostX, ghostY, g2, offsetX - 40 + (80 * i));
+				System.out.println(shapesArray);
+			}
+
+			if (destroyCircle && shapesArray.contains("Circle")) {
+				shapesArray.remove("Circle");
+				addedShapes = true;
+			}
+			shapesArray.clear();
 		}
+
 	}
 
 	private int counting = 0;
@@ -643,7 +669,7 @@ public class Items {
 	private boolean yesPressed = false;
 	private boolean noPressed = false;
 
-	public void confirmation(Graphics2D g2, String text, int textX) {
+	public void confirmation(Graphics2D g2, String text1, String text2, int textX1, int textX2) {
 
 		if (!inConfirmation) {
 			return;
@@ -656,7 +682,8 @@ public class Items {
 		g2.fillRoundRect(168, 158, 218 * 2, 148 * 2, 10, 10);
 		g2.setFont(new Font("Monospaced", Font.BOLD, 33));
 		g2.setColor(Color.BLACK);
-		g2.drawString(text, textX, 250);
+		g2.drawString(text1, textX1, 250);
+		g2.drawString(text2, textX2, 295);
 		g2.setFont(new Font("Calibri", Font.BOLD, 30));
 
 		if (hoveringYes) {
@@ -778,26 +805,26 @@ public class Items {
 			exitMenuOption(g2);
 		}
 	}
-	
-	// Timer created from
-		// https://stackoverflow.com/questions/1006611/java-swing-timer
-		private Timer time;
 
-		public void timer() {
-			time = new Timer(723, new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					playGif = false;
-					staticImageBook = true;
-					time.stop();
-				}
-			});
-			if (time != null && time.isRunning()) {
+	// Timer created from
+	// https://stackoverflow.com/questions/1006611/java-swing-timer
+	private Timer time;
+
+	public void timer() {
+		time = new Timer(723, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				playGif = false;
+				staticImageBook = true;
 				time.stop();
 			}
-			time.setRepeats(false);
-			time.start();
+		});
+		if (time != null && time.isRunning()) {
+			time.stop();
 		}
+		time.setRepeats(false);
+		time.start();
+	}
 
 	// Getters and Setters
 	public void setInput(Input input) {
@@ -815,7 +842,7 @@ public class Items {
 	public void setM(Maps m) {
 		this.m = m;
 	}
-	
+
 	public void setJ(Jumpscare j) {
 		this.j = j;
 	}
@@ -824,16 +851,13 @@ public class Items {
 		return worldX;
 	}
 
-
 	public int getWorldY() {
 		return worldY;
 	}
 
-
 	public boolean isCarOn() {
 		return carOn;
 	}
-
 
 	public int getAnimationFrame() {
 		return animationFrame;
@@ -851,31 +875,25 @@ public class Items {
 		return carWorldY;
 	}
 
-
 	public int getDoctrineWorldX() {
 		return doctrineWorldX;
 	}
-
 
 	public int getDoctrineWorldY() {
 		return doctrineWorldY;
 	}
 
-
 	public boolean isEnterBook() {
 		return enterBook;
 	}
-
 
 	public boolean isHoveringNextPage() {
 		return hoveringNextPage;
 	}
 
-
 	public boolean isHoveringExitPage() {
 		return hoveringExitPage;
 	}
-
 
 	public boolean isHoveringInstructions() {
 		return hoveringInstructions;
@@ -885,26 +903,21 @@ public class Items {
 		return instructionsPrompt;
 	}
 
-
 	public boolean isHoveringKeybind() {
 		return hoveringKeybind;
 	}
-
 
 	public boolean isHoveringMovement() {
 		return hoveringMovement;
 	}
 
-
 	public boolean isBackPressed() {
 		return backPressed;
 	}
 
-
 	public boolean isHoveringBack() {
 		return hoveringBack;
 	}
-
 
 	public boolean isInHouse() {
 		return inHouse;
@@ -913,7 +926,7 @@ public class Items {
 	public boolean isInGraveYard() {
 		return inGraveYard;
 	}
-	
+
 	public void setInGraveYard(boolean inGraveYard) {
 		this.inGraveYard = inGraveYard;
 	}
@@ -929,7 +942,6 @@ public class Items {
 	public boolean isFirstTime() {
 		return firstTime;
 	}
-
 
 	public String getGhostShape() {
 		return ghostShape;
@@ -963,7 +975,6 @@ public class Items {
 		return destroyVertical;
 	}
 
-
 	public boolean isHoveringYes() {
 		return hoveringYes;
 	}
@@ -975,7 +986,7 @@ public class Items {
 	public boolean isInConfirmation() {
 		return inConfirmation;
 	}
-	
+
 	public boolean isHelpPressed() {
 		return helpPressed;
 	}
@@ -986,9 +997,9 @@ public class Items {
 
 	public boolean isCreditsPressed() {
 		return creditsPressed;
-		
+
 	}
-	
+
 	public void setHoveringInstructions(boolean hoveringInstructions) {
 		this.hoveringInstructions = hoveringInstructions;
 	}
@@ -1064,7 +1075,7 @@ public class Items {
 	public boolean isMovementPrompt() {
 		return movementPrompt;
 	}
-	
+
 	public void setMovementPrompt(boolean movementPrompt) {
 		this.movementPrompt = movementPrompt;
 	}
@@ -1072,7 +1083,7 @@ public class Items {
 	public boolean isKeybindPrompts() {
 		return keybindPrompts;
 	}
-	
+
 	public void setKeybindPrompts(boolean keybindPrompts) {
 		this.keybindPrompts = keybindPrompts;
 	}
@@ -1135,9 +1146,9 @@ public class Items {
 
 	public void setFirstTime(boolean firstTime) {
 		this.firstTime = firstTime;
-	}	
-	
-	public boolean isCarUsed()	{
+	}
+
+	public boolean isCarUsed() {
 		return carUsed;
 	}
 
@@ -1148,6 +1159,5 @@ public class Items {
 	public void setCarSceneDone(boolean carSceneDone) {
 		this.carSceneDone = carSceneDone;
 	}
-	
-	
+
 }

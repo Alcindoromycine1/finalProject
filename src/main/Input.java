@@ -104,7 +104,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		} else if (code == KeyEvent.VK_SPACE) {
 			npc.setTextIndex(npc.getTextIndex() + 1);
 			npc.setOnce(false);
-			
+
 		} else if (code == KeyEvent.VK_C) {
 			cPressed = true;
 		}
@@ -131,7 +131,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 			useBookPressed = false;
 		} else if (code == KeyEvent.VK_C) {
 			cPressed = false;
-		} 
+		}
 
 	}
 
@@ -248,6 +248,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 				&& mouseY <= instructionsY + 45) {
 			instructionsPressed = true;
 			items.setInstructionsPrompt(true);
+
 			return;
 		}
 

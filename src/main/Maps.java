@@ -20,6 +20,7 @@ import Horror.Jumpscare;
  * Final Project ICS4U0
  */
 import java.io.*;
+import java.security.Identity;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -387,8 +388,7 @@ public class Maps {
 
 		if (usingBed && !inNightmare && !doneNightmare) {
 			items.setInConfirmation(true);
-			items.confirmation(g2, "Do you want to sleep?", 180);
-
+			items.confirmation(g2, "Do you want to", "sleep? ", 245, 330);
 			if (items.isYesPressed()) {
 				inNightmare = true;
 				usingBed = false;
@@ -465,24 +465,99 @@ public class Maps {
 		}
 	}
 
+	public boolean isDoneNightmare() {
+		return doneNightmare;
+	}
+
+	private boolean enteredPlace = false;
+	private boolean enteredDoctrine = false;
+	private boolean exitHouse = false;
+	public boolean disableConfirmation = false;
+
 	public void confirmationCollision(GamePanel gp, Graphics2D g2) {
-		if (currentMap == 3) {
-			if (gp.getWorldX() >= 450 && gp.getWorldX() <= 600 && gp.getWorldY() >= 38 && gp.getWorldY() <= 138) {
-				items.setInConfirmation(true);
-				items.confirmation(g2, "Do you want to enter this place?", 180);
-				if (items.isYesPressed()) {
-					items.setYesPressed(false);
-					items.setInConfirmation(false);
-				} else if (items.isNoPressed()) {
-					items.setNoPressed(false);
-					items.setInConfirmation(false);
+
+		if (items.isInConfirmation()) {
+
+			if (!isInConfirmationArea(gp)) {
+				items.setInConfirmation(false);
+				return;
+			}
+
+			if (items.isYesPressed()) {
+				items.setYesPressed(false);
+				items.setInConfirmation(false);
+				inp.setChangeMapPressed(true);
+				disableConfirmation = true;
+
+				if (gp.getWorldX() >= 450 && gp.getWorldX() <= 600 && gp.getWorldY() >= 38 && gp.getWorldY() <= 138) {
+					enteredPlace = true;
+				} else if (gp.getWorldX() >= 5584 && gp.getWorldX() <= 5684 && gp.getWorldY() >= 550
+						&& gp.getWorldY() <= 650) {
+					enteredDoctrine = true;
+				} else if (gp.getWorldX() >= 248 && gp.getWorldX() <= 330 && gp.getWorldY() >= 216
+						&& gp.getWorldY() <= 264) {
+					exitHouse = true;
 				}
-			} if (gp.getWorldX() >= 5584 && gp.getWorldX() <= 5684 &&
-			        gp.getWorldY() >= 550 && gp.getWorldY() <= 650) {//doctrine collision
+
+				return;
+			}
+
+			if (items.isNoPressed()) {
+				items.setNoPressed(false);
+				items.setInConfirmation(false);
+				disableConfirmation = true;
+				return;
+			}
+			if (currentMap == 3) {
+				items.confirmation(g2, "Do you want to", "enter this place?", 250, 225);
+			}else if (currentMap == 2) {
+				items.confirmation(g2, "Do you want to", "exit the house?", 250, 240);
+			}else if (currentMap == 4) {
+				items.confirmation(g2, "Do you want to enter", "the exorcism Room?", 190, 210);
+			}
+			return;
+		}
+
+		if (disableConfirmation) {
+			if (!isInConfirmationArea(gp)) {
+				disableConfirmation = false;
+			}
+			return;
+		}
+
+		if (currentMap == 3) {
+			if (!enteredPlace && gp.getWorldX() >= 450 && gp.getWorldX() <= 600 && gp.getWorldY() >= 38
+					&& gp.getWorldY() <= 138) {
 				items.setInConfirmation(true);
-				items.confirmation(g2, "Do you want to enter the doctrine?", 180);
+			} else if (!enteredDoctrine && gp.getWorldX() >= 5584 && gp.getWorldX() <= 5684 && gp.getWorldY() >= 550
+					&& gp.getWorldY() <= 650) {
+				items.setInConfirmation(true);
+			}
+		} else if (currentMap == 2) {
+			if (!exitHouse && gp.getWorldX() >= 248 && gp.getWorldX() <= 330 && gp.getWorldY() >= 196
+					&& gp.getWorldY() <= 264 && doneNightmare) {
+				items.setInConfirmation(true);
+			}
+
+		} else if (currentMap == 4) {
+			if (gp.getWorldX() >= 838 && gp.getWorldX() <= 893 && gp.getWorldY() >= 216 && gp.getWorldY() <= 271) {
+				items.setInConfirmation(true);
 			}
 		}
+	}
+
+	private boolean isInConfirmationArea(GamePanel gp) {
+		if (currentMap != 3 && currentMap != 2 && currentMap != 4)
+			return false;
+
+		return (currentMap == 3 && gp.getWorldX() >= 450 && gp.getWorldX() <= 600 && gp.getWorldY() >= 38
+				&& gp.getWorldY() <= 138)
+				|| (currentMap == 3 && gp.getWorldX() >= 5584 && gp.getWorldX() <= 5684 && gp.getWorldY() >= 550
+						&& gp.getWorldY() <= 650)
+				|| (currentMap == 2 && gp.getWorldX() >= 248 && gp.getWorldX() <= 330 && gp.getWorldY() >= 196
+						&& gp.getWorldY() <= 264
+						|| (currentMap == 4 && gp.getWorldX() >= 838 && gp.getWorldX() <= 893 && gp.getWorldY() >= 216
+								&& gp.getWorldY() <= 271));
 	}
 
 	public void drawTint(Graphics2D g2, GamePanel gp) {
@@ -592,7 +667,7 @@ public class Maps {
 	public void setUsingBed(boolean usingBed) {
 		this.usingBed = usingBed;
 	}
-	
+
 	public boolean isInNightmare() {
 		return inNightmare;
 	}

@@ -52,6 +52,10 @@ public class Npc {
 		items = gp.getIt();
 		maps = gp.getM();
 
+		input = gp.id;
+		items = gp.it;
+		maps = gp.m;
+		
 		playerX = gp.getPlayerX();
 		playerY = gp.getPlayerY();
 
@@ -268,6 +272,13 @@ public class Npc {
 				textBubble(g2, textCarDestroyed[textIndex]);
 			} else {
 				items.setCarSceneDone(true);
+			}
+		}else if (list == 7) {
+			String textCarDestroyed[] = {"My brain is playing tricks on me again!", "I crashed the car because of this."};
+			if (textIndex < textCarDestroyed.length) {
+				textBubble(g2, textCarDestroyed[textIndex]);
+			} else {
+				//items.carOn = false;
 			}
 		}
 	}

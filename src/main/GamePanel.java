@@ -52,13 +52,13 @@ public class GamePanel extends JPanel implements Runnable {
 
 	// Game components
 	private Tiles t;
-	private Maps m;
+	Maps m;
 	private Jumpscare j;
 
 	private Player p;
 	private Npc n;
-	private Items it;
-	private Input id;
+	 Items it;
+	 Input id;
 	private MainMenu mainMenu;
 	private Minigame minigame;
 	private LoadingScreen ls;
@@ -104,7 +104,7 @@ public class GamePanel extends JPanel implements Runnable {
 		screenY = HEIGHT / 2 - (tileSize / 2); // centers the player in the middle of the screen
 
 		// Background
-		m.changeMap(5);
+		m.changeMap(3);
 		// Find trees in the map
 
 		// load tiles
@@ -128,7 +128,7 @@ public class GamePanel extends JPanel implements Runnable {
 		it.setNpc(n);
 		it.setJ(j);
 		it.setM(m);
-		
+
 		n.setInput(id);
 		n.setItems(it);
 
@@ -265,6 +265,26 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 	}
 
+	public void drawTint(Graphics2D g2) {
+		if (it.getAnimationFrame() >= 150) {
+			it.titleScreen(g2);
+		}
+
+		Point2D centerPoint = new Point2D.Float(playerX, playerY);
+		float radiusTint = (float) 210;
+
+		Color transparentColor = new Color(0, 0, 0, 0);
+		Color darkColor = new Color(0, 0, 0, 255); // Dark color with alpha for transparency
+
+		RadialGradientPaint gradient = new RadialGradientPaint(centerPoint, radiusTint,
+				new float[] { (float) 0.0, (float) 1.0 }, new Color[] { transparentColor, darkColor });
+
+		g2.setPaint(gradient);
+		g2.fillRect(playerX - 384, playerY - 288, playerX + 384, playerY + 288); // Fill the entire panel with the
+																					// gradient
+
+	}
+
 	// where all the drawing happens
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -272,14 +292,13 @@ public class GamePanel extends JPanel implements Runnable {
 		try {
 			m.camera(g, this);// camera method
 			characterImage(g);// draws the character depending on the direction
-System.out.println(worldX + " , " + worldY);
+			//System.out.println(worldX + " , " + worldY);
 			it.car(g2, this);
 			it.doctrine(g2, this);
 
 			if (m.getCurrentMap() == 3) {
 				m.drawTint(g2, this);
 			}
-			//m.confirmationCollision(this, g2);
 			// Npc.text(g2);
 			it.instructions(g2);
 			if (id.isInstructionsPressed()) {
@@ -291,19 +310,12 @@ System.out.println(worldX + " , " + worldY);
 				try {
 					m.drawExorcismRoom(g2);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-			//System.out.println(it.isInConfirmation());
+			m.confirmationCollision(this, g2);
 			if (!m.hasJumpscared && !m.hasDoctrined) {
-					it.confirmation(g2, "Do you want to enter this place?", 200);
-				
-					if(it.isYesPressed()) {
-						id.setChangeMapPressed(true);
-					}
-				m.fade(2, 3, g2, 248, 216, 82, 48, 414, 48, 145, 126, this);
-				id.setChangeMapPressed(false);
+				m.fade(2, 3, g2, 248, 196, 82, 48, 414, 48, 145, 126, this);
 				it.setInHouse(true);
 			}
 			if (m.getStepCount() == -1 && it.isInHouse() && !m.isInNightmare()) {
@@ -359,9 +371,9 @@ System.out.println(worldX + " , " + worldY);
 				j.playSound();
 			}
 
-			if (ls.isLoadingScreen()) {
+			/*if (ls.isLoadingScreen()) {
 				ls.drawLoadingScreen(g2);
-			}
+			}*/
 
 			if (mainMenu.isInMenu()) {
 				mainMenu.mainMenu(g2);
@@ -386,7 +398,7 @@ System.out.println(worldX + " , " + worldY);
 					ambientAudio.stop();
 				}
 			}
-			
+
 			if (it.isCarUsed() && !it.isCarSceneDone() && !j.isJumpscare()) {
 				g2.drawImage(jeffFront, 580, 320, 96, 144, null);
 				n.text(g2, 7);
@@ -639,5 +651,5 @@ System.out.println(worldX + " , " + worldY);
 	public void setLs(LoadingScreen ls) {
 		this.ls = ls;
 	}
-	
+
 }
