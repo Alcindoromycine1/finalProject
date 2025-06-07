@@ -266,6 +266,10 @@ public class Player {
 
 	public boolean disableCharacterMovement() {
 
+		if(m.doneDoctorDead) {
+			return true;
+		}
+		
 		if (m.fading) {
 			return true;
 		}

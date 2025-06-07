@@ -106,9 +106,9 @@ public class Npc {
 	}
 
 	public void doctor(Graphics2D g2, GamePanel gp) throws IOException {
-
-		int doctorX = 480 - gp.getWorldX();
-		int doctorY = 260 - gp.getWorldY();
+		
+		int doctorX = 650 - gp.getWorldX();
+		int doctorY = 170 - gp.getWorldY();
 
 		BufferedImage doctor = null;
 		doctor = ImageIO.read(new File("src/textures/doctor.png"));
@@ -185,6 +185,7 @@ public class Npc {
 				textBubble(g2, textDoctor[textIndex]);
 			} else {
 				d3.stop();
+				m.doneDoctorDead = true;
 			}
 		} else if (list == 4) {
 			String textDoctrineGhost[] = { "Don't hurt me. Please leave me alone.",

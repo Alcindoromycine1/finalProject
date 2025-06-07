@@ -384,6 +384,8 @@ public class Maps {
 
 	}
 
+	public boolean doneDoctorDead = false;
+	
 	public void nightmare(Graphics2D g2, Component observer, GamePanel gp) throws IOException {
 
 		if (usingBed && !inNightmare && !doneNightmare) {
@@ -437,9 +439,10 @@ public class Maps {
 			}
 		}
 
-		if (doneNightmare) {
+		if (doneNightmare && currentMap == 2) {
 			inNightmare = false;
 			npc.doctor(g2, gp);
+			npc.text(g2, 3);
 		}
 	}
 
