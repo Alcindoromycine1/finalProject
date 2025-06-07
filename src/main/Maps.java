@@ -438,11 +438,10 @@ public class Maps {
 				npc.text(g2, 6);
 			}
 		}
-
 		if (doneNightmare && currentMap == 2) {
 			inNightmare = false;
-			npc.doctor(g2, gp);
 			npc.text(g2, 3);
+			npc.doctor(g2, gp);
 		}
 	}
 

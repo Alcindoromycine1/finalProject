@@ -142,8 +142,9 @@ public class Items {
 
 	// Stackoverflow used for GIF:
 	// https://stackoverflow.com/questions/12566311/displaying-gif-animation-in-java
-	public void book(Graphics2D g2, Component observer) {
+	public void book(Graphics2D g2, Component observer) throws IOException {
 		g2.setFont(new Font("calibri", Font.BOLD, 18));
+		enterBook = true;// REMOVE LATER
 		if (enterBook) {
 			if (!playGif || staticImageBook) {
 				g2.drawImage(book, -70, 0, 900, 587, null);
@@ -167,16 +168,43 @@ public class Items {
 			g2.setColor(Color.WHITE);
 			g2.drawString("Close Book", 562, 125);
 			g2.drawString("Next Page", 565, 470);
+			g2.setColor(Color.BLACK);
+			Font header = new Font("Arial", Font.BOLD, 35);
+			Font subHeading = new Font("Arial", Font.BOLD, 24);
+			Font normalText = new Font("Arial", Font.PLAIN, 17);
+			BufferedImage dispellingGhosts = ImageIO.read(new File("src/textures/dispellingGhosts.png"));// image from:
+																											// https://www.theatlantic.com/magazine/archive/2018/12/catholic-exorcisms-on-the-rise/573943/
+			if (nextPage == 0) {
+				g2.setFont(header);
 
-			if (nextPage == 1) {
-				g2.setColor(Color.BLACK);
-				g2.drawString("How To Do An Exorcism", 100, 100);
-				g2.fillRect(100, 100, 150, 2);
-				g2.drawString("When you see a ghost, press E to exorcsie it.", 100, 150);
-				g2.drawString("At the Top of the screen you will see a certain shape.", 100, 250);
-				g2.drawString("You will need to replicate that shape by dragging your mouse around the screen.", 100,
-						300);
-				g2.drawString("", 100, 350);
+				g2.drawString("Exorcisms", 145, 200);
+				g2.setFont(new Font("Calibri", Font.PLAIN, 22));
+				g2.drawString("By: Noah Sussman, Rudra Garg", 85, 270);
+				g2.drawString("and Akhilan Saravanan", 120, 320);
+				g2.setFont(normalText);
+			} else if (nextPage == 1) {
+				g2.setFont(subHeading);
+				g2.drawString("What is an Exorcism?", 100, 140);
+				g2.fillRect(100, 142, 245, 3);
+				g2.drawString("What are the Different", 415, 170);
+				g2.drawString("Types of Exorcisms?", 423, 205);
+				g2.fillRect(415, 207, 254, 3);
+
+				g2.setFont(normalText);
+				g2.drawString("An exorcism is a specific type of", 90, 180);
+				g2.drawString("prayer that the Church uses against", 90, 205);
+				g2.drawString("the power of the devil. It is used to", 90, 230);
+				g2.drawString("expel any evils that may be infested", 90, 255);
+				g2.drawString("or possessed in a person.", 90, 280);
+				g2.drawImage(dispellingGhosts, 105, 315, 240, 135, null);
+
+				g2.drawString("There are two major kinds of exorcisms:", 395, 230);
+				g2.fillOval(405, 246, 5, 5);//bullet point
+				g2.drawString("Simple/minor exorcisms are for", 415, 255);
+				g2.drawString("simple matters, such as those", 415, 280);
+				g2.drawString("preparing to get Baptised", 415, 305);
+				g2.fillOval(405, 322, 5, 5);//bullet point
+				g2.drawString("Second is solemn/major exorcism", 415, 330);
 			}
 		}
 	}
@@ -529,8 +557,8 @@ public class Items {
 		System.out.println(ghostCount);
 
 		if (ghostCount == 2 && !levelShape.equals("duoghost1") && !levelShape.equals("duoghost2")
-				&& !levelShape.equals("duoghost3") && !levelShape.equals("duoghost4")
-				&& !levelShape.equals("trioghost") && !levelShape.equals("bossghost")) {
+				&& !levelShape.equals("duoghost3") && !levelShape.equals("duoghost4") && !levelShape.equals("trioghost")
+				&& !levelShape.equals("bossghost")) {
 			level++;
 			ghostCount = 0;
 			destroyCircle = false;
@@ -567,7 +595,7 @@ public class Items {
 			destroyTrioGhost = false;
 
 		}
-		if(ghostCount == 5 && destroyBossGhost) {
+		if (ghostCount == 5 && destroyBossGhost) {
 			level++;
 			System.out.println("Human thingy");
 			destroyCircle = false;
@@ -808,7 +836,7 @@ public class Items {
 				shapesArray.remove("Triangle");
 			}
 
-				shapesArray.clear();
+			shapesArray.clear();
 		}
 
 	}

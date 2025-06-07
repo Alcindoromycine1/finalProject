@@ -143,7 +143,6 @@ public class GamePanel extends JPanel implements Runnable {
 		t.setM(m);
 
 		id.setLs(ls);
-
 		try {
 			// https://www.youtube.com/watch?v=tmlZeYnfw7g
 			ambientAudio = new Sound("src/sound/ambientAudio.wav");

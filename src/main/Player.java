@@ -68,16 +68,16 @@ public class Player {
 			System.out.println("Error loading sound file: " + e.getMessage());
 		}
 	}
+
 	public void updatePlayerPosition(int x, int y, int playerX, int playerY, int screenX, int screenY) {
 		this.worldX = x;
 		this.worldY = y;
-		
+
 		this.playerX = playerX;
 		this.playerY = playerY;
-		
+
 		this.screenX = screenX;
 		this.screenY = screenY;
-		
 
 	}
 
@@ -159,7 +159,7 @@ public class Player {
 					&& playerX < bookX + 96 // Left side of hitbox is before right side of tree
 					&& playerY + 72 > bookY + 48 // Bottom side of hitbox is below top side of tree
 					&& playerY < bookY + 48 && keyH.isUseBookPressed()) { // Top side of hitbox is above
-																						// bottom side of tree
+																			// bottom side of tree
 				it.setEnterBook(true);
 				break; // Stop checking after finding the first collision
 			}
@@ -265,11 +265,10 @@ public class Player {
 	}
 
 	public boolean disableCharacterMovement() {
-
-		if(m.doneDoctorDead) {
+		if (m.doneDoctorDead) {
 			return true;
 		}
-		
+
 		if (m.fading) {
 			return true;
 		}
@@ -278,12 +277,13 @@ public class Player {
 		}
 		if (it.isInGraveYard()) {
 			return true;
-		} if (m.getCurrentMap() == 5) {
+		}
+		if (m.getCurrentMap() == 5) {
 			return true;
 		}
-		return false; 	
+		return false;
 	}
-	
+
 	public void setN(Npc n) {
 		this.n = n;
 	}
@@ -299,5 +299,5 @@ public class Player {
 	public void setKeyH(Input keyH) {
 		this.keyH = keyH;
 	}
-	
+
 }

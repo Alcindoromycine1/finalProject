@@ -107,7 +107,7 @@ public class Npc {
 
 	public void doctor(Graphics2D g2, GamePanel gp) throws IOException {
 		
-		int doctorX = 650 - gp.getWorldX();
+		int doctorX = 550 - gp.getWorldX();
 		int doctorY = 170 - gp.getWorldY();
 
 		BufferedImage doctor = null;
@@ -183,9 +183,10 @@ public class Npc {
 			}
 			if (textIndex < textDoctor.length) {
 				textBubble(g2, textDoctor[textIndex]);
+				maps.doneDoctorDead = true;
 			} else {
 				d3.stop();
-				m.doneDoctorDead = true;
+				maps.doneDoctorDead = false;
 			}
 		} else if (list == 4) {
 			String textDoctrineGhost[] = { "Don't hurt me. Please leave me alone.",
@@ -264,6 +265,7 @@ public class Npc {
 				textBubble(g2, textNightmare[textIndex]);
 			} else {
 				maps.setDoneNightmare(true);
+				textIndex = 0;
 				n5.stop();
 			}
 		} else if (list == 7) {
@@ -289,6 +291,7 @@ public class Npc {
 				//items.carOn = false;
 			}
 		}
+		System.out.println(textIndex);
 	}
 
 	public void textBubble(Graphics2D g2, String dialogue) {
