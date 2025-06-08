@@ -173,7 +173,13 @@ public class Items {
 			Font subHeading = new Font("Arial", Font.BOLD, 24);
 			Font normalText = new Font("Arial", Font.PLAIN, 17);
 			BufferedImage dispellingGhosts = ImageIO.read(new File("src/textures/dispellingGhosts.png"));// image from:
-																											// https://www.theatlantic.com/magazine/archive/2018/12/catholic-exorcisms-on-the-rise/573943/
+			BufferedImage circleExample = ImageIO.read(new File ("src/textures/circleExample.png"));
+			BufferedImage triangleExample = ImageIO.read(new File ("src/textures/triangleExample.png"));
+			BufferedImage horizontalExample = ImageIO.read(new File ("src/textures/horizontalExample.png"));
+			
+			// Researched information from:
+			// https://www.usccb.org/beliefs-and-teachings/what-we-believe/catechism/catechism-of-the-catholic-church?p=29-chapter12.xhtml%23para1673
+			// and https://www.vatican.va/archive/cod-iuris-canonici/cic_index_en.html
 			if (nextPage == 0) {
 				g2.setFont(header);
 
@@ -187,8 +193,8 @@ public class Items {
 				g2.drawString("What is an Exorcism?", 100, 140);
 				g2.fillRect(100, 142, 245, 3);
 				g2.drawString("What are the Different", 415, 170);
-				g2.drawString("Types of Exorcisms?", 423, 205);
-				g2.fillRect(415, 207, 254, 3);
+				g2.drawString("Types of Exorcisms?", 423, 200);
+				g2.fillRect(415, 202, 254, 3);
 
 				g2.setFont(normalText);
 				g2.drawString("An exorcism is a specific type of", 90, 180);
@@ -199,12 +205,79 @@ public class Items {
 				g2.drawImage(dispellingGhosts, 105, 315, 240, 135, null);
 
 				g2.drawString("There are two major kinds of exorcisms:", 395, 230);
-				g2.fillOval(405, 246, 5, 5);//bullet point
+				g2.fillOval(405, 246, 5, 5);// bullet point
 				g2.drawString("Simple/minor exorcisms are for", 415, 255);
 				g2.drawString("simple matters, such as those", 415, 280);
 				g2.drawString("preparing to get Baptised", 415, 305);
-				g2.fillOval(405, 322, 5, 5);//bullet point
+				g2.fillOval(405, 322, 5, 5);// bullet point
 				g2.drawString("Second is solemn/major exorcism", 415, 330);
+				g2.fillOval(420, 347, 5, 5);// bullet point
+				g2.drawString("Rite only be able to performed by", 430, 355);
+				g2.drawString("a bishop or priest", 430, 380);
+				g2.fillOval(420, 397, 5, 5);// bullet point
+				g2.drawString("Directed at liberating a person", 430, 405);
+				g2.drawString("from a demonic possession", 430, 430);
+			} else if (nextPage == 2) {
+				g2.setFont(subHeading);
+				g2.drawString("Who can Receive", 125, 142);
+				g2.drawString("a Major Exorcism?", 116, 170);
+				g2.fillRect(115, 172, 211, 3);
+
+				g2.setFont(normalText);
+				g2.drawString("According to the Code of Canon Law,", 90, 200);
+				g2.drawString("all the following are eligible for exoricms:", 80, 225);
+
+				g2.fillOval(120, 247, 5, 5);// bullet point
+				g2.drawString("Catholics", 130, 255);
+				g2.fillOval(120, 272, 5, 5);// bullet point
+				g2.drawString("Catechumens", 130, 280);
+				g2.fillOval(120, 297, 5, 5);// bullet point
+				g2.drawString("Non-Catholic Christians", 130, 305);
+				g2.fillOval(120, 322, 5, 5);// bullet point
+				g2.drawString("Non-Christian believers", 130, 330);
+				g2.drawString("In the case that an exorcism needs to", 90, 355);
+				g2.drawString("be performed on an non-Catholic, the", 90, 380);
+				g2.drawString("case should be brought to the", 90, 405);
+				g2.drawString("Diocesan Bishop", 90, 430);
+
+				g2.setFont(subHeading);
+				g2.drawString("Performing an Exorcism", 405, 180);
+				g2.fillRect(405, 182, 275, 3);
+				g2.setFont(normalText);
+				g2.drawString("In this game, you are the exorcist,", 410, 210);
+				g2.drawString("and you must exoricse the catholic", 410, 235);
+				g2.drawString("ghosts. You are performing a", 410, 260);
+				g2.drawString("Major exorcism on these ghosts.", 410, 285);
+				g2.drawString("To perform an exorcism you must", 410, 320);
+				g2.drawString("channel your inner catholicism to", 410, 345);
+				g2.drawString("dispel the ghosts away.", 410, 370);
+
+			}else if(nextPage == 3) {
+				g2.setFont(subHeading);
+				g2.drawString("Performing an Exorcism", 85, 140);
+				g2.fillRect(85, 142, 275, 3);
+				
+				g2.setFont(normalText);
+				g2.drawString("Use your cursor to draw and copy the", 90, 180);
+				g2.drawString("shapes above the ghosts heads.", 90, 205);
+				
+				g2.drawString("For example, this ghost has a circle", 90, 230);
+				g2.drawString("above its head. So you must replicate", 90, 255);
+				g2.drawString("its shape by holding down your mouse", 90, 280);
+				g2.drawString("and letting go when you have", 90, 305);
+				g2.drawString("made the shape.", 90, 330);
+				
+				g2.drawImage(circleExample, 100, 340, 235, 142, null);
+				g2.drawString("Shape on the left is drawn", 120, 500);
+				
+				g2.setFont(subHeading);
+				g2.drawString("More Examples", 440, 165);
+				g2.fillRect(440, 167, 200, 3);
+				g2.drawImage(triangleExample, 420, 175, 235, 132, null);
+				g2.drawImage(horizontalExample, 420, 310, 235, 132, null);
+			}else if(nextPage == 4) {
+				g2.setFont(subHeading);
+			//	g2.drawString(" ");
 			}
 		}
 	}
@@ -219,7 +292,6 @@ public class Items {
 			p.disableCharacterMovement();
 			visible = false;
 			animationFrame = 0;
-
 		}
 	}
 
