@@ -45,7 +45,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 
 	private int instructionsX = 640;
 	private int instructionsY = 10;
-	private int backX = 345;
+	private int backX = 335;
 	private int backY = 430;
 
 	public Input(GamePanel gp) {
@@ -177,7 +177,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		} else {
 			items.setHoveringInstructions(false);
 		}
-		if (mouseX >= backX && mouseX <= backX + 120 && mouseY >= backY && mouseY <= backY + 40) {
+		if (mouseX >= backX && mouseX <= backX + 130 && mouseY >= backY && mouseY <= backY + 40) {
 			items.setHoveringBack(true);
 		} else {
 			items.setHoveringBack(false);
@@ -190,9 +190,9 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		}
 
 		if (mouseX >= 305 && mouseX <= 305 + 195 && mouseY >= 250 && mouseY <= 250 + 62) {
-			items.setHoveringKeybind(true);
+			items.setHoveringObjective(true);
 		} else {
-			items.setHoveringKeybind(false);
+			items.setHoveringObjective(false);
 		}
 		if (items.isEnterBook() && mouseX >= 530 && mouseX <= 530 + 150 && mouseY >= 445 && mouseY <= 445 + 40) {
 			items.setHoveringNextPage(true);
@@ -251,8 +251,8 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 			return;
 		}
 
-		if ((items.isInstructionsPrompt() || items.isMovementPrompt() || items.isKeybindPrompts()) && mouseX >= backX
-				&& mouseX <= backX + 120 && mouseY >= backY && mouseY <= backY + 40) {
+		if ((items.isInstructionsPrompt() || items.isMovementPrompt() || items.isObjectivePrompts()) && mouseX >= backX
+				&& mouseX <= backX + 130 && mouseY >= backY && mouseY <= backY + 40) {
 			items.setBackPressed(true);
 			return;
 		}
@@ -266,7 +266,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 
 		if (items.isInstructionsPrompt() && mouseX >= 305 && mouseX <= 305 + 195 && mouseY >= 250
 				&& mouseY <= 250 + 62) {
-			items.setKeybindPrompts(true);
+			items.setObjectivePrompts(true);
 			items.setInstructionsPrompt(false);
 			return;
 		}
