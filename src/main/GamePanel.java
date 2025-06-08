@@ -291,7 +291,7 @@ public class GamePanel extends JPanel implements Runnable {
 		try {
 			m.camera(g, this);// camera method
 			characterImage(g);// draws the character depending on the direction
-			// System.out.println(worldX + " , " + worldY);
+		 System.out.println(worldX + " , " + worldY);
 			it.car(g2, this);
 			it.doctrine(g2, this);
 
@@ -317,7 +317,7 @@ public class GamePanel extends JPanel implements Runnable {
 				m.fade(2, 3, g2, 248, 196, 82, 48, 414, 48, 145, 126, this);
 				it.setInHouse(true);
 			}
-			if (m.getStepCount() == -1 && it.isInHouse() && !m.isInNightmare()) {
+			if (m.getStepCount() == -1 && it.isInHouse() && !m.isInNightmare() && !m.isDoneDoctorDead()) {
 				n.text(g2, 5);
 				it.setInHouse(false);
 			}
@@ -371,7 +371,9 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 
 			/*
-			 * if (ls.isLoadingScreen()) { ls.drawLoadingScreen(g2); }
+			 * if (ls.isLoadingScreen()) {
+			 * 	ls.drawLoadingScreen(g2); 
+			 * }
 			 */
 
 			if (mainMenu.isInMenu()) {

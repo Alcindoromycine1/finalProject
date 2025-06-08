@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
+import javax.swing.plaf.basic.BasicComboBoxUI.KeyHandler;
 
 public class Items {
 	private Input input;
@@ -126,10 +127,21 @@ public class Items {
 
 	}
 
+	private boolean once = false;
+	private boolean doingDoctrineGhost = false;
+	
 	public void insideDoctrine(Graphics2D g2, GamePanel gp) throws IOException {
 		if (m.getCurrentMap() == 4) {
 			ghost(g2, 1110, 120, 125, 98, gp);
-			npc.text(g2, 4);
+			if (gp.getWorldX() >= 715 && gp.getWorldX() <= 865 && gp.getWorldY() >= -25 && gp.getWorldY() <= 100) {
+				if (!once) {
+					npc.setTextIndex(0);
+					doingDoctrineGhost = true;
+					once = true;
+				}
+				npc.text (g2, 4);
+				p.disableCharacterMovement();
+			}
 		}
 	}
 
@@ -177,8 +189,7 @@ public class Items {
 			BufferedImage triangleExample = ImageIO.read(new File("src/textures/triangleExample.png"));
 			BufferedImage horizontalExample = ImageIO.read(new File("src/textures/horizontalExample.png"));
 			BufferedImage leftGhostExample = ImageIO.read(new File ("src/textures/leftGhostExample.png"));
-			
-			
+		
 			// Researched information from:
 			// https://www.usccb.org/beliefs-and-teachings/what-we-believe/catechism/catechism-of-the-catholic-church?p=29-chapter12.xhtml%23para1673
 			// and https://www.vatican.va/archive/cod-iuris-canonici/cic_index_en.html
@@ -1488,5 +1499,12 @@ public class Items {
 	public void setCarSceneDone(boolean carSceneDone) {
 		this.carSceneDone = carSceneDone;
 	}
+	
+	public void setDoingDoctrineGhost (boolean dg) {
+		this.doingDoctrineGhost = dg;
+	}
 
+	public boolean isDoingDoctrineGhost() {
+		return doingDoctrineGhost;
+	}
 }
