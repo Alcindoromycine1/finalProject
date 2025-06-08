@@ -104,7 +104,7 @@ public class GamePanel extends JPanel implements Runnable {
 		screenY = HEIGHT / 2 - (tileSize / 2); // centers the player in the middle of the screen
 		
 		// Background
-		m.changeMap(3);
+		m.changeMap(5);
 		// Find trees in the map
 
 		// load tiles
@@ -291,7 +291,6 @@ public class GamePanel extends JPanel implements Runnable {
 		try {
 			m.camera(g, this);// camera method
 			characterImage(g);// draws the character depending on the direction
-		 System.out.println(worldX + " , " + worldY);
 			it.car(g2, this);
 			it.doctrine(g2, this);
 

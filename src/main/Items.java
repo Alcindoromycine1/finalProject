@@ -58,7 +58,7 @@ public class Items {
 	private BufferedImage orderFullFrame;
 	private BufferedImage triangleRemovedOrder;
 	private BufferedImage orderCloseUp;
-	
+
 	private ImageIcon pageFlipping;
 	private Sound bookFlipSound;
 
@@ -181,16 +181,16 @@ public class Items {
 		bed = ImageIO.read(new File("src/textures/bed.png"));
 		pageFlipping = new ImageIcon("src/textures/books.gif");
 		bookFlipSound = new Sound("src/sound/bookFlip.wav");
-		orderFullFrame = ImageIO.read(new File ("src/textures/orderFullFrame.png"));
-		triangleRemovedOrder = ImageIO.read(new File ("src/textures/removedTriangleOrder.png"));
-		orderCloseUp = ImageIO.read(new File ("src/textures/orderCloseUp.png"));
+		orderFullFrame = ImageIO.read(new File("src/textures/orderFullFrame.png"));
+		triangleRemovedOrder = ImageIO.read(new File("src/textures/removedTriangleOrder.png"));
+		orderCloseUp = ImageIO.read(new File("src/textures/orderCloseUp.png"));
 	}
 
 	// Stackoverflow used for GIF:
 	// https://stackoverflow.com/questions/12566311/displaying-gif-animation-in-java
 	public void book(Graphics2D g2, Component observer) throws IOException {
 		g2.setFont(new Font("calibri", Font.BOLD, 18));
-	    //enterBook = true;// REMOVE LATER
+		// enterBook = true;// REMOVE LATER
 		if (enterBook) {
 			if (!playGif || staticImageBook) {
 				g2.drawImage(book, -70, 0, 900, 587, null);
@@ -391,7 +391,7 @@ public class Items {
 				g2.drawString("Close Up of Order", 475, 280);
 				g2.drawImage(triangleRemovedOrder, 425, 290, 235, 132, null);
 				g2.drawString("Left Ghost Exorcised (new order)", 420, 440);
-			}else if(nextPage == 8) {
+			} else if (nextPage == 8) {
 				g2.setFont(header);
 				g2.drawString("THE END", 140, 290);
 			}
@@ -684,7 +684,7 @@ public class Items {
 				minigameGhost(g2, 1200 - 210, 820 + 50 + offsetY, "duoghost4", 250, 196, gp);
 			}
 		} else if (level == 7) {
-			minigameGhost(g2, 1200 - 20, 820 - 0 + offsetY, "trioghost", 250, 196, gp);
+			minigameGhost(g2, 1100 - 20, 820 - 0 + offsetY, "trioghost", 250, 196, gp);
 		} else if (level == 8) {
 			minigameGhost(g2, 1100 - 20, 820 - 0 + offsetY, "bossghost", 250, 196, gp);
 		}
@@ -780,6 +780,7 @@ public class Items {
 	private String levelShape = " ";
 
 	public void randomShape(String shape, int ghostX, int ghostY, Graphics2D g2, int offsetX) {
+		level = 8;
 		if (shape.equalsIgnoreCase("Triangle")) {
 			g2.setStroke(new BasicStroke(4));
 			g2.setColor(Color.RED);
@@ -787,19 +788,34 @@ public class Items {
 			int[] yTriangle = { ghostY - 350, ghostY - 290, ghostY - 290 };
 			g2.drawPolygon(xTriangle, yTriangle, 3);
 
-			// Frame triangle
-			int[] xFrame = {100, 85, 115 };
-			int[] yFrame = {20, 50, 50};
-			g2.drawPolygon(xFrame, yFrame, 3);
-
+			if (level == 1 || level == 4 || level == 6 || level == 7) {
+				// Frame triangle
+				int[] xFrame = { 100, 85, 115 };
+				int[] yFrame = { 20, 50, 50 };
+				g2.drawPolygon(xFrame, yFrame, 3);
+			} else if (level == 8) {
+				int[] xFrame = { 240, 232, 247 };
+				int[] yFrame = { 27, 42, 42 };
+				g2.drawPolygon(xFrame, yFrame, 3);
+			}
 		} else if (shape.equalsIgnoreCase("Circle")) {
 			g2.setStroke(new BasicStroke(4));
 			g2.setColor(Color.RED);
 			g2.drawOval(ghostX - 290 + offsetX, ghostY - 350, 60, 60);
-			
-			//Frame Circle
-			g2.drawOval(130, 17, 35, 35);
-			
+
+			if (level == 1) {
+				// Frame Circle
+				g2.drawOval(130, 17, 35, 35);
+			} else if (level == 5) {
+				g2.drawOval(110, 17, 35, 35);
+			} else if (level == 6) {
+				g2.drawOval(230, 17, 35, 35);
+			} else if (level == 7) {
+				g2.drawOval(200, 17, 35, 35);
+			} else if (level == 8) {
+				g2.drawOval(170, 20, 25, 25);
+			}
+
 		} else if (shape.equalsIgnoreCase("Zigzag")) {
 			g2.setStroke(new BasicStroke(4));
 			g2.setColor(Color.RED);
@@ -807,12 +823,55 @@ public class Items {
 					ghostX - 100 - 140 + offsetX };
 			int[] yZigzag = { ghostY - 195 - 140, ghostY - 195 - 140, ghostY - 145 - 140, ghostY - 145 - 140 };
 			g2.drawPolyline(xZigzag, yZigzag, 4);
+
+			if (level == 2) {
+				// Frame Zigzag
+				int[] xFrame = { 7 + 125, -30 + 125, 7 + 125, -30 + 125 };
+				int[] yFrame = { 41 + 15, 41 + 15, 3 + 15, 3 + 15 };
+				g2.drawPolyline(xFrame, yFrame, 4);
+			} else if (level == 5) {
+				int[] xFrame = { 7 + 125 + 120, -30 + 125 + 120, 7 + 125 + 120, -30 + 125 + 120 };
+				int[] yFrame = { 41 + 15, 41 + 15, 3 + 15, 3 + 15 };
+				g2.drawPolyline(xFrame, yFrame, 4);
+			} else if (level == 6 || level == 7) {
+				int[] xFrame = { 7 + 125 + 40, -30 + 125 + 40, 7 + 125 + 40, -30 + 125 + 40 };
+				int[] yFrame = { 41 + 15, 41 + 15, 3 + 15, 3 + 15 };
+				g2.drawPolyline(xFrame, yFrame, 4);
+			} else if (level == 8) {
+				int[] xFrame = { 156, 137, 156, 137 };
+				int[] yFrame = { 43, 43, 24, 24 };
+				g2.drawPolyline(xFrame, yFrame, 4);
+			}
+
 		} else if (shape.equalsIgnoreCase("Vertical")) {
 			g2.setColor(Color.RED);
 			g2.fillRect(ghostX - 260 + offsetX, ghostY - 355, 4, 60);
+
+			if (level == 3) {
+				// Frame Vertical
+				g2.fillRect(180, 10, 4, 50);
+			} else if (level == 5) {
+				g2.fillRect(80, 15, 4, 40);
+			} else if (level == 8) {
+				g2.fillRect(210, 19, 4, 30);
+			}
 		} else if (shape.equalsIgnoreCase("Horizontal")) {
 			g2.setColor(Color.RED);
 			g2.fillRect(ghostX - 290 + offsetX, ghostY - 313, 60, 4);
+
+			// Frame Horizontal
+			if (level == 2 || level == 4) {
+				g2.fillRect(160, 32, 50, 4);
+			} else if (level == 3) {
+				g2.fillRect(90, 32, 50, 4);
+			} else if (level == 5) {
+				g2.fillRect(160, 32, 40, 4);
+			} else if (level == 6) {
+				g2.fillRect(180, 32, 40, 4);
+			} else if (level == 8) {
+				g2.fillRect(80, 32, 40, 4);
+			}
+
 		} else if (shape.equalsIgnoreCase("duoghost1")) {
 			levelShape = shape;
 			if (!destroyHorizontal) {
@@ -988,7 +1047,6 @@ public class Items {
 				shapesArray.add("Triangle");
 				destroyBossGhost = true;
 			}
-			System.out.println(shapesArray);
 
 			for (int i = 0; i < shapesArray.size(); i++) {
 				randomShape(shapesArray.get(i), ghostX, ghostY, g2, offsetX - 40 + (80 * i));
