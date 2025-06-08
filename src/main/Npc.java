@@ -25,8 +25,8 @@ public class Npc {
 	private int worldY;
 
 	private boolean once = false; // used to check if the player has done things
-	
-	//dialogue sounds
+
+	// dialogue sounds
 	private Sound gg1;
 	private Sound gg2;
 	private Sound gg3;
@@ -46,6 +46,7 @@ public class Npc {
 	private Sound n3;
 	private Sound n4;
 	private Sound n5;
+	private boolean suprisedText;
 
 	public Npc(GamePanel gp) {
 		input = gp.getId();
@@ -55,42 +56,42 @@ public class Npc {
 		input = gp.id;
 		items = gp.it;
 		maps = gp.m;
-		
+
 		playerX = gp.getPlayerX();
 		playerY = gp.getPlayerY();
 
 		worldX = gp.getWorldX();
 		worldY = gp.getWorldY();
-		
+
 		loadSounds();
 	}
-	
+
 	private void loadSounds() {
-		//ghost graveyard sounds
+		// ghost graveyard sounds
 		gg1 = new Sound("src/sound/gg1.wav");
 		gg2 = new Sound("src/sound/gg2.wav");
 		gg3 = new Sound("src/sound/gg3.wav");
 		gg4 = new Sound("src/sound/gg4.wav");
 		gg5 = new Sound("src/sound/gg5.wav");
-		
-		//ghost doctrine sounds
+
+		// ghost doctrine sounds
 		gd1 = new Sound("src/sound/gd1.wav");
 		gd2 = new Sound("src/sound/gd2.wav");
-		
-		//doctor sounds
+
+		// doctor sounds
 		d1 = new Sound("src/sound/d1.wav");
 		d2 = new Sound("src/sound/d2.wav");
 		d3 = new Sound("src/sound/d3.wav");
-		
-		//exorcism ghost sounds
+
+		// exorcism ghost sounds
 		ghosta = new Sound("src/sound/ghosta.wav");
 		ghostb = new Sound("src/sound/ghostb.wav");
-		
-		//inside house sounds
+
+		// inside house sounds
 		h1 = new Sound("src/sound/h1.wav");
 		h2 = new Sound("src/sound/h2.wav");
-		
-		//nightmare sounds
+
+		// nightmare sounds
 		n1 = new Sound("src/sound/n1.wav");
 		n2 = new Sound("src/sound/n2.wav");
 		n3 = new Sound("src/sound/n3.wav");
@@ -106,7 +107,7 @@ public class Npc {
 	}
 
 	public void doctor(Graphics2D g2, GamePanel gp) throws IOException {
-		
+
 		int doctorX = 550 - gp.getWorldX();
 		int doctorY = 170 - gp.getWorldY();
 
@@ -277,6 +278,24 @@ public class Npc {
 			} else {
 				items.setCarSceneDone(true);
 			}
+		} else if (list == 8) {
+			String textHumanTransformation[] = { "What...", "Why do the ghosts look like humans?",
+					"You're like all the other A.I's.", "What are you talking about? I'm not an A.I." };
+			if (textIndex < textHumanTransformation.length) {
+				textBubble(g2, textHumanTransformation[textIndex]);
+			} else {
+				maps.setTriggerTransition(true);
+			}
+		} else if (list == 9) {
+			String suprisedJeff[] = { "Wait, that's me?", "How is this possible? I thought I was a human.",
+					"I just realized something.", "Those ghosts were humans the whole time.",
+					"In the doctrine, when I exorcised that last ghost, my hardware must have malfunctioned.",
+					"This is why I saw the ghost for what it truly was; a human.", "This means I'm an A.I.",
+					"And that was suppose to be the last of the ghosts. Meaning I just exoricsed the last human on this planet.",
+					"I was the monster all along.", "That doctor that I saw in this house deceived me.",
+					"*sob*"};
+		} else {
+			suprisedText = false;
 		}
 	}
 
@@ -321,15 +340,23 @@ public class Npc {
 		this.items = items;
 	}
 
+	public boolean isSuprisedText() {
+		return suprisedText;
+	}
+
+	public void setSuprisedText(boolean suprisedText) {
+		this.suprisedText = suprisedText;
+	}
+
 	public int getTextIndex() {
 		return textIndex;
 	}
-	
+
 	public void setTextIndex(int textIndex) {
 		this.textIndex = textIndex;
 	}
-	
-	public void setOnce (boolean once) {
+
+	public void setOnce(boolean once) {
 		this.once = once;
 	}
 

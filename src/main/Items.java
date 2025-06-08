@@ -636,7 +636,7 @@ public class Items {
 
 	}
 
-	private int level = 1;
+	private int level = 8;
 	private String ghostShape = "";
 
 	public void drawGhost(Graphics2D g2, int offsetY, GamePanel gp) throws IOException {
@@ -758,13 +758,15 @@ public class Items {
 		}
 		if (ghostCount == 5 && destroyBossGhost) {
 			level++;
-			System.out.println("Human thingy");
 			destroyCircle = false;
 			destroyTriangle = false;
 			destroyZigzag = false;
 			destroyHorizontal = false;
 			destroyVertical = false;
 			destroyBossGhost = false;
+		}
+		if(level == 9) {
+			npc.text(g2, 8);
 		}
 
 		drawGhost(g2, yVal, gp);
@@ -780,7 +782,6 @@ public class Items {
 	private String levelShape = " ";
 
 	public void randomShape(String shape, int ghostX, int ghostY, Graphics2D g2, int offsetX) {
-		level = 8;
 		if (shape.equalsIgnoreCase("Triangle")) {
 			g2.setStroke(new BasicStroke(4));
 			g2.setColor(Color.RED);

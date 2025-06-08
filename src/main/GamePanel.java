@@ -102,7 +102,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 		screenX = WIDTH / 2 - (tileSize / 2); // centers the player in the middle of the screen
 		screenY = HEIGHT / 2 - (tileSize / 2); // centers the player in the middle of the screen
-		
+
 		// Background
 		m.changeMap(5);
 		// Find trees in the map
@@ -311,6 +311,7 @@ public class GamePanel extends JPanel implements Runnable {
 					e.printStackTrace();
 				}
 			}
+			System.out.println(worldX + " , " + worldY);
 			m.confirmationCollision(this, g2);
 			if (!m.hasJumpscared && !m.hasDoctrined) {
 				m.fade(2, 3, g2, 248, 196, 82, 48, 414, 48, 145, 126, this);
@@ -330,19 +331,16 @@ public class GamePanel extends JPanel implements Runnable {
 				p.disableCharacterMovement();
 			}
 			if (m.getHasFaded() == 2) {
-				if (m.hasJumpscared && !m.hasDoctrined) {
-					// worldX = 384;
-					// worldY = 288;
-				}
-				if (m.hasJumpscared && m.hasDoctrined) {
-					worldX = 0;
-					worldY = 0;
-				}
+				/*
+				 * if (m.hasJumpscared && !m.hasDoctrined) { // worldX = 384; // worldY = 288; }
+				 * if (m.hasJumpscared && m.hasDoctrined) {
+				 * 
+				 * }
+				 */
 				m.setHasFaded(0);
 			}
 
 			it.insideDoctrine(g2, this);
-			// Items.houseMirror(g2);
 
 			if (m.getCurrentMap() == 5) {
 				minigame.startExorcising();
@@ -364,14 +362,16 @@ public class GamePanel extends JPanel implements Runnable {
 			m.playNightmareSound();
 			m.playDoctrineSound();
 
+			m.mirrorScene(g2, this, this);
+
 			if (j.isJumpscare()) {
 				j.drawJumpscare(g2);
 				j.playSound();
 			}
 
-			//if (ls.isLoadingScreen()) {
-			//	ls.drawLoadingScreen(g2); 
-			//}
+			// if (ls.isLoadingScreen()) {
+			// ls.drawLoadingScreen(g2);
+			// }
 
 			if (mainMenu.isInMenu()) {
 				mainMenu.mainMenu(g2);

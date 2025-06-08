@@ -95,8 +95,6 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 			rightReleased = false;
 		} else if (code == KeyEvent.VK_E) {
 			ePressed = true;
-		} else if (code == KeyEvent.VK_F) {
-			changeMapPressed = true;
 		} else if (code == KeyEvent.VK_B) {
 			useBookPressed = true;
 		} else if (code == KeyEvent.VK_ESCAPE) {

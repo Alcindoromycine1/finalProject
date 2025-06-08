@@ -226,7 +226,7 @@ public class Maps {
 			e.printStackTrace();
 		}
 		g2.setColor(new Color(87, 44, 19));
-		g2.fillRoundRect(0, 0, 280, 71, 7 ,7);
+		g2.fillRoundRect(0, 0, 280, 71, 7, 7);
 		g2.setStroke(new BasicStroke(3));
 		g2.setColor(Color.BLACK);
 		g2.drawRoundRect(0, 0, 280, 71, 7, 7);
@@ -245,12 +245,6 @@ public class Maps {
 		} else {
 			yVal--;
 		}
-
-		/*
-		 * Items.minigameGhost(g2, 1200, 820 + yVal, "Square", 250, 196);
-		 * Items.minigameGhost(g2, 1000, 860 + yVal, "Circle", 250, 196);
-		 */
-
 	}
 
 	public void camera(Graphics g2, GamePanel gp) {
@@ -278,12 +272,18 @@ public class Maps {
 			Color fadeColor = new Color(0, 0, 0, fadeValue);
 			g2.setColor(fadeColor);
 			g2.fillRect(0, 0, 768, 576);
-			fadeValue += 2;
+			if (lookInMirror) {
+				fadeValue += 1;
+			} else {
+				fadeValue += 2;
+			}
 			if (fadeValue >= 255) {
 				fadeValue = 255;
 				stepCount = 1;
 			}
-
+			g2.setColor(Color.WHITE);
+			g2.setFont(new Font("Calibri", Font.BOLD, 40));
+			g2.drawString("Later that Night...", 250, 250);
 		}
 
 		else if (stepCount == 1) {// change map
@@ -330,8 +330,10 @@ public class Maps {
 				gp.setWorldX(190);
 				gp.setWorldY(-125);
 				gp.setDirection("front");
+			} else if (currentMap == 5) {
+				gp.setWorldX(384);
+				gp.setWorldY(288);
 			}
-
 			stepCount = 2;
 		}
 
@@ -340,14 +342,20 @@ public class Maps {
 		{// fade in
 			g2.setColor(new Color(0, 0, 0, fadeValue));
 			g2.fillRect(0, 0, 768, 576);
-			fadeValue -= 2;
+			if (lookInMirror) {
+				fadeValue -= 1;
+			} else {
+				fadeValue -= 2;
+			}
 			if (fadeValue <= 0) {
 				fading = false;
 				p.disableCharacterMovement();
 				stepCount = -1;
 				fadeValue = 0;
 				hasFaded++;
-
+			}
+			if (!triggerTransition && lookInMirror) {
+				npc.setSuprisedText(true);
 			}
 		}
 		if (hasFaded == 2) {
@@ -370,6 +378,10 @@ public class Maps {
 	public void fade(int changeMap, int oldMap, Graphics2D g2, int worX, int worY, int width, int height, int oldworX,
 			int oldworY, int oldWidth, int oldHeight, GamePanel gp) throws IOException {
 
+		if (currentMap == 5) {
+			inp.setChangeMapPressed(true);
+		}
+
 		if (inp.isChangeMapPressed() && gp.getWorldX() >= oldworX && gp.getWorldX() <= oldworX + oldWidth
 				&& gp.getWorldY() >= oldworY && gp.getWorldY() <= oldworY + oldHeight) {
 			fading = true;
@@ -378,10 +390,12 @@ public class Maps {
 		}
 		if (!fading && inp.isChangeMapPressed() && gp.getWorldX() >= worX && gp.getWorldX() <= worX + width
 				&& gp.getWorldY() >= worY && gp.getWorldY() <= worY + height) {
-			fading = true;
-			p.disableCharacterMovement();
-			stepCount = 0;
-			goOut = true;
+			if (doneNightmare) {
+				fading = true;
+				p.disableCharacterMovement();
+				stepCount = 0;
+				goOut = true;
+			}
 		}
 		if (fading) {
 			fading(g2, t, oldMap, changeMap, gp);
@@ -390,7 +404,7 @@ public class Maps {
 	}
 
 	public boolean doneDoctorDead = false;
-	
+
 	public void nightmare(Graphics2D g2, Component observer, GamePanel gp) throws IOException {
 
 		if (usingBed && !inNightmare && !doneNightmare) {
@@ -453,6 +467,8 @@ public class Maps {
 			npc.doctor(g2, gp);
 		}
 	}
+
+	private boolean triggerTransition = false;
 
 	public void playNightmareSound() {
 		if (inNightmare && doneFade) {
@@ -521,9 +537,9 @@ public class Maps {
 			}
 			if (currentMap == 3) {
 				items.confirmation(g2, "Do you want to", "enter this place?", 250, 225);
-			}else if (currentMap == 2) {
+			} else if (currentMap == 2) {
 				items.confirmation(g2, "Do you want to", "exit the house?", 250, 240);
-			}else if (currentMap == 4) {
+			} else if (currentMap == 4) {
 				items.confirmation(g2, "Do you want to enter", "the exorcism Room?", 190, 210);
 			}
 			return;
@@ -571,6 +587,29 @@ public class Maps {
 								&& gp.getWorldY() <= 271));
 	}
 
+	private boolean lookInMirror = false;
+
+	public void mirrorScene(Graphics2D g2, Component observer, GamePanel gp) throws IOException {
+
+		if (triggerTransition) {
+			fade(2, 5, g2, 384, 288, 100, 100, 384, 288, 100, 100, gp);
+			triggerTransition = false;
+			gp.setWorldX(212);
+			gp.setWorldY(-180);
+			lookInMirror = true;
+		}
+		if (npc.isSuprisedText()) {
+			items.houseMirror(g2);
+			npc.text(g2, 9);
+		}
+	}
+	
+	public void funeralScene(Graphics2D g2, GamePanel gp) throws IOException {
+		if(!npc.isSuprisedText() && lookInMirror) {
+			fade(3, 2, g2, 384, 288, 100, 100, 384, 288, 100, 100, gp);
+		}
+	}
+
 	public void drawTint(Graphics2D g2, GamePanel gp) {
 
 		Point2D centerPoint = new Point2D.Float(gp.getPlayerX(), gp.getPlayerY());
@@ -593,6 +632,14 @@ public class Maps {
 		if (items.getAnimationFrame() >= 150) {
 			items.titleScreen(g2);
 		}
+	}
+
+	public boolean isLookInMirror() {
+		return lookInMirror;
+	}
+
+	public void setLookInMirror(boolean lookInMirror) {
+		this.lookInMirror = lookInMirror;
 	}
 
 	public void setT(Tiles t) {
@@ -682,9 +729,17 @@ public class Maps {
 	public boolean isInNightmare() {
 		return inNightmare;
 	}
-	
+
 	public boolean isDoneDoctorDead() {
 		return doneDoctorDead;
+	}
+
+	public boolean isTriggerTransition() {
+		return triggerTransition;
+	}
+
+	public void setTriggerTransition(boolean triggerTransition) {
+		this.triggerTransition = triggerTransition;
 	}
 
 }

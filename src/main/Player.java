@@ -268,6 +268,9 @@ public class Player {
 		if (m.doneDoctorDead) {
 			return true;
 		}
+		if(m.isLookInMirror()) {
+			return true;
+		}
 		if (m.fading) {
 			return true;
 		}
