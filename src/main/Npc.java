@@ -180,17 +180,18 @@ public class Npc {
 					d3.play();
 					once = true; // ensures the sound only plays once
 				}
+			} else if (textIndex == 3) {
+				d3.stop();
 			}
 			if (textIndex < textDoctor.length) {
 				textBubble(g2, textDoctor[textIndex]);
 				maps.doneDoctorDead = true;
 			} else {
-				d3.stop();
 				maps.doneDoctorDead = false;
 			}
 		} else if (list == 4) {
-			String textDoctrineGhost[] = { "Don't hurt me. Please leave me alone.",
-					"If you must, go inside the door at the end of this path! To   get rid of my kind." };
+			String textDoctrineGhost[] = { "NO Don't hurt me! Please leave me alone!",
+					"If you must, go inside the door at the end of this path and   get rid of my kind." };
 			if (textIndex == 0) {
 				if (!gd1.isPlaying() && !once) {
 					gd1.play();
@@ -206,6 +207,7 @@ public class Npc {
 			if (textIndex < textDoctrineGhost.length) {
 				textBubble(g2, textDoctrineGhost[textIndex]);
 			} else {
+				items.setDoingDoctrineGhost(false);
 				gd2.stop();
 			}
 		} else if (list == 5) {
@@ -265,7 +267,6 @@ public class Npc {
 				textBubble(g2, textNightmare[textIndex]);
 			} else {
 				maps.setDoneNightmare(true);
-				textIndex = 0;
 				n5.stop();
 			}
 		} else if (list == 7) {
@@ -276,22 +277,7 @@ public class Npc {
 			} else {
 				items.setCarSceneDone(true);
 			}
-		}else if (list == 7) {
-			String textCarDestroyed[] = {"My brain is playing tricks on me again!", "I crashed the car because of this."};
-			if (textIndex < textCarDestroyed.length) {
-				textBubble(g2, textCarDestroyed[textIndex]);
-			} else {
-				//items.carOn = false;
-			}
-		}else if (list == 7) {
-			String textCarDestroyed[] = {"My brain is playing tricks on me again!", "I crashed the car because of this."};
-			if (textIndex < textCarDestroyed.length) {
-				textBubble(g2, textCarDestroyed[textIndex]);
-			} else {
-				//items.carOn = false;
-			}
 		}
-		System.out.println(textIndex);
 	}
 
 	public void textBubble(Graphics2D g2, String dialogue) {

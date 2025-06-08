@@ -69,6 +69,7 @@ public class Maps {
 	private boolean usingBed = false;
 
 	private boolean once = false;
+	private boolean once2 = false;
 	private int fade2Value = 0;
 	private boolean faded = false;
 	private boolean doneFade = false;
@@ -440,6 +441,10 @@ public class Maps {
 		}
 		if (doneNightmare && currentMap == 2) {
 			inNightmare = false;
+			if (!once2) {
+				npc.setTextIndex(0);
+				once2 = true;
+			}
 			npc.text(g2, 3);
 			npc.doctor(g2, gp);
 		}
@@ -672,6 +677,10 @@ public class Maps {
 
 	public boolean isInNightmare() {
 		return inNightmare;
+	}
+	
+	public boolean isDoneDoctorDead() {
+		return doneDoctorDead;
 	}
 
 }

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
+import javax.swing.plaf.basic.BasicComboBoxUI.KeyHandler;
 
 public class Items {
 	private Input input;
@@ -126,10 +127,21 @@ public class Items {
 
 	}
 
+	private boolean once = false;
+	private boolean doingDoctrineGhost = false;
+	
 	public void insideDoctrine(Graphics2D g2, GamePanel gp) throws IOException {
 		if (m.getCurrentMap() == 4) {
 			ghost(g2, 1110, 120, 125, 98, gp);
-			npc.text(g2, 4);
+			if (gp.getWorldX() >= 715 && gp.getWorldX() <= 865 && gp.getWorldY() >= -25 && gp.getWorldY() <= 100) {
+				if (!once) {
+					npc.setTextIndex(0);
+					doingDoctrineGhost = true;
+					once = true;
+				}
+				npc.text (g2, 4);
+				p.disableCharacterMovement();
+			}
 		}
 	}
 
@@ -144,7 +156,6 @@ public class Items {
 	// https://stackoverflow.com/questions/12566311/displaying-gif-animation-in-java
 	public void book(Graphics2D g2, Component observer) throws IOException {
 		g2.setFont(new Font("calibri", Font.BOLD, 18));
-		enterBook = true;// REMOVE LATER
 		if (enterBook) {
 			if (!playGif || staticImageBook) {
 				g2.drawImage(book, -70, 0, 900, 587, null);
@@ -173,10 +184,10 @@ public class Items {
 			Font subHeading = new Font("Arial", Font.BOLD, 24);
 			Font normalText = new Font("Arial", Font.PLAIN, 17);
 			BufferedImage dispellingGhosts = ImageIO.read(new File("src/textures/dispellingGhosts.png"));// image from:
-			BufferedImage circleExample = ImageIO.read(new File ("src/textures/circleExample.png"));
-			BufferedImage triangleExample = ImageIO.read(new File ("src/textures/triangleExample.png"));
-			BufferedImage horizontalExample = ImageIO.read(new File ("src/textures/horizontalExample.png"));
-			
+			BufferedImage circleExample = ImageIO.read(new File("src/textures/circleExample.png"));
+			BufferedImage triangleExample = ImageIO.read(new File("src/textures/triangleExample.png"));
+			BufferedImage horizontalExample = ImageIO.read(new File("src/textures/horizontalExample.png"));
+
 			// Researched information from:
 			// https://www.usccb.org/beliefs-and-teachings/what-we-believe/catechism/catechism-of-the-catholic-church?p=29-chapter12.xhtml%23para1673
 			// and https://www.vatican.va/archive/cod-iuris-canonici/cic_index_en.html
@@ -252,32 +263,32 @@ public class Items {
 				g2.drawString("channel your inner catholicism to", 410, 345);
 				g2.drawString("dispel the ghosts away.", 410, 370);
 
-			}else if(nextPage == 3) {
+			} else if (nextPage == 3) {
 				g2.setFont(subHeading);
 				g2.drawString("Performing an Exorcism", 85, 140);
 				g2.fillRect(85, 142, 275, 3);
-				
+
 				g2.setFont(normalText);
 				g2.drawString("Use your cursor to draw and copy the", 90, 180);
 				g2.drawString("shapes above the ghosts heads.", 90, 205);
-				
+
 				g2.drawString("For example, this ghost has a circle", 90, 230);
 				g2.drawString("above its head. So you must replicate", 90, 255);
 				g2.drawString("its shape by holding down your mouse", 90, 280);
 				g2.drawString("and letting go when you have", 90, 305);
 				g2.drawString("made the shape.", 90, 330);
-				
+
 				g2.drawImage(circleExample, 100, 340, 235, 142, null);
 				g2.drawString("Shape on the left is drawn", 120, 500);
-				
+
 				g2.setFont(subHeading);
 				g2.drawString("More Examples", 440, 165);
 				g2.fillRect(440, 167, 200, 3);
 				g2.drawImage(triangleExample, 420, 175, 235, 132, null);
 				g2.drawImage(horizontalExample, 420, 310, 235, 132, null);
-			}else if(nextPage == 4) {
+			} else if (nextPage == 4) {
 				g2.setFont(subHeading);
-			//	g2.drawString(" ");
+				// g2.drawString(" ");
 			}
 		}
 	}
@@ -1461,5 +1472,12 @@ public class Items {
 	public void setCarSceneDone(boolean carSceneDone) {
 		this.carSceneDone = carSceneDone;
 	}
+	
+	public void setDoingDoctrineGhost (boolean dg) {
+		this.doingDoctrineGhost = dg;
+	}
 
+	public boolean isDoingDoctrineGhost() {
+		return doingDoctrineGhost;
+	}
 }

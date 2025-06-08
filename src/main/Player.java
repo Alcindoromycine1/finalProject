@@ -268,7 +268,6 @@ public class Player {
 		if (m.doneDoctorDead) {
 			return true;
 		}
-
 		if (m.fading) {
 			return true;
 		}
@@ -276,6 +275,9 @@ public class Player {
 			return true;
 		}
 		if (it.isInGraveYard()) {
+			return true;
+		}
+		if (m.getCurrentMap() == 4 && it.isDoingDoctrineGhost()) {
 			return true;
 		}
 		if (m.getCurrentMap() == 5) {
