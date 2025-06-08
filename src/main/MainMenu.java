@@ -32,7 +32,9 @@ public class MainMenu {
 	public void mainMenu(Graphics2D g2) {
 		Color selected = new Color(144, 50, 50);
 		Color unselected = new Color(193, 45, 57);
+		g2.setColor(Color.WHITE);
 		g2.drawImage(background, 0, 0, null);
+		g2.drawString("It is recommended to visit the help menu first.", 410, 560);
 		if (hoveringPlay) {
 			g2.setColor(selected);
 			g2.fillRoundRect(245, 240 - 20, 280, 60, 10, 10);

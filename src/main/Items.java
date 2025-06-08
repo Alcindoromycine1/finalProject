@@ -377,7 +377,7 @@ public class Items {
 	private int instructionsY = 10;
 	private boolean hoveringInstructions = false;
 	private boolean instructionsPrompt = false;
-	private boolean hoveringKeybind = false;
+	private boolean hoveringObjective = false;
 	private boolean hoveringMovement = false;
 	private Color selected = new Color(144, 50, 50);
 	private Color unselected = new Color(193, 45, 57);
@@ -417,46 +417,46 @@ public class Items {
 				g2.setColor(unselected);
 				g2.fillRoundRect(305, 160, 195, 62, 20, 20);
 			}
-			if (hoveringKeybind) {
+			if (hoveringObjective) {
 				g2.setColor(selected);
 				g2.fillRoundRect(305, 250, 195, 62, 20, 20);
-			} else if (!hoveringKeybind) {
+			} else if (!hoveringObjective) {
 				g2.setColor(unselected);
 				g2.fillRoundRect(305, 250, 195, 62, 20, 20);
 			}
 
 			g2.setFont(new Font("Calibri", Font.BOLD, 30));
 			g2.setColor(Color.WHITE);
-			g2.drawString("Movement", 335, 200);
-			g2.drawString("Keybinds", 348, 290);
+			g2.drawString("Movement", 338, 200);
+			g2.drawString("Objective", 345, 290);
 		}
 	}
 
 	private boolean backPressed = false;
 	private boolean hoveringBack = false;
-	private boolean keybindPrompts = false;
+	private boolean objectivePrompts = false;
 	private boolean inHouse = false;
 
 	public void backMenu(Graphics2D g2) {
 		if (!hoveringBack) {
 			g2.setColor(unselected);
-			g2.fillRoundRect(345, 430, 130, 45, 10, 10);
+			g2.fillRoundRect(335, 430, 130, 45, 10, 10);
 			g2.setFont(new Font("Calibri", Font.BOLD, 25));
 			g2.setColor(Color.WHITE);
-			g2.drawString("Go Back", 367, 460);
+			g2.drawString("Go Back", 357, 460);
 		} else {
 			g2.setColor(selected);
-			g2.fillRoundRect(345, 430, 130, 45, 10, 10);
+			g2.fillRoundRect(335, 430, 130, 45, 10, 10);
 			g2.setFont(new Font("Calibri", Font.BOLD, 25));
 			g2.setColor(Color.WHITE);
-			g2.drawString("Go Back", 367, 460);
+			g2.drawString("Go Back", 357, 460);
 		}
 		if (backPressed) {
 			if (movementPrompt) {
 				movementPrompt = false;
 				instructionsPrompt = true;
-			} else if (keybindPrompts) {
-				keybindPrompts = false;
+			} else if (objectivePrompts) {
+				objectivePrompts = false;
 				instructionsPrompt = true;
 			}
 
@@ -487,7 +487,7 @@ public class Items {
 			g2.drawString("Up", 382, 178 + 20);
 			g2.drawString("Down", 351, 368 + 20);
 		}
-		if (keybindPrompts) {
+		if (objectivePrompts) {
 			instructionsPrompt = false;
 
 			g2.setColor(Color.BLACK);
@@ -498,27 +498,32 @@ public class Items {
 			g2.fillRoundRect(60, 60, 218 * 3, 148 * 3, 10, 10);
 			g2.setFont(new Font("Monospaced", Font.BOLD, 40));
 			g2.setColor(Color.BLACK);
-			g2.drawString("Keybinds", 310, 112 + 10);
-			g2.fillRect(310, 116 + 10, 189, 2);
+			g2.drawString("Current Objective", 180, 112 + 10);
+			g2.fillRect(180, 116 + 10, 410, 2);
 
-			g2.drawImage(car, 130 - 10, 30 + 80, 96, 192, null);
-			g2.drawImage(door, 300 + 18, 50 + 80, 150, 150, null);
+			if (m.getCurrentMap() == 3 && !carUsed && !m.isDoneNightmare()) {
+				g2.setFont(new Font("Monospaced", Font.BOLD, 30));
+				g2.drawImage(door, 300, 50 + 80, 200, 200, null);
+				g2.drawString("Go in the house", 270, 330);
+			}
+			else if (m.getCurrentMap() == 2 && !m.isDoneNightmare()) {
+				g2.setFont(new Font("Monospaced", Font.BOLD, 30));
+				g2.drawImage(bed, 360, 200, 75, 75, null);
+				g2.drawString("Go to sleep", 300, 330);
+			}
+			else if (m.getCurrentMap() == 3 && m.isDoneNightmare() && !carUsed) {
+				g2.setFont(new Font("Monospaced", Font.BOLD, 30));
+				g2.drawImage(car, 350, 160, 96, 192, null);
+				g2.drawString("Get in the car", 280, 330);
+			}
+			/*
 			g2.drawImage(exorcism, 545, 95 + 80, 120, 75, null);
-			g2.drawImage(bed, 160, 300, 75, 75, null);
 			g2.setFont(new Font("Monospaced", Font.BOLD, 20));
 			g2.setColor(Color.BLACK);
-			// Car keybind
-			g2.drawString("Press C to", 120 - 10, 180 + 80);
-			g2.drawString("Enter Car", 124 - 10, 200 + 80);
-			// Fading keybind
-			g2.drawString("Press F to", 320 + 18, 180 + 80);
-			g2.drawString("Walk into Area", 290 + 18, 200 + 80);
 			// Exorcism keybind
 			g2.drawString("Press E to", 545, 180 + 80);
 			g2.drawString("Exorcise Ghosts", 515, 200 + 80);
-			// Bed instructions
-			g2.drawString("Walk into a bed", 105, 395);
-			g2.drawString("to sleep", 150, 415);
+			*/
 		}
 	}
 
@@ -1243,8 +1248,8 @@ public class Items {
 		return instructionsPrompt;
 	}
 
-	public boolean isHoveringKeybind() {
-		return hoveringKeybind;
+	public boolean isHoveringObjective() {
+		return hoveringObjective;
 	}
 
 	public boolean isHoveringMovement() {
@@ -1356,8 +1361,8 @@ public class Items {
 		this.instructionsPrompt = instructionsPrompt;
 	}
 
-	public void setHoveringKeybind(boolean hoveringKeybind) {
-		this.hoveringKeybind = hoveringKeybind;
+	public void setHoveringObjective(boolean hoveringObjective) {
+		this.hoveringObjective = hoveringObjective;
 	}
 
 	public void setHoveringMovement(boolean hoveringMovement) {
@@ -1420,12 +1425,12 @@ public class Items {
 		this.movementPrompt = movementPrompt;
 	}
 
-	public boolean isKeybindPrompts() {
-		return keybindPrompts;
+	public boolean isObjectivePrompts() {
+		return objectivePrompts;
 	}
 
-	public void setKeybindPrompts(boolean keybindPrompts) {
-		this.keybindPrompts = keybindPrompts;
+	public void setObjectivePrompts(boolean objectivePrompts) {
+		this.objectivePrompts = objectivePrompts;
 	}
 
 	public void setCreditsPressed(boolean creditsPressed) {
