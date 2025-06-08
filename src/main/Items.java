@@ -173,10 +173,10 @@ public class Items {
 			Font subHeading = new Font("Arial", Font.BOLD, 24);
 			Font normalText = new Font("Arial", Font.PLAIN, 17);
 			BufferedImage dispellingGhosts = ImageIO.read(new File("src/textures/dispellingGhosts.png"));// image from:
-			BufferedImage circleExample = ImageIO.read(new File ("src/textures/circleExample.png"));
-			BufferedImage triangleExample = ImageIO.read(new File ("src/textures/triangleExample.png"));
-			BufferedImage horizontalExample = ImageIO.read(new File ("src/textures/horizontalExample.png"));
-			
+			BufferedImage circleExample = ImageIO.read(new File("src/textures/circleExample.png"));
+			BufferedImage triangleExample = ImageIO.read(new File("src/textures/triangleExample.png"));
+			BufferedImage horizontalExample = ImageIO.read(new File("src/textures/horizontalExample.png"));
+
 			// Researched information from:
 			// https://www.usccb.org/beliefs-and-teachings/what-we-believe/catechism/catechism-of-the-catholic-church?p=29-chapter12.xhtml%23para1673
 			// and https://www.vatican.va/archive/cod-iuris-canonici/cic_index_en.html
@@ -252,32 +252,56 @@ public class Items {
 				g2.drawString("channel your inner catholicism to", 410, 345);
 				g2.drawString("dispel the ghosts away.", 410, 370);
 
-			}else if(nextPage == 3) {
+			} else if (nextPage == 3) {
 				g2.setFont(subHeading);
 				g2.drawString("Performing an Exorcism", 85, 140);
 				g2.fillRect(85, 142, 275, 3);
-				
+
 				g2.setFont(normalText);
 				g2.drawString("Use your cursor to draw and copy the", 90, 180);
 				g2.drawString("shapes above the ghosts heads.", 90, 205);
-				
+
 				g2.drawString("For example, this ghost has a circle", 90, 230);
 				g2.drawString("above its head. So you must replicate", 90, 255);
 				g2.drawString("its shape by holding down your mouse", 90, 280);
 				g2.drawString("and letting go when you have", 90, 305);
 				g2.drawString("made the shape.", 90, 330);
-				
+
 				g2.drawImage(circleExample, 100, 340, 235, 142, null);
 				g2.drawString("Shape on the left is drawn", 120, 500);
-				
+
 				g2.setFont(subHeading);
-				g2.drawString("More Examples", 440, 165);
-				g2.fillRect(440, 167, 200, 3);
+				g2.drawString("More Examples", 453, 165);
+				g2.fillRect(453, 167, 179, 3);
 				g2.drawImage(triangleExample, 420, 175, 235, 132, null);
 				g2.drawImage(horizontalExample, 420, 310, 235, 132, null);
-			}else if(nextPage == 4) {
+			} else if (nextPage == 4) {
 				g2.setFont(subHeading);
-			//	g2.drawString(" ");
+				g2.drawString("Successful Exorcism", 100, 132);
+				g2.fillRect(100, 142, 240, 3);
+				g2.setFont(normalText);
+				g2.drawString("You’ll know you’ve successfully drawn", 90, 180);
+				g2.drawString("a shape when a pentagram appears", 90, 205);
+				g2.drawString("where the ghosts previously were.", 90, 230);
+				// #1 IMAGE OF GHOST DRAWING
+				// #2 IMAGE OF PENTAGRAM ONCE SUCCESSFULLY DRAWING GHOST
+
+				g2.setFont(subHeading);
+				g2.drawString("Multiple Ghosts", 450, 175);
+				g2.fillRect(450, 177, 180, 3);
+				g2.setFont(normalText);
+				g2.drawString("It is vital that you remember that", 410, 200);
+				g2.setColor(Color.RED);
+				g2.drawString("you must exorcise ghosts from left", 410, 225);
+				g2.drawString("to right.", 410, 250);
+				g2.setColor(Color.BLACK);
+				g2.drawString("This means that you must", 470, 250);
+				g2.drawString("first exorcise the ghost on the left side,", 410, 275);
+				g2.drawString("and then exorcise the ghost on the", 410, 300);
+				g2.drawString("right.", 410, 350);
+				
+
+				g2.setFont(normalText);
 			}
 		}
 	}
