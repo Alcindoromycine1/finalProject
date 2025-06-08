@@ -10,7 +10,7 @@ public class MainMenu {
 
 	private BufferedImage background;
 
-	private boolean inMenu = true;
+	private boolean inMenu = false;
 	private boolean hoveringPlay = false;
 	private boolean hoveringHelp = false;
 	private boolean hoveringExit = false;

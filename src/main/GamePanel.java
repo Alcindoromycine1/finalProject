@@ -104,7 +104,7 @@ public class GamePanel extends JPanel implements Runnable {
 		screenY = HEIGHT / 2 - (tileSize / 2); // centers the player in the middle of the screen
 		
 		// Background
-		m.changeMap(5);
+		m.changeMap(3);
 		// Find trees in the map
 
 		// load tiles

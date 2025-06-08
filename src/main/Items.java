@@ -156,7 +156,7 @@ public class Items {
 	// https://stackoverflow.com/questions/12566311/displaying-gif-animation-in-java
 	public void book(Graphics2D g2, Component observer) throws IOException {
 		g2.setFont(new Font("calibri", Font.BOLD, 18));
-		//enterBook = true;// REMOVE LATER
+		enterBook = true;// REMOVE LATER
 		if (enterBook) {
 			if (!playGif || staticImageBook) {
 				g2.drawImage(book, -70, 0, 900, 587, null);
@@ -189,6 +189,7 @@ public class Items {
 			BufferedImage triangleExample = ImageIO.read(new File("src/textures/triangleExample.png"));
 			BufferedImage horizontalExample = ImageIO.read(new File("src/textures/horizontalExample.png"));
 			BufferedImage leftGhostExample = ImageIO.read(new File ("src/textures/leftGhostExample.png"));
+			BufferedImage rightGhostExample = ImageIO.read(new File ("src/textures/rightGhostExample.png"));
 		
 			// Researched information from:
 			// https://www.usccb.org/beliefs-and-teachings/what-we-believe/catechism/catechism-of-the-catholic-church?p=29-chapter12.xhtml%23para1673
@@ -291,7 +292,7 @@ public class Items {
 			} else if (nextPage == 4) {
 				g2.setFont(subHeading);
 				g2.drawString("Successful Exorcism", 100, 132);
-				g2.fillRect(100, 142, 240, 3);
+				g2.fillRect(100, 134, 240, 3);
 				g2.setFont(normalText);
 				g2.drawString("You’ll know you’ve successfully drawn", 90, 180);
 				g2.drawString("a shape when a pentagram appears", 90, 205);
@@ -300,8 +301,8 @@ public class Items {
 				// #2 IMAGE OF PENTAGRAM ONCE SUCCESSFULLY DRAWING GHOST
 
 				g2.setFont(subHeading);
-				g2.drawString("Multiple Ghosts", 450, 175);
-				g2.fillRect(450, 177, 180, 3);
+				g2.drawString("Multiple Ghosts", 450, 170);
+				g2.fillRect(450, 172, 180, 3);
 				g2.setFont(normalText);
 				g2.drawString("It is vital that you remember that", 410, 200);
 				g2.setColor(Color.RED);
@@ -309,13 +310,29 @@ public class Items {
 				g2.drawString("to right.", 410, 250);
 				g2.setColor(Color.BLACK);
 				g2.drawString("This means that you must", 470, 250);
-				g2.drawString("first exorcise the ghost on the left side,", 410, 275);
-				g2.drawString("and then exorcise the ghost on the", 410, 300);
-				g2.drawString("right.", 410, 350);
+				g2.drawString("first exorcise the ghost on the left", 410, 275);
+				g2.drawString("side, and then exorcise the ghost", 410, 300);
+				g2.drawString("on the right.", 410, 325);
+			}else if(nextPage == 5) {
+				g2.setFont(subHeading);
+				g2.drawString("Multiple Ghost Example", 90, 140);
+				g2.fillRect(90, 142, 270, 3);
 				
-
+				g2.drawImage(leftGhostExample, 100, 165, 235, 132, null);
+				g2.drawImage(rightGhostExample, 100, 320, 235, 132, null);
+				
+				g2.drawString("Multishape Ghosts", 440, 180);
+				g2.fillRect(440, 182, 215, 3);
+				
 				g2.setFont(normalText);
-				g2.drawImage(leftGhostExample, 4100, 380, 235, 132, null);
+				g2.drawString("Beware though, some ghosts have", 410, 220);
+				g2.drawString("more than 1 shape. This example has", 410, 245);
+				g2.drawString("2. To exorcise it, begin drawing", 410, 270);
+				g2.drawString("the shape on the left side. Once", 410, 295);
+				g2.drawString("that shape is complete, it will", 410, 320);
+				g2.drawString("disappear from the top of its head.", 410, 345);
+				g2.drawString("Then, draw the other shape, and the", 410, 370);
+				g2.drawString("ghosts will be exorcised", 410, 395);
 			}
 		}
 	}
