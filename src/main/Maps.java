@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -225,7 +226,10 @@ public class Maps {
 			e.printStackTrace();
 		}
 		g2.setColor(new Color(87, 44, 19));
-		g2.fillRect(0, 0, 280, 71);
+		g2.fillRoundRect(0, 0, 280, 71, 7 ,7);
+		g2.setStroke(new BasicStroke(3));
+		g2.setColor(Color.BLACK);
+		g2.drawRoundRect(0, 0, 280, 71, 7, 7);
 		g2.setFont(new Font("Arial", Font.BOLD, 20));
 		g2.setColor(Color.WHITE);
 		g2.drawString("Draw:", 15, 40);

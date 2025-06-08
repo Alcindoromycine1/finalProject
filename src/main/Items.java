@@ -43,7 +43,22 @@ public class Items {
 	private BufferedImage door;
 	private BufferedImage exorcism;
 	private BufferedImage bed;
-
+	private BufferedImage verticalMultishape;
+	private BufferedImage circleMultishape;
+	private BufferedImage dispellingGhosts;
+	private BufferedImage circleExample;
+	private BufferedImage triangleExample;
+	private BufferedImage horizontalExample;
+	private BufferedImage leftGhostExample;
+	private BufferedImage rightGhostExample;
+	private BufferedImage multiShapeGhost1;
+	private Font subHeading;
+	private Font header;
+	private Font normalText;
+	private BufferedImage orderFullFrame;
+	private BufferedImage triangleRemovedOrder;
+	private BufferedImage orderCloseUp;
+	
 	private ImageIcon pageFlipping;
 	private Sound bookFlipSound;
 
@@ -65,17 +80,7 @@ public class Items {
 		worldY = gp.getWorldY();
 
 		try {
-			mirror = ImageIO.read(new File("src/textures/jeffMirror.png"));
-			doctrine = ImageIO.read(new File("src/textures/doctrine.png"));
-			book = ImageIO.read(new File("src/textures/books.png"));
-			car = ImageIO.read(new File("src/textures/car.png"));
-			brokenCar = ImageIO.read(new File("src/textures/destroyedCar.png"));
-			wasdKey = ImageIO.read(new File("src/textures/wasdKey.png"));// https://media.istockphoto.com/id/1193231012/vector/computer-gamer-keyboard-wasd-keys-vector-illustration-wasd-keys-game-control-keyboard-buttons.jpg?s=612x612&w=0&k=20&c=-DJ6CFewXZ_Oofp_BsYya5KniByRkVW3EAHYICWIOaU=
-			door = ImageIO.read(new File("src/textures/door.png"));// https://img.freepik.com/premium-vector/open-close-door-pixel-art-style_475147-1239.jpgd
-			exorcism = ImageIO.read(new File("src/textures/exorcism.png"));// https://www.creativefabrica.com/wp-content/uploads/2023/03/22/pixel-art-wooden-cross-vector-Graphics-65026120-1.jpg
-			bed = ImageIO.read(new File("src/textures/bed.png"));
-			pageFlipping = new ImageIcon("src/textures/books.gif");
-			bookFlipSound = new Sound("src/sound/bookFlip.wav");
+			loadFontsImages();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -129,7 +134,7 @@ public class Items {
 
 	private boolean once = false;
 	private boolean doingDoctrineGhost = false;
-	
+
 	public void insideDoctrine(Graphics2D g2, GamePanel gp) throws IOException {
 		if (m.getCurrentMap() == 4) {
 			ghost(g2, 1110, 120, 125, 98, gp);
@@ -139,7 +144,7 @@ public class Items {
 					doingDoctrineGhost = true;
 					once = true;
 				}
-				npc.text (g2, 4);
+				npc.text(g2, 4);
 				p.disableCharacterMovement();
 			}
 		}
@@ -152,11 +157,40 @@ public class Items {
 	private boolean staticImageBook = false;
 	private boolean hoveringExitPage = false;
 
+	public void loadFontsImages() throws IOException {
+		header = new Font("Arial", Font.BOLD, 35);
+		subHeading = new Font("Arial", Font.BOLD, 24);
+		normalText = new Font("Arial", Font.PLAIN, 17);
+		dispellingGhosts = ImageIO.read(new File("src/textures/dispellingGhosts.png"));// image from:
+		circleExample = ImageIO.read(new File("src/textures/circleExample.png"));
+		triangleExample = ImageIO.read(new File("src/textures/triangleExample.png"));
+		horizontalExample = ImageIO.read(new File("src/textures/horizontalExample.png"));
+		leftGhostExample = ImageIO.read(new File("src/textures/leftGhostExample.png"));
+		rightGhostExample = ImageIO.read(new File("src/textures/rightGhostExample.png"));
+		multiShapeGhost1 = ImageIO.read(new File("src/textures/multiShapeGhost1.png"));
+		circleMultishape = ImageIO.read(new File("src/textures/circleMultishape.png"));
+		verticalMultishape = ImageIO.read(new File("src/textures/verticalMultishape.png"));
+		mirror = ImageIO.read(new File("src/textures/jeffMirror.png"));
+		doctrine = ImageIO.read(new File("src/textures/doctrine.png"));
+		book = ImageIO.read(new File("src/textures/books.png"));
+		car = ImageIO.read(new File("src/textures/car.png"));
+		brokenCar = ImageIO.read(new File("src/textures/destroyedCar.png"));
+		wasdKey = ImageIO.read(new File("src/textures/wasdKey.png"));// https://media.istockphoto.com/id/1193231012/vector/computer-gamer-keyboard-wasd-keys-vector-illustration-wasd-keys-game-control-keyboard-buttons.jpg?s=612x612&w=0&k=20&c=-DJ6CFewXZ_Oofp_BsYya5KniByRkVW3EAHYICWIOaU=
+		door = ImageIO.read(new File("src/textures/door.png"));// https://img.freepik.com/premium-vector/open-close-door-pixel-art-style_475147-1239.jpgd
+		exorcism = ImageIO.read(new File("src/textures/exorcism.png"));// https://www.creativefabrica.com/wp-content/uploads/2023/03/22/pixel-art-wooden-cross-vector-Graphics-65026120-1.jpg
+		bed = ImageIO.read(new File("src/textures/bed.png"));
+		pageFlipping = new ImageIcon("src/textures/books.gif");
+		bookFlipSound = new Sound("src/sound/bookFlip.wav");
+		orderFullFrame = ImageIO.read(new File ("src/textures/orderFullFrame.png"));
+		triangleRemovedOrder = ImageIO.read(new File ("src/textures/removedTriangleOrder.png"));
+		orderCloseUp = ImageIO.read(new File ("src/textures/orderCloseUp.png"));
+	}
+
 	// Stackoverflow used for GIF:
 	// https://stackoverflow.com/questions/12566311/displaying-gif-animation-in-java
 	public void book(Graphics2D g2, Component observer) throws IOException {
 		g2.setFont(new Font("calibri", Font.BOLD, 18));
-		enterBook = true;// REMOVE LATER
+	    //enterBook = true;// REMOVE LATER
 		if (enterBook) {
 			if (!playGif || staticImageBook) {
 				g2.drawImage(book, -70, 0, 900, 587, null);
@@ -164,33 +198,24 @@ public class Items {
 				g2.drawImage(pageFlipping.getImage(), -70, 0, 900, 587, observer);
 			}
 			if (!hoveringNextPage) {
-				g2.setColor(Color.RED);
+				g2.setColor(unselected);
 				g2.fillRoundRect(530, 445, 150, 40, 10, 10);
 			} else {
-				g2.setColor(Color.BLACK);
+				g2.setColor(selected);
 				g2.fillRoundRect(530, 445, 150, 40, 10, 10);
 			}
 			if (!hoveringExitPage) {
-				g2.setColor(Color.RED);
+				g2.setColor(unselected);
 				g2.fillRoundRect(530, 100, 150, 40, 10, 10);
 			} else {
-				g2.setColor(Color.BLACK);
+				g2.setColor(selected);
 				g2.fillRoundRect(530, 100, 150, 40, 10, 10);
 			}
 			g2.setColor(Color.WHITE);
 			g2.drawString("Close Book", 562, 125);
 			g2.drawString("Next Page", 565, 470);
 			g2.setColor(Color.BLACK);
-			Font header = new Font("Arial", Font.BOLD, 35);
-			Font subHeading = new Font("Arial", Font.BOLD, 24);
-			Font normalText = new Font("Arial", Font.PLAIN, 17);
-			BufferedImage dispellingGhosts = ImageIO.read(new File("src/textures/dispellingGhosts.png"));// image from:
-			BufferedImage circleExample = ImageIO.read(new File("src/textures/circleExample.png"));
-			BufferedImage triangleExample = ImageIO.read(new File("src/textures/triangleExample.png"));
-			BufferedImage horizontalExample = ImageIO.read(new File("src/textures/horizontalExample.png"));
-			BufferedImage leftGhostExample = ImageIO.read(new File ("src/textures/leftGhostExample.png"));
-			BufferedImage rightGhostExample = ImageIO.read(new File ("src/textures/rightGhostExample.png"));
-		
+
 			// Researched information from:
 			// https://www.usccb.org/beliefs-and-teachings/what-we-believe/catechism/catechism-of-the-catholic-church?p=29-chapter12.xhtml%23para1673
 			// and https://www.vatican.va/archive/cod-iuris-canonici/cic_index_en.html
@@ -313,17 +338,20 @@ public class Items {
 				g2.drawString("first exorcise the ghost on the left", 410, 275);
 				g2.drawString("side, and then exorcise the ghost", 410, 300);
 				g2.drawString("on the right.", 410, 325);
-			}else if(nextPage == 5) {
+			} else if (nextPage == 5) {
 				g2.setFont(subHeading);
 				g2.drawString("Multiple Ghost Example", 90, 140);
 				g2.fillRect(90, 142, 270, 3);
-				
+
 				g2.drawImage(leftGhostExample, 100, 165, 235, 132, null);
+				g2.setFont(normalText);
+				g2.drawString("Left Ghost Exorcised", 135, 316);
+				g2.drawString("Right Ghost Exorcised", 135, 470);
 				g2.drawImage(rightGhostExample, 100, 320, 235, 132, null);
-				
+				g2.setFont(subHeading);
 				g2.drawString("Multishape Ghosts", 440, 180);
 				g2.fillRect(440, 182, 215, 3);
-				
+
 				g2.setFont(normalText);
 				g2.drawString("Beware though, some ghosts have", 410, 220);
 				g2.drawString("more than 1 shape. This example has", 410, 245);
@@ -333,6 +361,39 @@ public class Items {
 				g2.drawString("disappear from the top of its head.", 410, 345);
 				g2.drawString("Then, draw the other shape, and the", 410, 370);
 				g2.drawString("ghosts will be exorcised", 410, 395);
+
+			} else if (nextPage == 6) {
+				g2.setFont(subHeading);
+				g2.drawString("Multishape Ghosts", 115, 140);
+				g2.fillRect(115, 142, 215, 3);
+				g2.drawImage(multiShapeGhost1, 105, 150, 235, 132, null);
+				g2.setFont(normalText);
+				g2.drawString("Multishape Ghosts", 155, 300);
+				g2.drawImage(verticalMultishape, 105, 310, 235, 132, null);
+				g2.drawString("Completing the first shape on the left", 90, 460);
+				g2.drawImage(circleMultishape, 425, 170, 235, 132, null);
+				g2.drawString("Completing the right shape of the ghost", 395, 325);
+				// IMAGE OF PENTAGRAM HERE
+			} else if (nextPage == 7) {
+
+				g2.setFont(subHeading);
+				g2.drawString("Order of Shapes", 125, 140);
+				g2.fillRect(125, 142, 185, 3);
+				g2.setFont(normalText);
+				g2.drawString("If you are ever confused, the top left", 90, 170);
+				g2.drawString("includes a list of shapes that need to", 90, 195);
+				g2.drawString("be replicated in proper order.", 90, 220);
+				g2.drawImage(orderFullFrame, 100, 235, 235, 142, null);
+				g2.drawString("In the example above, the triangle", 90, 425);
+				g2.drawString("must be drawn first then the circle.", 90, 450);
+				g2.drawString("Top Left has correct order", 120, 396);
+				g2.drawImage(orderCloseUp, 425, 150, 235, 112, null);
+				g2.drawString("Close Up of Order", 475, 280);
+				g2.drawImage(triangleRemovedOrder, 425, 290, 235, 132, null);
+				g2.drawString("Left Ghost Exorcised (new order)", 420, 440);
+			}else if(nextPage == 8) {
+				g2.setFont(header);
+				g2.drawString("THE END", 140, 290);
 			}
 		}
 	}
@@ -522,25 +583,21 @@ public class Items {
 				g2.setFont(new Font("Monospaced", Font.BOLD, 30));
 				g2.drawImage(door, 300, 50 + 80, 200, 200, null);
 				g2.drawString("Go in the house", 270, 330);
-			}
-			else if (m.getCurrentMap() == 2 && !m.isDoneNightmare()) {
+			} else if (m.getCurrentMap() == 2 && !m.isDoneNightmare()) {
 				g2.setFont(new Font("Monospaced", Font.BOLD, 30));
 				g2.drawImage(bed, 360, 200, 75, 75, null);
 				g2.drawString("Go to sleep", 300, 330);
-			}
-			else if (m.getCurrentMap() == 3 && m.isDoneNightmare() && !carUsed) {
+			} else if (m.getCurrentMap() == 3 && m.isDoneNightmare() && !carUsed) {
 				g2.setFont(new Font("Monospaced", Font.BOLD, 30));
 				g2.drawImage(car, 350, 160, 96, 192, null);
 				g2.drawString("Get in the car", 280, 330);
 			}
 			/*
-			g2.drawImage(exorcism, 545, 95 + 80, 120, 75, null);
-			g2.setFont(new Font("Monospaced", Font.BOLD, 20));
-			g2.setColor(Color.BLACK);
-			// Exorcism keybind
-			g2.drawString("Press E to", 545, 180 + 80);
-			g2.drawString("Exorcise Ghosts", 515, 200 + 80);
-			*/
+			 * g2.drawImage(exorcism, 545, 95 + 80, 120, 75, null); g2.setFont(new
+			 * Font("Monospaced", Font.BOLD, 20)); g2.setColor(Color.BLACK); // Exorcism
+			 * keybind g2.drawString("Press E to", 545, 180 + 80);
+			 * g2.drawString("Exorcise Ghosts", 515, 200 + 80);
+			 */
 		}
 	}
 
@@ -567,15 +624,6 @@ public class Items {
 	private int graveY = 333;
 	private BufferedImage ghost;
 	private boolean firstTime = true;
-
-	public static int ghostRandomizer() {
-		// if (level == 1) {
-		return (int) (Math.random() * 5) + 1;
-		// } else if (level == 2) {
-		// return (int) (Math.random() * 4) + 6;
-		// }
-		// return 0;
-	}
 
 	public void ghost(Graphics2D g2, int ghostGraveYardX, int ghostGraveYardY, int width, int height, GamePanel gp)
 			throws IOException {
@@ -640,24 +688,6 @@ public class Items {
 		} else if (level == 8) {
 			minigameGhost(g2, 1100 - 20, 820 - 0 + offsetY, "bossghost", 250, 196, gp);
 		}
-		/*
-		 * if (ghostNumber == 1 && !Input.isTriangle) { Items.minigameGhost(g2, 1200 +
-		 * offsetX, 820 + offsetY, "Triangle", 250, 196); } else if (ghostNumber == 2 &&
-		 * !Input.isCircle) { Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY,
-		 * "Circle", 250, 196); } else if (ghostNumber == 3 && !Input.isZigzag) {
-		 * Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "Zigzag", 250, 196); }
-		 * else if (ghostNumber == 4 && !Minigame.currentShape.equals("vertical")) {
-		 * Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "Vertical", 250, 196);
-		 * } else if (ghostNumber == 5 && !Minigame.currentShape.equals("horizontal")) {
-		 * Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "Horizontal", 250,
-		 * 196); } else if (ghostNumber == 6) { Items.minigameGhost(g2, 1200 + offsetX,
-		 * 820 + offsetY, "duoGhost", 250, 196); } else if (ghostNumber == 7) {
-		 * Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "duoGhost", 250, 196);
-		 * } else if (ghostNumber == 8) { Items.minigameGhost(g2, 1200 + offsetX, 820 +
-		 * offsetY, "duoGhost", 250, 196); } else if (ghostNumber == 9) {
-		 * Items.minigameGhost(g2, 1200 + offsetX, 820 + offsetY, "duoGhost", 250, 196);
-		 * }
-		 */
 	}
 
 	private int ghostNumberLeft;
@@ -686,7 +716,6 @@ public class Items {
 				reachedPeak = false;
 			}
 		}
-		System.out.println(ghostCount);
 
 		if (ghostCount == 2 && !levelShape.equals("duoghost1") && !levelShape.equals("duoghost2")
 				&& !levelShape.equals("duoghost3") && !levelShape.equals("duoghost4") && !levelShape.equals("trioghost")
@@ -757,10 +786,20 @@ public class Items {
 			int[] xTriangle = { ghostX - 260 + offsetX, ghostX - 230 + offsetX, ghostX - 290 + offsetX };
 			int[] yTriangle = { ghostY - 350, ghostY - 290, ghostY - 290 };
 			g2.drawPolygon(xTriangle, yTriangle, 3);
+
+			// Frame triangle
+			int[] xFrame = {100, 85, 115 };
+			int[] yFrame = {20, 50, 50};
+			g2.drawPolygon(xFrame, yFrame, 3);
+
 		} else if (shape.equalsIgnoreCase("Circle")) {
 			g2.setStroke(new BasicStroke(4));
 			g2.setColor(Color.RED);
 			g2.drawOval(ghostX - 290 + offsetX, ghostY - 350, 60, 60);
+			
+			//Frame Circle
+			g2.drawOval(130, 17, 35, 35);
+			
 		} else if (shape.equalsIgnoreCase("Zigzag")) {
 			g2.setStroke(new BasicStroke(4));
 			g2.setColor(Color.RED);
@@ -977,12 +1016,6 @@ public class Items {
 	private boolean duoGhostInitialized = false;
 	private int duoShapeLeft = 0;
 	private int duoShapeRight = 0;
-
-	public void shapeRandomizer() {
-
-		String shapes[] = { "Triangle", "Circle", "Zigzag", "Vertical", "Horizontal" };
-		int num = (int) (Math.random() * shapes.length) + 1;
-	}
 
 	private boolean destroyCircle = false;
 	private boolean destroyTriangle = false;
@@ -1521,8 +1554,8 @@ public class Items {
 	public void setCarSceneDone(boolean carSceneDone) {
 		this.carSceneDone = carSceneDone;
 	}
-	
-	public void setDoingDoctrineGhost (boolean dg) {
+
+	public void setDoingDoctrineGhost(boolean dg) {
 		this.doingDoctrineGhost = dg;
 	}
 

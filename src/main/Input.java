@@ -278,7 +278,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 				items.setNextPage(items.getNextPage() + 1);
 				items.playBookFlipSound();
 				items.timer();
-				int maxPages = 5;
+				int maxPages = 8;
 				if (items.getNextPage() > maxPages) {
 					items.setNextPage(maxPages);
 					items.stopBookFlipSound();
