@@ -686,8 +686,10 @@ public class Items {
 		} else if (level == 7) {
 			minigameGhost(g2, 1100 - 20, 820 - 0 + offsetY, "trioghost", 250, 196, gp);
 		} else if (level == 8) {
+			npc.setTextIndex(0);
 			minigameGhost(g2, 1100 - 20, 820 - 0 + offsetY, "bossghost", 250, 196, gp);
 		}
+		//System.out.println("Text index: " + npc.getTextIndex());
 	}
 
 	private int ghostNumberLeft;
@@ -816,7 +818,6 @@ public class Items {
 			} else if (level == 8) {
 				g2.drawOval(170, 20, 25, 25);
 			}
-
 		} else if (shape.equalsIgnoreCase("Zigzag")) {
 			g2.setStroke(new BasicStroke(4));
 			g2.setColor(Color.RED);
@@ -1285,6 +1286,10 @@ public class Items {
 		this.input = input;
 	}
 
+	public void setLevel(int level) {
+		this.level = level;
+	}
+	
 	public void setNpc(Npc npc) {
 		this.npc = npc;
 	}

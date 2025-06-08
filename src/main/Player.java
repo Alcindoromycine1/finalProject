@@ -81,7 +81,7 @@ public class Player {
 
 	}
 
-	public void collisionChecking() {
+	public void collisionChecking(GamePanel gp) {
 
 		collision = false;
 		for (int i = 0; i < m.getTreePositions().size(); i++) {
@@ -196,6 +196,7 @@ public class Player {
 		} else {
 			it.setInGraveYard(false);
 		}
+		blockOffAreas(gp);
 	}
 
 	public boolean getCollision() {
@@ -264,11 +265,26 @@ public class Player {
 
 	}
 
+	public void blockOffAreas(GamePanel gp) {
+		if (gp.getWorldX() >= 459 && gp.getWorldX() <= 734 && gp.getWorldY() >= 488 && gp.getWorldY() <= 663
+				&& !m.isDoneNightmare()) {
+			collision = true;
+		}
+		if (gp.getWorldX() >= 4864 && gp.getWorldX() <= 4939 && gp.getWorldY() >= 563 && gp.getWorldY() <= 663
+				&& !keyH.isReadBook()) {
+			collision = true;
+		}
+		if (gp.getWorldX() >= 4000 && gp.getWorldX() <= 4150 && gp.getWorldY() >= -12 && gp.getWorldY() <= 788
+				&& !it.isCarOn()) {
+			collision = true;
+		}
+	}
+
 	public boolean disableCharacterMovement() {
 		if (m.doneDoctorDead) {
 			return true;
 		}
-		if(m.isLookInMirror()) {
+		if (m.isLookInMirror()) {
 			return true;
 		}
 		if (m.fading) {

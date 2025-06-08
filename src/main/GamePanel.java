@@ -104,7 +104,7 @@ public class GamePanel extends JPanel implements Runnable {
 		screenY = HEIGHT / 2 - (tileSize / 2); // centers the player in the middle of the screen
 
 		// Background
-		m.changeMap(5);
+		m.changeMap(3);
 		// Find trees in the map
 
 		// load tiles
@@ -230,7 +230,7 @@ public class GamePanel extends JPanel implements Runnable {
 		it.updateItemsValues(playerX, playerY, worldX, worldY);
 
 		window.setTitle("Are we Cooked? FPS: " + fps);
-		p.collisionChecking();
+		p.collisionChecking(this);
 		p.collision(this);
 		characterMovement();
 		it.animation(this);
@@ -292,11 +292,10 @@ public class GamePanel extends JPanel implements Runnable {
 			m.camera(g, this);// camera method
 			characterImage(g);// draws the character depending on the direction
 			it.car(g2, this);
-			it.doctrine(g2, this);
-
 			if (m.getCurrentMap() == 3) {
 				m.drawTint(g2, this);
 			}
+			it.doctrine(g2, this);
 			// Npc.text(g2);
 			it.instructions(g2);
 			if (id.isInstructionsPressed()) {
@@ -363,6 +362,7 @@ public class GamePanel extends JPanel implements Runnable {
 			m.playDoctrineSound();
 
 			m.mirrorScene(g2, this, this);
+			m.funeralScene(g2, this);
 
 			if (j.isJumpscare()) {
 				j.drawJumpscare(g2);

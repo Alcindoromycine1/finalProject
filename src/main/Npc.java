@@ -284,18 +284,22 @@ public class Npc {
 			if (textIndex < textHumanTransformation.length) {
 				textBubble(g2, textHumanTransformation[textIndex]);
 			} else {
+				items.setLevel(-1);
 				maps.setTriggerTransition(true);
+				maps.setResetText(true);
 			}
 		} else if (list == 9) {
 			String suprisedJeff[] = { "Wait, that's me?", "How is this possible? I thought I was a human.",
 					"I just realized something.", "Those ghosts were humans the whole time.",
 					"In the doctrine, when I exorcised that last ghost, my hardware must have malfunctioned.",
 					"This is why I saw the ghost for what it truly was; a human.", "This means I'm an A.I.",
-					"And that was suppose to be the last of the ghosts. Meaning I just exoricsed the last human on this planet.",
-					"I was the monster all along.", "That doctor that I saw in this house deceived me.",
-					"*sob*"};
-		} else {
-			suprisedText = false;
+					"And that was suppose to be the last of the ghosts. Meaning I  just exorcised the last human on this planet.",
+					"I was the monster all along.", "That doctor that I saw in this house DECEIVED me.", "*sob*" };
+			if (textIndex < suprisedJeff.length) {
+				textBubble(g2, suprisedJeff[textIndex]);
+			} else {
+				suprisedText = false;
+			}
 		}
 	}
 

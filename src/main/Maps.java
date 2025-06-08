@@ -281,9 +281,11 @@ public class Maps {
 				fadeValue = 255;
 				stepCount = 1;
 			}
-			g2.setColor(Color.WHITE);
-			g2.setFont(new Font("Calibri", Font.BOLD, 40));
-			g2.drawString("Later that Night...", 250, 250);
+			if (lookInMirror) {
+				g2.setColor(Color.WHITE);
+				g2.setFont(new Font("Calibri", Font.BOLD, 40));
+				g2.drawString("Later that Night...", 250, 250);
+			}
 		}
 
 		else if (stepCount == 1) {// change map
@@ -318,7 +320,7 @@ public class Maps {
 			t.tileCreating();
 			findIntroHouse();
 			findTrees();
-			if (currentMap == 2) {
+			if (currentMap == 2 && !lookInMirror) {
 				gp.setWorldX(287);
 				gp.setWorldY(200);
 				gp.setDirection("back");
@@ -333,6 +335,10 @@ public class Maps {
 			} else if (currentMap == 5) {
 				gp.setWorldX(384);
 				gp.setWorldY(288);
+			} else if (currentMap == 2 && lookInMirror) {
+				gp.setWorldX(230);
+				gp.setWorldY(-182);
+				gp.setDirection("back");
 			}
 			stepCount = 2;
 		}
@@ -588,25 +594,31 @@ public class Maps {
 	}
 
 	private boolean lookInMirror = false;
+	private boolean resetText = false;
 
 	public void mirrorScene(Graphics2D g2, Component observer, GamePanel gp) throws IOException {
 
+		//System.out.println("Trigger: " + triggerTransition);
 		if (triggerTransition) {
+			lookInMirror = true;
 			fade(2, 5, g2, 384, 288, 100, 100, 384, 288, 100, 100, gp);
-			triggerTransition = false;
 			gp.setWorldX(212);
 			gp.setWorldY(-180);
-			lookInMirror = true;
+		}
+		if (resetText) {
+			npc.setTextIndex(0);
+			resetText = false;
 		}
 		if (npc.isSuprisedText()) {
 			items.houseMirror(g2);
 			npc.text(g2, 9);
 		}
 	}
-	
+
 	public void funeralScene(Graphics2D g2, GamePanel gp) throws IOException {
-		if(!npc.isSuprisedText() && lookInMirror) {
-			fade(3, 2, g2, 384, 288, 100, 100, 384, 288, 100, 100, gp);
+		//System.out.println(lookInMirror + "  " + npc.isSuprisedText());
+		if (!npc.isSuprisedText() && lookInMirror) {
+			fade(3, 2, g2, 230, -182, 100, 100, 230, -182, 100, 100, gp);
 		}
 	}
 
@@ -664,6 +676,10 @@ public class Maps {
 
 	public void setInp(Input inp) {
 		this.inp = inp;
+	}
+
+	public void setResetText(boolean resetText) {
+		this.resetText = resetText;
 	}
 
 	public ArrayList<ArrayList<Integer>> getTiles() {

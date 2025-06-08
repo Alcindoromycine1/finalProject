@@ -64,7 +64,7 @@ public class Minigame {
 		Point vertex4 = new Point(100, 0);
 		newPoints.add(vertex1);
 		newPoints.add(vertex2);
-		newPoints.add(vertex3);
+		newPoints.add(vertex3); 
 		newPoints.add(vertex4);
 
 		int numberOfPoints = 50;// number of points in every line

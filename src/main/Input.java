@@ -230,7 +230,8 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	}
 
 	private boolean instructionsPressed = false;
-
+	private boolean readBook = false;
+	
 	@Override
 	public void mousePressed(MouseEvent e) {
 		mouseX = e.getX();
@@ -282,6 +283,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 					items.stopBookFlipSound();
 				}
 			}
+			readBook = true;
 		}
 		if (items.isEnterBook() && mouseX >= 530 && mouseX <= 530 + 150 && mouseY >= 100 && mouseY <= 100 + 40) {
 			items.setEnterBook(false);
@@ -506,6 +508,10 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		this.minigame = minigame;
 	}
 
+	public boolean isReadBook() {
+		return readBook;
+	}
+	
 	public void setMainMenu(MainMenu mainMenu) {
 		this.mainMenu = mainMenu;
 	}
