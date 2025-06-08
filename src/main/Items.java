@@ -7,6 +7,8 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Point;
 import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,11 +45,14 @@ public class Items {
 	private BufferedImage exorcism;
 	private BufferedImage bed;
 
+	private ImageIcon pentagramGif;
+	
 	private ImageIcon pageFlipping;
 	private Sound bookFlipSound;
 
 	private ArrayList<String> shapesArray = new ArrayList<String>();
-
+	private ArrayList<Point> pentagramPoints = new ArrayList<Point>();
+	
 	public Items(GamePanel gp) {
 
 		this.input = gp.getId();
@@ -75,6 +80,7 @@ public class Items {
 			bed = ImageIO.read(new File("src/textures/bed.png"));
 			pageFlipping = new ImageIcon("src/textures/books.gif");
 			bookFlipSound = new Sound("src/sound/bookFlip.wav");
+			pentagramGif = new ImageIcon("src/textures/Pentagram-animation-unscreen.gif"); // Replace with your GIF path
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -144,7 +150,7 @@ public class Items {
 	// https://stackoverflow.com/questions/12566311/displaying-gif-animation-in-java
 	public void book(Graphics2D g2, Component observer) throws IOException {
 		g2.setFont(new Font("calibri", Font.BOLD, 18));
-		enterBook = true;// REMOVE LATER
+		enterBook = !true;//  ̶R̷E̷M̷O̷V̷E̷ ̷L̷A̷T̷E̷R̷  (basically removed)
 		if (enterBook) {
 			if (!playGif || staticImageBook) {
 				g2.drawImage(book, -70, 0, 900, 587, null);
@@ -459,38 +465,147 @@ public class Items {
 	private int level = 1;
 	private String ghostShape = "";
 
+	private boolean circlePlayFull = false;
+	private boolean circlePlayOnce = false;
+	private long circleStartTime = 0;
+	
+	private boolean trianglePlayFull = false;
+	private boolean trianglePlayOnce = false;
+	private long triangleStartTime = 0;
+	
+	private boolean horizontalPlayFull = false;
+	private boolean horizontalPlayOnce = false;
+	private long horizontalStartTime = 0;
+	
+	private boolean zigzagPlayFull = false;
+	private boolean zigzagPlayOnce = false;
+	private long zigzagStartTime = 0;
+	
+	private boolean verticalPlayFull = false;
+	private boolean verticalPlayOnce = false;
+	private long verticalStartTime = 0;
+	
+	private long pentagramStartTime = 0;
+	
 	public void drawGhost(Graphics2D g2, int offsetY, GamePanel gp) throws IOException {
 		if (level == 1) {
 			if (!destroyCircle) {
 				minigameGhost(g2, 1200 - 20, 820 + 50 + offsetY, "Circle", 250, 196, gp);
-			}
-			if (!destroyTriangle) {
-				minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "Triangle", 250, 196, gp);
+			} else if (!circlePlayFull && destroyCircle) {
+				if (!circlePlayOnce) {
+					circleStartTime = System.currentTimeMillis();
+					circlePlayOnce = true;
+				}
+				long elapsed = System.currentTimeMillis() - circleStartTime;
+				if (elapsed < 5000) {
+					g2.drawImage(pentagramGif.getImage(), 380, 350, 150, 100, null);
+					System.out.println(pentagramGif.getImage());
+				} else {
+					circlePlayFull = true;
+				}
 			}
 
-		} else if (level == 2) {
+			// Triangle ghost
+			if (!destroyTriangle) {
+				minigameGhost(g2, 1200 - 210, 820 + offsetY, "Triangle", 250, 196, gp);
+			} else if (!trianglePlayFull) {
+				if (!trianglePlayOnce) {
+					triangleStartTime = System.currentTimeMillis();
+					trianglePlayOnce = true;
+				}
+				long elapsed = System.currentTimeMillis() - triangleStartTime;
+				if (elapsed < 5000) {
+					g2.drawImage(pentagramGif.getImage(), 280, 350, 150, 100, null);
+				} else {
+					trianglePlayFull = true;
+				}
+			}
+
+		} else if (level == 2 && !circlePlayFull) {
 			if (!destroyHorizontal) {
-				minigameGhost(g2, 1200 - 20, 820 + 50 + offsetY, "Horizontal", 250, 196, gp);
+				minigameGhost(g2, 1180, 870 + offsetY, "Horizontal", 250, 196, gp);
+			} else if (!horizontalPlayFull) {
+				if (!horizontalPlayOnce) {
+					horizontalStartTime = System.currentTimeMillis();
+					horizontalPlayOnce = true;
+				}
+				if (System.currentTimeMillis() - horizontalStartTime < 5000) {
+					g2.drawImage(pentagramGif.getImage(), 280, 350, 150, 100, null);
+				} else {
+					horizontalPlayFull = true;
+				}
 			}
 
 			if (!destroyZigzag) {
-				minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "Zigzag", 250, 196, gp);
+				minigameGhost(g2, 990, 820 + offsetY, "Zigzag", 250, 196, gp);
+			} else if (!zigzagPlayFull) {
+				if (!zigzagPlayOnce) {
+					zigzagStartTime = System.currentTimeMillis();
+					zigzagPlayOnce = true;
+				}
+				if (System.currentTimeMillis() - zigzagStartTime < 5000) {
+					g2.drawImage(pentagramGif.getImage(), 280, 350, 150, 100, null);
+				} else {
+					zigzagPlayFull = true;
+				}
 			}
 
 		} else if (level == 3) {
 			if (!destroyVertical) {
-				minigameGhost(g2, 1200 - 20, 820 + 50 + offsetY, "Vertical", 250, 196, gp);
+				minigameGhost(g2, 1180, 870 + offsetY, "Vertical", 250, 196, gp);
+			} else if (!verticalPlayFull) {
+				if (!verticalPlayOnce) {
+					verticalStartTime = System.currentTimeMillis();
+					verticalPlayOnce = true;
+				}
+				if (System.currentTimeMillis() - verticalStartTime < 5000) {
+					g2.drawImage(pentagramGif.getImage(), 280, 350, 150, 100, null);
+				} else {
+					verticalPlayFull = true;
+				}
 			}
+
 			if (!destroyHorizontal) {
-				minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "Horizontal", 250, 196, gp);
+				minigameGhost(g2, 990, 820 + offsetY, "Horizontal", 250, 196, gp);
+			} else if (!horizontalPlayFull) {
+				if (!horizontalPlayOnce) {
+					horizontalStartTime = System.currentTimeMillis();
+					horizontalPlayOnce = true;
+				}
+				if (System.currentTimeMillis() - horizontalStartTime < 5000) {
+					g2.drawImage(pentagramGif.getImage(), 280, 350, 150, 100, null);
+				} else {
+					horizontalPlayFull = true;
+				}
 			}
 
 		} else if (level == 4) {
 			if (!destroyHorizontal) {
-				minigameGhost(g2, 1200 - 20, 820 + 50 + offsetY, "Horizontal", 250, 196, gp);
+				minigameGhost(g2, 1180, 870 + offsetY, "Horizontal", 250, 196, gp);
+			} else if (!horizontalPlayFull) {
+				if (!horizontalPlayOnce) {
+					horizontalStartTime = System.currentTimeMillis();
+					horizontalPlayOnce = true;
+				}
+				if (System.currentTimeMillis() - horizontalStartTime < 5000) {
+					g2.drawImage(pentagramGif.getImage(), 280, 350, 150, 100, null);
+				} else {
+					horizontalPlayFull = true;
+				}
 			}
+
 			if (!destroyTriangle) {
-				minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "Triangle", 250, 196, gp);
+				minigameGhost(g2, 990, 820 + offsetY, "Triangle", 250, 196, gp);
+			} else if (!trianglePlayFull) {
+				if (!trianglePlayOnce) {
+					triangleStartTime = System.currentTimeMillis();
+					trianglePlayOnce = true;
+				}
+				if (System.currentTimeMillis() - triangleStartTime < 5000) {
+					g2.drawImage(pentagramGif.getImage(), 280, 350, 150, 100, null);
+				} else {
+					trianglePlayFull = true;
+				}
 			}
 
 		} else if (level == 5) {
@@ -619,6 +734,7 @@ public class Items {
 	private String levelShape = " ";
 
 	public void randomShape(String shape, int ghostX, int ghostY, Graphics2D g2, int offsetX) {
+		
 		if (shape.equalsIgnoreCase("Triangle")) {
 			g2.setStroke(new BasicStroke(4));
 			g2.setColor(Color.RED);
@@ -644,6 +760,7 @@ public class Items {
 			g2.fillRect(ghostX - 290 + offsetX, ghostY - 313, 60, 4);
 		} else if (shape.equalsIgnoreCase("duoghost1")) {
 			levelShape = shape;
+			
 			if (!destroyHorizontal) {
 				ghostShape = "Horizontal";
 			} else if (destroyHorizontal && !destroyZigzag) {
@@ -790,6 +907,7 @@ public class Items {
 			shapesArray.clear();
 		} else if (shape.equalsIgnoreCase("bossghost")) {
 			levelShape = shape;
+			
 			if (!destroyHorizontal) {
 				ghostShape = "Horizontal";
 			} else if (destroyHorizontal && !destroyZigzag) {
@@ -857,16 +975,29 @@ public class Items {
 	private boolean destroyZigzag = false;
 	private boolean destroyHorizontal = false;
 	private boolean destroyVertical = false;
-
+	
+	private int prevGhostX;
+	private int prevGhostY;
 	public void minigameGhost(Graphics2D g2, int ghotsX, int ghotsY, String shape, int width, int height, GamePanel gp)
+	
 			throws IOException {
 		int ghostX = ghotsX - worldX;
 		int ghostY = ghotsY - worldY;
+		
 		ghostShape = shape;
 		ghost = ImageIO.read(new File("src/textures/minigameghost.png"));
 		randomShape(ghostShape, ghostX, ghostY, g2, 0);
 		ghost(g2, ghostX, ghostY, width, height, gp);
+		
+		
+        
+       
+        
 
+        
+        
+        
+        
 		/*
 		 * else if (shape.equals("Circle")) { for (int i = 0; i < 4; i++) {
 		 * g2.drawOval(85 + i, 25 + i, 20 - i, 20 - i); }
