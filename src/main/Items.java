@@ -144,7 +144,7 @@ public class Items {
 	// https://stackoverflow.com/questions/12566311/displaying-gif-animation-in-java
 	public void book(Graphics2D g2, Component observer) throws IOException {
 		g2.setFont(new Font("calibri", Font.BOLD, 18));
-		enterBook = true;// REMOVE LATER
+		//enterBook = true;// REMOVE LATER
 		if (enterBook) {
 			if (!playGif || staticImageBook) {
 				g2.drawImage(book, -70, 0, 900, 587, null);
@@ -176,7 +176,9 @@ public class Items {
 			BufferedImage circleExample = ImageIO.read(new File("src/textures/circleExample.png"));
 			BufferedImage triangleExample = ImageIO.read(new File("src/textures/triangleExample.png"));
 			BufferedImage horizontalExample = ImageIO.read(new File("src/textures/horizontalExample.png"));
-
+			BufferedImage leftGhostExample = ImageIO.read(new File ("src/textures/leftGhostExample.png"));
+			
+			
 			// Researched information from:
 			// https://www.usccb.org/beliefs-and-teachings/what-we-believe/catechism/catechism-of-the-catholic-church?p=29-chapter12.xhtml%23para1673
 			// and https://www.vatican.va/archive/cod-iuris-canonici/cic_index_en.html
@@ -302,6 +304,7 @@ public class Items {
 				
 
 				g2.setFont(normalText);
+				g2.drawImage(leftGhostExample, 4100, 380, 235, 132, null);
 			}
 		}
 	}
