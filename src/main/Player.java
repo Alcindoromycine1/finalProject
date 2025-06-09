@@ -10,11 +10,13 @@ import java.io.IOException;
 import Horror.Jumpscare;
 import javax.imageio.ImageIO;
 
+import interfaces.ReadFromFile;
+
 /**
  * @author Noah Sussman, Akhilan Saravanan and Rudra Garg Ms. Krasteva
  * @since April 2, 2025 Final Project ICS4U0
  */
-public class Player {
+public class Player implements ReadFromFile{
 
 	int worldX; // Player's world X position
 	int worldY; // Player's world Y position
@@ -60,6 +62,12 @@ public class Player {
 
 		playerX = gp.getPlayerX();
 		playerY = gp.getPlayerY();
+		
+		readFile(); // Calls the readFile method to load resources
+	}
+	
+	@Override
+	public void readFile() {
 		try {
 			// Audio of footsteps play when the user walks
 			// https://www.youtube.com/watch?v=6LOm1ZlE39I
@@ -68,6 +76,8 @@ public class Player {
 			// Audio of car moving when the car moves in the game
 			// https://www.youtube.com/watch?v=O8s6HkPZ3Io
 			carSound = new Sound("src/sound/carSound.wav");
+			
+			character = ImageIO.read(new File("src/textures/character.png"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -231,13 +241,7 @@ public class Player {
 		}
 	}
 
-	/**
-	 * @purpose loading the character image
-	 * @throws IOException
-	 */
-	public void loadCharacterImages() throws IOException {
-		character = ImageIO.read(new File("src/textures/character.png"));
-	}
+
 
 	/**
 	 * @purpose plays feetstep volumes when a movement key is pressed

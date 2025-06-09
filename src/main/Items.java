@@ -18,7 +18,9 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
-public class Items {
+import interfaces.ReadFromFile;
+
+public class Items implements ReadFromFile{
 	private Input input;
 	private Npc npc;
 	private Player p;
@@ -78,12 +80,44 @@ public class Items {
 		worldX = gp.getWorldX();
 		worldY = gp.getWorldY();
 
+		readFile();
+
+	}
+	
+	@Override
+	public void readFile() {
 		try {
-			loadFontsImages();
+		header = new Font("Arial", Font.BOLD, 35);
+		subHeading = new Font("Arial", Font.BOLD, 24);
+		normalText = new Font("Arial", Font.PLAIN, 17);
+		dispellingGhosts = ImageIO.read(new File("src/textures/dispellingGhosts.png"));// image from:
+		circleExample = ImageIO.read(new File("src/textures/circleExample.png"));
+		triangleExample = ImageIO.read(new File("src/textures/triangleExample.png"));
+		horizontalExample = ImageIO.read(new File("src/textures/horizontalExample.png"));
+		leftGhostExample = ImageIO.read(new File("src/textures/leftGhostExample.png"));
+		rightGhostExample = ImageIO.read(new File("src/textures/rightGhostExample.png"));
+		multiShapeGhost1 = ImageIO.read(new File("src/textures/multiShapeGhost1.png"));
+		circleMultishape = ImageIO.read(new File("src/textures/circleMultishape.png"));
+		verticalMultishape = ImageIO.read(new File("src/textures/verticalMultishape.png"));
+		mirror = ImageIO.read(new File("src/textures/jeffMirror.png"));
+		doctrine = ImageIO.read(new File("src/textures/doctrine.png"));
+		book = ImageIO.read(new File("src/textures/books.png"));
+		car = ImageIO.read(new File("src/textures/car.png"));
+		brokenCar = ImageIO.read(new File("src/textures/destroyedCar.png"));
+		wasdKey = ImageIO.read(new File("src/textures/wasdKey.png"));// https://media.istockphoto.com/id/1193231012/vector/computer-gamer-keyboard-wasd-keys-vector-illustration-wasd-keys-game-control-keyboard-buttons.jpg?s=612x612&w=0&k=20&c=-DJ6CFewXZ_Oofp_BsYya5KniByRkVW3EAHYICWIOaU=
+		door = ImageIO.read(new File("src/textures/door.png"));// https://img.freepik.com/premium-vector/open-close-door-pixel-art-style_475147-1239.jpgd
+		exorcism = ImageIO.read(new File("src/textures/exorcism.png"));// https://www.creativefabrica.com/wp-content/uploads/2023/03/22/pixel-art-wooden-cross-vector-Graphics-65026120-1.jpg
+		bed = ImageIO.read(new File("src/textures/bed.png"));
+		pageFlipping = new ImageIcon("src/textures/books.gif");
+		bookFlipSound = new Sound("src/sound/bookFlip.wav");
+		orderFullFrame = ImageIO.read(new File("src/textures/orderFullFrame.png"));
+		triangleRemovedOrder = ImageIO.read(new File("src/textures/removedTriangleOrder.png"));
+		orderCloseUp = ImageIO.read(new File("src/textures/orderCloseUp.png"));
+		
+		human = ImageIO.read(new File("src/textures/character.png"));// https://www.creativefabrica.com/product/pixel-art-human-graphics/ref/2399990/
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public void playBookFlipSound() {
@@ -155,38 +189,6 @@ public class Items {
 	private boolean playGif = false;
 	private boolean staticImageBook = false;
 	private boolean hoveringExitPage = false;
-
-	public void loadFontsImages() throws IOException {
-		header = new Font("Arial", Font.BOLD, 35);
-		subHeading = new Font("Arial", Font.BOLD, 24);
-		normalText = new Font("Arial", Font.PLAIN, 17);
-		dispellingGhosts = ImageIO.read(new File("src/textures/dispellingGhosts.png"));// image from:
-		circleExample = ImageIO.read(new File("src/textures/circleExample.png"));
-		triangleExample = ImageIO.read(new File("src/textures/triangleExample.png"));
-		horizontalExample = ImageIO.read(new File("src/textures/horizontalExample.png"));
-		leftGhostExample = ImageIO.read(new File("src/textures/leftGhostExample.png"));
-		rightGhostExample = ImageIO.read(new File("src/textures/rightGhostExample.png"));
-		multiShapeGhost1 = ImageIO.read(new File("src/textures/multiShapeGhost1.png"));
-		circleMultishape = ImageIO.read(new File("src/textures/circleMultishape.png"));
-		verticalMultishape = ImageIO.read(new File("src/textures/verticalMultishape.png"));
-		mirror = ImageIO.read(new File("src/textures/jeffMirror.png"));
-		doctrine = ImageIO.read(new File("src/textures/doctrine.png"));
-		book = ImageIO.read(new File("src/textures/books.png"));
-		car = ImageIO.read(new File("src/textures/car.png"));
-		brokenCar = ImageIO.read(new File("src/textures/destroyedCar.png"));
-		wasdKey = ImageIO.read(new File("src/textures/wasdKey.png"));// https://media.istockphoto.com/id/1193231012/vector/computer-gamer-keyboard-wasd-keys-vector-illustration-wasd-keys-game-control-keyboard-buttons.jpg?s=612x612&w=0&k=20&c=-DJ6CFewXZ_Oofp_BsYya5KniByRkVW3EAHYICWIOaU=
-		door = ImageIO.read(new File("src/textures/door.png"));// https://img.freepik.com/premium-vector/open-close-door-pixel-art-style_475147-1239.jpgd
-		exorcism = ImageIO.read(new File("src/textures/exorcism.png"));// https://www.creativefabrica.com/wp-content/uploads/2023/03/22/pixel-art-wooden-cross-vector-Graphics-65026120-1.jpg
-		bed = ImageIO.read(new File("src/textures/bed.png"));
-		pageFlipping = new ImageIcon("src/textures/books.gif");
-		bookFlipSound = new Sound("src/sound/bookFlip.wav");
-		orderFullFrame = ImageIO.read(new File("src/textures/orderFullFrame.png"));
-		triangleRemovedOrder = ImageIO.read(new File("src/textures/removedTriangleOrder.png"));
-		orderCloseUp = ImageIO.read(new File("src/textures/orderCloseUp.png"));
-		
-		human = ImageIO.read(new File("src/textures/character.png"));// https://www.creativefabrica.com/product/pixel-art-human-graphics/ref/2399990/
-	
-	}
 
 	// Stackoverflow used for GIF:
 	// https://stackoverflow.com/questions/12566311/displaying-gif-animation-in-java

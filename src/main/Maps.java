@@ -326,7 +326,7 @@ public class Maps {
 			}
 			// Load the new map's tiles
 			// Reinitialize the new map's data
-			t.tileCreating();
+			t.readFile();
 			findIntroHouse();
 			findTrees();
 			if (currentMap == 2 && !lookInMirror) {
