@@ -10,40 +10,43 @@ import java.io.IOException;
 import Horror.Jumpscare;
 import javax.imageio.ImageIO;
 
-/*
- * Noah Sussman, Akhilan Saravanan and Rudra Garg
- * Ms. Krasteva
- * April 2, 2025
- * Final Project ICS4U0
+/**
+ * @author Noah Sussman, Akhilan Saravanan and Rudra Garg Ms. Krasteva
+ * @since April 2, 2025 Final Project ICS4U0
  */
 public class Player {
 
 	int worldX; // Player's world X position
-	int worldY;  // Player's world Y position
+	int worldY; // Player's world Y position
 
-	private int screenX;  // Player's screen X position
-	private int screenY;  // Player's screen Y position
+	private int screenX; // Player's screen X position
+	private int screenY; // Player's screen Y position
 
-	private int playerX;  // Player's X position in the game world
-	private int playerY;	// Player's Y position in the game world
+	private int playerX; // Player's X position in the game world
+	private int playerY; // Player's Y position in the game world
 
 	// Players initial position
-	private int beforeCollisionX = worldX;
-	private int beforeCollisionY = worldY;
+	private int beforeCollisionX = worldX;// initial X position before collision occurs
+	private int beforeCollisionY = worldY;// initial Y position before collision occurs
 
-	Npc n;
-	Maps m;
-	Items it;
-	Input keyH;
+	Npc n;// Reference to the Npc class to access Npc methods and properties
+	Maps m; // Reference to the Maps class to access maps methods and properties
+	Items it; // Reference to the Items class to access Items methods and properties
+	Input keyH; // Reference to the Input class to access Input methods and properties
 	Sound walkingSound;
 	Sound carSound;
 	private BufferedImage character;
 
-	private boolean collision = false;
+	private boolean collision = false;// when this variable is true then the user will bounce back to beforeCollision
+										// as collision has been detected
 	private boolean once = false; // Used to ensure the text only appears once when entering the graveyard
 
+	/**
+	 * Constructor for the Player class.
+	 * 
+	 * @param gp
+	 */
 	public Player(GamePanel gp) {
-		// keyH = gp.id;
 		m = gp.getM();
 		keyH = gp.getId();
 		n = gp.getN();
@@ -58,14 +61,15 @@ public class Player {
 		playerX = gp.getPlayerX();
 		playerY = gp.getPlayerY();
 		try {
+			// Audio of footsteps play when the user walks
 			// https://www.youtube.com/watch?v=6LOm1ZlE39I
 			walkingSound = new Sound("src/sound/walkingSoundEffect.wav");
 
+			// Audio of car moving when the car moves in the game
 			// https://www.youtube.com/watch?v=O8s6HkPZ3Io
 			carSound = new Sound("src/sound/carSound.wav");
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("Error loading sound file: " + e.getMessage());
 		}
 	}
 
