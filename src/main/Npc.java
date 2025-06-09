@@ -46,8 +46,12 @@ public class Npc {
 	private Sound n3;
 	private Sound n4;
 	private Sound n5;
-	private boolean surprisedText;
+	private boolean surprisedText;//when jeff finishes speaking in the exorcism room
 
+	/**
+	 * Constructor for the Npc Class
+	 * @param gp
+	 */
 	public Npc(GamePanel gp) {
 		input = gp.getId();
 		items = gp.getIt();
@@ -63,7 +67,7 @@ public class Npc {
 		worldX = gp.getWorldX();
 		worldY = gp.getWorldY();
 
-		loadSounds();
+		loadSounds();//loading all the voice acting audio files
 	}
 
 	/**
