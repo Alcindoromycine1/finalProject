@@ -296,7 +296,7 @@ public class Player implements ReadFromFile{
 		if (m.isLookInMirror()) {//in mirror scene
 			return true;
 		}
-		if (m.fading) {//if fading
+		if (m.isFading()) {//if fading
 			return true;
 		}
 		if (it.isCarOn()) {//in car

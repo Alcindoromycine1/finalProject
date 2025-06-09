@@ -38,12 +38,6 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	private boolean isZigzag;
 	private boolean isTriangle;
 
-	private boolean mouseClicked = false;
-	private boolean mouseHolding = false;
-	private boolean mouseDragging = false;
-	private int inventoryBoxX = 300;
-	private int inventoryBoxY = 300;
-
 	private int instructionsX = 640;
 	private int instructionsY = 10;
 	private int backX = 335;
@@ -243,12 +237,6 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	public void mousePressed(MouseEvent e) {
 		mouseX = e.getX();
 		mouseY = e.getY();
-		mouseHolding = true;
-
-		if (mouseX >= inventoryBoxX && mouseX <= inventoryBoxX + 100 && mouseY >= inventoryBoxY
-				&& mouseY <= inventoryBoxY + 100) {
-			mouseDragging = true;
-		}
 
 		if (mouseX >= instructionsX && mouseX <= instructionsX + 135 && mouseY >= instructionsY
 				&& mouseY <= instructionsY + 45 && !mainMenu.isInMenu() /*&& !ls.isLoadingScreen()*/) {
@@ -333,13 +321,13 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		} else {
 			pressedQuit = false;
 		}
+		if (mouseX >= 700 && mouseX <= 725 && mouseY >= 80 && mouseY <= 120 && mainMenu.isInMenu()) {
+			mainMenu.setEasterEgg(true);
+		}
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		mouseClicked = false;
-		mouseHolding = false;
-		mouseDragging = false;
 		if (minigame.getIsExorcising()) {
 			minigame.calculation();
 			minigame.newCentroid();
