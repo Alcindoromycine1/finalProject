@@ -388,6 +388,8 @@ public class Maps {
 
 		if (currentMap == 5) {
 			inp.setChangeMapPressed(true);
+		} else if (currentMap == 2 && lookInMirror) {
+			inp.setChangeMapPressed(true);
 		}
 
 		if (inp.isChangeMapPressed() && gp.getWorldX() >= oldworX && gp.getWorldX() <= oldworX + oldWidth
@@ -411,7 +413,7 @@ public class Maps {
 
 	}
 
-	public boolean doneDoctorDead = false;
+	private boolean doneDoctorDead = false;
 
 	public void nightmare(Graphics2D g2, Component observer, GamePanel gp) throws IOException {
 
@@ -610,7 +612,7 @@ public class Maps {
 
 	public void mirrorScene(Graphics2D g2, Component observer, GamePanel gp) throws IOException {
 
-		System.out.println("Trigger: " + triggerTransition);
+		System.out.println(inp.isChangeMapPressed());
 		if (triggerTransition) {
 			lookInMirror = true;
 			if (!once3) {
@@ -630,7 +632,7 @@ public class Maps {
 	public void funeralScene(Graphics2D g2, GamePanel gp) throws IOException {
 		// System.out.println(lookInMirror + " " + npc.isSuprisedText());
 		if (inFuneral) {
-			fade(2, 3, g2, 230, -182, 100, 100, 230, -182, 100, 100, gp);
+			fade(2, 3, g2, 230, -182, 100, 100, 1000, 1000, 100, 100, gp);
 		}
 	}
 
@@ -756,6 +758,10 @@ public class Maps {
 
 	public boolean isDoneDoctorDead() {
 		return doneDoctorDead;
+	}
+	
+	public void setDoneDoctorDead(boolean doneDoctorDead) {
+		this.doneDoctorDead = doneDoctorDead;
 	}
 
 	public boolean isTriggerTransition() {

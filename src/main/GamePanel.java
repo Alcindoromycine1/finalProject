@@ -298,7 +298,6 @@ public class GamePanel extends JPanel implements Runnable {
 				m.drawTint(g2, this);
 			}
 			it.doctrine(g2, this);
-			// Npc.text(g2);
 			it.instructions(g2);
 			if (id.isInstructionsPressed()) {
 				it.prompts(g2);
@@ -312,7 +311,7 @@ public class GamePanel extends JPanel implements Runnable {
 					e.printStackTrace();
 				}
 			}
-			System.out.println(n.isSurprisedText());
+			System.out.println();
 			m.confirmationCollision(this, g2);
 			if (!m.hasJumpscared && !m.hasDoctrined) {
 				m.fade(2, 3, g2, 248, 196, 82, 48, 414, 48, 145, 126, this);
@@ -332,12 +331,6 @@ public class GamePanel extends JPanel implements Runnable {
 				p.disableCharacterMovement();
 			}
 			if (m.getHasFaded() == 2) {
-				/*
-				 * if (m.hasJumpscared && !m.hasDoctrined) { // worldX = 384; // worldY = 288; }
-				 * if (m.hasJumpscared && m.hasDoctrined) {
-				 * 
-				 * }
-				 */
 				m.setHasFaded(0);
 			}
 			it.insideDoctrine(g2, this);
@@ -382,7 +375,6 @@ public class GamePanel extends JPanel implements Runnable {
 				}
 			}
 
-			//System.out.println("index" + n.getTextIndex() + " trnsition" + m.isTriggerTransition() + " map" + m.getCurrentMap() + " mirror" + m.isLookInMirror());
 
 			if (m.getCurrentMap() == 3 && !mainMenu.isInMenu() && !ls.isLoadingScreen()) {
 				if (mainMenuSound.isPlaying()) {
