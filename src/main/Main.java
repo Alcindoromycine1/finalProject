@@ -11,6 +11,7 @@ import java.io.*;
  * Final Project ICS4U0
  * 
  *        Research:
+ * 		  Resarch from: https://www.forbes.com/sites/jackkelly/2025/04/25/the-jobs-that-will-fall-first-as-ai-takes-over-the-workplace/
  * 
  *        A.I. taking over the world is a huge issue in today's world. Through
  *        thorough research, specialists suggest that A.I. has a 10% of
