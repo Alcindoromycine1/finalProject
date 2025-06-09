@@ -486,6 +486,8 @@ public class Items {
 	private long verticalStartTime = 0;
 	
 	private long pentagramStartTime = 0;
+	private boolean animationPlaying = false;
+	
 	
 	public void drawGhost(Graphics2D g2, int offsetY, GamePanel gp) throws IOException {
 		if (level == 1) {
@@ -495,13 +497,15 @@ public class Items {
 				if (!circlePlayOnce) {
 					circleStartTime = System.currentTimeMillis();
 					circlePlayOnce = true;
+					
+					animationPlaying = true;
 				}
-				long elapsed = System.currentTimeMillis() - circleStartTime;
+				long elapsed = System.currentTimeMillis() - triangleStartTime;
 				if (elapsed < 5000) {
-					g2.drawImage(pentagramGif.getImage(), 380, 350, 150, 100, null);
-					System.out.println(pentagramGif.getImage());
+					g2.drawImage(pentagramGif.getImage(), 280, 350, 150, 100, null);
 				} else {
 					circlePlayFull = true;
+					animationPlaying = false;
 				}
 			}
 
@@ -512,16 +516,20 @@ public class Items {
 				if (!trianglePlayOnce) {
 					triangleStartTime = System.currentTimeMillis();
 					trianglePlayOnce = true;
+					
+					animationPlaying = true;
 				}
 				long elapsed = System.currentTimeMillis() - triangleStartTime;
 				if (elapsed < 5000) {
 					g2.drawImage(pentagramGif.getImage(), 280, 350, 150, 100, null);
 				} else {
 					trianglePlayFull = true;
+					animationPlaying = false;
 				}
 			}
-
-		} else if (level == 2 && !circlePlayFull) {
+			System.out.println(animationPlaying);
+		} else if (level == 2) {
+			System.out.println(animationPlaying);
 			if (!destroyHorizontal) {
 				minigameGhost(g2, 1180, 870 + offsetY, "Horizontal", 250, 196, gp);
 			} else if (!horizontalPlayFull) {
@@ -674,7 +682,15 @@ public class Items {
 		if (ghostCount == 2 && !levelShape.equals("duoghost1") && !levelShape.equals("duoghost2")
 				&& !levelShape.equals("duoghost3") && !levelShape.equals("duoghost4") && !levelShape.equals("trioghost")
 				&& !levelShape.equals("bossghost")) {
-			level++;
+			System.out.println(circlePlayFull + " " + trianglePlayFull);
+			
+			if (circlePlayFull && trianglePlayFull) {
+				level++;	
+			}
+			
+			
+			System.out.println(circlePlayFull + " " + trianglePlayFull);
+			
 			ghostCount = 0;
 			destroyCircle = false;
 			destroyTriangle = false;
