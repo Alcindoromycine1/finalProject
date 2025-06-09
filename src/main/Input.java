@@ -251,7 +251,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		}
 
 		if (mouseX >= instructionsX && mouseX <= instructionsX + 135 && mouseY >= instructionsY
-				&& mouseY <= instructionsY + 45 && !mainMenu.isInMenu() && !ls.isLoadingScreen()) {
+				&& mouseY <= instructionsY + 45 && !mainMenu.isInMenu() /*&& !ls.isLoadingScreen()*/) {
 			instructionsPressed = true;
 			items.setInstructionsPrompt(true);
 			return;

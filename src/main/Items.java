@@ -61,6 +61,8 @@ public class Items {
 
 	private ImageIcon pageFlipping;
 	private Sound bookFlipSound;
+	
+	private boolean doneDoctrineGhost = false;
 
 	private ArrayList<String> shapesArray = new ArrayList<String>();
 
@@ -128,7 +130,7 @@ public class Items {
 		g2.drawImage(doctrine, doctrineX, doctrineY, 260, 390, null);
 		g2.setColor(Color.WHITE);
 		g2.setFont(new Font("Monospaced", Font.BOLD, 20));
-		g2.drawString("Doctrine", 5080 - worldX, 715 - worldY);
+		g2.drawString("Doctrine", 6080 - gp.getWorldX(), 705 - gp.getWorldY());
 
 	}
 
@@ -555,15 +557,15 @@ public class Items {
 			g2.fillRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
 			g2.setColor(Color.LIGHT_GRAY);
 			g2.fillRoundRect(60, 60, 218 * 3, 148 * 3, 10, 10);
-			g2.drawImage(wasdKey, 285, 146 + 20, 250, 250, null);
+			g2.drawImage(wasdKey, 275, 146 + 20, 250, 250, null);
 			g2.setFont(new Font("Monospaced", Font.BOLD, 40));
 			g2.setColor(Color.BLACK);
-			g2.drawString("Movement", 310, 112 + 10);
-			g2.fillRect(307, 115 + 10, 195, 2);
-			g2.drawString("Left", 210, 305 + 20);
-			g2.drawString("Right", 530, 305 + 20);
-			g2.drawString("Up", 382, 178 + 20);
-			g2.drawString("Down", 351, 368 + 20);
+			g2.drawString("Movement", 307, 112 + 10);
+			g2.fillRect(300, 115 + 10, 195, 2);
+			g2.drawString("Left", 190, 305 + 20);
+			g2.drawString("Right", 520, 305 + 20);
+			g2.drawString("Up", 375, 178 + 20);
+			g2.drawString("Down", 341, 368 + 20);
 		}
 		if (objectivePrompts) {
 			instructionsPrompt = false;
@@ -578,7 +580,6 @@ public class Items {
 			g2.setColor(Color.BLACK);
 			g2.drawString("Current Objective", 180, 112 + 10);
 			g2.fillRect(180, 116 + 10, 410, 2);
-
 			if (m.getCurrentMap() == 3 && !carUsed && !m.isDoneNightmare()) {
 				g2.setFont(new Font("Monospaced", Font.BOLD, 30));
 				g2.drawImage(door, 300, 50 + 80, 200, 200, null);
@@ -587,17 +588,38 @@ public class Items {
 				g2.setFont(new Font("Monospaced", Font.BOLD, 30));
 				g2.drawImage(bed, 360, 200, 75, 75, null);
 				g2.drawString("Go to sleep", 300, 330);
+			} else if (m.getCurrentMap() == 2 && m.isDoneNightmare() && !m.isLookInMirror()) {
+				g2.setFont(new Font("Monospaced", Font.BOLD, 30));
+				g2.drawImage(door, 300, 50 + 80, 200, 200, null);
+				g2.drawString("Leave the house", 270, 330);
 			} else if (m.getCurrentMap() == 3 && m.isDoneNightmare() && !carUsed) {
 				g2.setFont(new Font("Monospaced", Font.BOLD, 30));
 				g2.drawImage(car, 350, 160, 96, 192, null);
 				g2.drawString("Get in the car", 280, 330);
+			} else if (m.getCurrentMap() == 3 && carUsed && !input.isReadBook()) {
+				g2.setFont(new Font("Monospaced", Font.BOLD, 30));
+				g2.drawImage(exorcism, 280, 160, 240, 160, null);
+				g2.drawString("Open the book in the graveyard", 120, 360);
+				g2.drawString("Press B to do so", 250, 400);
+			} else if (m.getCurrentMap() == 3 && carUsed && input.isReadBook()) {
+				g2.setFont(new Font("Monospaced", Font.BOLD, 30));
+				g2.drawImage(doctrine, 350, 160, 96, 192, null);
+				g2.drawString("Go into the doctrine", 220, 400);
+			} else if (m.getCurrentMap() == 4 && !doneDoctrineGhost) {
+				g2.setFont(new Font("Monospaced", Font.BOLD, 30));
+				g2.drawImage(ghost, 300, 160, 200, 192, null);
+				g2.drawString("Go up to the ghost", 230, 400);
+			} else if (m.getCurrentMap() == 4 && doneDoctrineGhost) {
+				g2.setFont(new Font("Monospaced", Font.BOLD, 30));
+				g2.drawImage(door, 300, 50 + 80, 200, 200, null);
+				g2.drawString("Go through the door", 220, 360);
+			} else if (m.getCurrentMap() == 5) {
+				g2.setFont(new Font("Monospaced", Font.BOLD, 30));
+				g2.drawImage(ghost, 300, 160, 200, 192, null);
+				g2.drawString("Exorcise the ghosts", 230, 400);
+			} else {
+				g2.drawString("None", 350, 300);
 			}
-			/*
-			 * g2.drawImage(exorcism, 545, 95 + 80, 120, 75, null); g2.setFont(new
-			 * Font("Monospaced", Font.BOLD, 20)); g2.setColor(Color.BLACK); // Exorcism
-			 * keybind g2.drawString("Press E to", 545, 180 + 80);
-			 * g2.drawString("Exorcise Ghosts", 515, 200 + 80);
-			 */
 		}
 	}
 
@@ -1193,18 +1215,18 @@ public class Items {
 			g2.drawString("Help", 345, 115);
 			g2.fillRect(344, 117, 98, 2);
 			g2.setFont(new Font("Calibri", Font.PLAIN, 20));
-			g2.drawString("Ensure that your audio is enabled before you begin the game.", 100 - 10, 175 + 10);
-			g2.drawString("It is a vital component to the game.", 100 - 10, 205 + 10);
-			g2.drawString("If you are ever stuck, and don't know what to do, you can use your cursor", 100 - 10,
+			g2.drawString("Ensure that your audio is enabled before you begin the game.", 130, 175 + 10);
+			g2.drawString("It is a vital component to the horror aspect of the game.", 150, 205 + 10);
+			g2.drawString("If you are ever stuck, and don't know what to do, you can use your cursor", 100 - 20,
 					260 + 23);
-			g2.drawString("to hover and click on the instructions menu in the top right. You can then", 100 - 10,
+			g2.drawString("to hover and click on the instructions menu in the top right. You can then", 100 - 20,
 					290 + 23);
-			g2.drawString("navigate through different topics to find what you are having troubles with", 100 - 10, 320 + 23);
-			g2.drawString("For example, if you don't know what the keybinds are to move, go to", 100 - 10, 350 + 23);
-			g2.drawString("the movement section.", 100 - 10, 380 + 20);
+			g2.drawString("navigate through the 2 different topics to find necessary information.", 100 - 5, 320 + 23);
+			g2.drawString("For example, if you don't know what the keybinds are to move, go to", 100 - 5, 350 + 23);
+			g2.drawString("the movement section. Otherwise go to objective to see what to do.", 100, 380 + 20);
 
-			g2.drawString("When you enter the house, after you've slept in the bed, you should", 100 - 10, 435 + 20);
-			g2.drawString("go back to the entrance again to go back outside of the house.", 100 - 10, 465 + 20);
+			g2.drawString("When you enter the house, after you've slept in the bed, you should", 100, 435 + 20);
+			g2.drawString("go back to the entrance again to go back outside of the house.", 120, 465 + 20);
 
 			// Subtitles
 			g2.setFont(new Font("Calibri", Font.BOLD, 22));
@@ -1237,24 +1259,24 @@ public class Items {
 			g2.drawString("Project Lead", 100 + 100, 175);
 			g2.fillRect(100 + 100, 177, 150, 2);
 			g2.drawString("Noah Sussman", 100 + 100, 195);
-			g2.drawString("Senior Developer", 100 + 100, 230);
-			g2.fillRect(100 + 110, 232, 150, 2);
+			g2.drawString("Developer", 100 + 100, 230);
+			g2.fillRect(100 + 100, 232, 150, 2);
 			g2.drawString("Akhilan Saravanan", 100 + 100, 252);
-			g2.drawString("Junior Developer", 100 + 100, 280);
+			g2.drawString("Senior Developer", 100 + 100, 280);
 			g2.fillRect(100 + 100, 282, 150, 2);
 			g2.drawString("Rudra Garg", 100 + 100, 300);
 			g2.drawString("UX/UI Designer", 100 + 100, 335);
 			g2.fillRect(100 + 100, 337, 150, 2);
-			g2.drawString("Rudra Garg", 110 + 100, 355);
-			g2.drawString("Playtester", 110 + 100, 385);
+			g2.drawString("Rudra Garg", 100 + 100, 355);
+			g2.drawString("Playtester", 100 + 100, 385);
 			g2.fillRect(100 + 100, 387, 110, 2);
 			g2.drawString("Sammy Jiang", 100 + 100, 405);
-			g2.drawString("Voice Actors", 300 + 110, 175);
-			g2.fillRect(300 + 110, 177, 150, 2);
+			g2.drawString("Voice Actors", 300 + 100, 175);
+			g2.fillRect(300 + 100, 177, 150, 2);
 			g2.drawString("Jeff: Jhonard Ramos", 300 + 100, 195);
-			g2.drawString("Ghost Graveyard: Noah Sussman", 300 + 100, 220);
+			g2.drawString("Graveyard Ghost: Noah Sussman", 300 + 100, 220);
 			g2.drawString("Doctor: Rudra Garg", 300 + 100, 245);
-			g2.drawString("Ghost Doctrine: Akhilan Saravanan", 300 + 100, 270);
+			g2.drawString("Doctrine Ghost: Akhilan Saravanan", 300 + 100, 270);
 			g2.fillRect(100 + 100, 387, 120, 2);
 			exitMenuOption(g2);
 		}
@@ -1624,5 +1646,9 @@ public class Items {
 
 	public boolean isDoingDoctrineGhost() {
 		return doingDoctrineGhost;
+	}
+	
+	public void setDoneDoctrineGhost (boolean doneDoctrineGhost) {
+		this.doneDoctrineGhost = doneDoctrineGhost;
 	}
 }

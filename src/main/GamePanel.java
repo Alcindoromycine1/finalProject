@@ -360,9 +360,9 @@ public class GamePanel extends JPanel implements Runnable {
 				j.drawJumpscare(g2);
 				j.playSound();
 			}
-			if (ls.isLoadingScreen()) {
+			/*if (ls.isLoadingScreen()) {
 				ls.drawLoadingScreen(g2);
-			}
+			}*/
 
 			if (mainMenu.isInMenu()) {
 				mainMenu.mainMenu(g2);

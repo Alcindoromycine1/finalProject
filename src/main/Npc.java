@@ -210,6 +210,7 @@ public class Npc {
 			} else {
 				items.setDoingDoctrineGhost(false);
 				gd2.stop();
+				items.setDoneDoctrineGhost(true);
 			}
 		} else if (list == 5) {
 			String textJeff[] = { "What is this place?", "I'm tired, I think I'll take a nap here." };
@@ -300,7 +301,6 @@ public class Npc {
 				maps.setTriggerTransition(false);
 				surprisedText = false;
 				maps.setEnd(true);
-				
 			}
 		}
 	}

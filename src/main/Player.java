@@ -18,14 +18,14 @@ import javax.imageio.ImageIO;
  */
 public class Player {
 
-	int worldX;
-	int worldY;
+	int worldX; // Player's world X position
+	int worldY;  // Player's world Y position
 
-	private int screenX;
-	private int screenY;
+	private int screenX;  // Player's screen X position
+	private int screenY;  // Player's screen Y position
 
-	private int playerX;
-	private int playerY;
+	private int playerX;  // Player's X position in the game world
+	private int playerY;	// Player's Y position in the game world
 
 	// Players initial position
 	private int beforeCollisionX = worldX;
