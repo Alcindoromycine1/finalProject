@@ -338,7 +338,6 @@ public class GamePanel extends JPanel implements Runnable {
 				 */
 				m.setHasFaded(0);
 			}
-
 			it.insideDoctrine(g2, this);
 
 			if (m.getCurrentMap() == 5) {

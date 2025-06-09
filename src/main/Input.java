@@ -531,5 +531,9 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	public int getMouseY() {
 		return mouseY;
 	}
+	
+	public void setCPressed(boolean cPressed) {
+		this.cPressed = cPressed;
+	}
 
 }

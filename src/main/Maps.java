@@ -505,7 +505,8 @@ public class Maps {
 	private boolean enteredPlace = false;
 	private boolean enteredDoctrine = false;
 	private boolean exitHouse = false;
-	public boolean disableConfirmation = false;
+	private boolean disableConfirmation = false;
+	private boolean enteredCar = false;
 
 	public void confirmationCollision(GamePanel gp, Graphics2D g2) {
 
@@ -520,6 +521,9 @@ public class Maps {
 				items.setYesPressed(false);
 				items.setInConfirmation(false);
 				inp.setChangeMapPressed(true);
+				if (doneNightmare && !items.isInHouse()) {
+					inp.setCPressed(true);
+				}
 				disableConfirmation = true;
 
 				if (gp.getWorldX() >= 450 && gp.getWorldX() <= 600 && gp.getWorldY() >= 38 && gp.getWorldY() <= 138) {
@@ -530,6 +534,9 @@ public class Maps {
 				} else if (gp.getWorldX() >= 248 && gp.getWorldX() <= 330 && gp.getWorldY() >= 216
 						&& gp.getWorldY() <= 264) {
 					exitHouse = true;
+				} else if (gp.getWorldX() >= 834 && gp.getWorldX() <= 880 && gp.getWorldY() >= 563
+						&& gp.getWorldY() <= 638) {
+					enteredCar = true;
 				}
 
 				return;
@@ -565,6 +572,9 @@ public class Maps {
 			} else if (!enteredDoctrine && gp.getWorldX() >= 5584 && gp.getWorldX() <= 5684 && gp.getWorldY() >= 550
 					&& gp.getWorldY() <= 650) {
 				items.setInConfirmation(true);
+			} else if (!enteredCar && gp.getWorldX() >= 834 && gp.getWorldX() <= 880 && gp.getWorldY() >= 563
+					&& gp.getWorldY() <= 638) {
+				items.setInConfirmation(true);
 			}
 		} else if (currentMap == 2) {
 			if (!exitHouse && gp.getWorldX() >= 248 && gp.getWorldX() <= 330 && gp.getWorldY() >= 196
@@ -587,10 +597,12 @@ public class Maps {
 				&& gp.getWorldY() <= 138)
 				|| (currentMap == 3 && gp.getWorldX() >= 5584 && gp.getWorldX() <= 5684 && gp.getWorldY() >= 550
 						&& gp.getWorldY() <= 650)
+				|| (currentMap == 3 && gp.getWorldX() >= 834 && gp.getWorldX() <= 880 && gp.getWorldY() >= 563
+						&& gp.getWorldY() <= 638)
 				|| (currentMap == 2 && gp.getWorldX() >= 248 && gp.getWorldX() <= 330 && gp.getWorldY() >= 196
-						&& gp.getWorldY() <= 264
-						|| (currentMap == 4 && gp.getWorldX() >= 838 && gp.getWorldX() <= 893 && gp.getWorldY() >= 216
-								&& gp.getWorldY() <= 271));
+						&& gp.getWorldY() <= 264)
+				|| (currentMap == 4 && gp.getWorldX() >= 838 && gp.getWorldX() <= 893 && gp.getWorldY() >= 216
+						&& gp.getWorldY() <= 271);
 	}
 
 	private boolean lookInMirror = false;
@@ -598,7 +610,7 @@ public class Maps {
 
 	public void mirrorScene(Graphics2D g2, Component observer, GamePanel gp) throws IOException {
 
-		//System.out.println("Trigger: " + triggerTransition);
+		// System.out.println("Trigger: " + triggerTransition);
 		if (triggerTransition) {
 			lookInMirror = true;
 			fade(2, 5, g2, 384, 288, 100, 100, 384, 288, 100, 100, gp);
@@ -616,7 +628,7 @@ public class Maps {
 	}
 
 	public void funeralScene(Graphics2D g2, GamePanel gp) throws IOException {
-		//System.out.println(lookInMirror + "  " + npc.isSuprisedText());
+		// System.out.println(lookInMirror + " " + npc.isSuprisedText());
 		if (!npc.isSuprisedText() && lookInMirror) {
 			fade(3, 2, g2, 230, -182, 100, 100, 230, -182, 100, 100, gp);
 		}
