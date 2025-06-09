@@ -713,7 +713,6 @@ public class Items implements ReadFromFile{
 			npc.setTextIndex(0);
 			minigameGhost(g2, 1100 - 20, 820 - 0 + offsetY, "bossghost", 250, 196, gp);
 		}
-		// System.out.println("Text index: " + npc.getTextIndex());
 	}
 
 	private int ghostNumberLeft;
