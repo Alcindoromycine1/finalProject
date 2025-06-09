@@ -632,7 +632,6 @@ public class Items {
 		int ghostY = ghostGraveYardY - gp.getWorldY();
 
 		ghost = ImageIO.read(new File("src/textures/ghost.png"));
-		g2.drawImage(ghost, ghostX, ghostY, width, height, null);
 
 	}
 

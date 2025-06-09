@@ -64,7 +64,6 @@ public class Maps {
 	boolean goOut = false;
 	boolean hasJumpscared = false;
 	boolean hasDoctrined = false;
-	private boolean inFuneral = false;
 
 	private boolean doneNightmare = false;
 	private boolean inNightmare = false;
@@ -388,12 +387,16 @@ public class Maps {
 
 		if (currentMap == 5) {
 			inp.setChangeMapPressed(true);
-		} else if (currentMap == 2 && lookInMirror) {
+		} else if (currentMap == 3 && lookInMirror) {
 			inp.setChangeMapPressed(true);
 		}
 
 		if (inp.isChangeMapPressed() && gp.getWorldX() >= oldworX && gp.getWorldX() <= oldworX + oldWidth
 				&& gp.getWorldY() >= oldworY && gp.getWorldY() <= oldworY + oldHeight) {
+			fading = true;
+			p.disableCharacterMovement();
+			inp.setChangeMapPressed(false);
+		} else if(currentMap == 2 && lookInMirror && inp.isChangeMapPressed()){
 			fading = true;
 			p.disableCharacterMovement();
 			inp.setChangeMapPressed(false);
@@ -628,12 +631,11 @@ public class Maps {
 			npc.text(g2, 9);
 		}
 	}
-
-	public void funeralScene(Graphics2D g2, GamePanel gp) throws IOException {
-		// System.out.println(lookInMirror + " " + npc.isSuprisedText());
-		if (inFuneral) {
-			fade(2, 3, g2, 230, -182, 100, 100, 1000, 1000, 100, 100, gp);
-		}
+	
+	public void endScreen(){
+		
+		
+		
 	}
 
 	public void drawTint(Graphics2D g2, GamePanel gp) {
@@ -759,7 +761,7 @@ public class Maps {
 	public boolean isDoneDoctorDead() {
 		return doneDoctorDead;
 	}
-	
+
 	public void setDoneDoctorDead(boolean doneDoctorDead) {
 		this.doneDoctorDead = doneDoctorDead;
 	}
@@ -770,10 +772,6 @@ public class Maps {
 
 	public void setTriggerTransition(boolean triggerTransition) {
 		this.triggerTransition = triggerTransition;
-	}
-
-	public void setInFuneral(boolean inFuneral) {
-		this.inFuneral = inFuneral;
 	}
 
 }

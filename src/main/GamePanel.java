@@ -356,7 +356,6 @@ public class GamePanel extends JPanel implements Runnable {
 			m.playDoctrineSound();
 
 			m.mirrorScene(g2, this, this);
-			m.funeralScene(g2, this);
 
 			if (j.isJumpscare()) {
 				j.drawJumpscare(g2);
