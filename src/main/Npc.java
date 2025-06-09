@@ -188,7 +188,7 @@ public class Npc {
 				textBubble(g2, textDoctor[textIndex]);
 				
 			} else {
-				maps.doneDoctorDead = true;
+				maps.setDoneDoctorDead(true);
 			}
 		} else if (list == 4) {
 			String textDoctrineGhost[] = { "NO Don't hurt me! Please leave me alone!",
@@ -297,6 +297,7 @@ public class Npc {
 			if (textIndex < surprisedJeff.length) {
 				textBubble(g2, surprisedJeff[textIndex]);
 			} else {
+				maps.setTriggerTransition(false);
 				surprisedText = false;
 				maps.setInFuneral(true);
 			}

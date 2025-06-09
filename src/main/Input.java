@@ -281,6 +281,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 				if (items.getNextPage() > maxPages) {
 					items.setNextPage(maxPages);
 					items.stopBookFlipSound();
+					items.setPlayGif(false);
 				}
 			}
 			readBook = true;
