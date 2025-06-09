@@ -6,7 +6,12 @@ import java.util.ArrayList;
 import java.awt.*;
 import java.io.*;
 import javax.imageio.ImageIO;
-
+/*
+ * Noah Sussman, Akhilan Saravanan, and Rudra Garg
+ * Ms. Krasteva
+ * April 2, 2025
+ * Final Project ICS4U0
+ */
 public class MainMenu {
 
 	private BufferedImage background;

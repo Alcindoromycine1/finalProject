@@ -19,7 +19,12 @@ import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
 import interfaces.ReadFromFile;
-
+/*
+ * Noah Sussman, Akhilan Saravanan, and Rudra Garg
+ * Ms. Krasteva
+ * April 2, 2025
+ * Final Project ICS4U0
+ */
 public class Items implements ReadFromFile{
 	private Input input;
 	private Npc npc;

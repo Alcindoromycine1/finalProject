@@ -117,7 +117,7 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 		// load tiles
 		t.readFile();
 		
-		m.findTrees();
+		m.findTiles();
 
 		// Load character
 
