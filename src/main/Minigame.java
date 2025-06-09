@@ -353,24 +353,42 @@ public class Minigame {
 	}
 
 	// Getters and Setters
+	
+	/**
+	 * 
+	 * @return points
+	 */
 	public ArrayList<Point> getPoints() {
 		return points;
 	}
 
+	/**
+	 * @return isExorcising
+	 */
 	public boolean getIsExorcising() {
 		return isExorcising;
 	}
 
+	
+	/**
+	 * 
+	 * @param points
+	 */
 	public void setPoints(ArrayList<Point> points) {
 		this.points = points;
 	}
-
+/**
+ * 
+ * @return currentShape
+ */
 	public String getCurrentShape() {
 		return currentShape;
 	}
 
+	/**
+	 * @return currentShape
+	 */
 	public void setCurrentShape(String currentShape) {
 		this.currentShape = currentShape;
 	}
-
 }
