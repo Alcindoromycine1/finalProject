@@ -32,6 +32,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	private Jumpscare jumpscare;
 	private MainMenu mainMenu;
 	private LoadingScreen ls;
+	private Maps maps;
 
 	private boolean isCircle;
 	private boolean isZigzag;
@@ -56,6 +57,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		minigame = gp.getMinigame();
 		mainMenu = gp.getMainMenu();
 		ls = gp.getLs();
+		maps = gp.getM();
 
 	}
 
@@ -142,6 +144,8 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		}
 	}
 
+	private boolean hoveringQuit = false;
+
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		mouseX = e.getX();
@@ -215,6 +219,11 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		} else {
 			items.setHoveringX(false);
 		}
+		if (mouseX >= 325 && mouseX <= 325 + 130 && mouseY >= backY && mouseY <= backY + 40 && maps.isEnd()) {
+			hoveringQuit = true;
+		} else {
+			hoveringQuit = false;
+		}
 	}
 
 	@Override
@@ -228,6 +237,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 
 	private boolean instructionsPressed = false;
 	private boolean readBook = false;
+	private boolean pressedQuit = false;
 	
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -241,7 +251,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		}
 
 		if (mouseX >= instructionsX && mouseX <= instructionsX + 135 && mouseY >= instructionsY
-				&& mouseY <= instructionsY + 45) {
+				&& mouseY <= instructionsY + 45 && !mainMenu.isInMenu() && !ls.isLoadingScreen()) {
 			instructionsPressed = true;
 			items.setInstructionsPrompt(true);
 			return;
@@ -317,6 +327,11 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		if (mouseX >= 685 && mouseX <= 715 && mouseY >= 60 && mouseY <= 90
 				&& (items.isHelpPressed() || items.isCreditsPressed())) {
 			items.setCreditsPressed(false);
+		}
+		if (mouseX >= 325 && mouseX <= 325 + 130 && mouseY >= backY && mouseY <= backY + 40 && maps.isEnd()) {
+			pressedQuit = true;
+		} else {
+			pressedQuit = false;
 		}
 	}
 
@@ -532,6 +547,18 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	
 	public void setCPressed(boolean cPressed) {
 		this.cPressed = cPressed;
+	}
+	
+	public boolean isHoveringQuit() {
+		return hoveringQuit;
+	}
+
+	public boolean isPressedQuit() {
+		return pressedQuit;
+	}
+	
+	public void setM(Maps m) {
+		this.maps = m;
 	}
 
 }

@@ -67,7 +67,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 	private int screenX;
 	private int screenY;
-	
+
 	private boolean once = false; // used to check if the text index has been reset
 
 	private Sound ambientAudio;
@@ -141,6 +141,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 		id.setNpc(n);
 		id.setJumpscare(j);
+		id.setM(m);
 
 		t.setM(m);
 
@@ -298,11 +299,6 @@ public class GamePanel extends JPanel implements Runnable {
 				m.drawTint(g2, this);
 			}
 			it.doctrine(g2, this);
-			it.instructions(g2);
-			if (id.isInstructionsPressed()) {
-				it.prompts(g2);
-				it.backMenu(g2);
-			}
 
 			if (m.getCurrentMap() == 5) {
 				try {
@@ -315,7 +311,7 @@ public class GamePanel extends JPanel implements Runnable {
 			m.confirmationCollision(this, g2);
 			if (!m.hasJumpscared && !m.hasDoctrined) {
 				m.fade(2, 3, g2, 248, 196, 82, 48, 414, 48, 145, 126, this);
-				it.setInHouse(true); 
+				it.setInHouse(true);
 			}
 			if (m.getStepCount() == -1 && it.isInHouse() && !m.isInNightmare() && !m.isDoneNightmare()) {
 				n.text(g2, 5);
@@ -344,8 +340,6 @@ public class GamePanel extends JPanel implements Runnable {
 			it.ghost(g2, 5100, 320, 125, 98, this);
 			it.book(g2, this);
 
-			m.nightmare(g2, this, this);
-
 			if (m.getCurrentMap() == 5) {
 				it.ghostLogic(g2, this);
 			}
@@ -354,17 +348,21 @@ public class GamePanel extends JPanel implements Runnable {
 			p.carSound();
 			m.playNightmareSound();
 			m.playDoctrineSound();
-
+			m.nightmare(g2, this, this);
 			m.mirrorScene(g2, this, this);
 
+			it.instructions(g2);
+			if (id.isInstructionsPressed()) {
+				it.prompts(g2);
+				it.backMenu(g2);
+			}
 			if (j.isJumpscare()) {
 				j.drawJumpscare(g2);
 				j.playSound();
 			}
-
-			// if (ls.isLoadingScreen()) {
-			// ls.drawLoadingScreen(g2);
-			// }
+			if (ls.isLoadingScreen()) {
+				ls.drawLoadingScreen(g2);
+			}
 
 			if (mainMenu.isInMenu()) {
 				mainMenu.mainMenu(g2);
@@ -373,7 +371,6 @@ public class GamePanel extends JPanel implements Runnable {
 					mainMenuSound.volume(-10.0f);
 				}
 			}
-
 
 			if (m.getCurrentMap() == 3 && !mainMenu.isInMenu() && !ls.isLoadingScreen()) {
 				if (mainMenuSound.isPlaying()) {
@@ -401,6 +398,7 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 			it.help(g2);
 			it.credits(g2);
+			m.endScreen(g2);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
