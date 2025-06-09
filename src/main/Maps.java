@@ -116,7 +116,7 @@ public class Maps {
 	}
 
 	/**
-	 * @purpose 
+	 * @purpose this will take input to detect which map is 
 	 * @param mapToChange
 	 * @return the map that is being changed to
 	 */
@@ -137,33 +137,37 @@ public class Maps {
 			mapIntro("src/maps/blank.txt");
 			currentMap = 5;
 		}
-		return "-1";
+		return "-1";//no change map found
 
 	}
 
+	/**
+	 * @purpose reads the numbers from the file and stores into arrayList
+	 * @param filePath
+	 */
 	public void mapIntro(String filePath) {
 		tiles.clear(); // Clear old tile data before loading new map
 
 		try (BufferedReader r = new BufferedReader(new FileReader(filePath))) {
 			String lines;
-			while ((lines = r.readLine()) != null) {
+			while ((lines = r.readLine()) != null) {//while the file is not empty
 				lines = lines.trim();
 				if (lines.isEmpty())
 					continue;
 
-				String[] val = lines.split("\\s+");
+				String[] val = lines.split("\\s+");//gets rid of spacing
 				ArrayList<Integer> rowList = new ArrayList<>();
 
 				for (String s : val) {
-					rowList.add(Integer.parseInt(s));
+					rowList.add(Integer.parseInt(s));//stores number
 				}
 
-				tiles.add(rowList);
+				tiles.add(rowList);//adds to arrayList
 			}
 
 			// Set world dimensions based on map size
-			maxWorldRow = tiles.size();
-			maxWorldCol = tiles.get(0).size();
+			maxWorldRow = tiles.size();//size of row
+			maxWorldCol = tiles.get(0).size();//size of col
 
 		} catch (IOException | NumberFormatException e) {
 			e.printStackTrace();
