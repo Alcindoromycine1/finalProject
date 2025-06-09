@@ -215,6 +215,4 @@ public class Tiles {
 	public void setM(Maps m) { // Setter for Maps instance
 		this.m = m;
 	}
-	
-
 }

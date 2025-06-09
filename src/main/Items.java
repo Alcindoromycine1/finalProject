@@ -1275,15 +1275,15 @@ public class Items {
 			g2.fillRect(100 + 100, 337, 150, 2);
 			g2.drawString("Rudra Garg", 100 + 100, 355);
 			g2.drawString("Playtester", 100 + 100, 385);
-			g2.fillRect(100 + 100, 387, 110, 2);
+			g2.fillRect(100 + 100, 337, 150, 2);
 			g2.drawString("Sammy Jiang", 100 + 100, 405);
 			g2.drawString("Voice Actors", 300 + 100, 175);
-			g2.fillRect(300 + 100, 177, 150, 2);
+			g2.fillRect(300 + 100, 177, 110, 2);
 			g2.drawString("Jeff: Jhonard Ramos", 300 + 100, 195);
 			g2.drawString("Graveyard Ghost: Noah Sussman", 300 + 100, 220);
 			g2.drawString("Doctor: Rudra Garg", 300 + 100, 245);
 			g2.drawString("Doctrine Ghost: Akhilan Saravanan", 300 + 100, 270);
-			g2.fillRect(100 + 100, 387, 120, 2);
+			g2.fillRect(100 + 100, 387, 150, 2);
 			exitMenuOption(g2);
 		}
 	}
