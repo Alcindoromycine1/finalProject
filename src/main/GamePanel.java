@@ -67,6 +67,8 @@ public class GamePanel extends JPanel implements Runnable {
 
 	private int screenX;
 	private int screenY;
+	
+	private boolean once = false; // used to check if the text index has been reset
 
 	private Sound ambientAudio;
 	private Sound mainMenuSound;
@@ -310,13 +312,13 @@ public class GamePanel extends JPanel implements Runnable {
 					e.printStackTrace();
 				}
 			}
-			System.out.println(worldX + " , " + worldY);
+			System.out.println(n.isSurprisedText());
 			m.confirmationCollision(this, g2);
 			if (!m.hasJumpscared && !m.hasDoctrined) {
 				m.fade(2, 3, g2, 248, 196, 82, 48, 414, 48, 145, 126, this);
-				it.setInHouse(true);
+				it.setInHouse(true); 
 			}
-			if (m.getStepCount() == -1 && it.isInHouse() && !m.isInNightmare() && !m.isDoneDoctorDead()) {
+			if (m.getStepCount() == -1 && it.isInHouse() && !m.isInNightmare() && !m.isDoneNightmare()) {
 				n.text(g2, 5);
 				it.setInHouse(false);
 			}
@@ -324,7 +326,7 @@ public class GamePanel extends JPanel implements Runnable {
 				m.fade(3, 4, g2, 168, -159, 100, 100, 5550, 520, 150, 100, this);
 				id.setChangeMapPressed(false);
 			}
-			if (m.hasDoctrined) { // exorcism room
+			if (m.hasDoctrined && !m.isLookInMirror()) { // exorcism room
 				m.fade(4, 5, g2, 838, 216, 55, 55, 838, 216, 55, 55, this);
 				id.setChangeMapPressed(false);
 				p.disableCharacterMovement();
@@ -381,6 +383,8 @@ public class GamePanel extends JPanel implements Runnable {
 				}
 			}
 
+			//System.out.println("index" + n.getTextIndex() + " trnsition" + m.isTriggerTransition() + " map" + m.getCurrentMap() + " mirror" + m.isLookInMirror());
+
 			if (m.getCurrentMap() == 3 && !mainMenu.isInMenu() && !ls.isLoadingScreen()) {
 				if (mainMenuSound.isPlaying()) {
 					mainMenuSound.stop();
@@ -399,6 +403,10 @@ public class GamePanel extends JPanel implements Runnable {
 
 			if (it.isCarUsed() && !it.isCarSceneDone() && !j.isJumpscare()) {
 				g2.drawImage(jeffFront, 580, 320, 96, 144, null);
+				if (!once) {
+					n.setTextIndex(0); // Reset text index to 0
+					once = true; // Set once to true to prevent resetting again
+				}
 				n.text(g2, 7);
 			}
 			it.help(g2);

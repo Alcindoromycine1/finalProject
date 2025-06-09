@@ -46,7 +46,7 @@ public class Npc {
 	private Sound n3;
 	private Sound n4;
 	private Sound n5;
-	private boolean suprisedText;
+	private boolean surprisedText;
 
 	public Npc(GamePanel gp) {
 		input = gp.getId();
@@ -186,9 +186,9 @@ public class Npc {
 			}
 			if (textIndex < textDoctor.length) {
 				textBubble(g2, textDoctor[textIndex]);
-				maps.doneDoctorDead = true;
+				
 			} else {
-				maps.doneDoctorDead = false;
+				maps.doneDoctorDead = true;
 			}
 		} else if (list == 4) {
 			String textDoctrineGhost[] = { "NO Don't hurt me! Please leave me alone!",
@@ -286,19 +286,19 @@ public class Npc {
 			} else {
 				items.setLevel(-1);
 				maps.setTriggerTransition(true);
-				maps.setResetText(true);
 			}
 		} else if (list == 9) {
-			String suprisedJeff[] = { "Wait, that's me?", "How is this possible? I thought I was a human.",
+			String surprisedJeff[] = { "Wait, that's me?", "How is this possible? I thought I was a human.",
 					"I just realized something.", "Those ghosts were humans the whole time.",
 					"In the doctrine, when I exorcised that last ghost, my hardware must have malfunctioned.",
 					"This is why I saw the ghost for what it truly was; a human.", "This means I'm an A.I.",
 					"And that was suppose to be the last of the ghosts. Meaning I  just exorcised the last human on this planet.",
 					"I was the monster all along.", "That doctor that I saw in this house DECEIVED me.", "*sob*" };
-			if (textIndex < suprisedJeff.length) {
-				textBubble(g2, suprisedJeff[textIndex]);
+			if (textIndex < surprisedJeff.length) {
+				textBubble(g2, surprisedJeff[textIndex]);
 			} else {
-				suprisedText = false;
+				surprisedText = false;
+				maps.setInFuneral(true);
 			}
 		}
 	}
@@ -344,12 +344,12 @@ public class Npc {
 		this.items = items;
 	}
 
-	public boolean isSuprisedText() {
-		return suprisedText;
+	public boolean isSurprisedText() {
+		return surprisedText;
 	}
 
-	public void setSuprisedText(boolean suprisedText) {
-		this.suprisedText = suprisedText;
+	public void setSurprisedText(boolean suprisedText) {
+		this.surprisedText = suprisedText;
 	}
 
 	public int getTextIndex() {
