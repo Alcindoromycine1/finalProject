@@ -11,18 +11,18 @@ public class Minigame {
 	private boolean isExorcising = false;// if the user is in the exorcism room and is ready to exorcise
 	private int sumX = 0;// sum of all x points template
 	private int sumY = 0;// sum of all y points template
-	private ArrayList<Point> proper = new ArrayList<>();
-	private int count = 0;
+	private ArrayList<Point> proper = new ArrayList<>();//all template points
+	private int count = 0;//used to know how many points are drawn
 
 	private int circleX = 500;// x value of circle template
 	private int circleY = 300;// y value of circle template
 
 	private double originalArea = 0;// area of template shape
-	private ArrayList<Point> shapePoints = new ArrayList<>();
+	private ArrayList<Point> shapePoints = new ArrayList<>();//all the points drawn (including interpolated ones)
 
 	private int newSumX = 0;// sum of all x points drawn
 	private int newSumY = 0;// sum of all y points drawn
-	private ArrayList<Point> newPoints = new ArrayList<>();
+	private ArrayList<Point> newPoints = new ArrayList<>();//key points
 	private Point newCentroid;// centroid of shape drawn
 	private Point centroid;// centroid of template
 

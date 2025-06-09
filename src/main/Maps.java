@@ -21,7 +21,6 @@ import Horror.Jumpscare;
  * Final Project ICS4U0
  */
 import java.io.*;
-import java.security.Identity;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -31,8 +30,6 @@ public class Maps {
 	// WORLD SETTINGS
 	private int maxWorldCol;
 	private int maxWorldRow;
-	private final int worldWidth = 48 * maxWorldCol; // world width in pixels (2400 pixels)
-	private final int worldHeight = 48 * maxWorldRow; // world height in pixels (2400 pixels)
 
 	private ArrayList<ArrayList<Integer>> tiles = new ArrayList<>();
 	private ArrayList<int[]> treePositions = new ArrayList<>();
