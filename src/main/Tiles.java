@@ -180,36 +180,35 @@ public class Tiles {
 				} else if (tileCode == 75) {
 					image = ImageIO.read(new File("src/textures/deadGrass.png")); // Reads the image file for deadGrass.png into the BufferedImage arrayList
 				} else if (tileCode == 76) {
-					image = ImageIO.read(new File("src/textures/grassBlockShiftBottom.png"));
+					image = ImageIO.read(new File("src/textures/grassBlockShiftBottom.png")); // Reads the image file for grassBlockShiftBottom.png into the BufferedImage arrayList
 				} else if (tileCode == 77) {
-					image = ImageIO.read(new File("src/textures/grassBlockShiftBottomRightCorner.png"));
+					image = ImageIO.read(new File("src/textures/grassBlockShiftBottomRightCorner.png"));	 // Reads the image file for grassBlockShiftBottomRightCorner.png into the BufferedImage arrayList
 				} else if (tileCode == 78) {
-					image = ImageIO.read(new File("src/textures/grassBlockShiftRight.png"));
+					image = ImageIO.read(new File("src/textures/grassBlockShiftRight.png"));	 // Reads the image file for grassBlockShiftRight.png into the BufferedImage arrayList
 				} else if (tileCode == 79) {
-					image = ImageIO.read(new File("src/textures/grassBlockShiftTopRightCorner.png"));
+					image = ImageIO.read(new File("src/textures/grassBlockShiftTopRightCorner.png"));	 // Reads the image file for grassBlockShiftTopRightCorner.png into the BufferedImage arrayList
 				} else if (tileCode == 80) {
-					image = ImageIO.read(new File("src/textures/grassBlockShiftTop.png"));
+					image = ImageIO.read(new File("src/textures/grassBlockShiftTop.png"));	 // Reads the image file for grassBlockShiftTop.png into the BufferedImage arrayList
 				} else if (tileCode == 81) {
-					image = ImageIO.read(new File("src/textures/grassBlockShiftTopLeftCorner.png"));
+					image = ImageIO.read(new File("src/textures/grassBlockShiftTopLeftCorner.png"));	 // Reads the image file for grassBlockShiftTopLeftCorner.png into the BufferedImage arrayList
 				} else if (tileCode == 82) {
-					image = ImageIO.read(new File("src/textures/grassBlockShiftLeft.png"));
+					image = ImageIO.read(new File("src/textures/grassBlockShiftLeft.png"));	 // Reads the image file for grassBlockShiftLeft.png into the BufferedImage arrayList
 				} else if (tileCode == 83) {
-					image = ImageIO.read(new File("src/textures/grassBlockShiftBottomLeftCorner.png"));
+					image = ImageIO.read(new File("src/textures/grassBlockShiftBottomLeftCorner.png"));	 // Reads the image file for grassBlockShiftBottomLeftCorner.png into the BufferedImage arrayList
 				} else if (tileCode == 84) {
-					image = ImageIO.read(new File("src/textures/deadTree.png"));
+					image = ImageIO.read(new File("src/textures/deadTree.png"));	 // Reads the image file for deadTree.png into the BufferedImage arrayList
 				} else if (tileCode == 85) {
-					image = ImageIO.read(new File("src/textures/book.png"));
+					image = ImageIO.read(new File("src/textures/book.png"));	 // Reads the image file for book.png into the BufferedImage arrayList
 				} else if (tileCode == 86) {
-					image = ImageIO.read(new File("src/textures/sideDoorDown.png"));
+					image = ImageIO.read(new File("src/textures/sideDoorDown.png"));	 // Reads the image file for sideDoorDown.png into the BufferedImage arrayList
 				} else if (tileCode == 87) {
-					image = ImageIO.read(new File("src/textures/sideDoorUp.png"));
+					image = ImageIO.read(new File("src/textures/sideDoorUp.png"));		 // Reads the image file for sideDoorUp.png into the BufferedImage arrayList
 				}	
 				else {
-					image = ImageIO.read(new File("src/textures/void.png"));
+					image = ImageIO.read(new File("src/textures/void.png")); 		// Default case, reads the image file for void.png into the BufferedImage arrayList
 				}
-				tileImages.get(i).set(j, image);
-				
-				
+				 
+				tileImages.get(i).set(j, image);  // Set the image in the 2D ArrayList at the current position
 			}
 		}
 	}
