@@ -39,8 +39,8 @@ public class Player {
 	Sound carSound;
 	private BufferedImage character;
 
-	public boolean collision = false;
-	public boolean inventoryCollision = false;
+	private boolean collision = false;
+	private boolean once = false; // Used to ensure the text only appears once when entering the graveyard
 
 	public Player(GamePanel gp) {
 		// keyH = gp.id;
@@ -164,16 +164,6 @@ public class Player {
 				break; // Stop checking after finding the first collision
 			}
 		}
-		if (keyH.getMouseX() + 32 > 165 // Right side of hitbox is past left side of tree
-				&& keyH.getMouseX() < 165 + 200 // Left side of hitbox is before right side of tree
-				&& keyH.getMouseY() + 72 > 160 // Bottom side of hitbox is below top side of tree
-				&& keyH.getMouseY() < 160 + 70) { // Top side of hitbox is above bottom side of tree
-			inventoryCollision = true;
-		} else {
-
-			inventoryCollision = false;
-
-		}
 
 		if (worldX + 384 + 32 > it.getCarWorldX() && // Player's right side > car's left side
 				worldX + 384 < it.getCarWorldX() + 96 && // Player's left side < car's right side
@@ -192,6 +182,10 @@ public class Player {
 				worldY + 288 - 150 > it.getGraveY() && // Down-shifted point > grave's top
 				worldY + 288 - 150 < it.getGraveY() + 120 // Down-shifted point < grave's bottom
 				&& it.isFirstTime()) {
+			if (!once) {
+				n.setTextIndex(0);
+				once = true;
+			}
 			it.setInGraveYard(true);
 		} else {
 			it.setInGraveYard(false);
@@ -281,9 +275,6 @@ public class Player {
 	}
 
 	public boolean disableCharacterMovement() {
-		if (m.doneDoctorDead) {
-			return true;
-		}
 		if (m.isLookInMirror()) {
 			return true;
 		}

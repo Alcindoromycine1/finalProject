@@ -64,6 +64,7 @@ public class Maps {
 	boolean goOut = false;
 	boolean hasJumpscared = false;
 	boolean hasDoctrined = false;
+	private boolean inFuneral = false;
 
 	private boolean doneNightmare = false;
 	private boolean inNightmare = false;
@@ -71,6 +72,7 @@ public class Maps {
 
 	private boolean once = false;
 	private boolean once2 = false;
+	private boolean once3 = false;
 	private int fade2Value = 0;
 	private boolean faded = false;
 	private boolean doneFade = false;
@@ -360,8 +362,8 @@ public class Maps {
 				fadeValue = 0;
 				hasFaded++;
 			}
-			if (!triggerTransition && lookInMirror) {
-				npc.setSuprisedText(true);
+			if (triggerTransition) {
+				npc.setSurprisedText(true);
 			}
 		}
 		if (hasFaded == 2) {
@@ -413,7 +415,7 @@ public class Maps {
 
 	public void nightmare(Graphics2D g2, Component observer, GamePanel gp) throws IOException {
 
-		if (usingBed && !inNightmare && !doneNightmare) {
+		if (usingBed && !inNightmare && !doneNightmare && !doneDoctorDead) {
 			items.setInConfirmation(true);
 			items.confirmation(g2, "Do you want to", "sleep? ", 245, 330);
 			if (items.isYesPressed()) {
@@ -463,7 +465,7 @@ public class Maps {
 				npc.text(g2, 6);
 			}
 		}
-		if (doneNightmare && currentMap == 2) {
+		if (doneNightmare && currentMap == 2 && !lookInMirror) {
 			inNightmare = false;
 			if (!once2) {
 				npc.setTextIndex(0);
@@ -606,31 +608,30 @@ public class Maps {
 	}
 
 	private boolean lookInMirror = false;
-	private boolean resetText = false;
 
 	public void mirrorScene(Graphics2D g2, Component observer, GamePanel gp) throws IOException {
 
-		// System.out.println("Trigger: " + triggerTransition);
+		System.out.println("Trigger: " + triggerTransition);
 		if (triggerTransition) {
 			lookInMirror = true;
-			fade(2, 5, g2, 384, 288, 100, 100, 384, 288, 100, 100, gp);
+			if (!once3) {
+				npc.setTextIndex(0);
+				once3 = true;
+			}
+			fade(5, 2, g2, 384, 288, 100, 100, 1000, 1000, 100, 100, gp);
 			gp.setWorldX(212);
 			gp.setWorldY(-180);
 		}
-		if (resetText) {
-			npc.setTextIndex(0);
-			resetText = false;
-		}
-		if (npc.isSuprisedText()) {
+		if (npc.isSurprisedText()) {
 			items.houseMirror(g2);
 			npc.text(g2, 9);
 		}
 	}
 
 	public void funeralScene(Graphics2D g2, GamePanel gp) throws IOException {
-		// System.out.println(lookInMirror + " " + npc.isSuprisedText());
-		if (!npc.isSuprisedText() && lookInMirror) {
-			fade(3, 2, g2, 230, -182, 100, 100, 230, -182, 100, 100, gp);
+		//System.out.println(lookInMirror + "  " + npc.isSuprisedText());
+		if (inFuneral) {
+			fade(2, 3, g2, 230, -182, 100, 100, 230, -182, 100, 100, gp);
 		}
 	}
 
@@ -688,10 +689,6 @@ public class Maps {
 
 	public void setInp(Input inp) {
 		this.inp = inp;
-	}
-
-	public void setResetText(boolean resetText) {
-		this.resetText = resetText;
 	}
 
 	public ArrayList<ArrayList<Integer>> getTiles() {
@@ -768,6 +765,10 @@ public class Maps {
 
 	public void setTriggerTransition(boolean triggerTransition) {
 		this.triggerTransition = triggerTransition;
+	}
+	
+	public void setInFuneral(boolean inFuneral) {
+		this.inFuneral = inFuneral;
 	}
 
 }
