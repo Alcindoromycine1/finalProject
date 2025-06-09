@@ -402,8 +402,8 @@ public class Items {
 		int carX = carWorldX - gp.getWorldX();
 		int carY = carWorldY - gp.getWorldY();
 		g.drawImage(car, carX, carY, 96, 192, null);
-		if (!carOn && !carUsed && gp.getPlayerX() + 32 > carX && gp.getPlayerX() < carX + 96
-				&& gp.getPlayerY() + 72 > carY && gp.getPlayerY() < carY + 192 && p.keyH.iscPressed()) {
+		if (!carOn && !carUsed && gp.getWorldX() >= 834 && gp.getWorldX() <= 880 && gp.getWorldY() >= 563
+				&& gp.getWorldY() <= 638 && p.keyH.iscPressed()) {
 			carOn = true;
 			p.disableCharacterMovement();
 			visible = false;
@@ -689,7 +689,7 @@ public class Items {
 			npc.setTextIndex(0);
 			minigameGhost(g2, 1100 - 20, 820 - 0 + offsetY, "bossghost", 250, 196, gp);
 		}
-		//System.out.println("Text index: " + npc.getTextIndex());
+		// System.out.println("Text index: " + npc.getTextIndex());
 	}
 
 	private int ghostNumberLeft;
@@ -767,7 +767,7 @@ public class Items {
 			destroyVertical = false;
 			destroyBossGhost = false;
 		}
-		if(level == 9) {
+		if (level == 9) {
 			npc.text(g2, 8);
 		}
 
@@ -1289,7 +1289,7 @@ public class Items {
 	public void setLevel(int level) {
 		this.level = level;
 	}
-	
+
 	public void setNpc(Npc npc) {
 		this.npc = npc;
 	}

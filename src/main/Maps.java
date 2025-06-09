@@ -523,7 +523,7 @@ public class Maps {
 				items.setYesPressed(false);
 				items.setInConfirmation(false);
 				inp.setChangeMapPressed(true);
-				if (doneNightmare && !items.isInHouse()) {
+				if (currentMap == 3 && doneNightmare) {
 					inp.setCPressed(true);
 				}
 				disableConfirmation = true;
@@ -540,7 +540,6 @@ public class Maps {
 						&& gp.getWorldY() <= 638) {
 					enteredCar = true;
 				}
-
 				return;
 			}
 
@@ -629,7 +628,7 @@ public class Maps {
 	}
 
 	public void funeralScene(Graphics2D g2, GamePanel gp) throws IOException {
-		//System.out.println(lookInMirror + "  " + npc.isSuprisedText());
+		// System.out.println(lookInMirror + " " + npc.isSuprisedText());
 		if (inFuneral) {
 			fade(2, 3, g2, 230, -182, 100, 100, 230, -182, 100, 100, gp);
 		}
@@ -766,7 +765,7 @@ public class Maps {
 	public void setTriggerTransition(boolean triggerTransition) {
 		this.triggerTransition = triggerTransition;
 	}
-	
+
 	public void setInFuneral(boolean inFuneral) {
 		this.inFuneral = inFuneral;
 	}
