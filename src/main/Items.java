@@ -58,7 +58,8 @@ public class Items {
 	private BufferedImage orderFullFrame;
 	private BufferedImage triangleRemovedOrder;
 	private BufferedImage orderCloseUp;
-
+	private BufferedImage human;
+	
 	private ImageIcon pageFlipping;
 	private Sound bookFlipSound;
 
@@ -184,6 +185,9 @@ public class Items {
 		orderFullFrame = ImageIO.read(new File("src/textures/orderFullFrame.png"));
 		triangleRemovedOrder = ImageIO.read(new File("src/textures/removedTriangleOrder.png"));
 		orderCloseUp = ImageIO.read(new File("src/textures/orderCloseUp.png"));
+		
+		human = ImageIO.read(new File("src/textures/character.png"));// https://www.creativefabrica.com/product/pixel-art-human-graphics/ref/2399990/
+	
 	}
 
 	// Stackoverflow used for GIF:
@@ -632,7 +636,8 @@ public class Items {
 		int ghostY = ghostGraveYardY - gp.getWorldY();
 
 		ghost = ImageIO.read(new File("src/textures/ghost.png"));
-
+		g2.drawImage(ghost, ghostX, ghostY, width, height, null);
+		
 	}
 
 	private int level = 8;
@@ -696,7 +701,7 @@ public class Items {
 	private boolean ghostAppeared = false;
 	private int ghostCount = 0;
 	private boolean reachedPeak = false;
-
+	
 	private int yVal = 0;
 
 	public void ghostLogic(Graphics2D g2, GamePanel gp) throws IOException {
@@ -766,7 +771,9 @@ public class Items {
 			destroyVertical = false;
 			destroyBossGhost = false;
 		}
+		
 		if (level == 9) {
+			g2.drawImage(human, 350, 230, 192, 280, null);
 			npc.text(g2, 8);
 		}
 
