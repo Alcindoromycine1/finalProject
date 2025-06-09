@@ -68,6 +68,7 @@ public class Maps {
 	private boolean doneNightmare = false;
 	private boolean inNightmare = false;
 	private boolean usingBed = false;
+	private boolean end = false; // for the end screen
 
 	private boolean once = false;
 	private boolean once2 = false;
@@ -396,7 +397,7 @@ public class Maps {
 			fading = true;
 			p.disableCharacterMovement();
 			inp.setChangeMapPressed(false);
-		} else if(currentMap == 2 && lookInMirror && inp.isChangeMapPressed()){
+		} else if (currentMap == 2 && lookInMirror && inp.isChangeMapPressed()) {
 			fading = true;
 			p.disableCharacterMovement();
 			inp.setChangeMapPressed(false);
@@ -614,8 +615,7 @@ public class Maps {
 	private boolean lookInMirror = false;
 
 	public void mirrorScene(Graphics2D g2, Component observer, GamePanel gp) throws IOException {
-
-		System.out.println(inp.isChangeMapPressed());
+		System.out.println(end);
 		if (triggerTransition) {
 			lookInMirror = true;
 			if (!once3) {
@@ -631,11 +631,48 @@ public class Maps {
 			npc.text(g2, 9);
 		}
 	}
-	
-	public void endScreen(){
-		
-		
-		
+
+	private int fade3Value = 0;
+	private boolean faded2 = false;
+	private boolean hoveringQuit = false;
+	private Color selected = new Color(144, 50, 50);
+	private Color unselected = new Color(193, 45, 57);
+
+	public void endScreen(Graphics2D g2) throws IOException {
+		if (end) {
+			if (!faded2) {
+				Color fadeColor2 = new Color(0, 0, 0, fade3Value);
+				g2.setColor(fadeColor2);
+				g2.fillRect(0, 0, 768, 576);
+				fade3Value += 2;
+				if (fade3Value >= 255) {
+					fade3Value = 255;
+					faded2 = true;
+				}
+			}
+			if (faded2) {
+				g2.setColor(new Color(0, 0, 0));
+				g2.fillRect(0, 0, 768, 576);
+				g2.setColor(Color.WHITE);
+				g2.setFont(new Font("Monospaced", Font.BOLD, 60));
+				g2.drawString("THE END", 270, 250);
+				g2.setFont(new Font("Calibri", Font.PLAIN, 40));
+				g2.drawString("Thank you for playing!", 210, 300);
+				if (!inp.isHoveringQuit()) {
+					g2.setColor(unselected);
+				} else if (inp.isHoveringQuit()) {
+					g2.setColor(selected);
+				}
+				g2.fillRoundRect(325, 430, 130, 45, 10, 10);
+				g2.setFont(new Font("Calibri", Font.BOLD, 25));
+				g2.setColor(Color.WHITE);
+				g2.drawString("Exit", 370, 460);
+			}
+			if (inp.isPressedQuit()) {
+				System.exit(0);
+			}
+		}
+
 	}
 
 	public void drawTint(Graphics2D g2, GamePanel gp) {
@@ -772,6 +809,14 @@ public class Maps {
 
 	public void setTriggerTransition(boolean triggerTransition) {
 		this.triggerTransition = triggerTransition;
+	}
+
+	public void setEnd(boolean end) {
+		this.end = end;
+	}
+
+	public boolean isEnd() {
+		return end;
 	}
 
 }

@@ -34,6 +34,7 @@ public class MainMenu {
 		Color unselected = new Color(193, 45, 57);
 		g2.setColor(Color.WHITE);
 		g2.drawImage(background, 0, 0, null);
+		g2.setFont(new Font("DejaVu Math TeX Gyre", Font.BOLD, 16));
 		g2.drawString("It is recommended to visit the help menu first.", 410, 560);
 		if (hoveringPlay) {
 			g2.setColor(selected);

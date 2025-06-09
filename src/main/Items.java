@@ -637,7 +637,7 @@ public class Items {
 
 		ghost = ImageIO.read(new File("src/textures/ghost.png"));
 		g2.drawImage(ghost, ghostX, ghostY, width, height, null);
-		
+
 	}
 
 	private int level = 8;
@@ -1121,7 +1121,6 @@ public class Items {
 			g2.drawImage(ghost, 480, 280, 250, 196, null);
 			npc.text(g2, 2);
 		}
-
 	}
 
 	private boolean hoveringYes = false;
@@ -1206,7 +1205,7 @@ public class Items {
 					260 + 23);
 			g2.drawString("to hover and click on the instructions menu in the top right. You can then", 100 - 10,
 					290 + 23);
-			g2.drawString("navigate through different topics to find what you are having troubles", 100 - 10, 320 + 23);
+			g2.drawString("navigate through different topics to find what you are having troubles with", 100 - 10, 320 + 23);
 			g2.drawString("For example, if you don't know what the keybinds are to move, go to", 100 - 10, 350 + 23);
 			g2.drawString("the movement section.", 100 - 10, 380 + 20);
 

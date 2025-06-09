@@ -299,6 +299,8 @@ public class Npc {
 			} else {
 				maps.setTriggerTransition(false);
 				surprisedText = false;
+				maps.setEnd(true);
+				
 			}
 		}
 	}
