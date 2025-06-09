@@ -320,7 +320,7 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 				}
 			}
 			m.confirmationCollision(this, g2);
-			if (!m.hasJumpscared && !m.hasDoctrined) {
+			if (!m.isHasJumpscared() && !m.isHasDoctrined()) {
 				m.fade(2, 3, g2, 248, 196, 82, 48, 414, 48, 145, 126, this);
 				it.setInHouse(true);
 			}
@@ -328,11 +328,11 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 				n.text(g2, 5);
 				it.setInHouse(false);
 			}
-			if (!m.hasDoctrined && m.hasJumpscared) {
+			if (!m.isHasDoctrined() && m.isHasJumpscared()) {
 				m.fade(3, 4, g2, 168, -159, 100, 100, 5550, 520, 150, 100, this);
 				id.setChangeMapPressed(false);
 			}
-			if (m.hasDoctrined && !m.isLookInMirror()) { // exorcism room
+			if (m.isHasDoctrined() && !m.isLookInMirror()) { // exorcism room
 				m.fade(4, 5, g2, 838, 216, 55, 55, 838, 216, 55, 55, this);
 				id.setChangeMapPressed(false);
 				p.disableCharacterMovement();

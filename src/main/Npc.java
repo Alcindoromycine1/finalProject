@@ -48,8 +48,12 @@ public class Npc implements ReadFromFile {
 	private Sound n3;
 	private Sound n4;
 	private Sound n5;
-	private boolean surprisedText;
+	private boolean surprisedText;//when jeff finishes speaking in the exorcism room
 
+	/**
+	 * Constructor for the Npc Class
+	 * @param gp
+	 */
 	public Npc(GamePanel gp) {
 		input = gp.getId();
 		items = gp.getIt();
@@ -65,7 +69,9 @@ public class Npc implements ReadFromFile {
 		worldX = gp.getWorldX();
 		worldY = gp.getWorldY();
 
+
 		readFile();
+
 	}
 
 	/**

@@ -36,48 +36,52 @@ public class Maps {
 	private ArrayList<int[]> waterPositions = new ArrayList<>();//all numbers that correspond to the water
 	private ArrayList<int[]> bookPositions = new ArrayList<>();//all numbers that correspond to the book
 
-	private BufferedImage nightmare;
-	private ImageIcon doctor;
+	private BufferedImage nightmare;//image of the nightmare
+	private ImageIcon doctor;//GIF of the doctor
 
-	private Tiles t;
-	private Npc npc;
-	private Jumpscare j;
-	private Player p;
-	private Items items;
-	private Input inp;
+	private Tiles t;// Reference to the Tiles class to access Tiles methods and properties
+	private Npc npc;// Reference to the Npc class to access Npc methods and properties
+	private Jumpscare j;// Reference to the Jumpscare class to access Jumpscare methods and properties
+	private Player p;// Reference to the Jumpscare class to access Jumpscare methods and properties
+	private Items items;// Reference to the Jumpscare class to access Jumpscare methods and properties
+	private Input inp;// Reference to the Input class to access Input methods and properties
 
-	private Sound nightmareSound;
-	private Sound doctrineSound;
+	private Sound nightmareSound;//sound for the nightmare
+	private Sound doctrineSound;//sound for the doctrine
+	
+	private int worldX;//player x position relative to the world
+	private int worldY;//player Y position relative to the world
+	private int currentMap;// current map the user is playing (e.g. openMap is 3)
 
-	private int worldX;
-	private int worldY;
-	private int currentMap;
+	private boolean fading = false;//fading inwards
+	private boolean goOut = false;//has not gone outside once teleported inside the area (used for the fading system)
+	private boolean hasJumpscared = false;//has the user jumpscared or not
+	private boolean hasDoctrined = false;//has the user been in the doctrine or not
 
-	boolean fading = false;
-	boolean goOut = false;
-	boolean hasJumpscared = false;
-	boolean hasDoctrined = false;
-
-	private boolean doneNightmare = false;
-	private boolean inNightmare = false;
-	private boolean usingBed = false;
+	private boolean doneNightmare = false;//has the user finished the nightmare scene
+	private boolean inNightmare = false;//is the user currently in the nightmare or not
+	private boolean usingBed = false;//is the user using the bed (in the collision area)
 	private boolean end = false; // for the end screen
 
-	private boolean once = false;
-	private boolean once2 = false;
-	private boolean once3 = false;
-	private int fade2Value = 0;
-	private boolean faded = false;
-	private boolean doneFade = false;
+	private boolean once = false;//resets the text index to 0 for different areas
+	private boolean once2 = false;//resets the text index to 0 for different areas
+	private boolean once3 = false;//resets the text index to 0 for different areas
+	private int fade2Value = 0;//fade value that is responsible for changing the transparency
+	private boolean faded = false;//has completing fading in
+	private boolean doneFade = false;//has completed both fading in and out
 
 	// change scene variables
-	private int fadeValue = 0;
-	private int stepCount = 0;
-	private int hasFaded = 0;
+	private int fadeValue = 0;//fade value that is responsible for changing the transparency
+	private int stepCount = 0;//the current step number in the process of fading. For example, when you begin fading you step count is 0, once you have are fading out it becomes 2)
+	private int hasFaded = 0;//whether you've went into a place and also left that place: fade becomes 2
 
-	private boolean incrementingUp = true;
-	private int yVal = -5;
+	private boolean incrementingUp = true;//used for ghosts moving up and down. When true, the ghost will move up, else it will move down
+	private int yVal = -5;//decreases and increases the yValue for the ghost y displacement
 
+	/**
+	 * Constructor for the Maps Class
+	 * @param gp
+	 */
 	public Maps(GamePanel gp) {
 		this.worldX = gp.getWorldX();
 		this.worldY = gp.getWorldY();
@@ -101,11 +105,21 @@ public class Maps {
 		}
 	}
 
+	/**
+	 * @purpose updates the worldX and worldY value of map
+	 * @param worldX
+	 * @param worldY
+	 */
 	public void updateMapValues(int worldX, int worldY) {
 		this.worldX = worldX;
 		this.worldY = worldY;
 	}
 
+	/**
+	 * @purpose 
+	 * @param mapToChange
+	 * @return the map that is being changed to
+	 */
 	public String changeMap(int mapToChange) {
 		if (mapToChange == 1) {
 			mapIntro("src/maps/mapIntro.txt");
@@ -360,17 +374,17 @@ public class Maps {
 			}
 		}
 		if (hasFaded == 2) {
-			if (stepCount == -1 && !hasJumpscared) {
-				hasJumpscared = true;
+			if (stepCount == -1 && !isHasJumpscared()) {
+				setHasJumpscared(true);
 				stepCount = 0;
 			}
-			if (stepCount == -1 && !hasDoctrined) {
-				hasDoctrined = true;
+			if (stepCount == -1 && !isHasDoctrined()) {
+				setHasDoctrined(true);
 				stepCount = 0;
 			}
 		} else if (hasFaded == 1) {
-			if (stepCount == -1 && !hasDoctrined && hasJumpscared) {
-				hasDoctrined = true;
+			if (stepCount == -1 && !isHasDoctrined() && isHasJumpscared()) {
+				setHasDoctrined(true);
 				stepCount = 0;
 			}
 		}
@@ -787,6 +801,14 @@ public class Maps {
 		return inNightmare;
 	}
 
+	public boolean isFading() {
+		return fading;
+	}
+
+	public void setFading(boolean fading) {
+		this.fading = fading;
+	}
+
 	public boolean isDoneDoctorDead() {
 		return doneDoctorDead;
 	}
@@ -809,6 +831,22 @@ public class Maps {
 
 	public boolean isEnd() {
 		return end;
+	}
+
+	public boolean isHasJumpscared() {
+		return hasJumpscared;
+	}
+
+	public void setHasJumpscared(boolean hasJumpscared) {
+		this.hasJumpscared = hasJumpscared;
+	}
+
+	public boolean isHasDoctrined() {
+		return hasDoctrined;
+	}
+
+	public void setHasDoctrined(boolean hasDoctrined) {
+		this.hasDoctrined = hasDoctrined;
 	}
 
 }
