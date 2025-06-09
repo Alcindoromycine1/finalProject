@@ -7,15 +7,24 @@ import java.io.*;
 public class Sound {
 
 	private Clip clip;   //the variable to store the audio clip that will be played
-	
+	private AudioInputStream audioStream;
 	// Constructor that initializes the sound clip from a file path	
 	public Sound(String filePath) {
-		try { // Load the audio file from the specified path, catches any exceptions that may occur
-			AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(filePath));
+		readFile(filePath);
+		try {
 			clip = AudioSystem.getClip();
 			clip.open(audioStream);
-		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-			System.out.println("Error loading sound: " + e.getMessage());
+		} catch (LineUnavailableException | IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	public void readFile(String filePath) {
+		try {
+		audioStream = AudioSystem.getAudioInputStream(new File(filePath));
+		} catch (UnsupportedAudioFileException | IOException e) {
+			e.printStackTrace();
 		}
 	}
 	

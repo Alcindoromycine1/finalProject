@@ -6,13 +6,15 @@ import java.io.*;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+
+import interfaces.ReadFromFile;
 /**
 	@author Are We Cooked Interactive Development Team
 	@since 2025-04-02
 	The tiles class is responsible for managing our basic graphics for the game. It reads values from the maps folder and stores them within an arrayList. After that, it converts them to buffered images and store this in the arrayList values.
 */
-public class Tiles {
-
+public class Tiles implements ReadFromFile {
+	
 	public ArrayList<ArrayList<BufferedImage>> tileImages = new ArrayList<>(); // 2D ArrayList to hold tile images
 
 	Maps m;  // Reference to the Maps class to access maps methods and properties
@@ -30,7 +32,8 @@ public class Tiles {
 	 * It initializes the tileImages ArrayList and assigns images to each tile code.
 	 * @throws IOException if there is an error reading the image files.
 	 */
-	public void tileCreating() throws IOException {
+	@Override
+	public void readFile() throws IOException {
 
 		tileImages.clear();
 		for (int i = 0; i < m.getTiles().size(); i++) {   // Initialize the 2D ArrayList for each row

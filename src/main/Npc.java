@@ -11,8 +11,10 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.plaf.basic.BasicComboBoxUI.KeyHandler;
+import interfaces.ReadFromFile;
 
-public class Npc {
+
+public class Npc implements ReadFromFile {
 
 	private Input input;
 	private Items items;
@@ -63,13 +65,14 @@ public class Npc {
 		worldX = gp.getWorldX();
 		worldY = gp.getWorldY();
 
-		loadSounds();
+		readFile();
 	}
 
 	/**
 	 * @purpose loading the different audio voice acting lines
 	 */
-	private void loadSounds() {
+	@Override
+	public void readFile() {
 		// ghost graveyard sounds
 		gg1 = new Sound("src/sound/gg1.wav");
 		gg2 = new Sound("src/sound/gg2.wav");

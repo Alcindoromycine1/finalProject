@@ -7,7 +7,9 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 
-public class LoadingScreen {
+import interfaces.ReadFromFile;
+
+public class LoadingScreen implements ReadFromFile {
 
 	private BufferedImage loadingImage, volumeUp;//image that is shown in the middle of the screen during the intro screens
 	private boolean loadingScreen = true;
@@ -19,14 +21,16 @@ public class LoadingScreen {
 	private MainMenu mainMenu;//variable that moves the user from the loading screen into the main menu
 	
 	public LoadingScreen(GamePanel gp) {
-		loadImages();//loads the images that will be displayed on the screen
+		readFile();//loads the images that will be displayed on the screen
 		mainMenu = gp.getMainMenu();//adding the main menu information to this object
 	}
 
 	/** 
 	 * @purpose loads the images in the loading screen once
 	 * */
-	public void loadImages() {
+	
+	@Override
+	public void readFile() {
 		try {
 			loadingImage = ImageIO.read(new File("src/textures/loadingScreen.png"));
 			volumeUp = ImageIO.read(new File("src/textures/volumeUp.png"));

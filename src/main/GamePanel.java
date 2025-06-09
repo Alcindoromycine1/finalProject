@@ -13,13 +13,15 @@ import java.net.MalformedURLException;
 
 import java.awt.geom.Point2D;
 
+import interfaces.ReadFromFile;
+
 /*
  * Noah Sussman, Akhilan Saravanan, and Rudra Garg
  * Ms. Krasteva
  * April 2, 2025
  * Final Project ICS4U0
  */
-public class GamePanel extends JPanel implements Runnable {
+public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 
 	// These are the settings for the window
 	private final int originalTileSize = 16; // 16x16 pixel tile size
@@ -108,15 +110,17 @@ public class GamePanel extends JPanel implements Runnable {
 		// Background
 		m.changeMap(3);
 		// Find trees in the map
-
+		
+		//load files
+		readFile();
+		
 		// load tiles
-		t.tileCreating();
-
+		t.readFile();
+		
 		m.findTrees();
 
 		// Load character
 
-		p.loadCharacterImages();
 
 		m.setP(p);
 		m.setItems(it);
@@ -146,6 +150,13 @@ public class GamePanel extends JPanel implements Runnable {
 		t.setM(m);
 
 		id.setLs(ls);
+		
+		
+		
+		
+	}
+	@Override
+	public void readFile() {
 		try {
 			// https://www.youtube.com/watch?v=tmlZeYnfw7g
 			ambientAudio = new Sound("src/sound/ambientAudio.wav");
@@ -161,7 +172,8 @@ public class GamePanel extends JPanel implements Runnable {
 			System.out.println("Sound loaded successfully");
 		}
 	}
-
+	
+	
 	// Start the game thread
 	public void startGameThread() {
 		gameThread = new Thread(this);
