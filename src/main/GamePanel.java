@@ -307,7 +307,6 @@ public class GamePanel extends JPanel implements Runnable {
 					e.printStackTrace();
 				}
 			}
-			System.out.println();
 			m.confirmationCollision(this, g2);
 			if (!m.hasJumpscared && !m.hasDoctrined) {
 				m.fade(2, 3, g2, 248, 196, 82, 48, 414, 48, 145, 126, this);

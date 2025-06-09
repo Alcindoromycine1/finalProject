@@ -608,7 +608,6 @@ public class Maps {
 	private boolean lookInMirror = false;
 
 	public void mirrorScene(Graphics2D g2, Component observer, GamePanel gp) throws IOException {
-		System.out.println(end);
 		if (triggerTransition) {
 			lookInMirror = true;
 			if (!once3) {

@@ -7,7 +7,6 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -18,13 +17,11 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
-import javax.swing.plaf.basic.BasicComboBoxUI.KeyHandler;
 
 public class Items {
 	private Input input;
 	private Npc npc;
 	private Player p;
-	private Minigame minigame;
 	private Maps m;
 	private Jumpscare j;
 
@@ -72,7 +69,6 @@ public class Items {
 		this.input = gp.getId();
 		this.npc = gp.getN();
 		this.p = gp.getP();
-		this.minigame = gp.getMinigame();
 		this.m = gp.getM();
 		this.j = gp.getJ();
 
