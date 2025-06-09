@@ -9,36 +9,32 @@ import java.awt.Graphics2D;
 import java.awt.RadialGradientPaint;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
-
-import java.awt.geom.Point2D;
-
-import Horror.Jumpscare;
-
 /*
  * Noah Sussman, Akhilan Saravanan and Rudra Garg
  * Ms. Krasteva
  * April 2, 2025
  * Final Project ICS4U0
  */
+import java.awt.geom.Point2D;
+import Horror.Jumpscare;
 import java.io.*;
 import java.util.ArrayList;
-
 import javax.imageio.ImageIO;
 
 public class Maps {
 
 	// WORLD SETTINGS
-	private int maxWorldCol;
-	private int maxWorldRow;
+	private int maxWorldCol;//the number of columns in the current map
+	private int maxWorldRow;//the number of row in the current map
 
-	private ArrayList<ArrayList<Integer>> tiles = new ArrayList<>();
-	private ArrayList<int[]> treePositions = new ArrayList<>();
-	private ArrayList<int[]> housePositions = new ArrayList<>();
-	private ArrayList<int[]> bedPositions = new ArrayList<>();
-	private ArrayList<int[]> houseWallPositions = new ArrayList<>();
-	private ArrayList<int[]> grassPositions = new ArrayList<>();
-	private ArrayList<int[]> waterPositions = new ArrayList<>();
-	private ArrayList<int[]> bookPositions = new ArrayList<>();
+	private ArrayList<ArrayList<Integer>> tiles = new ArrayList<>();//storing all the numbers that are being read from the map files
+	private ArrayList<int[]> treePositions = new ArrayList<>();//all numbers that correspond to the trees
+	private ArrayList<int[]> housePositions = new ArrayList<>();//all numbers that correspond to the house
+	private ArrayList<int[]> bedPositions = new ArrayList<>();//all numbers that correspond to the bed
+	private ArrayList<int[]> houseWallPositions = new ArrayList<>();//all numbers that correspond to the house walls
+	private ArrayList<int[]> grassPositions = new ArrayList<>();//all numbers that correspond to the grass
+	private ArrayList<int[]> waterPositions = new ArrayList<>();//all numbers that correspond to the water
+	private ArrayList<int[]> bookPositions = new ArrayList<>();//all numbers that correspond to the book
 
 	private BufferedImage nightmare;
 	private ImageIcon doctor;
