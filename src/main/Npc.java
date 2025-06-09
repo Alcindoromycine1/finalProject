@@ -66,6 +66,9 @@ public class Npc {
 		loadSounds();
 	}
 
+	/**
+	 * @purpose loading the different audio voice acting lines
+	 */
 	private void loadSounds() {
 		// ghost graveyard sounds
 		gg1 = new Sound("src/sound/gg1.wav");
@@ -99,6 +102,13 @@ public class Npc {
 		n5 = new Sound("src/sound/n5.wav");
 	}
 
+	/**
+	 * @purpose update the player and world positions
+	 * @param playerX
+	 * @param playerY
+	 * @param worldX
+	 * @param worldY
+	 */
 	public void updateNpcValues(int playerX, int playerY, int worldX, int worldY) {
 		this.playerX = playerX;
 		this.playerY = playerY;
@@ -106,6 +116,12 @@ public class Npc {
 		this.worldY = worldY;
 	}
 
+	/**
+	 * @purpose doctor graphics
+	 * @param g2
+	 * @param gp
+	 * @throws IOException
+	 */
 	public void doctor(Graphics2D g2, GamePanel gp) throws IOException {
 
 		int doctorX = 550 - gp.getWorldX();
@@ -117,176 +133,182 @@ public class Npc {
 
 	}
 
-	private int textIndex = 0;
+	private int textIndex = 0;// what index in the array of text you are at
 
+	/**
+	 * @purpose voice acting lines and text lines are called into the textBubble
+	 *          method
+	 * @param g2
+	 * @param list
+	 */
 	public void text(Graphics2D g2, int list) {
-		if (list == 2) {
+		if (list == 2) {// graveyard text
 			String textGhostGraveyard[] = { "AHHHHH! Is that a... ", "Don't kill me please!",
 					"I can help you kill us if you just leave me be.", "Just press B to open that book above you.",
 					"The book will teach you all the knowledge you need to know to get rid of us." };
-			if (textIndex == 0) {
+			if (textIndex == 0) {// play voice of 1st line
 				if (!gg1.isPlaying() && !once) {
 					gg1.play();
 					once = true; // ensures the sound only plays once
 				}
-			} else if (textIndex == 1) {
+			} else if (textIndex == 1) {// play voice of 2nd line
 				gg1.stop();
 				if (!gg2.isPlaying() && !once) {
 					gg2.play();
 					once = true; // ensures the sound only plays once
 				}
-			} else if (textIndex == 2) {
+			} else if (textIndex == 2) {// play voice of 2nd line
 				gg2.stop();
 				if (!gg3.isPlaying() && !once) {
 					gg3.play();
 					once = true; // ensures the sound only plays once
 				}
-			} else if (textIndex == 3) {
+			} else if (textIndex == 3) {// play voice of 3rd line
 				gg3.stop();
 				if (!gg4.isPlaying() && !once) {
 					gg4.play();
 					once = true; // ensures the sound only plays once
 				}
-			} else if (textIndex == 4) {
+			} else if (textIndex == 4) {// play voice of 4th line
 				gg4.stop();
 				if (!gg5.isPlaying() && !once) {
 					gg5.play();
 					once = true; // ensures the sound only plays once
 				}
 			}
-			if (textIndex < textGhostGraveyard.length) {
-				textBubble(g2, textGhostGraveyard[textIndex]);
+			if (textIndex < textGhostGraveyard.length) {// all the text in the array
+				textBubble(g2, textGhostGraveyard[textIndex]);// display the lines
 			} else {
-				items.setFirstTime(false);
-				gg5.stop();
+				items.setFirstTime(false);// only happens once
+				gg5.stop();// stop voice acting
 			}
-		} else if (list == 3) {
+		} else if (list == 3) {// doctor dying text
 			String textDoctor[] = { "I don't have much time left.",
 					"You must find the book with all the knowledge to dispell the  thing that hurt me. It is located in the graveyard.",
 					"Then, go to the doctrine, and remove the ...", "*The doctor has passed away*" };
-			if (textIndex == 0) {
+			if (textIndex == 0) {// play 1st voice line
 				if (!d1.isPlaying() && !once) {
 					d1.play();
 					once = true; // ensures the sound only plays once
 				}
-			} else if (textIndex == 1) {
+			} else if (textIndex == 1) {// play 2nd voice line
 				d1.stop();
 				if (!d2.isPlaying() && !once) {
 					d2.play();
 					once = true; // ensures the sound only plays once
 				}
-			} else if (textIndex == 2) {
+			} else if (textIndex == 2) {// play 3rd voice line
 				d2.stop();
 				if (!d3.isPlaying() && !once) {
 					d3.play();
 					once = true; // ensures the sound only plays once
 				}
-			} else if (textIndex == 3) {
+			} else if (textIndex == 3) {// play 4th voice line
 				d3.stop();
 			}
-			if (textIndex < textDoctor.length) {
-				textBubble(g2, textDoctor[textIndex]);
-				
+			if (textIndex < textDoctor.length) {// all the text in the array
+				textBubble(g2, textDoctor[textIndex]);// displays the text
+
 			} else {
-				maps.setDoneDoctorDead(true);
+				maps.setDoneDoctorDead(true);// used for blocking areas
 			}
-		} else if (list == 4) {
+		} else if (list == 4) {// graveyard ghost text
 			String textDoctrineGhost[] = { "NO Don't hurt me! Please leave me alone!",
 					"If you must, go inside the door at the end of this path and   get rid of my kind." };
-			if (textIndex == 0) {
+			if (textIndex == 0) {// play 1st voice line
 				if (!gd1.isPlaying() && !once) {
 					gd1.play();
 					once = true; // ensures the sound only plays once
 				}
-			} else if (textIndex == 1) {
+			} else if (textIndex == 1) {// play 2nd voice line
 				gd1.stop();
 				if (!gd2.isPlaying() && !once) {
 					gd2.play();
 					once = true; // ensures the sound only plays once
 				}
 			}
-			if (textIndex < textDoctrineGhost.length) {
-				textBubble(g2, textDoctrineGhost[textIndex]);
+			if (textIndex < textDoctrineGhost.length) {// all the text in the array
+				textBubble(g2, textDoctrineGhost[textIndex]);// display the text
 			} else {
 				items.setDoingDoctrineGhost(false);
-				gd2.stop();
+				gd2.stop();// stop voice acting
 				items.setDoneDoctrineGhost(true);
 			}
-		} else if (list == 5) {
+		} else if (list == 5) {// house entrance text
 			String textJeff[] = { "What is this place?", "I'm tired, I think I'll take a nap here." };
-			if (textIndex == 0) {
+			if (textIndex == 0) {// play 1st voice line
 				if (!h1.isPlaying() && !once) {
 					h1.play();
 					once = true; // ensures the sound only plays once
 				}
-			} else if (textIndex == 1) {
+			} else if (textIndex == 1) {// play 2nd voice line
 				h1.stop();
 				if (!h2.isPlaying() && !once) {
 					h2.play();
 					once = true; // ensures the sound only plays once
 				}
 			}
-			if (textIndex < textJeff.length) {
-				textBubble(g2, textJeff[textIndex]);
+			if (textIndex < textJeff.length) {// all the text in the array
+				textBubble(g2, textJeff[textIndex]);// display the text
 			} else {
-				h2.stop();
+				h2.stop();// stop voice acting
 			}
-		} else if (list == 6) {
+		} else if (list == 6) {// nightmare text
 			String textNightmare[] = { "What am I doing here?", "What is that thing on the table?",
 					"What is this doctor doing to it?", "Is that one of those evil AI?",
 					"This can't be real, it's just another hallucination." };
-			if (textIndex == 0) {
+			if (textIndex == 0) {// play 1st voice line
 				if (!n1.isPlaying() && !once) {
 					n1.play();
 					once = true; // ensures the sound only plays once
 				}
-			} else if (textIndex == 1) {
+			} else if (textIndex == 1) {// play 2nd voice line
 				n1.stop();
 				if (!n2.isPlaying() && !once) {
 					n2.play();
 					once = true; // ensures the sound only plays once
 				}
-			} else if (textIndex == 2) {
+			} else if (textIndex == 2) {// play 3rd voice line
 				n2.stop();
 				if (!n3.isPlaying() && !once) {
 					n3.play();
 					once = true; // ensures the sound only plays once
 				}
-			} else if (textIndex == 3) {
+			} else if (textIndex == 3) {// play 4th voice line
 				n3.stop();
 				if (!n4.isPlaying() && !once) {
 					n4.play();
 					once = true; // ensures the sound only plays once
 				}
-			} else if (textIndex == 4) {
+			} else if (textIndex == 4) {// play 5th voice line
 				n4.stop();
 				if (!n5.isPlaying() && !once) {
 					n5.play();
 					once = true; // ensures the sound only plays once
 				}
 			}
-			if (textIndex < textNightmare.length) {
-				textBubble(g2, textNightmare[textIndex]);
+			if (textIndex < textNightmare.length) {// all the lines in the array
+				textBubble(g2, textNightmare[textIndex]);// display the text
 			} else {
-				maps.setDoneNightmare(true);
-				n5.stop();
+				maps.setDoneNightmare(true);// nightmare is done
+				n5.stop();// stop voice acting
 			}
-		} else if (list == 7) {
+		} else if (list == 7) {// after jumpscare text
 			String textCarDestroyed[] = { "My brain is playing tricks on me again!",
 					"I crashed the car because of this." };
-			if (textIndex < textCarDestroyed.length) {
-				textBubble(g2, textCarDestroyed[textIndex]);
+			if (textIndex < textCarDestroyed.length) {// all the lines in the array
+				textBubble(g2, textCarDestroyed[textIndex]);// display the text
 			} else {
-				items.setCarSceneDone(true);
+				items.setCarSceneDone(true);// car scene is done after text is complete
 			}
-		} else if (list == 8) {
+		} else if (list == 8) {// in exorcism room
 			String textHumanTransformation[] = { "What...", "Why do the ghosts look like humans?",
 					"You're like all the other A.I's.", "What are you talking about? I'm not an A.I." };
-			if (textIndex < textHumanTransformation.length) {
-				textBubble(g2, textHumanTransformation[textIndex]);
+			if (textIndex < textHumanTransformation.length) {// all the lines in the array
+				textBubble(g2, textHumanTransformation[textIndex]);// display the text
 			} else {
 				items.setLevel(-1);
-				maps.setTriggerTransition(true);
+				maps.setTriggerTransition(true);// trigger the transition to the mirror scene
 			}
 		} else if (list == 9) {
 			String surprisedJeff[] = { "Wait, that's me?", "How is this possible? I thought I was a human.",
@@ -295,16 +317,21 @@ public class Npc {
 					"This is why I saw the ghost for what it truly was; a human.", "This means I'm an A.I.",
 					"And that was suppose to be the last of the ghosts. Meaning I  just exorcised the last human on this planet.",
 					"I was the monster all along.", "That doctor that I saw in this house DECEIVED me.", "*sob*" };
-			if (textIndex < surprisedJeff.length) {
-				textBubble(g2, surprisedJeff[textIndex]);
+			if (textIndex < surprisedJeff.length) {// all the lines in the array
+				textBubble(g2, surprisedJeff[textIndex]);// display the text
 			} else {
-				maps.setTriggerTransition(false);
-				surprisedText = false;
-				maps.setEnd(true);
+				maps.setTriggerTransition(false);// stop transitioning to mirror scene
+				surprisedText = false;// no longer display text
+				maps.setEnd(true);// go to the end screen
 			}
 		}
 	}
 
+	/**
+	 *@purpose reads the lines from the arrays and displays them in the text bubble in proper format 
+	 * @param g2
+	 * @param dialogue
+	 */
 	public void textBubble(Graphics2D g2, String dialogue) {
 		final int maxTextLength = 62;// max number of characters per line
 		final int lineSpacing = 30;// spacing between lines
@@ -338,30 +365,59 @@ public class Npc {
 		}
 	}
 
+	//Getter and Setter methods
+	
+	/**
+	 * @param input
+	 */
 	public void setInput(Input input) {
 		this.input = input;
 	}
 
+	/**
+	 * 
+	 * @param items
+	 */
 	public void setItems(Items items) {
 		this.items = items;
 	}
 
+	/**
+	 * 
+	 * @return surprisedText
+	 */
 	public boolean isSurprisedText() {
 		return surprisedText;
 	}
 
+	/**
+	 * 
+	 * @param suprisedText
+	 */
 	public void setSurprisedText(boolean suprisedText) {
 		this.surprisedText = suprisedText;
 	}
 
+	/**
+	 * 
+	 * @return textIndex
+	 */
 	public int getTextIndex() {
 		return textIndex;
 	}
-
+	
+/**
+ * 
+ * @param textIndex
+ */
 	public void setTextIndex(int textIndex) {
 		this.textIndex = textIndex;
 	}
-
+	
+	/**
+	 * 
+	 * @param once
+	 */
 	public void setOnce(boolean once) {
 		this.once = once;
 	}
