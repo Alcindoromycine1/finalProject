@@ -21,8 +21,8 @@ public class Jumpscare {
 
 	public void loadStuff() {
 		try {
-			creepyMan = ImageIO.read(new File("src/textures/creepyMan.png"));
-			sound = new Sound("src/sound/jumpScare1.wav");
+			creepyMan = ImageIO.read(new File("textures/creepyMan.png"));
+			sound = new Sound("sound/jumpScare1.wav");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
