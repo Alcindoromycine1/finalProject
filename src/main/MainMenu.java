@@ -35,7 +35,7 @@ public class MainMenu {
 
 	public void loadImages() {
 		try {
-			background = ImageIO.read(new File("src/textures/mainMenu.png"));
+			background = ImageIO.read(new File("textures/mainMenu.png"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

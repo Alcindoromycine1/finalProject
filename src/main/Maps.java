@@ -116,12 +116,12 @@ public class Maps {
 		this.p = gp.getP();
 
 		try {
-			nightmare = ImageIO.read(new File("src/textures/nightmare.png"));
+			nightmare = ImageIO.read(new File("textures/nightmare.png"));
 			// https://www.youtube.com/watch?v=X4BPQ65vFzA
-			nightmareSound = new Sound("src/sound/hittingMetal.wav");
+			nightmareSound = new Sound("sound/hittingMetal.wav");
 
-			doctrineSound = new Sound("src/sound/doctrine.wav");
-			doctor = new ImageIcon("src/textures/doctor.gif");
+			doctrineSound = new Sound("sound/doctrine.wav");
+			doctor = new ImageIcon("textures/doctor.gif");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -144,19 +144,19 @@ public class Maps {
 	 */
 	public String changeMap(int mapToChange) {
 		if (mapToChange == 1) {
-			mapIntro("src/maps/mapIntro.txt");
+			mapIntro("maps/mapIntro.txt");
 			currentMap = 1;
 		} else if (mapToChange == 2) {
-			mapIntro("src/maps/mapHouse.txt");
+			mapIntro("maps/mapHouse.txt");
 			currentMap = 2;
 		} else if (mapToChange == 3) {
-			mapIntro("src/maps/openMap.txt");
+			mapIntro("maps/openMap.txt");
 			currentMap = 3;
 		} else if (mapToChange == 4) {
-			mapIntro("src/maps/doctrine.txt");
+			mapIntro("maps/doctrine.txt");
 			currentMap = 4;
 		} else if (mapToChange == 5) {
-			mapIntro("src/maps/blank.txt");
+			mapIntro("maps/blank.txt");
 			currentMap = 5;
 		}
 		return "-1";// no change map found
@@ -203,7 +203,7 @@ public class Maps {
 	 */
 	public void findTiles() throws IOException {
 
-		BufferedReader r = new BufferedReader(new FileReader("src/maps/mapIntro.txt"));
+		BufferedReader r = new BufferedReader(new FileReader("maps/mapIntro.txt"));
 		String lines = "";
 		// Count the number of lines in the file
 		// Iterate through the 2D array to find occurrences of 1
@@ -263,7 +263,7 @@ public class Maps {
 
 		try {
 
-			BufferedImage exorcismRoom = ImageIO.read(new File("src/textures/exorcist.png"));
+			BufferedImage exorcismRoom = ImageIO.read(new File("textures/exorcist.png"));
 			g2.drawImage(exorcismRoom, 0, 0, null);
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -80,35 +80,35 @@ public class Npc implements ReadFromFile {
 	@Override
 	public void readFile() {
 		// ghost graveyard sounds
-		gg1 = new Sound("src/sound/gg1.wav");
-		gg2 = new Sound("src/sound/gg2.wav");
-		gg3 = new Sound("src/sound/gg3.wav");
-		gg4 = new Sound("src/sound/gg4.wav");
-		gg5 = new Sound("src/sound/gg5.wav");
+		gg1 = new Sound("sound/gg1.wav");
+		gg2 = new Sound("sound/gg2.wav");
+		gg3 = new Sound("sound/gg3.wav");
+		gg4 = new Sound("sound/gg4.wav");
+		gg5 = new Sound("sound/gg5.wav");
 
 		// ghost doctrine sounds
-		gd1 = new Sound("src/sound/gd1.wav");
-		gd2 = new Sound("src/sound/gd2.wav");
+		gd1 = new Sound("sound/gd1.wav");
+		gd2 = new Sound("sound/gd2.wav");
 
 		// doctor sounds
-		d1 = new Sound("src/sound/d1.wav");
-		d2 = new Sound("src/sound/d2.wav");
-		d3 = new Sound("src/sound/d3.wav");
+		d1 = new Sound("sound/d1.wav");
+		d2 = new Sound("sound/d2.wav");
+		d3 = new Sound("sound/d3.wav");
 
 		// exorcism ghost sounds
-		ghosta = new Sound("src/sound/ghosta.wav");
-		ghostb = new Sound("src/sound/ghostb.wav");
+		ghosta = new Sound("sound/ghosta.wav");
+		ghostb = new Sound("sound/ghostb.wav");
 
 		// inside house sounds
-		h1 = new Sound("src/sound/h1.wav");
-		h2 = new Sound("src/sound/h2.wav");
+		h1 = new Sound("sound/h1.wav");
+		h2 = new Sound("sound/h2.wav");
 
 		// nightmare sounds
-		n1 = new Sound("src/sound/n1.wav");
-		n2 = new Sound("src/sound/n2.wav");
-		n3 = new Sound("src/sound/n3.wav");
-		n4 = new Sound("src/sound/n4.wav");
-		n5 = new Sound("src/sound/n5.wav");
+		n1 = new Sound("sound/n1.wav");
+		n2 = new Sound("sound/n2.wav");
+		n3 = new Sound("sound/n3.wav");
+		n4 = new Sound("sound/n4.wav");
+		n5 = new Sound("sound/n5.wav");
 	}
 
 	/**
@@ -137,7 +137,7 @@ public class Npc implements ReadFromFile {
 		int doctorY = 170 - gp.getWorldY();
 
 		BufferedImage doctor = null;
-		doctor = ImageIO.read(new File("src/textures/doctor.png"));
+		doctor = ImageIO.read(new File("textures/doctor.png"));
 		g2.drawImage(doctor, doctorX, doctorY, null);
 
 	}

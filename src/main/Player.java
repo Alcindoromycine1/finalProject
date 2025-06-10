@@ -71,13 +71,13 @@ public class Player implements ReadFromFile{
 		try {
 			// Audio of footsteps play when the user walks
 			// https://www.youtube.com/watch?v=6LOm1ZlE39I
-			walkingSound = new Sound("src/sound/walkingSoundEffect.wav");
+			walkingSound = new Sound("sound/walkingSoundEffect.wav");
 
 			// Audio of car moving when the car moves in the game
 			// https://www.youtube.com/watch?v=O8s6HkPZ3Io
-			carSound = new Sound("src/sound/carSound.wav");
+			carSound = new Sound("sound/carSound.wav");
 			
-			character = ImageIO.read(new File("src/textures/character.png"));
+			character = ImageIO.read(new File("textures/character.png"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

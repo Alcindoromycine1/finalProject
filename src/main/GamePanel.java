@@ -159,15 +159,15 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 	public void readFile() {
 		try {
 			// https://www.youtube.com/watch?v=tmlZeYnfw7g
-			ambientAudio = new Sound("src/sound/ambientAudio.wav");
+			ambientAudio = new Sound("sound/ambientAudio.wav");
 			// https://www.youtube.com/watch?v=1a7kscUeItk
-			mainMenuSound = new Sound("src/sound/mainMenuSound.wav");
-			footstepSound = new Sound("src/sound/walkingSoundEffect.wav");
+			mainMenuSound = new Sound("sound/mainMenuSound.wav");
+			footstepSound = new Sound("sound/walkingSoundEffect.wav");
 
-			jeffFront = ImageIO.read(new File("src/textures/charAI.png"));
-			jeffBack = ImageIO.read(new File("src/textures/jeffBack.png"));
-			jeffRight = ImageIO.read(new File("src/textures/jeffRight.png"));
-			jeffLeft = ImageIO.read(new File("src/textures/jeffLeft.png"));
+			jeffFront = ImageIO.read(new File("textures/charAI.png"));
+			jeffBack = ImageIO.read(new File("textures/jeffBack.png"));
+			jeffRight = ImageIO.read(new File("textures/jeffRight.png"));
+			jeffLeft = ImageIO.read(new File("textures/jeffLeft.png"));
 		} catch (Exception e) {
 			System.out.println("Sound loaded successfully");
 		}

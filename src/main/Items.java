@@ -95,31 +95,31 @@ public class Items implements ReadFromFile{
 		header = new Font("Arial", Font.BOLD, 35);
 		subHeading = new Font("Arial", Font.BOLD, 24);
 		normalText = new Font("Arial", Font.PLAIN, 17);
-		dispellingGhosts = ImageIO.read(new File("src/textures/dispellingGhosts.png"));// image from:
-		circleExample = ImageIO.read(new File("src/textures/circleExample.png"));
-		triangleExample = ImageIO.read(new File("src/textures/triangleExample.png"));
-		horizontalExample = ImageIO.read(new File("src/textures/horizontalExample.png"));
-		leftGhostExample = ImageIO.read(new File("src/textures/leftGhostExample.png"));
-		rightGhostExample = ImageIO.read(new File("src/textures/rightGhostExample.png"));
-		multiShapeGhost1 = ImageIO.read(new File("src/textures/multiShapeGhost1.png"));
-		circleMultishape = ImageIO.read(new File("src/textures/circleMultishape.png"));
-		verticalMultishape = ImageIO.read(new File("src/textures/verticalMultishape.png"));
-		mirror = ImageIO.read(new File("src/textures/jeffMirror.png"));
-		doctrine = ImageIO.read(new File("src/textures/doctrine.png"));
-		book = ImageIO.read(new File("src/textures/books.png"));
-		car = ImageIO.read(new File("src/textures/car.png"));
-		brokenCar = ImageIO.read(new File("src/textures/destroyedCar.png"));
-		wasdKey = ImageIO.read(new File("src/textures/wasdKey.png"));// https://media.istockphoto.com/id/1193231012/vector/computer-gamer-keyboard-wasd-keys-vector-illustration-wasd-keys-game-control-keyboard-buttons.jpg?s=612x612&w=0&k=20&c=-DJ6CFewXZ_Oofp_BsYya5KniByRkVW3EAHYICWIOaU=
-		door = ImageIO.read(new File("src/textures/door.png"));// https://img.freepik.com/premium-vector/open-close-door-pixel-art-style_475147-1239.jpgd
-		exorcism = ImageIO.read(new File("src/textures/exorcism.png"));// https://www.creativefabrica.com/wp-content/uploads/2023/03/22/pixel-art-wooden-cross-vector-Graphics-65026120-1.jpg
-		bed = ImageIO.read(new File("src/textures/bed.png"));
-		pageFlipping = new ImageIcon("src/textures/books.gif");
-		bookFlipSound = new Sound("src/sound/bookFlip.wav");
-		orderFullFrame = ImageIO.read(new File("src/textures/orderFullFrame.png"));
-		triangleRemovedOrder = ImageIO.read(new File("src/textures/removedTriangleOrder.png"));
-		orderCloseUp = ImageIO.read(new File("src/textures/orderCloseUp.png"));
+		dispellingGhosts = ImageIO.read(new File("textures/dispellingGhosts.png"));// image from:
+		circleExample = ImageIO.read(new File("textures/circleExample.png"));
+		triangleExample = ImageIO.read(new File("textures/triangleExample.png"));
+		horizontalExample = ImageIO.read(new File("textures/horizontalExample.png"));
+		leftGhostExample = ImageIO.read(new File("textures/leftGhostExample.png"));
+		rightGhostExample = ImageIO.read(new File("textures/rightGhostExample.png"));
+		multiShapeGhost1 = ImageIO.read(new File("textures/multiShapeGhost1.png"));
+		circleMultishape = ImageIO.read(new File("textures/circleMultishape.png"));
+		verticalMultishape = ImageIO.read(new File("textures/verticalMultishape.png"));
+		mirror = ImageIO.read(new File("textures/jeffMirror.png"));
+		doctrine = ImageIO.read(new File("textures/doctrine.png"));
+		book = ImageIO.read(new File("textures/books.png"));
+		car = ImageIO.read(new File("textures/car.png"));
+		brokenCar = ImageIO.read(new File("textures/destroyedCar.png"));
+		wasdKey = ImageIO.read(new File("textures/wasdKey.png"));// https://media.istockphoto.com/id/1193231012/vector/computer-gamer-keyboard-wasd-keys-vector-illustration-wasd-keys-game-control-keyboard-buttons.jpg?s=612x612&w=0&k=20&c=-DJ6CFewXZ_Oofp_BsYya5KniByRkVW3EAHYICWIOaU=
+		door = ImageIO.read(new File("textures/door.png"));// https://img.freepik.com/premium-vector/open-close-door-pixel-art-style_475147-1239.jpgd
+		exorcism = ImageIO.read(new File("textures/exorcism.png"));// https://www.creativefabrica.com/wp-content/uploads/2023/03/22/pixel-art-wooden-cross-vector-Graphics-65026120-1.jpg
+		bed = ImageIO.read(new File("textures/bed.png"));
+		pageFlipping = new ImageIcon("textures/books.gif");
+		bookFlipSound = new Sound("sound/bookFlip.wav");
+		orderFullFrame = ImageIO.read(new File("textures/orderFullFrame.png"));
+		triangleRemovedOrder = ImageIO.read(new File("textures/removedTriangleOrder.png"));
+		orderCloseUp = ImageIO.read(new File("textures/orderCloseUp.png"));
 		
-		human = ImageIO.read(new File("src/textures/character.png"));// https://www.creativefabrica.com/product/pixel-art-human-graphics/ref/2399990/
+		human = ImageIO.read(new File("textures/character.png"));// https://www.creativefabrica.com/product/pixel-art-human-graphics/ref/2399990/
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -660,7 +660,7 @@ public class Items implements ReadFromFile{
 		int ghostX = ghostGraveYardX - gp.getWorldX();
 		int ghostY = ghostGraveYardY - gp.getWorldY();
 
-		ghost = ImageIO.read(new File("src/textures/ghost.png"));
+		ghost = ImageIO.read(new File("textures/ghost.png"));
 		g2.drawImage(ghost, ghostX, ghostY, width, height, null);
 
 	}
@@ -1118,7 +1118,7 @@ public class Items implements ReadFromFile{
 		int ghostX = ghotsX - worldX;
 		int ghostY = ghotsY - worldY;
 		ghostShape = shape;
-		ghost = ImageIO.read(new File("src/textures/minigameghost.png"));
+		ghost = ImageIO.read(new File("textures/minigameghost.png"));
 		randomShape(ghostShape, ghostX, ghostY, g2, 0);
 		ghost(g2, ghostX, ghostY, width, height, gp);
 

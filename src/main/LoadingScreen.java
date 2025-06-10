@@ -32,8 +32,8 @@ public class LoadingScreen implements ReadFromFile {
 	@Override
 	public void readFile() {
 		try {
-			loadingImage = ImageIO.read(new File("src/textures/loadingScreen.png"));
-			volumeUp = ImageIO.read(new File("src/textures/volumeUp.png"));
+			loadingImage = ImageIO.read(new File("textures/loadingScreen.png"));
+			volumeUp = ImageIO.read(new File("textures/volumeUp.png"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
