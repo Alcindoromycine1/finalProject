@@ -44,8 +44,8 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 	private int worldY = 576 / 2; // world position
 	// Game Thread
 	private Thread gameThread; // keeps the program running until closed
-
-	private JFrame window;
+	
+	private JFrame window;   // The window that the game is displayed in
 
 	// FPS variables
 	private long frameCount = 0; // To count frames
@@ -53,123 +53,128 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 	private double fps = 0; // FPS value
 
 	// Game components
-	private Tiles t;
-	Maps m;
-	private Jumpscare j;
+	private Tiles t;      // Reference to the Tiles class to access Tiles methods and properties
+	private Maps m; // Reference to the Maps class to access Maps methods and properties
+	private Jumpscare j; // Reference to the Input class to access Jumpscare methods and properties
 
-	private Player p;
-	private Npc n;
-	Items it;
-	Input id;
-	private MainMenu mainMenu;
-	private Minigame minigame;
-	private LoadingScreen ls;
+	private Player p; // Reference to the Player class to access Player methods and properties
+	private Npc n; // Reference to the Npc class to access Npc methods and properties
+	private Items it; // Reference to the Items class to access Items methods and properties
+	private Input id; // Reference to the Input class to access Input methods and properties
+	private MainMenu mainMenu;  // Reference to the Input class to access Input methods and properties
+	private Minigame minigame; // Reference to the Input class to access Input methods and properties
+	private LoadingScreen ls; // Reference to the Input class to access Input methods and properties
 
-	private String direction = "";// stores the direction the player is facing
+	private String direction = "";  // stores the direction the player is facing
 
-	private int screenX;
-	private int screenY;
+	private int screenX; // The x coordinate of the screen which is used to centre the player
+	private int screenY; // The y coordinate of the screen which is used to centre the player
+	
 
 	private boolean once = false; // used to check if the text index has been reset
 
-	private Sound ambientAudio;
-	private Sound mainMenuSound;
-	private Sound footstepSound;
+	private Sound ambientAudio;  //Variable to store the ambient audio sound file for the game
+	private Sound mainMenuSound; //Variable to store the main menu sound file for the game
+	private Sound footstepSound; // Variable to store the footstep sound file for the game
 
-	BufferedImage jeffFront;
-	BufferedImage jeffBack;
-	BufferedImage jeffRight;
-	BufferedImage jeffLeft;
+	BufferedImage jeffFront; // BufferedImage to store the front image of the character
+	BufferedImage jeffBack;  // BufferedImage to store the back image of the character
+	BufferedImage jeffRight; // BufferedImage to store the right image of the character
+	BufferedImage jeffLeft;  // BufferedImage to store the left image of the character
 
 	// Constructor
 	public GamePanel(JFrame window) throws IOException {
-		mainMenu = new MainMenu();
-		minigame = new Minigame();
-		it = new Items(this);
-		id = new Input(this);
-		m = new Maps(this);
-		n = new Npc(this);
-		j = new Jumpscare(this);
-		t = new Tiles(this);
-		ls = new LoadingScreen(this);
-		p = new Player(this);
+		
+		
+		mainMenu = new MainMenu();   // Initializes the main menu object
+		minigame = new Minigame();   // Initializes the minigame object
+		it = new Items(this);		 // Initializes the items object
+		id = new Input(this);        // Initializes the input object
+		m = new Maps(this);          // Initializes the maps object
+		n = new Npc(this);           // Initializes the npc object
+		j = new Jumpscare(this);     // Initializes the jumpscare object
+		t = new Tiles(this);         // Initializes the tiles object
+		ls = new LoadingScreen(this);// Initializes the loading screen object
+		p = new Player(this);        // Initializes the player object
 
-		m.setT(t);
+		m.setT(t);       			 // Sets the tiles object in the maps object
 
 		this.window = window;
 		this.setPreferredSize(new Dimension(WIDTH, HEIGHT)); // Preferred window size
-		this.setDoubleBuffered(true); // Improves rendering performance
-		this.addKeyListener(p.keyH); // Recognizes key inputs
-		this.addMouseMotionListener(id); // Recognizes mouse movement
-		this.addMouseListener(id); // Recognize mouse clicks
+		this.setDoubleBuffered(true); 			// Improves rendering performance
+		this.addKeyListener(p.keyH); 			// Recognizes key inputs
+		this.addMouseMotionListener(id);  	    // Recognizes mouse movement
+		this.addMouseListener(id); 				// Recognize mouse clicks
 		this.setFocusable(true);
 
-		screenX = WIDTH / 2 - (tileSize / 2); // centers the player in the middle of the screen
-		screenY = HEIGHT / 2 - (tileSize / 2); // centers the player in the middle of the screen
+		screenX = WIDTH / 2 - (tileSize / 2); 		// centres the player in the middle of the screen
+		screenY = HEIGHT / 2 - (tileSize / 2);	    // centres the player in the middle of the screen
 
-		// Background
-		m.changeMap(3);
-		// Find trees in the map
+	
+		m.changeMap(3); //Set the background
 		
-		//load files
-		readFile();
 		
-		// load tiles
-		t.readFile();
+		readFile(); //load files
 		
-		m.findTiles();
+		
+		t.readFile();   // load files inside of tiles
+		
+		m.findTiles();   //assign the correct tiles inside of the maps object
 
-		// Load character
+		m.setP(p);          // sets the player object in the maps object
+		m.setItems(it);     // sets the items object in the maps object
+		m.setNpc(n);        // sets the npc object in the maps object
+		m.setJ(j);          // sets the jumpscare object in the maps object
+		m.setT(t);          // sets the tiles object in the maps object
+		m.setInp(id);       // sets the input object in the maps object
+ 
+		it.setP(p);         // sets the player object in the items object
+		it.setInput(id);    // sets the input object in the items object
+		it.setNpc(n);       // sets the npc object in the items object
+		it.setJ(j);         // sets the jumpscare object in the items object
+		it.setM(m);         // sets the maps object in the items object
 
+		n.setInput(id);     // sets the input object in the npc object
+		n.setItems(it);     // sets the items object in the npc object
 
-		m.setP(p);
-		m.setItems(it);
-		m.setNpc(n);
-		m.setJ(j);
-		m.setT(t);
-		m.setInp(id);
+		p.setM(m);          // sets the maps object in the player object
+		p.setN(n);          // sets the npc object in the player object
+		p.setIt(it);        // sets the items object in the player object
+		p.setKeyH(id);      // sets the input object in the player object
+ 
+		id.setNpc(n);       // sets the npc object in the input object
+		id.setJumpscare(j); // sets the jumpscare object in the input object
+		id.setM(m);         // sets the maps object in the input object
 
-		it.setP(p);
-		it.setInput(id);
-		it.setNpc(n);
-		it.setJ(j);
-		it.setM(m);
+		t.setM(m);          // sets the maps object in the tiles object
 
-		n.setInput(id);
-		n.setItems(it);
-
-		p.setM(m);
-		p.setN(n);
-		p.setIt(it);
-		p.setKeyH(id);
-
-		id.setNpc(n);
-		id.setJumpscare(j);
-		id.setM(m);
-
-		t.setM(m);
-
-		id.setLs(ls);
+		id.setLs(ls);       // sets the loading screen object in the input object
 		
 		
 		
 		
 	}
+	/**
+	 * @purpose Reads the sound and image files for the game.
+	 * 
+	 * @throws IOException if there is an error reading the files
+	 * @see {@link https://www.youtube.com/watch?v=tmlZeYnfw7g}  - Ambient audio scene 
+	 * @see {@link https://www.youtube.com/watch?v=1a7kscUeItk} - Main menu sound
+	 */
 	@Override
 	public void readFile() {
 		try {
-			// https://www.youtube.com/watch?v=tmlZeYnfw7g
-			ambientAudio = new Sound("src/sound/ambientAudio.wav");
-			// https://www.youtube.com/watch?v=1a7kscUeItk
-			mainMenuSound = new Sound("src/sound/mainMenuSound.wav");
-			footstepSound = new Sound("src/sound/walkingSoundEffect.wav");
+			
+			ambientAudio = new Sound("src/sound/ambientAudio.wav");            //loads the ambient audio sound file
+			mainMenuSound = new Sound("src/sound/mainMenuSound.wav");  		   //loads the main menu sound file
+			footstepSound = new Sound("src/sound/walkingSoundEffect.wav");     //loads the footstep sound file
 
-			jeffFront = ImageIO.read(new File("src/textures/charAI.png"));
-			jeffBack = ImageIO.read(new File("src/textures/jeffBack.png"));
-			jeffRight = ImageIO.read(new File("src/textures/jeffRight.png"));
-			jeffLeft = ImageIO.read(new File("src/textures/jeffLeft.png"));
-		} catch (Exception e) {
-			System.out.println("Sound loaded successfully");
+			jeffFront = ImageIO.read(new File("src/textures/charAI.png"));     // loads the front image of the character
+			jeffBack = ImageIO.read(new File("src/textures/jeffBack.png"));    // loads the back image of the character
+			jeffRight = ImageIO.read(new File("src/textures/jeffRight.png"));  // loads the right image of the character
+			jeffLeft = ImageIO.read(new File("src/textures/jeffLeft.png"));    // loads the left image of the character
+		} catch (Exception e) {                                                // catches any exception that happens during the file reading operations
+			System.out.println("Sound loaded successfully");                   
 		}
 	}
 	

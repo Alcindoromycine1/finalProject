@@ -46,10 +46,10 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 
 	private boolean hoveringQuit = false;// hovering over the quit menu in the endscreen
 
-	private boolean instructionsPressed = false;//checks if the instructions menu has been pressed
-	private boolean readBook = false;//checks if the user has closed the book after opening it
-	private boolean pressedQuit = false;//checks if the user has pressed the quit button in the end screen
-	
+	private boolean instructionsPressed = false;// checks if the instructions menu has been pressed
+	private boolean readBook = false;// checks if the user has closed the book after opening it
+	private boolean pressedQuit = false;// checks if the user has pressed the quit button in the end screen
+
 	/**
 	 * Constructor for the Input Class
 	 * 
@@ -263,9 +263,9 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (minigame.getIsExorcising()) {//in exorcism room
+		if (minigame.getIsExorcising()) {// in exorcism room
 			ArrayList<Point> pointsLocal = minigame.getPoints();
-			pointsLocal.add(e.getPoint());//stores point when released cursor
+			pointsLocal.add(e.getPoint());// stores point when released cursor
 			minigame.setPoints(pointsLocal);
 		}
 	}
@@ -275,158 +275,193 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
-		mouseX = e.getX();//gets the x cursor coordinate
-		mouseY = e.getY();//gets the y cursor coordinate
+		mouseX = e.getX();// gets the x cursor coordinate
+		mouseY = e.getY();// gets the y cursor coordinate
 
 		if (mouseX >= instructionsX && mouseX <= instructionsX + 135 && mouseY >= instructionsY
-				&& mouseY <= instructionsY + 45 && !mainMenu.isInMenu() /* && !ls.isLoadingScreen() */) {//hovering your cursor on the instructions button
-			instructionsPressed = true;//pressed the instructions button
-			items.setInstructionsPrompt(true);//open the instructions prompt
+				&& mouseY <= instructionsY + 45 && !mainMenu.isInMenu() /* && !ls.isLoadingScreen() */) {// hovering
+																											// your
+																											// cursor on
+																											// the
+																											// instructions
+																											// button
+			instructionsPressed = true;// pressed the instructions button
+			items.setInstructionsPrompt(true);// open the instructions prompt
 			return;
 		}
 
 		if ((items.isInstructionsPrompt() || items.isMovementPrompt() || items.isObjectivePrompts()) && mouseX >= backX
-				&& mouseX <= backX + 130 && mouseY >= backY && mouseY <= backY + 40) {//hovering your cursor on the back button
-			items.setBackPressed(true);//pressed the back button
+				&& mouseX <= backX + 130 && mouseY >= backY && mouseY <= backY + 40) {// hovering your cursor on the
+																						// back button
+			items.setBackPressed(true);// pressed the back button
 			return;
 		}
 
 		if (items.isInstructionsPrompt() && mouseX >= 305 && mouseX <= 305 + 195 && mouseY >= 160
-				&& mouseY <= 160 + 62) {//hovering your cursor on the movement button
-			items.setMovementPrompt(true);
-			items.setInstructionsPrompt(false);
+				&& mouseY <= 160 + 62) {// hovering your cursor on the movement button
+			items.setMovementPrompt(true);// pressed the movement button
+			items.setInstructionsPrompt(false);// exit instructions menu
 			return;
 		}
 
 		if (items.isInstructionsPrompt() && mouseX >= 305 && mouseX <= 305 + 195 && mouseY >= 250
-				&& mouseY <= 250 + 62) {
-			items.setObjectivePrompts(true);
-			items.setInstructionsPrompt(false);
+				&& mouseY <= 250 + 62) {// hovering your cursor on the objective button
+			items.setObjectivePrompts(true);// pressed objective button
+			items.setInstructionsPrompt(false);// exit instructions menu
 			return;
 		}
 
-		if (items.isEnterBook()) {
+		if (items.isEnterBook()) {// pressed b to enter the book
 			if (mouseX >= 530 && mouseX <= 680 && mouseY >= 445 && mouseY <= 485) {
-				items.setPlayGif(true);
-				items.setStaticImageBook(false);
-				items.setNextPage(items.getNextPage() + 1);
-				items.playBookFlipSound();
-				items.timer();
-				int maxPages = 8;
-				if (items.getNextPage() > maxPages) {
-					items.setNextPage(maxPages);
-					items.stopBookFlipSound();
-					items.setPlayGif(false);
+				items.setPlayGif(true);// play the book flipping gif
+				items.setStaticImageBook(false);// stops the static image so the GIF can work
+				items.setNextPage(items.getNextPage() + 1);// go to the next page of the book
+				items.playBookFlipSound();// book flipping sound
+				items.timer();// how long the GIF will play for
+				int maxPages = 8;// maximum number of pages you can flip in the book
+				if (items.getNextPage() > maxPages) {// next page is not past the maximum pages in the book
+					items.setNextPage(maxPages);// flip to the next page
+					items.stopBookFlipSound();// stop the book flipping sounds
+					items.setPlayGif(false);// stop the GIF
 				}
 			}
-			readBook = true;
+			readBook = true;// you have now read the book (atleast opened the book)
 		}
-		if (items.isEnterBook() && mouseX >= 530 && mouseX <= 530 + 150 && mouseY >= 100 && mouseY <= 100 + 40) {
-			items.setEnterBook(false);
+		if (items.isEnterBook() && mouseX >= 530 && mouseX <= 530 + 150 && mouseY >= 100 && mouseY <= 100 + 40) {// hovering
+																													// over
+																													// close
+																													// book
+																													// button
+			items.setEnterBook(false);// pressed close book to close the book
 		}
-		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 220 && mouseY <= 280 && mainMenu.isInMenu()) {
-			mainMenu.setInMenu(false);
+		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 220 && mouseY <= 280 && mainMenu.isInMenu()) {// hovering over
+																										// play button
+			mainMenu.setInMenu(false);// pressed the play button (no longer in main menu)
 		}
-		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 430 && mouseY <= 490 && mainMenu.isInMenu()) {
-			System.exit(0);
+		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 430 && mouseY <= 490 && mainMenu.isInMenu()) {// hovering over
+																										// exit button
+			System.exit(0);// pressed exit program
 		}
-		if (mouseX >= 225 && mouseX <= 225 + 130 && mouseY >= 355 && mouseY <= 355 + 45 && items.isInConfirmation()) {
-			items.setYesPressed(true);
+		if (mouseX >= 225 && mouseX <= 225 + 130 && mouseY >= 355 && mouseY <= 355 + 45 && items.isInConfirmation()) {// hovering
+																														// over
+																														// confirmation
+																														// menu
+																														// yes
+																														// pressed
+			items.setYesPressed(true);// has pressed yes button
 		}
-		if (mouseX >= 425 && mouseX <= 425 + 130 && mouseY >= 355 && mouseY <= 355 + 45 && items.isInConfirmation()) {
-			items.setNoPressed(true);
+		if (mouseX >= 425 && mouseX <= 425 + 130 && mouseY >= 355 && mouseY <= 355 + 45 && items.isInConfirmation()) {// hovering
+																														// over
+																														// confirmation
+																														// menu
+																														// no
+																														// pressed
+			items.setNoPressed(true);// has pressed no button
 		}
-		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 290 && mouseY <= 350 & mainMenu.isInMenu()) {
-			items.setHelpPressed(true);
+		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 290 && mouseY <= 350 & mainMenu.isInMenu()) {// hovering over
+																										// the help
+																										// button
+			items.setHelpPressed(true);// pressed the help button
 		}
 
-		if (mouseX >= 685 && mouseX <= 715 && mouseY >= 60 && mouseY <= 90 && items.isHelpPressed()) {
-			items.setHelpPressed(false);
+		if (mouseX >= 685 && mouseX <= 715 && mouseY >= 60 && mouseY <= 90 && items.isHelpPressed()) {// hovering over
+																										// the x button
+			items.setHelpPressed(false);// no longer in help menu
 
 			if (mouseX >= 245 && mouseX <= 525 && mouseY >= 290 && mouseY <= 350 && mainMenu.isInMenu()
-					&& !ls.isLoadingScreen()) {
-				items.setHelpPressed(true);
+					&& !ls.isLoadingScreen()) {// hovering over the help button
+				items.setHelpPressed(true);// pressed the help button
 
 			}
 		}
 		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 360 && mouseY <= 420 && mainMenu.isInMenu()) {
-			items.setCreditsPressed(true);
-		}
-		if (mouseX >= 685 && mouseX <= 715 && mouseY >= 60 && mouseY <= 90
-				&& (items.isHelpPressed() || items.isCreditsPressed())) {
-			items.setCreditsPressed(false);
-		}
-		if (mouseX >= 325 && mouseX <= 325 + 130 && mouseY >= backY && mouseY <= backY + 40 && maps.isEnd()) {
-			pressedQuit = true;
-		} else {
-			pressedQuit = false;
-		}
-		if (mouseX >= 700 && mouseX <= 725 && mouseY >= 80 && mouseY <= 120 && mainMenu.isInMenu()) {
-			mainMenu.setEasterEgg(true);
+			{// hovering over the credits button
+				items.setCreditsPressed(true);// pressed the credits button
+			}
+			if (mouseX >= 685 && mouseX <= 715 && mouseY >= 60 && mouseY <= 90
+					&& (items.isHelpPressed() || items.isCreditsPressed())) {// hovering over the x button
+				items.setCreditsPressed(false);// close either the help menu or credits menu
+			}
+			if (mouseX >= 325 && mouseX <= 325 + 130 && mouseY >= backY && mouseY <= backY + 40 && maps.isEnd()) {// hovering
+																													// over
+																													// the
+																													// end
+																													// screen
+																													// exit
+																													// button
+				pressedQuit = true;// pressed the exit button
+			} else {
+				pressedQuit = false;// did not press the exit button
+			}
+			if (mouseX >= 700 && mouseX <= 725 && mouseY >= 80 && mouseY <= 120 && mainMenu.isInMenu()) {// hovering
+																											// over the
+																											// click me
+																											// button in
+																											// the main
+																											// menu
+				mainMenu.setEasterEgg(true);// pressed the click me button
+			}
 		}
 	}
 
+	/**
+	 * @purpose detects when the mouse that was dragging was then released
+	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if (minigame.getIsExorcising()) {
-			minigame.calculation();
-			minigame.newCentroid();
-			minigame.calculatedResult();
+		if (minigame.getIsExorcising()) {//in exorcism room
+			minigame.calculation();//calculates the sum of all the points of the template
+			minigame.newCentroid();//centroid of the drawn shape
+			minigame.calculatedResult();//check whether the shape drawn is a vertical, horizontal or neither shape
 
-			minigame.circle();
-			isCircle = minigame.isValid(17);
+			minigame.circle();//gets all the points and area of the template circle
+			isCircle = minigame.isValid(17);//the threshold of how close the drawn shape is to a perfect circle
 
-			minigame.triangle();
-			isTriangle = minigame.isValid(33);
+			minigame.triangle();//gets all the points and area of the template triangle
+			isTriangle = minigame.isValid(33);//the threshold of how close the drawn shape is to a perfect triangle
 
-			minigame.zigzag();
-			isZigzag = minigame.isValid(15);
+			minigame.zigzag();//gets all the points and area of the template zigzag
+			isZigzag = minigame.isValid(15);//the threshold of how close the drawn shape is to a perfect zigzag
 
-			if (isCircle && items.getGhostShape().equals("Circle")) {
-				items.setDestroyCircle(true);
-				items.setGhostCount(items.getGhostCount() + 1);
-			} else if (isTriangle && items.getGhostShape().equals("Triangle")) {
-				items.setDestroyTriangle(true);
-				items.setGhostCount(items.getGhostCount() + 1);
-			} else if (isZigzag && items.getGhostShape().equals("Zigzag")) {
-				items.setDestroyZigzag(true);
-				items.setGhostCount(items.getGhostCount() + 1);
-			} else if (minigame.getCurrentShape().equals("vertical") && items.getGhostShape().equals("Vertical")) {
-				items.setDestroyVertical(true);
-				items.setGhostCount(items.getGhostCount() + 1);
-			} else if (minigame.getCurrentShape().equals("horizontal") && items.getGhostShape().equals("Horizontal")) {
-				items.setDestroyHorizontal(true);
-				items.setGhostCount(items.getGhostCount() + 1);
-			} else if (items.getGhostShape().equals("duoghost1")) {
-				if (items.isDestroyHorizontal() && items.isDestroyZigzag()) {
-					items.destroyRightGhost = true;
-					// items.setGhostCount(items.getGhostCount() + 1);
+			if (isCircle && items.getGhostShape().equals("Circle")) {//circle properly drawn
+				items.setDestroyCircle(true);//has destroyed a circle
+				items.setGhostCount(items.getGhostCount() + 1);//has exorcised a ghost (or one step of exorcising the ghost)
+			} else if (isTriangle && items.getGhostShape().equals("Triangle")) {//triangle properly drawn
+				items.setDestroyTriangle(true);//has destroyed a triangle
+				items.setGhostCount(items.getGhostCount() + 1);//has exorcised a ghost (or one step of exorcising the ghost)
+			} else if (isZigzag && items.getGhostShape().equals("Zigzag")) {//zigzag properly drawn
+				items.setDestroyZigzag(true);//has destroyed a zigzag
+				items.setGhostCount(items.getGhostCount() + 1);//has exorcised a ghost (or one step of exorcising the ghost)
+			} else if (minigame.getCurrentShape().equals("vertical") && items.getGhostShape().equals("Vertical")) {//vertical line properly drawn
+				items.setDestroyVertical(true);//has destroyed a triangle
+				items.setGhostCount(items.getGhostCount() + 1);//has exorcised a ghost (or one step of exorcising the ghost)
+			} else if (minigame.getCurrentShape().equals("horizontal") && items.getGhostShape().equals("Horizontal")) {//horizontal line properly drawn
+				items.setDestroyHorizontal(true);//has destroyed a triangle
+				items.setGhostCount(items.getGhostCount() + 1);//has exorcised a ghost (or one step of exorcising the ghost)
+			} else if (items.getGhostShape().equals("duoghost1")) {//the first duoghost
+				if (items.isDestroyHorizontal() && items.isDestroyZigzag()) {//both shapes for duoghost1 have been drawn
+					items.destroyRightGhost = true;//destroyed the right ghost      
 				}
-			} else if (items.getGhostShape().equals("duoghost2") && !items.destroyLeftGhost) {
-				if (items.isDestroyVertical() && items.isDestroyCircle()) {
-					items.destroyLeftGhost = true;
-					// items.setGhostCount(items.getGhostCount() + 1);
+			} else if (items.getGhostShape().equals("duoghost2") && !items.destroyLeftGhost) {//the second duoghost
+				if (items.isDestroyVertical() && items.isDestroyCircle()) {//both shapes for duoghost2 have been drawn
+					items.destroyLeftGhost = true;//destroyed the left ghost
 				}
-			} else if (items.getGhostShape().equals("duoghost3") && !items.destroyLeftGhost) {
-				if (items.isDestroyHorizontal() && items.isDestroyCircle()) {
-					items.destroyRightGhost = true;
-					// items.setGhostCount(items.getGhostCount() + 1);
+			} else if (items.getGhostShape().equals("duoghost3") && !items.destroyLeftGhost) {//the third duoghost
+				if (items.isDestroyHorizontal() && items.isDestroyCircle()) {//both shapes for duoghost3 have been drawn
+					items.destroyRightGhost = true;//destroyed the right ghost
 				}
-			} else if (items.getGhostShape().equals("duoghost4") && !items.destroyLeftGhost) {
-				if (items.isDestroyTriangle() && items.isDestroyZigzag()) {
-					items.destroyLeftGhost = true;
-					// items.setGhostCount(items.getGhostCount() + 1);
+			} else if (items.getGhostShape().equals("duoghost4") && !items.destroyLeftGhost) {//the fourth duoghost
+				if (items.isDestroyTriangle() && items.isDestroyZigzag()) {//both shapes for duoghost4 have been drawn
+					items.destroyLeftGhost = true;//destroyed the left ghost
 				}
-			} else if (items.getGhostShape().equals("trioghost")) {
+			} else if (items.getGhostShape().equals("trioghost")) {//the trio ghost
 				if (items.isDestroyTriangle() && items.isDestroyZigzag() && items.isDestroyCircle()) {
 					items.destroyTrioGhost = true;
-					// items.setGhostCount(items.getGhostCount() + 1);
 				}
 			} else if (items.getGhostShape().equals("bossghost")) {
 				if (items.isDestroyHorizontal() && items.isDestroyZigzag() && items.isDestroyCircle()
 						&& items.isDestroyVertical() && items.isDestroyTriangle()) {
 					items.destroyBossGhost = true;
-					// items.setGhostCount(items.getGhostCount() + 1);
 				}
 			}
 

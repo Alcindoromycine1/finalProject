@@ -59,9 +59,9 @@ public class Npc implements ReadFromFile {
 		items = gp.getIt();
 		maps = gp.getM();
 
-		input = gp.id;
-		items = gp.it;
-		maps = gp.m;
+		input = gp.getId();
+		items = gp.getIt();
+		maps = gp.getM();
 
 		playerX = gp.getPlayerX();
 		playerY = gp.getPlayerY();
