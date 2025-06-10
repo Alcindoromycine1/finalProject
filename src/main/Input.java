@@ -16,33 +16,45 @@ import java.awt.*;
  */
 public class Input implements KeyListener, MouseMotionListener, MouseListener {
 
-	private int mouseX = 0;
-	private int mouseY = 0;
-	private boolean upPressed, downPressed, leftPressed, rightPressed;
-	private boolean changeMapPressed;
-	private boolean ePressed;
-	private boolean cPressed;
-	private boolean useBookPressed;
-	private boolean upReleased, downReleased, leftReleased, rightReleased;
-	private int mouseOffsetX = 0;
-	private int mouseOffsetY = 0;
-	private Npc npc;
-	private Items items;
-	private Minigame minigame;
-	private Jumpscare jumpscare;
-	private MainMenu mainMenu;
-	private LoadingScreen ls;
-	private Maps maps;
+	private int mouseX = 0;// the x coordinate of the cursor
+	private int mouseY = 0;// the y coordinate of the cursor
+	private boolean upPressed, downPressed, leftPressed, rightPressed;// movement keys that are pressed (WASD)
+	private boolean changeMapPressed;// the key that is pressed when entering a new area (replaced by confirmation
+										// menu)
+	private boolean ePressed;// the key that is used for interactions
+	private boolean cPressed;// the key that is used for entering cars
+	private boolean useBookPressed;// the key that is used for entering books
+	private boolean upReleased, downReleased, leftReleased, rightReleased;// evaluates to true when the movement keys
+																			// have been released
+	private Npc npc;// Reference to the Npc class to access Npc methods and properties
+	private Items items;// Reference to the Items class to access Items methods and properties
+	private Minigame minigame;// Reference to the Minigame class to access Minigame methods and properties
+	private Jumpscare jumpscare;// Reference to the Jumpscare class to access Jumpscare methods and properties
+	private MainMenu mainMenu;// Reference to the MainMenu class to access MainMenu methods and properties
+	private LoadingScreen ls;// Reference to the LoadingScreen class to access LoadingScreen methods and
+								// properties
+	private Maps maps;// Reference to the Maps class to access Maps methods and properties
 
-	private boolean isCircle;
-	private boolean isZigzag;
-	private boolean isTriangle;
+	private boolean isCircle;// checks if the shape detected is a circle
+	private boolean isZigzag;// checks if the shape detected is a zigzag
+	private boolean isTriangle;// checks if the shape detected is a triangle
 
-	private int instructionsX = 640;
-	private int instructionsY = 10;
-	private int backX = 335;
-	private int backY = 430;
+	private int instructionsX = 640;// the x value of instructions menu
+	private int instructionsY = 10;// the y value of instructions menu
+	private int backX = 335;// the x value of back menu
+	private int backY = 430;// the y value of back menu
 
+	private boolean hoveringQuit = false;// hovering over the quit menu in the endscreen
+
+	private boolean instructionsPressed = false;//checks if the instructions menu has been pressed
+	private boolean readBook = false;//checks if the user has closed the book after opening it
+	private boolean pressedQuit = false;//checks if the user has pressed the quit button in the end screen
+	
+	/**
+	 * Constructor for the Input Class
+	 * 
+	 * @param gp
+	 */
 	public Input(GamePanel gp) {
 
 		jumpscare = gp.getJ();
@@ -55,23 +67,14 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 
 	}
 
-	public void setJumpscare(Jumpscare j) {
-		this.jumpscare = j;
-	}
-
-	public void setNpc(Npc npc) {
-		this.npc = npc;
-	}
-
-	public void setLs(LoadingScreen ls) {
-		this.ls = ls;
-	}
-
 	@Override
 	public void keyTyped(KeyEvent e) {
 
 	}
 
+	/**
+	 * @purpose detects key pressed and stores true or false values into variables
+	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
 
@@ -94,165 +97,202 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		} else if (code == KeyEvent.VK_B) {
 			useBookPressed = true;
 		} else if (code == KeyEvent.VK_ESCAPE) {
-			System.exit(0);
+			System.exit(0);// exit the game
 		} else if (code == KeyEvent.VK_SPACE) {
-			npc.setTextIndex(npc.getTextIndex() + 1);
-			npc.setOnce(false);
-	}
+			npc.setTextIndex(npc.getTextIndex() + 1);// increase text index to see new text line
+			npc.setOnce(false);// only reset text index once
+		}
 	}
 
+	/**
+	 * @purpose detects when a specific key was released
+	 */
 	@Override
 	public void keyReleased(KeyEvent e) {
 
 		int code = e.getKeyCode();// gets the ascii value of the key pressed
 
-		if (code == KeyEvent.VK_W) {
+		if (code == KeyEvent.VK_W) {// w released
 			upPressed = false;
 			upReleased = true;
-		} else if (code == KeyEvent.VK_S) {
+		} else if (code == KeyEvent.VK_S) {// s released
 			downPressed = false;
 			downReleased = true;
-		} else if (code == KeyEvent.VK_A) {
+		} else if (code == KeyEvent.VK_A) {// a released
 			leftPressed = false;
 			leftReleased = true;
-		} else if (code == KeyEvent.VK_D) {
+		} else if (code == KeyEvent.VK_D) {// d released
 			rightPressed = false;
 			rightReleased = true;
-		} else if (code == KeyEvent.VK_B) {
+		} else if (code == KeyEvent.VK_B) {// book releaed
 			useBookPressed = false;
-		} else if (code == KeyEvent.VK_C) {
+		} else if (code == KeyEvent.VK_C) {// car released
 			cPressed = false;
 		}
 
 	}
 
+	/**
+	 * @purpose used to detect when the mouse is being held and dragged around
+	 */
 	@Override
 	public void mouseDragged(MouseEvent e) {
 
-		mouseX = e.getX();
-		mouseY = e.getY();
-		if (minigame.getIsExorcising()) {
+		mouseX = e.getX();// getting the x position
+		mouseY = e.getY();// getting the y position
+		if (minigame.getIsExorcising()) {// if in exorcism room
 			ArrayList<Point> pointsLocal = minigame.getPoints();
-			pointsLocal.add(e.getPoint());
+			pointsLocal.add(e.getPoint());// stores all cursor movements while dragging in pointsLocal arrayList
 			minigame.setPoints(pointsLocal);
 		}
 	}
 
-	private boolean hoveringQuit = false;
-
+	/**
+	 * @purpose detects when the mouse is being moved (not clicking)
+	 */
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		mouseX = e.getX();
-		mouseY = e.getY();
-		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 220 && mouseY <= 280) {
-			mainMenu.setHoveringPlay(true);
+		mouseX = e.getX();// gets the x coordinate of mouse
+		mouseY = e.getY();// gets the y coordinate of mouse
+		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 220 && mouseY <= 280) {// hovering over the play button
+			mainMenu.setHoveringPlay(true);// set to true to hovering over play button
 		} else {
-			mainMenu.setHoveringPlay(false);
+			mainMenu.setHoveringPlay(false);// not hovering over play menu
 		}
-		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 290 && mouseY <= 350) {
-			mainMenu.setHoveringHelp(true);
+		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 290 && mouseY <= 350) {// hovering over the help button
+			mainMenu.setHoveringHelp(true);// set to true to hovering over help button
 		} else {
-			mainMenu.setHoveringHelp(false);
+			mainMenu.setHoveringHelp(false);// not hovering over help menu
 		}
-		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 360 && mouseY <= 420) {
-			mainMenu.setHoveringCredits(true);
+		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 360 && mouseY <= 420) {// hovering over the credits button
+			mainMenu.setHoveringCredits(true);// set to true to hovering over credits button
 		} else {
-			mainMenu.setHoveringCredits(false);
+			mainMenu.setHoveringCredits(false);// not hovering over credits menu
 		}
-		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 430 && mouseY <= 490) {
-			mainMenu.setHoveringExit(true);
+		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 430 && mouseY <= 490) {// hovering over the exit button
+			mainMenu.setHoveringExit(true);// set to true to hovering over exit button
 		} else {
-			mainMenu.setHoveringExit(false);
+			mainMenu.setHoveringExit(false);// not hovering over exit button
 		}
 		if (mouseX >= instructionsX && mouseX <= instructionsX + 120 && mouseY >= instructionsY
-				&& mouseY <= instructionsY + 40) {
-			items.setHoveringInstructions(true);
+				&& mouseY <= instructionsY + 40) {// hovering over the instructions button
+			items.setHoveringInstructions(true);// set to true to hovering over the instructions button
 		} else {
-			items.setHoveringInstructions(false);
+			items.setHoveringInstructions(false);// not hovering over the instructions button
 		}
-		if (mouseX >= backX && mouseX <= backX + 130 && mouseY >= backY && mouseY <= backY + 40) {
-			items.setHoveringBack(true);
+		if (mouseX >= backX && mouseX <= backX + 130 && mouseY >= backY && mouseY <= backY + 40) {// hovering over the
+																									// back menu
+			items.setHoveringBack(true);// set to true to hovering over the back button
 		} else {
-			items.setHoveringBack(false);
-		}
-
-		if (mouseX >= 305 && mouseX <= 305 + 195 && mouseY >= 160 && mouseY <= 160 + 62) {
-			items.setHoveringMovement(true);
-		} else {
-			items.setHoveringMovement(false);
+			items.setHoveringBack(false);// not hovering over the back button
 		}
 
-		if (mouseX >= 305 && mouseX <= 305 + 195 && mouseY >= 250 && mouseY <= 250 + 62) {
-			items.setHoveringObjective(true);
+		if (mouseX >= 305 && mouseX <= 305 + 195 && mouseY >= 160 && mouseY <= 160 + 62) {// hovering over the movement
+																							// button
+			items.setHoveringMovement(true);// set to true to hovering over the movement button
 		} else {
-			items.setHoveringObjective(false);
+			items.setHoveringMovement(false);// not hovering over the movement button
 		}
-		if (items.isEnterBook() && mouseX >= 530 && mouseX <= 530 + 150 && mouseY >= 445 && mouseY <= 445 + 40) {
-			items.setHoveringNextPage(true);
+
+		if (mouseX >= 305 && mouseX <= 305 + 195 && mouseY >= 250 && mouseY <= 250 + 62) {// hovering over the objective
+																							// button
+			items.setHoveringObjective(true);// set to true to hovering over the movement button
 		} else {
-			items.setHoveringNextPage(false);
+			items.setHoveringObjective(false);// not hovering over the objective button
 		}
-		if (items.isEnterBook() && mouseX >= 530 && mouseX <= 530 + 150 && mouseY >= 100 && mouseY <= 100 + 40) {
-			items.setHoveringExitPage(true);
+		if (items.isEnterBook() && mouseX >= 530 && mouseX <= 530 + 150 && mouseY >= 445 && mouseY <= 445 + 40) {// hovering
+																													// over
+																													// the
+																													// next
+																													// page
+																													// button
+			items.setHoveringNextPage(true);// set to true to hovering over the next page button
 		} else {
-			items.setHoveringExitPage(false);
+			items.setHoveringNextPage(false);// not hovering over the next page button
 		}
-		if (mouseX >= 225 && mouseX <= 225 + 130 && mouseY >= 355 && mouseY <= 355 + 45 && items.isInConfirmation()) {
-			items.setHoveringYes(true);
+		if (items.isEnterBook() && mouseX >= 530 && mouseX <= 530 + 150 && mouseY >= 100 && mouseY <= 100 + 40) {// hovering
+																													// over
+																													// the
+																													// exit
+																													// page
+																													// button
+			items.setHoveringExitPage(true);// set to true to hovering over the exit page button
 		} else {
-			items.setHoveringYes(false);
+			items.setHoveringExitPage(false);// not hovering over the exit page
 		}
-		if (mouseX >= 425 && mouseX <= 425 + 130 && mouseY >= 355 && mouseY <= 355 + 45 && items.isInConfirmation()) {
-			items.setHoveringNo(true);
+		if (mouseX >= 225 && mouseX <= 225 + 130 && mouseY >= 355 && mouseY <= 355 + 45 && items.isInConfirmation()) {// hovering
+																														// over
+																														// the
+																														// yes
+																														// button
+			items.setHoveringYes(true);// set to true to hovering over the yes button
 		} else {
-			items.setHoveringNo(false);
+			items.setHoveringYes(false);// not hovering over the yes button
+		}
+		if (mouseX >= 425 && mouseX <= 425 + 130 && mouseY >= 355 && mouseY <= 355 + 45 && items.isInConfirmation()) {// hovering
+																														// over
+																														// no
+																														// button
+			items.setHoveringNo(true);// set to true to hovering over no button
+		} else {
+			items.setHoveringNo(false);// not hovering over the no button
 		}
 		if (mouseX >= 685 && mouseX <= 715 && mouseY >= 60 && mouseY <= 90
 				&& (items.isHelpPressed() || items.isCreditsPressed())) {
-			items.setHoveringX(true);
+			items.setHoveringX(true);// hovering over the x button in either the credits or help menu
 		} else {
-			items.setHoveringX(false);
+			items.setHoveringX(false);// not hovering over the x button
 		}
-		if (mouseX >= 325 && mouseX <= 325 + 130 && mouseY >= backY && mouseY <= backY + 40 && maps.isEnd()) {
-			hoveringQuit = true;
+		if (mouseX >= 325 && mouseX <= 325 + 130 && mouseY >= backY && mouseY <= backY + 40 && maps.isEnd()) {// hovering
+																												// over
+																												// the
+																												// quit
+																												// button
+																												// in
+																												// the
+																												// end
+																												// screen
+			hoveringQuit = true;// not hovering over the quit button
 		} else {
-			hoveringQuit = false;
+			hoveringQuit = false;// not hovering over the quit button
 		}
 	}
 
+	/**
+	 * @purpose detects once the mouse dragging has bene released
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (minigame.getIsExorcising()) {
+		if (minigame.getIsExorcising()) {//in exorcism room
 			ArrayList<Point> pointsLocal = minigame.getPoints();
-			pointsLocal.add(e.getPoint());
+			pointsLocal.add(e.getPoint());//stores point when released cursor
 			minigame.setPoints(pointsLocal);
 		}
 	}
 
-	private boolean instructionsPressed = false;
-	private boolean readBook = false;
-	private boolean pressedQuit = false;
-	
+	/**
+	 * @purpose detects when the user presses with their cursor (not drag)
+	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
-		mouseX = e.getX();
-		mouseY = e.getY();
+		mouseX = e.getX();//gets the x cursor coordinate
+		mouseY = e.getY();//gets the y cursor coordinate
 
 		if (mouseX >= instructionsX && mouseX <= instructionsX + 135 && mouseY >= instructionsY
-				&& mouseY <= instructionsY + 45 && !mainMenu.isInMenu() /*&& !ls.isLoadingScreen()*/) {
-			instructionsPressed = true;
-			items.setInstructionsPrompt(true);
+				&& mouseY <= instructionsY + 45 && !mainMenu.isInMenu() /* && !ls.isLoadingScreen() */) {//hovering your cursor on the instructions button
+			instructionsPressed = true;//pressed the instructions button
+			items.setInstructionsPrompt(true);//open the instructions prompt
 			return;
 		}
 
 		if ((items.isInstructionsPrompt() || items.isMovementPrompt() || items.isObjectivePrompts()) && mouseX >= backX
-				&& mouseX <= backX + 130 && mouseY >= backY && mouseY <= backY + 40) {
-			items.setBackPressed(true);
+				&& mouseX <= backX + 130 && mouseY >= backY && mouseY <= backY + 40) {//hovering your cursor on the back button
+			items.setBackPressed(true);//pressed the back button
 			return;
 		}
 
 		if (items.isInstructionsPrompt() && mouseX >= 305 && mouseX <= 305 + 195 && mouseY >= 160
-				&& mouseY <= 160 + 62) {
+				&& mouseY <= 160 + 62) {//hovering your cursor on the movement button
 			items.setMovementPrompt(true);
 			items.setInstructionsPrompt(false);
 			return;
@@ -425,6 +465,18 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		return leftPressed;
 	}
 
+	public void setJumpscare(Jumpscare j) {
+		this.jumpscare = j;
+	}
+
+	public void setNpc(Npc npc) {
+		this.npc = npc;
+	}
+
+	public void setLs(LoadingScreen ls) {
+		this.ls = ls;
+	}
+
 	public void setLeftPressed(boolean leftPressed) {
 		this.leftPressed = leftPressed;
 	}
@@ -512,7 +564,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	public boolean isReadBook() {
 		return readBook;
 	}
-	
+
 	public void setMainMenu(MainMenu mainMenu) {
 		this.mainMenu = mainMenu;
 	}
@@ -532,11 +584,11 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	public int getMouseY() {
 		return mouseY;
 	}
-	
+
 	public void setCPressed(boolean cPressed) {
 		this.cPressed = cPressed;
 	}
-	
+
 	public boolean isHoveringQuit() {
 		return hoveringQuit;
 	}
@@ -544,7 +596,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	public boolean isPressedQuit() {
 		return pressedQuit;
 	}
-	
+
 	public void setM(Maps m) {
 		this.maps = m;
 	}

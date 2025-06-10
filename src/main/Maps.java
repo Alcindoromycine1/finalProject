@@ -144,19 +144,19 @@ public class Maps {
 	 */
 	public String changeMap(int mapToChange) {
 		if (mapToChange == 1) {
-			mapIntro("src/maps/mapIntro.txt");
+			mapIntro("src/maps/mapIntro.txt");//intro scene
 			currentMap = 1;
 		} else if (mapToChange == 2) {
-			mapIntro("src/maps/mapHouse.txt");
+			mapIntro("src/maps/mapHouse.txt");//house
 			currentMap = 2;
 		} else if (mapToChange == 3) {
-			mapIntro("src/maps/openMap.txt");
+			mapIntro("src/maps/openMap.txt");//open map
 			currentMap = 3;
 		} else if (mapToChange == 4) {
-			mapIntro("src/maps/doctrine.txt");
+			mapIntro("src/maps/doctrine.txt");//doctrine
 			currentMap = 4;
 		} else if (mapToChange == 5) {
-			mapIntro("src/maps/blank.txt");
+			mapIntro("src/maps/blank.txt");//exorcism room
 			currentMap = 5;
 		}
 		return "-1";// no change map found
