@@ -65,6 +65,7 @@ public class Items implements ReadFromFile{
 	private BufferedImage human;
 	
 	private ImageIcon pageFlipping;
+	private ImageIcon pentagram;
 	private Sound bookFlipSound;
 	
 	private boolean doneDoctrineGhost = false;
@@ -120,6 +121,7 @@ public class Items implements ReadFromFile{
 		orderCloseUp = ImageIO.read(new File("src/textures/orderCloseUp.png"));
 		
 		human = ImageIO.read(new File("src/textures/character.png"));// https://www.creativefabrica.com/product/pixel-art-human-graphics/ref/2399990/
+		pentagram = new ImageIcon("src/textures/pentagram.gif");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -186,6 +188,22 @@ public class Items implements ReadFromFile{
 				p.disableCharacterMovement();
 			}
 		}
+	}
+	
+	private boolean playPentagram = false;
+	private int pentaX, pentaY;
+	
+	public void playPentagram(Graphics g2, Component observer) {
+		if (playPentagram) {
+			g2.drawImage(pentagram.getImage(), pentaX, pentaY, 160, 90, observer);
+			pentaTimer();
+		}
+	}
+	
+	public void enablePentagram(int x, int y) {
+		pentaX = x;
+		pentaY = y;
+		playPentagram = true;
 	}
 
 	private boolean enterBook = false;
@@ -665,14 +683,14 @@ public class Items implements ReadFromFile{
 
 	}
 
-	private int level = 8;
+	private int level = 1;
 	private String ghostShape = "";
 
 	public void drawGhost(Graphics2D g2, int offsetY, GamePanel gp) throws IOException {
 		if (level == 1) {
 			if (!destroyCircle) {
 				minigameGhost(g2, 1200 - 20, 820 + 50 + offsetY, "Circle", 250, 196, gp);
-			}
+			} 
 			if (!destroyTriangle) {
 				minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "Triangle", 250, 196, gp);
 			}
@@ -706,6 +724,8 @@ public class Items implements ReadFromFile{
 			minigameGhost(g2, 1200 - 20, 820 - 0 + offsetY, "duoghost1", 250, 196, gp);
 			if (!destroyLeftGhost) {
 				minigameGhost(g2, 1200 - 210, 820 + 50 + offsetY, "duoghost2", 250, 196, gp);
+			} else {
+				enablePentagram(266,443);
 			}
 		} else if (level == 6) {
 			minigameGhost(g2, 1200 - 20, 820 - 0 + offsetY, "duoghost3", 250, 196, gp);
@@ -749,7 +769,7 @@ public class Items implements ReadFromFile{
 
 		if (ghostCount == 2 && !levelShape.equals("duoghost1") && !levelShape.equals("duoghost2")
 				&& !levelShape.equals("duoghost3") && !levelShape.equals("duoghost4") && !levelShape.equals("trioghost")
-				&& !levelShape.equals("bossghost")) {
+				&& !levelShape.equals("bossghost") && !playPentagram) {
 			level++;
 			ghostCount = 0;
 			destroyCircle = false;
@@ -760,7 +780,7 @@ public class Items implements ReadFromFile{
 		}
 
 		if (ghostCount == 4 && (levelShape.equals("duoghost1") || levelShape.equals("duoghost2")
-				|| levelShape.equals("duoghost3") || levelShape.equals("duoghost4"))) {
+				|| levelShape.equals("duoghost3") || levelShape.equals("duoghost4")) && !playPentagram) {
 
 			level++;
 			ghostCount = 0;
@@ -774,7 +794,7 @@ public class Items implements ReadFromFile{
 
 		}
 
-		if (ghostCount == 3 && destroyTrioGhost) {
+		if (ghostCount == 3 && destroyTrioGhost && !playPentagram) {
 
 			level++;
 			ghostCount = 0;
@@ -786,7 +806,7 @@ public class Items implements ReadFromFile{
 			destroyTrioGhost = false;
 
 		}
-		if (ghostCount == 5 && destroyBossGhost) {
+		if (ghostCount == 5 && destroyBossGhost && !playPentagram) {
 			level++;
 			destroyCircle = false;
 			destroyTriangle = false;
@@ -959,6 +979,7 @@ public class Items implements ReadFromFile{
 			if (!destroyLeftGhost) {
 				if (isDestroyVertical() && isDestroyCircle()) {
 					destroyLeftGhost = true;
+					
 				}
 			}
 		} else if (shape.equalsIgnoreCase("duoghost3")) {
@@ -1017,6 +1038,7 @@ public class Items implements ReadFromFile{
 			if (!destroyLeftGhost) {
 				if (isDestroyTriangle() && isDestroyZigzag()) {
 					destroyLeftGhost = true;
+					
 				}
 			}
 		} else if (shape.equalsIgnoreCase("trioghost")) {
@@ -1308,6 +1330,23 @@ public class Items implements ReadFromFile{
 		}
 		time.setRepeats(false);
 		time.start();
+	}
+	
+	private Timer pentaTime;
+
+	public void pentaTimer() {
+		pentaTime = new Timer(5000, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				playPentagram = false;
+				pentaTime.stop();
+			}
+		});
+		if (pentaTime != null && pentaTime.isRunning()) {
+			pentaTime.stop();
+		}
+		pentaTime.setRepeats(false);
+		pentaTime.start();
 	}
 
 	// Getters and Setters

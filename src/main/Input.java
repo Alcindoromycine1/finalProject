@@ -144,6 +144,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	public void mouseMoved(MouseEvent e) {
 		mouseX = e.getX();
 		mouseY = e.getY();
+		System.out.println("x: " + mouseX + "y" + mouseY);
 		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 220 && mouseY <= 280) {
 			mainMenu.setHoveringPlay(true);
 		} else {
@@ -360,33 +361,29 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 			} else if (items.getGhostShape().equals("duoghost1")) {
 				if (items.isDestroyHorizontal() && items.isDestroyZigzag()) {
 					items.destroyRightGhost = true;
-					// items.setGhostCount(items.getGhostCount() + 1);
 				}
 			} else if (items.getGhostShape().equals("duoghost2") && !items.destroyLeftGhost) {
 				if (items.isDestroyVertical() && items.isDestroyCircle()) {
 					items.destroyLeftGhost = true;
-					// items.setGhostCount(items.getGhostCount() + 1);
+					
 				}
 			} else if (items.getGhostShape().equals("duoghost3") && !items.destroyLeftGhost) {
 				if (items.isDestroyHorizontal() && items.isDestroyCircle()) {
 					items.destroyRightGhost = true;
-					// items.setGhostCount(items.getGhostCount() + 1);
 				}
 			} else if (items.getGhostShape().equals("duoghost4") && !items.destroyLeftGhost) {
 				if (items.isDestroyTriangle() && items.isDestroyZigzag()) {
 					items.destroyLeftGhost = true;
-					// items.setGhostCount(items.getGhostCount() + 1);
+					
 				}
 			} else if (items.getGhostShape().equals("trioghost")) {
 				if (items.isDestroyTriangle() && items.isDestroyZigzag() && items.isDestroyCircle()) {
 					items.destroyTrioGhost = true;
-					// items.setGhostCount(items.getGhostCount() + 1);
 				}
 			} else if (items.getGhostShape().equals("bossghost")) {
 				if (items.isDestroyHorizontal() && items.isDestroyZigzag() && items.isDestroyCircle()
 						&& items.isDestroyVertical() && items.isDestroyTriangle()) {
 					items.destroyBossGhost = true;
-					// items.setGhostCount(items.getGhostCount() + 1);
 				}
 			}
 

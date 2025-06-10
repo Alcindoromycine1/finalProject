@@ -108,7 +108,7 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 		screenY = HEIGHT / 2 - (tileSize / 2); // centers the player in the middle of the screen
 
 		// Background
-		m.changeMap(3);
+		m.changeMap(5);
 		// Find trees in the map
 		
 		//load files
@@ -361,6 +361,8 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 			m.playDoctrineSound();
 			m.nightmare(g2, this, this);
 			m.mirrorScene(g2, this, this);
+			//it.enablePentagram(0, 0);
+			it.playPentagram(g2, this);
 
 			it.instructions(g2);
 			if (id.isInstructionsPressed()) {
@@ -371,9 +373,9 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 				j.drawJumpscare(g2);
 				j.playSound();
 			}
-			if (ls.isLoadingScreen()) {
-				ls.drawLoadingScreen(g2);
-			}
+			//if (ls.isLoadingScreen()) {
+			//	ls.drawLoadingScreen(g2);
+			//}
 
 			if (mainMenu.isInMenu()) {
 				mainMenu.mainMenu(g2);
