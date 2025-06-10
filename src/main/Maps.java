@@ -7,6 +7,7 @@
 package main;
 
 import java.awt.BasicStroke;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -16,7 +17,6 @@ import java.awt.RadialGradientPaint;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 import java.awt.geom.Point2D;
-import Horror.Jumpscare;
 import java.io.*;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;

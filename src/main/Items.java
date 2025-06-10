@@ -1,6 +1,5 @@
 package main;
 
-import Horror.Jumpscare;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;

@@ -1,6 +1,5 @@
 package main;
 
-import Horror.Jumpscare;
 import javax.sound.sampled.*;
 import java.io.*;
 

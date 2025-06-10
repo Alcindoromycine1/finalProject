@@ -2,7 +2,6 @@ package main;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import Horror.Jumpscare;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 

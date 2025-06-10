@@ -3,9 +3,6 @@ package main;
 import java.awt.event.*;
 import java.io.*;
 import java.util.*;
-
-import Horror.Jumpscare;
-
 import java.awt.*;
 
 /*
