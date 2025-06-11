@@ -1121,20 +1121,6 @@ public class Items implements ReadFromFile{
 		ghost = ImageIO.read(new File("src/textures/minigameghost.png"));
 		randomShape(ghostShape, ghostX, ghostY, g2, 0);
 		ghost(g2, ghostX, ghostY, width, height, gp);
-
-		/*
-		 * else if (shape.equals("Circle")) { for (int i = 0; i < 4; i++) {
-		 * g2.drawOval(85 + i, 25 + i, 20 - i, 20 - i); }
-		 * 
-		 * }
-		 */
-
-		/*
-		 * if (shape.equals("Square")) { for (int i = 0; i < 4; i++) { int[] xSquare = {
-		 * 90 + i + offsetX, 110 - i + offsetX, 110 - i + offsetX, 90 + i + offsetX };
-		 * int[] ySquare = { 25 + i, 25 + i, 45 - i, 45 - i }; g2.drawPolygon(xSquare,
-		 * ySquare, 4); }
-		 */
 	}
 
 	public void graveyard(Graphics2D g2, GamePanel gp) throws IOException {
@@ -1632,7 +1618,7 @@ public class Items implements ReadFromFile{
 		this.inConfirmation = inConfirmation;
 	}
 
-	public void setFirstTime(boolean firstTime) {
+	public void setFirstTime(boolean firstTime) { 
 		this.firstTime = firstTime;
 	}
 
