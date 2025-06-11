@@ -2,13 +2,15 @@ package main;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+<<<<<<< Updated upstream
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+=======
+>>>>>>> Stashed changes
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.MalformedURLException;
 
 import java.awt.geom.Point2D;
 
@@ -28,7 +30,11 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 	private final int tileSize = originalTileSize * scale; // scales every tile to appear much larger on the window
 															// (48x48)
 
+<<<<<<< Updated upstream
 	private int playerSpeed = 25;
+=======
+	private int playerSpeed = 4;// speed of the player
+>>>>>>> Stashed changes
 
 	// Window dimensions
 	private final int maxScreenCol = 16; // window is 16 tiles wide
@@ -163,11 +169,23 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 			mainMenuSound = new Sound("sound/mainMenuSound.wav");
 			footstepSound = new Sound("sound/walkingSoundEffect.wav");
 
+<<<<<<< Updated upstream
 			jeffFront = ImageIO.read(new File("textures/charAI.png"));
 			jeffBack = ImageIO.read(new File("textures/jeffBack.png"));
 			jeffRight = ImageIO.read(new File("textures/jeffRight.png"));
 			jeffLeft = ImageIO.read(new File("textures/jeffLeft.png"));
 		} catch (Exception e) {
+=======
+			ambientAudio = new Sound("sound/ambientAudio.wav"); // loads the ambient audio sound file
+			mainMenuSound = new Sound("sound/mainMenuSound.wav"); // loads the main menu sound file
+			footstepSound = new Sound("sound/walkingSoundEffect.wav"); // loads the footstep sound file
+
+			jeffFront = ImageIO.read(new File("textures/charAI.png")); // loads the front image of the character
+			jeffBack = ImageIO.read(new File("textures/jeffBack.png")); // loads the back image of the character
+			jeffRight = ImageIO.read(new File("textures/jeffRight.png")); // loads the right image of the character
+			jeffLeft = ImageIO.read(new File("textures/jeffLeft.png")); // loads the left image of the character
+		} catch (Exception e) { // catches any exception that happens during the file reading operations
+>>>>>>> Stashed changes
 			System.out.println("Sound loaded successfully");
 		}
 	}
@@ -300,8 +318,13 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 
 	// where all the drawing happens
 	public void paintComponent(Graphics g) {
+<<<<<<< Updated upstream
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
+=======
+		super.paintComponent(g);           //calls the parent class's paintComponent method
+		Graphics2D g2 = (Graphics2D) g;    // casts the Graphics object to Graphics2D for better drawing capabilities
+>>>>>>> Stashed changes
 		try {
 			m.camera(g, this);// camera method
 			characterImage(g);// draws the character depending on the direction

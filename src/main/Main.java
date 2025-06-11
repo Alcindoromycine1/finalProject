@@ -1,6 +1,5 @@
 package main;
 
-import java.awt.*;
 import javax.swing.JFrame;
 import java.io.*;
 

@@ -719,9 +719,6 @@ public class Items implements ReadFromFile{
 		}
 	}
 
-	private int ghostNumberLeft;
-	private int ghostNumberRight;
-	private boolean ghostAppeared = false;
 	private int ghostCount = 0;
 	private boolean reachedPeak = false;
 	
@@ -1101,11 +1098,6 @@ public class Items implements ReadFromFile{
 
 	}
 
-	private int counting = 0;
-	private boolean duoGhostInitialized = false;
-	private int duoShapeLeft = 0;
-	private int duoShapeRight = 0;
-
 	private boolean destroyCircle = false;
 	private boolean destroyTriangle = false;
 	private boolean destroyZigzag = false;
@@ -1137,9 +1129,6 @@ public class Items implements ReadFromFile{
 	}
 
 	public void graveyard(Graphics2D g2, GamePanel gp) throws IOException {
-
-		int inGraveYardX = graveX - gp.getWorldX();
-		int inGraveYardY = graveY - gp.getWorldY();
 		if (inGraveYard) {
 			g2.drawImage(ghost, 480, 280, 250, 196, null);
 			npc.text(g2, 2);

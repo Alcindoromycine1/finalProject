@@ -35,7 +35,11 @@ public class MainMenu {
 
 	public void loadImages() {
 		try {
+<<<<<<< Updated upstream
 			background = ImageIO.read(new File("textures/mainMenu.png"));
+=======
+			background = ImageIO.read(new File("textures/mainMenu.png"));// the backgorund of the main menu
+>>>>>>> Stashed changes
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
