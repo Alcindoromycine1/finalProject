@@ -7,7 +7,6 @@
 package main;
 
 import java.awt.BasicStroke;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -144,21 +143,6 @@ public class Maps {
 	 */
 	public String changeMap(int mapToChange) {
 		if (mapToChange == 1) {
-<<<<<<< Updated upstream
-			mapIntro("maps/mapIntro.txt");
-			currentMap = 1;
-		} else if (mapToChange == 2) {
-			mapIntro("maps/mapHouse.txt");
-			currentMap = 2;
-		} else if (mapToChange == 3) {
-			mapIntro("maps/openMap.txt");
-			currentMap = 3;
-		} else if (mapToChange == 4) {
-			mapIntro("maps/doctrine.txt");
-			currentMap = 4;
-		} else if (mapToChange == 5) {
-			mapIntro("maps/blank.txt");
-=======
 			mapIntro("maps/mapIntro.txt");//intro scene
 			currentMap = 1;
 		} else if (mapToChange == 2) {
@@ -172,7 +156,6 @@ public class Maps {
 			currentMap = 4;
 		} else if (mapToChange == 5) {
 			mapIntro("maps/blank.txt");//exorcism room
->>>>>>> Stashed changes
 			currentMap = 5;
 		}
 		return "-1";// no change map found
@@ -220,10 +203,6 @@ public class Maps {
 	public void findTiles() throws IOException {
 
 		BufferedReader r = new BufferedReader(new FileReader("maps/mapIntro.txt"));
-<<<<<<< Updated upstream
-		String lines = "";
-=======
->>>>>>> Stashed changes
 		// Count the number of lines in the file
 		// Iterate through the 2D array to find occurrences of 1
 		for (int row = 0; row < tiles.size(); row++) {
@@ -806,10 +785,6 @@ public class Maps {
 				System.exit(0);// close the program
 			}
 		}
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 	}
 
 	/**
