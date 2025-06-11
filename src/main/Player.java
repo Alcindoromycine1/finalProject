@@ -183,10 +183,10 @@ public class Player implements ReadFromFile{
 		for (int i = 0; i < m.getBookPositions().size(); i++) {
 			int bookX = m.getBookPositions().get(i)[0] - worldX;// tiles x position
 			int bookY = m.getBookPositions().get(i)[1] - worldY;// tiles y position
-			if (playerX + 32 > bookX // Right side of hitbox is past left side of book
+			if (playerX + 64 > bookX // Right side of hitbox is past left side of book
 					&& playerX < bookX + 96 // Left side of hitbox is before right side of book
-					&& playerY + 72 > bookY + 48 // Bottom side of hitbox is below top side of book
-					&& playerY < bookY + 48 && keyH.isUseBookPressed()) { // Top side of hitbox is above
+					&& playerY + 72 > bookY + 24 // Bottom side of hitbox is below top side of book
+					&& playerY < bookY + 96 && keyH.isUseBookPressed()) { // Top side of hitbox is above
 																			// bottom side of book
 				it.setEnterBook(true);// the book has been opened
 				break; // Stop checking after finding the first collision

@@ -358,7 +358,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 																														// pressed
 			items.setNoPressed(true);// has pressed no button
 		}
-		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 290 && mouseY <= 350 & mainMenu.isInMenu()) {// hovering over
+		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 290 && mouseY <= 350 & mainMenu.isInMenu()&& !ls.isLoadingScreen()) {// hovering over
 																										// the help
 																										// button
 			items.setHelpPressed(true);// pressed the help button
@@ -368,21 +368,19 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 																										// the x button
 			items.setHelpPressed(false);// no longer in help menu
 
-			if (mouseX >= 245 && mouseX <= 525 && mouseY >= 290 && mouseY <= 350 && mainMenu.isInMenu()
-					&& !ls.isLoadingScreen()) {// hovering over the help button
-				items.setHelpPressed(true);// pressed the help button
-
-			}
+			
 		}
 		if (mouseX >= 245 && mouseX <= 525 && mouseY >= 360 && mouseY <= 420 && mainMenu.isInMenu()) {
 			{// hovering over the credits button
 				items.setCreditsPressed(true);// pressed the credits button
 			}
-			if (mouseX >= 685 && mouseX <= 715 && mouseY >= 60 && mouseY <= 90
-					&& (items.isHelpPressed() || items.isCreditsPressed())) {// hovering over the x button
-				items.setCreditsPressed(false);// close either the help menu or credits menu
-			}
 		}
+		
+		if (mouseX >= 685 && mouseX <= 715 && mouseY >= 60 && mouseY <= 90
+				&& items.isCreditsPressed()) {// hovering over the x button
+			items.setCreditsPressed(false);// close either the credits menu
+		}
+		
 		if (mouseX >= 325 && mouseX <= 325 + 130 && mouseY >= backY && mouseY <= backY + 40 && maps.isEnd()) {// hovering
 																												// over
 																												// the
