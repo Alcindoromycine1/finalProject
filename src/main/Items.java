@@ -94,6 +94,9 @@ public class Items implements ReadFromFile{
 	}
 	
 	@Override
+	/**
+	 * @see {@link https://media.istockphoto.com/id/1193231012/vector/computer-gamer-keyboard-wasd-keys-vector-illustration-wasd-keys-game-control-keyboard-buttons.jpg?s=612x612&w=0&k=20&c=-DJ6CFewXZ_Oofp_BsYya5KniByRkVW3EAHYICWIOaU=}
+	 */
 	public void readFile() {
 		try {
 		header = new Font("Arial", Font.BOLD, 35);  //intializes the header font
@@ -113,7 +116,7 @@ public class Items implements ReadFromFile{
 		book = ImageIO.read(new File("src/textures/books.png"));
 		car = ImageIO.read(new File("src/textures/car.png"));
 		brokenCar = ImageIO.read(new File("src/textures/destroyedCar.png"));
-		wasdKey = ImageIO.read(new File("src/textures/wasdKey.png"));// https://media.istockphoto.com/id/1193231012/vector/computer-gamer-keyboard-wasd-keys-vector-illustration-wasd-keys-game-control-keyboard-buttons.jpg?s=612x612&w=0&k=20&c=-DJ6CFewXZ_Oofp_BsYya5KniByRkVW3EAHYICWIOaU=
+		wasdKey = ImageIO.read(new File("src/textures/wasdKey.png"));
 		door = ImageIO.read(new File("src/textures/door.png"));// https://img.freepik.com/premium-vector/open-close-door-pixel-art-style_475147-1239.jpgd
 		exorcism = ImageIO.read(new File("src/textures/exorcism.png"));// https://www.creativefabrica.com/wp-content/uploads/2023/03/22/pixel-art-wooden-cross-vector-Graphics-65026120-1.jpg
 		bed = ImageIO.read(new File("src/textures/bed.png"));
