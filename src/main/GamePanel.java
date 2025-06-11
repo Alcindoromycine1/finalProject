@@ -244,189 +244,208 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 	}
 
 	// Update game elements
+	/**
+	 * @purpose Updates the game elements such as player position, map values, NPC values, and item values.
+	 * Also updates the window title with the current FPS.
+	 */
 	public void update() {
-		p.updatePlayerPosition(worldX, worldY, playerX, playerY, screenX, screenY);
-		m.updateMapValues(worldX, worldY);
-		n.updateNpcValues(playerX, playerY, worldX, worldY);
-		it.updateItemsValues(playerX, playerY, worldX, worldY);
+		p.updatePlayerPosition(worldX, worldY, playerX, playerY, screenX, screenY);    //updates the variable values of the Player object
+		m.updateMapValues(worldX, worldY);	                                           //updates the variable values of the Maps object
+		n.updateNpcValues(playerX, playerY, worldX, worldY);                           //updates the variable values of the Npc object
+		it.updateItemsValues(playerX, playerY, worldX, worldY);                        //updates the variable values of the Items object
 
-		window.setTitle("Are we Cooked? FPS: " + fps);
-		p.collisionChecking(this);
-		p.collision(this);
-		characterMovement();
-		it.animation(this);
+		window.setTitle("Whispers Of The Decieved, FPS: " + fps);                      // sets the title of the window and displays the current FPS
+		p.collisionChecking(this);                                                     // checks for collision
+		p.collision(this);                                                             // checks for collision
+		characterMovement();	                                                       // calls the character movement method to update the character position
+		it.animation(this);                                                            // updates the animations within the Items object
 	}
 
+	/**
+	 * @purpose This method draws the character image based on the direction the character is facing.
+	 * @param g
+	 * @throws IOException
+	 */
 	public void characterImage(Graphics g) throws IOException {
 
-		BufferedImage character = null;
-		if (it.isVisible()) {
-			if (direction.equals("back")) {
+		BufferedImage character = null;               // Initalizes the charcater image variable
+		if (it.isVisible()) {	                      // checks if the player is suposed to be visible								
+			if (direction.equals("back")) {           // checks if the player is facing back and sets the character image variable to back image
 
 				character = jeffBack;
 
-			} else if (direction.equals("front")) {
+			} else if (direction.equals("front")) {   // checks if the player is facing forwards and sets the character image variable to forward image
 
 				character = jeffFront;
 
-			} else if (direction.equals("left")) {
+			} else if (direction.equals("left")) {    // checks if the player is facing left and sets the character image variable to left image
 
 				character = jeffLeft;
 
-			} else if (direction.equals("right")) {
+			} else if (direction.equals("right")) {   // checks if the player is facing right and sets the character image variable to right image
 
 				character = jeffRight;
 			} else {
 				character = jeffFront;
 			}
-			if (m.getCurrentMap() != 5) {
+			if (m.getCurrentMap() != 5) {			// checks if the current map is not the exorcism room, and if so, draws the character image in the middle of the screen
 				g.drawImage(character, screenX, screenY, null);// draws the character in the middle of the screen
 			}
 		}
 	}
-
+	
+	/**
+	 * @purpose This method draws a radial gradient tint on the screen for the darkness effect.
+	 * @param g2
+	 */
 	public void drawTint(Graphics2D g2) {
-		if (it.getAnimationFrame() >= 150) {
+		if (it.getAnimationFrame() >= 150) {  // If the animation frame is greater than or equal to 150, it draws the title screen
 			it.titleScreen(g2);
 		}
+		
+		
+		Point2D centerPoint = new Point2D.Float(playerX, playerY);  // Calculates the center point of the radial gradient based on the player's position
+		float radiusTint = (float) 210;                             // Calculates the radius of the radial gradient
 
-		Point2D centerPoint = new Point2D.Float(playerX, playerY);
-		float radiusTint = (float) 210;
+		Color transparentColor = new Color(0, 0, 0, 0);            // Transparent color with alpha for transparency
+		Color darkColor = new Color(0, 0, 0, 255);				   // Dark color with alpha for transparency
 
-		Color transparentColor = new Color(0, 0, 0, 0);
-		Color darkColor = new Color(0, 0, 0, 255); // Dark color with alpha for transparency
+		RadialGradientPaint gradient = new RadialGradientPaint(centerPoint, radiusTint, new float[] { (float) 0.0, (float) 1.0 }, new Color[] { transparentColor, darkColor });                   // Creates a radial gradient paint with the center point, and radius
 
-		RadialGradientPaint gradient = new RadialGradientPaint(centerPoint, radiusTint,
-				new float[] { (float) 0.0, (float) 1.0 }, new Color[] { transparentColor, darkColor });
-
-		g2.setPaint(gradient);
-		g2.fillRect(playerX - 384, playerY - 288, playerX + 384, playerY + 288); // Fill the entire panel with the
-																					// gradient
+		g2.setPaint(gradient);  // Sets the paint of the Graphics2D object to the radial gradient
+		g2.fillRect(playerX - 384, playerY - 288, playerX + 384, playerY + 288); // Fill the entire screen with the gradient
+																					
 
 	}
 
 	// where all the drawing happens
+	/**
+	 * @purpose This method is responsible for drawing all the game elements on the screen.
+	 * It uses the Graphics2D object to draw the character, items, NPCs, and other game elements.
+	 * 
+	 * @param g The Graphics object used for drawing
+	 */
 	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		Graphics2D g2 = (Graphics2D) g;
-		System.out.println(m.isEnd());
+		super.paintComponent(g);           //calls the parent class's paintComponent method
+		Graphics2D g2 = (Graphics2D) g;    // casts the Graphics object to Graphics2D for better drawing capabilities
+		System.out.println(m.isEnd());    
 		try {
 			m.camera(g, this);// camera method
 			characterImage(g);// draws the character depending on the direction
-			it.car(g2, this);
-			if (m.getCurrentMap() == 3) {
-				m.drawTint(g2, this);
+			it.car(g2, this); // draws the car if it is used
+			if (m.getCurrentMap() == 3) {  // if the current map is the open world map, it draws the house
+				m.drawTint(g2, this);      // draws the tint on the screen for the darkness effect
 			}
-			it.doctrine(g2, this);
+			it.doctrine(g2, this);         // draws the doctrine if it is used
 
-			if (m.getCurrentMap() == 5) {
-				try {
+			if (m.getCurrentMap() == 5) {  // if the current map is the exorcism room, it draws the exorcism room
+				try { 
 					m.drawExorcismRoom(g2);
-				} catch (IOException e) {
+				} catch (IOException e) {      // catches any exception that happens during the drawing of the exorcism room
 					e.printStackTrace();
 				}
 			}
-			m.confirmationCollision(this, g2);
-			if (!m.isHasJumpscared() && !m.isHasDoctrined()) {
-				m.fade(2, 3, g2, 248, 196, 82, 48, 414, 48, 145, 126, this);
-				it.setInHouse(true);
+			m.confirmationCollision(this, g2); // checks for collision with the confirmation box
+			if (!m.isHasJumpscared() && !m.isHasDoctrined()) { // if the player has not been jumpscared or doctrined, it draws the house
+				m.fade(2, 3, g2, 248, 196, 82, 48, 414, 48, 145, 126, this);  // fades the screen to the house
+				it.setInHouse(true);     // sets the in house variable to true
 			}
-			if (m.getStepCount() == -1 && it.isInHouse() && !m.isInNightmare() && !m.isDoneNightmare()) {
-				n.text(g2, 5);
-				it.setInHouse(false);
+			if (m.getStepCount() == -1 && it.isInHouse() && !m.isInNightmare() && !m.isDoneNightmare()) {    // if the player is in the house and has finished the nightmare, it draws the text
+				n.text(g2, 5);                                                                               // draws the text
+				it.setInHouse(false);                                                                        // sets the in house variable to false
 			}
-			if (!m.isHasDoctrined() && m.isHasJumpscared()) {
-				m.fade(3, 4, g2, 168, -159, 100, 100, 5550, 520, 150, 100, this);
-				id.setChangeMapPressed(false);
+			if (!m.isHasDoctrined() && m.isHasJumpscared()) {                                // if the player has been jumpscared but not doctrined, it fades the screen to the doctrine
+				m.fade(3, 4, g2, 168, -159, 100, 100, 5550, 520, 150, 100, this);		     // fades the screen to the doctrine
+				id.setChangeMapPressed(false);                                               // sets the change map pressed variable to false
 			}
-			if (m.isHasDoctrined() && !m.isLookInMirror()) { // exorcism room
-				m.fade(4, 5, g2, 838, 216, 55, 55, 838, 216, 55, 55, this);
-				id.setChangeMapPressed(false);
-				p.disableCharacterMovement();
+			if (m.isHasDoctrined() && !m.isLookInMirror()) {								 // if the player has been doctrined but not looked in the mirror, it fades the screen to the nightmare
+				m.fade(4, 5, g2, 838, 216, 55, 55, 838, 216, 55, 55, this);                  // fades the screen to the minigame
+				id.setChangeMapPressed(false);	                                             // sets the change map pressed variable to false
+				p.disableCharacterMovement();                                                // disables character movement
 			}
-			if (m.getHasFaded() == 2) {
+			if (m.getHasFaded() == 2) {                         	// resets the has faded variable to 0 if it is 2 to prevent players from entering the same place again.
 				m.setHasFaded(0);
 			}
-			it.insideDoctrine(g2, this);
+			it.insideDoctrine(g2, this);                            // draws the inside of the doctrine
 
-			if (m.getCurrentMap() == 5) {
+			if (m.getCurrentMap() == 5) {                          //starts the exorcism minigame if the current map is the exorcism room
 				minigame.startExorcising();
 				minigame.drawPoints(g2);
 			}
 
-			it.graveyard(g2, this);
-			it.ghost(g2, 5100, 320, 125, 98, this);
-			it.book(g2, this);
+			it.graveyard(g2, this);                 // draws the graveyard
+			it.ghost(g2, 5100, 320, 125, 98, this); // draws the ghost in the graveyard 
+			it.book(g2, this);                      // draws the book in the graveyard
 
-			if (m.getCurrentMap() == 5) {
+			if (m.getCurrentMap() == 5) {           // if the current map is the exorcism room, it draws the ghost logic
 				it.ghostLogic(g2, this);
 			}
 
-			p.footStepSounds();
-			p.carSound();
-			m.playNightmareSound();
-			m.playDoctrineSound();
-			m.nightmare(g2, this, this);
-			m.mirrorScene(g2, this, this);
+			p.footStepSounds();                     // plays the footstep sound if the player is moving
+			p.carSound();                           // plays the car sound if the player is in the car
+			m.playNightmareSound();                 // plays the nightmare sound if the player is in the nightmare
+			m.playDoctrineSound();                  // plays the doctrine sound if the player is in the doctrine
+			m.nightmare(g2, this, this);            // draws the nightmare if the player is in the nightmare
+			m.mirrorScene(g2, this, this);          // draws the mirror scene if the player is in the mirror scene
 
-			it.instructions(g2);
-			if (id.isInstructionsPressed()) {
+			it.instructions(g2);                    // draws the instructions if the player is viewing the instructions screen
+			if (id.isInstructionsPressed()) {       // checks if the instructions button is pressed and draws the instructions screen
 				it.prompts(g2);
 				it.backMenu(g2);
 			}
-			if (j.isJumpscare()) {
-				j.drawJumpscare(g2);
+			if (j.isJumpscare()) {                  // checks if the player is jumpscared and draws the jumpscare screen
+				j.drawJumpscare(g2);                
 				j.playSound();
 			}
-			if (ls.isLoadingScreen()) {
-				ls.drawLoadingScreen(g2);
+			if (ls.isLoadingScreen()) {             // checks if the loading screen is active and draws the loading screen
+				ls.drawLoadingScreen(g2);               
 			}
 
-			if (mainMenu.isInMenu()) {
+			if (mainMenu.isInMenu()) {              // checks if the main menu is active and draws the main menu
 				mainMenu.mainMenu(g2);
-				if (!mainMenuSound.isPlaying()) {
+				if (!mainMenuSound.isPlaying()) {   // checks if the main menu sound is not playing and plays it if it is in the main menu
 					mainMenuSound.play();
-					mainMenuSound.volume(-10.0f);
+					mainMenuSound.volume(-10.0f);   // sets the volume of the main menu sound
 				}
 			}
 
-			if (m.getCurrentMap() == 3 && !mainMenu.isInMenu() && !ls.isLoadingScreen()) {
-				if (mainMenuSound.isPlaying()) {
+			if (m.getCurrentMap() == 3 && !mainMenu.isInMenu() && !ls.isLoadingScreen()) {   // checks if the current map is the open world map and the main menu is not active and the loading screen is not active
+				if (mainMenuSound.isPlaying()) {         // checks if the main menu sound is playing and stops it if it is in the open world map
 					mainMenuSound.stop();
 				}
-				if (!ambientAudio.isPlaying()) {
+				if (!ambientAudio.isPlaying()) {         // checks if the ambient audio is not playing and plays it if it is in the open world map
 					ambientAudio.play();
 					ambientAudio.volume(-20.0f);
 				}
 			}
 
-			if (m.getCurrentMap() != 3) {
+			if (m.getCurrentMap() != 3) {                // checks if the current map is not the open world map and stops the ambient audio if it is not
 				if (ambientAudio.isPlaying()) {
 					ambientAudio.stop();
 				}
 			}
 
-			if (it.isCarUsed() && !it.isCarSceneDone() && !j.isJumpscare()) {
-				g2.drawImage(jeffFront, 580, 320, 96, 144, null);
+			if (it.isCarUsed() && !it.isCarSceneDone() && !j.isJumpscare()) {   // checks if the car is used and the car scene is not done and the player is not jumpscared
+				g2.drawImage(jeffFront, 580, 320, 96, 144, null);               // draws the character in the car scene
 				if (!once) {
 					n.setTextIndex(0); // Reset text index to 0
 					once = true; // Set once to true to prevent resetting again
 				}
 				n.text(g2, 7);
 			}
-			it.help(g2);
-			it.credits(g2);
-			m.endScreen(g2);
-		} catch (IOException e) {
+			it.help(g2);    // draws the help screen if the player is viewing the help screen
+			it.credits(g2); // draws the credits screen if the player is viewing the credits screen
+			m.endScreen(g2); // draws the end screen if the player has completed the game
+		} catch (IOException e) { // catches any exception that happens during the drawing operations
 			e.printStackTrace();
 		}
-		g2.dispose();
+		g2.dispose(); // disposes the Graphics2D object to free up resources
 
 	}
 
 	//Getter and Setter Methods
 	
-	public int getWorldX() {
+	public int getWorldX() { 
 		return worldX;
 	}
 
