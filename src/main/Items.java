@@ -96,11 +96,11 @@ public class Items implements ReadFromFile{
 	@Override
 	public void readFile() {
 		try {
-		header = new Font("Arial", Font.BOLD, 35);
-		subHeading = new Font("Arial", Font.BOLD, 24);
-		normalText = new Font("Arial", Font.PLAIN, 17);
+		header = new Font("Arial", Font.BOLD, 35);  //intializes the header font
+		subHeading = new Font("Arial", Font.BOLD, 24); //initalizes the sub heading font
+		normalText = new Font("Arial", Font.PLAIN, 17); //initializes the normal text font
 		dispellingGhosts = ImageIO.read(new File("src/textures/dispellingGhosts.png"));// image from:
-		circleExample = ImageIO.read(new File("src/textures/circleExample.png"));
+		circleExample = ImageIO.read(new File("src/textures/circleExample.png"));	//Initializes the circleExample image
 		triangleExample = ImageIO.read(new File("src/textures/triangleExample.png"));
 		horizontalExample = ImageIO.read(new File("src/textures/horizontalExample.png"));
 		leftGhostExample = ImageIO.read(new File("src/textures/leftGhostExample.png"));
