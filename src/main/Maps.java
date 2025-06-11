@@ -787,7 +787,6 @@ public class Maps {
 				System.exit(0);// close the program
 			}
 		}
-		System.out.println(inp.isPressedQuit());
 	}
 
 	/**

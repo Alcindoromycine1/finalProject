@@ -1,14 +1,10 @@
-package main;
-
-import java.awt.*;
-import javax.swing.JFrame;
-import java.io.*;
-
 /**
  * @author Noah Sussman, Akhilan Saravanan and Rudra Garg
  * Ms. Krasteva
  * @since April 2, 2025
+ * @version 2.0
  * Final Project ICS4U0
+ * Whispers of the Deceived
  * 
  *        Research:
  * 		  Resarch from: https://www.forbes.com/sites/jackkelly/2025/04/25/the-jobs-that-will-fall-first-as-ai-takes-over-the-workplace/
@@ -50,6 +46,14 @@ import java.io.*;
  *        were the monster all along.
  * 
  */
+package main;
+
+import javax.swing.JFrame;
+import java.io.*;
+
+/**
+ * Class that is responsible for creating the j frame and running all the classes together
+ */
 public class Main {
 
 	public static void main(String[] args) throws IOException {
@@ -67,7 +71,7 @@ public class Main {
 
 		window.setVisible(true);// makes the window visible to the user
 
-		gp.startGameThread();
+		gp.startGameThread();// the thread the game runs on
 
 	}
 

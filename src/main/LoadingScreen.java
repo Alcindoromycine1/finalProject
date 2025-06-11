@@ -1,3 +1,11 @@
+/**
+ * @author Noah Sussman, Akhilan Saravanan and Rudra Garg
+ * Ms. Krasteva
+ * @since April 2, 2025
+ * @version 2.0
+ * Final Project ICS4U0
+ * Whispers of the Deceived
+ */
 package main;
 
 import java.awt.Color;
@@ -8,11 +16,13 @@ import java.io.File;
 import javax.imageio.ImageIO;
 
 import interfaces.ReadFromFile;
-
+/**
+ * This class is responsible for the loading screen that appears when you begin the game
+ */
 public class LoadingScreen implements ReadFromFile {
 
 	private BufferedImage loadingImage, volumeUp;//image that is shown in the middle of the screen during the intro screens
-	private boolean loadingScreen = true;
+	private boolean loadingScreen = true;//checks if you are in the loading screen
 	private int fadeValue = 255;//used for fading in and out (transparency wise) in the loading screen
 	private boolean logoFaded = false;//detects whether the logo has successfully finished fading
 	private boolean logoIn = false;//detects whether the logo has successfully faded in (not out)
@@ -20,13 +30,17 @@ public class LoadingScreen implements ReadFromFile {
 
 	private MainMenu mainMenu;//variable that moves the user from the loading screen into the main menu
 	
+	/**
+	 * Constructor for the Loading Screen Class
+	 * @param gp
+	 */
 	public LoadingScreen(GamePanel gp) {
 		readFile();//loads the images that will be displayed on the screen
 		mainMenu = gp.getMainMenu();//adding the main menu information to this object
 	}
 
 	/** 
-	 * @purpose loads the images in the loading screen once
+	 * Loads the images in the loading screen once
 	 * */
 	
 	@Override
@@ -40,7 +54,7 @@ public class LoadingScreen implements ReadFromFile {
 	}
 
 	/**
-	 * @purpose fades in and out of the different loading screen scenes with the images
+	 * Fades in and out of the different loading screen scenes with the images
 	 * @param g2
 	 */
 	public void drawLoadingScreen(Graphics2D g2) {
@@ -85,7 +99,7 @@ public class LoadingScreen implements ReadFromFile {
 	}
 	
 	/** 
-	 * @purpose Getter method
+	 * Getter method
 	 * @return loadingImage
 	 */
 	public BufferedImage getLoadingImage() {
@@ -93,12 +107,15 @@ public class LoadingScreen implements ReadFromFile {
 	}
 	
 	/** 
-	 * @purpose Getter method
+	 * Getter method
 	 * @return loadingScreen
 	 */
 	
+	/**
+	 * Getter method
+	 * @return loadingScreen
+	 */
 	public boolean isLoadingScreen() {
 		return loadingScreen;
 	}
-
 }

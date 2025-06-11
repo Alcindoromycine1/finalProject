@@ -35,8 +35,8 @@ public class Player implements ReadFromFile{
 	Maps m; // Reference to the Maps class to access maps methods and properties
 	Items it; // Reference to the Items class to access Items methods and properties
 	Input keyH; // Reference to the Input class to access Input methods and properties
-	Sound walkingSound;
-	Sound carSound;
+	Sound walkingSound; // Footstep sound for the player
+	Sound carSound; //Car sound for when the car is turned on
 	private BufferedImage character;
 
 	private boolean collision = false;// when this variable is true then the user will bounce back to beforeCollision
@@ -66,23 +66,34 @@ public class Player implements ReadFromFile{
 		readFile(); // Calls the readFile method to load resources
 	}
 	
+	/**
+	 * Reads needed files from file system into variables
+	 * @see {@link https://www.youtube.com/watch?v=6LOm1ZlE39I}
+	 * @see {@link https://www.youtube.com/watch?v=O8s6HkPZ3Io}
+	 */
 	@Override
 	public void readFile() {
 		try {
-			// Audio of footsteps play when the user walks
-			// https://www.youtube.com/watch?v=6LOm1ZlE39I
+			// Audio of footsteps play when the user walks - from first link above
 			walkingSound = new Sound("src/sound/walkingSoundEffect.wav");
-
-			// Audio of car moving when the car moves in the game
-			// https://www.youtube.com/watch?v=O8s6HkPZ3Io
+			// Audio of car moving when the car moves in the game - from second link above
 			carSound = new Sound("src/sound/carSound.wav");
-			
 			character = ImageIO.read(new File("src/textures/character.png"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Updates the position of the player so that they always remain in the center but the background moves
+	 * 
+	 * @param x
+	 * @param y
+	 * @param playerX
+	 * @param playerY
+	 * @param screenX
+	 * @param screenY
+	 */
 	public void updatePlayerPosition(int x, int y, int playerX, int playerY, int screenX, int screenY) {
 		this.worldX = x;
 		this.worldY = y;
@@ -95,6 +106,9 @@ public class Player implements ReadFromFile{
 
 	}
 
+	/**
+	 * Checks for collision between player and objects and handles accordingly
+	 */
 	public void collisionChecking(GamePanel gp) {
 
 		collision = false;// resetting collision
@@ -227,7 +241,7 @@ public class Player implements ReadFromFile{
 	}
 
 	/**
-	 * @purpose This method will translate your X and Y position back to before
+	 * This method will translate your X and Y position back to before
 	 *          collision if collision is true. Otherwise, nothing changes
 	 * @param gp
 	 */
@@ -244,7 +258,7 @@ public class Player implements ReadFromFile{
 
 
 	/**
-	 * @purpose plays feetstep volumes when a movement key is pressed
+	 * Plays footstep sound when a movement key is pressed
 	 */
 	public void footStepSounds() {
 		if (keyH.isRightPressed() || keyH.isLeftPressed() || keyH.isUpPressed() || keyH.isDownPressed()) {
@@ -257,7 +271,7 @@ public class Player implements ReadFromFile{
 		}
 	}
 	/**
-	 * @purpose plays the car sound when in car 
+	 * Plays the car sound when in car 
 	 */
 	public void carSound() {
 		if (it.isCarOn()) {//if car is on
@@ -270,7 +284,7 @@ public class Player implements ReadFromFile{
 
 	}
 /**
- * @purpose blocks of areas that are not meant to be accessible at certain moments
+ * Blocks off areas that are not meant to be accessible at certain moments
  * @param gp
  */
 	public void blockOffAreas(GamePanel gp) {
@@ -289,7 +303,7 @@ public class Player implements ReadFromFile{
 	}
 
 	/**
-	 * @purpose disables character movement in certain areas
+	 * Disables character movement in certain areas
 	 * @return whether character can move or not (true or false)
 	 */
 	public boolean disableCharacterMovement() {

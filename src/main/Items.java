@@ -19,6 +19,7 @@ import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
 import interfaces.ReadFromFile;
+
 /**
  * @author Noah Sussman, Akhilan Saravanan, and Rudra Garg
  * Ms. Krasteva
@@ -26,107 +27,116 @@ import interfaces.ReadFromFile;
  * Final Project ICS4U0
  */
 
-/** @purpose This class handles the items in the game, including reading from files, displaying images, and managing game mechanics related to items.
-	
+/**
+ * @purpose This class handles the items in the game, including reading from
+ *          files, displaying images, and managing game mechanics related to
+ *          items.
+ * 
  */
-public class Items implements ReadFromFile{
-	private Input input;    // Reference to the Input class to access Input methods and properties
-	private Npc npc;        // Reference to the Npc class to access Npc methods and properties
-	private Player p;       // Reference to the Player class to access Player methods and properties
-	private Maps m;         // Reference to the Maps class to access Maps methods and properties
-	private Jumpscare j;    // Reference to the Jumpscare class to access Jumpscare methods and properties
+public class Items implements ReadFromFile {
+	private Input input; // Reference to the Input class to access Input methods and properties
+	private Npc npc; // Reference to the Npc class to access Npc methods and properties
+	private Player p; // Reference to the Player class to access Player methods and properties
+	private Maps m; // Reference to the Maps class to access Maps methods and properties
+	private Jumpscare j; // Reference to the Jumpscare class to access Jumpscare methods and properties
 
-	private int playerX;    // Player X position
-	private int playerY;	// Player Y position
+	private int playerX; // Player X position
+	private int playerY; // Player Y position
 
-	private int worldX;  	// Player X position relative to the world
-	private int worldY; 	// Player Y position relative to the world
+	private int worldX; // Player X position relative to the world
+	private int worldY; // Player Y position relative to the world
 
-	private BufferedImage mirror;   //BufferedImage variable to store the mirror image
-	private BufferedImage doctrine; //BufferedImage variable to store the doctrine image
-	private BufferedImage book; 	//BufferedImage variable to store the book image
-	private BufferedImage car;		//BufferedImage variable to store the car image
-	private BufferedImage brokenCar;//BufferedImage variable to store the brokenCar image
-	private BufferedImage wasdKey;	//BufferedImage variable to store the wasdKey image
-	private BufferedImage door;		//BufferedImage variable to store the door image
-	private BufferedImage exorcism;	//BufferedImage variable to store the exorcism image
-	private BufferedImage bed;		//BufferedImage variable to store the bed image
-	private BufferedImage verticalMultishape;		//BufferedImage variable to store the verticalMultishape image
-	private BufferedImage circleMultishape;			//BufferedImage variable to store the circleMultishape image
-	private BufferedImage dispellingGhosts;			//BufferedImage variable to store the dispellingGhosts image
-	private BufferedImage circleExample;			//BufferedImage variable to store the circleExample image
-	private BufferedImage triangleExample;			//BufferedImage variable to store the triangleExample image
-	private BufferedImage horizontalExample;		//BufferedImage variable to store the horizontalExample image
-	private BufferedImage leftGhostExample;			//BufferedImage variable to store the leftGhostExample image
-	private BufferedImage rightGhostExample;		//BufferedImage variable to store the rightGhostExample image
-	private BufferedImage multiShapeGhost1;			//BufferedImage variable to store the multiShapeGhost1 image
-	private Font subHeading;						//Font variable to store the font for the sub heading
-	private Font header;							//Font variable to store the font for the header
-	private Font normalText;						//Font variable to store the font for normal text
-	private BufferedImage orderFullFrame;			//BufferedImage variable to store the orderFullFrame image
-	private BufferedImage triangleRemovedOrder;		//BufferedImage variable to store the triangleRemovedOrder image
-	private BufferedImage orderCloseUp;				//BufferedImage variable to store the orderCloseUp image
-	private BufferedImage human;					//BufferedImage variable to store the human image
-	
-	private ImageIcon pageFlipping;					//ImageIcon variable to store the pageFlipping gif
-	private Sound bookFlipSound;					//Sound variable to store the bookFlipSound sound
-	
-	private boolean doneDoctrineGhost = false;		//boolean variable to store the the value for if the doctrine ghost has been passed
+	private BufferedImage mirror; // BufferedImage variable to store the mirror image
+	private BufferedImage doctrine; // BufferedImage variable to store the doctrine image
+	private BufferedImage book; // BufferedImage variable to store the book image
+	private BufferedImage car; // BufferedImage variable to store the car image
+	private BufferedImage brokenCar;// BufferedImage variable to store the brokenCar image
+	private BufferedImage wasdKey; // BufferedImage variable to store the wasdKey image
+	private BufferedImage door; // BufferedImage variable to store the door image
+	private BufferedImage exorcism; // BufferedImage variable to store the exorcism image
+	private BufferedImage bed; // BufferedImage variable to store the bed image
+	private BufferedImage verticalMultishape; // BufferedImage variable to store the verticalMultishape image
+	private BufferedImage circleMultishape; // BufferedImage variable to store the circleMultishape image
+	private BufferedImage dispellingGhosts; // BufferedImage variable to store the dispellingGhosts image
+	private BufferedImage circleExample; // BufferedImage variable to store the circleExample image
+	private BufferedImage triangleExample; // BufferedImage variable to store the triangleExample image
+	private BufferedImage horizontalExample; // BufferedImage variable to store the horizontalExample image
+	private BufferedImage leftGhostExample; // BufferedImage variable to store the leftGhostExample image
+	private BufferedImage rightGhostExample; // BufferedImage variable to store the rightGhostExample image
+	private BufferedImage multiShapeGhost1; // BufferedImage variable to store the multiShapeGhost1 image
+	private Font subHeading; // Font variable to store the font for the sub heading
+	private Font header; // Font variable to store the font for the header
+	private Font normalText; // Font variable to store the font for normal text
+	private BufferedImage orderFullFrame; // BufferedImage variable to store the orderFullFrame image
+	private BufferedImage triangleRemovedOrder; // BufferedImage variable to store the triangleRemovedOrder image
+	private BufferedImage orderCloseUp; // BufferedImage variable to store the orderCloseUp image
+	private BufferedImage human; // BufferedImage variable to store the human image
 
-	private ArrayList<String> shapesArray = new ArrayList<String>();   // ArrayList to store shapes.
+	private ImageIcon pageFlipping; // ImageIcon variable to store the pageFlipping gif
+	private Sound bookFlipSound; // Sound variable to store the bookFlipSound sound
+
+	private boolean doneDoctrineGhost = false; // boolean variable to store the the value for if the doctrine ghost has
+												// been passed
+
+	private ArrayList<String> shapesArray = new ArrayList<String>(); // ArrayList to store shapes.
 
 	public Items(GamePanel gp) {
 
-		this.input = gp.getId();     // sets the local Input object to the GamePanel Input object
-		this.npc = gp.getN();		 // sets the local Npc object to the GamePanel Npc object
-		this.p = gp.getP();			 // sets the local Player object to the GamePanel Player object
-		this.m = gp.getM();			 // sets the local Maps object to the GamePanel Maps object
-		this.j = gp.getJ();			 // sets the local Jumpscare object to the GamePanel Jumpscare object
+		this.input = gp.getId(); // sets the local Input object to the GamePanel Input object
+		this.npc = gp.getN(); // sets the local Npc object to the GamePanel Npc object
+		this.p = gp.getP(); // sets the local Player object to the GamePanel Player object
+		this.m = gp.getM(); // sets the local Maps object to the GamePanel Maps object
+		this.j = gp.getJ(); // sets the local Jumpscare object to the GamePanel Jumpscare object
 
-		playerX = gp.getPlayerX();	 // sets the local playerX variable to the GamePanel playerX variable
-		playerY = gp.getPlayerY();	 // sets the local playerY variable to the GamePanel playerY variable
+		playerX = gp.getPlayerX(); // sets the local playerX variable to the GamePanel playerX variable
+		playerY = gp.getPlayerY(); // sets the local playerY variable to the GamePanel playerY variable
 
-		worldX = gp.getWorldX();	 // sets the local worldX variable to the GamePanel worldX variable
-		worldY = gp.getWorldY();	 // sets the local worldY variable to the GamePanel worldY variable
+		worldX = gp.getWorldX(); // sets the local worldX variable to the GamePanel worldX variable
+		worldY = gp.getWorldY(); // sets the local worldY variable to the GamePanel worldY variable
 
-		readFile();				  	 //calls the readFile method to set the correct values for the file.	
+		readFile(); // calls the readFile method to set the correct values for the file.
 
 	}
-	
+
 	@Override
 	/**
-	 * @see {@link https://media.istockphoto.com/id/1193231012/vector/computer-gamer-keyboard-wasd-keys-vector-illustration-wasd-keys-game-control-keyboard-buttons.jpg?s=612x612&w=0&k=20&c=-DJ6CFewXZ_Oofp_BsYya5KniByRkVW3EAHYICWIOaU=}
+	 * @see WASD Keys. (2025). Istockphoto.com.
+	 *      {@link https://media.istockphoto.com/id/1193231012/vector/computer-gamer-keyboard-wasd-keys-vector-illustration-wasd-keys-game-control-keyboard-buttons.jpg?s=612x612&w=0&k=20&c=-DJ6CFewXZ_Oofp_BsYya5KniByRkVW3EAHYICWIOaU={@link https://media.istockphoto.com/id/1193231012/vector/computer-gamer-keyboard-wasd-keys-vector-illustration-wasd-keys-game-control-keyboard-buttons.jpg?s=612x612&w=0&k=20&c=-DJ6CFewXZ_Oofp_BsYya5KniByRkVW3EAHYICWIOaU=}
+	 * @see Open Close Door Pixel Art. (2025). Freepik.com. 
+	 		{@link https://img.freepik.com/premium-vector/open-close-door-pixel-art-style_475147-1239.jpg}
+	 * @see  Cross. (2025). Creativefabrica.com. 
+	 		{@link https://www.creativefabrica.com/wp-content/uploads/2023/03/22/pixel-art-wooden-cross-vector-Graphics-65026120-1.jpg}
+	 * 
 	 */
 	public void readFile() {
 		try {
-		header = new Font("Arial", Font.BOLD, 35);  //intializes the header font
-		subHeading = new Font("Arial", Font.BOLD, 24); //initalizes the sub heading font
-		normalText = new Font("Arial", Font.PLAIN, 17); //initializes the normal text font
-		dispellingGhosts = ImageIO.read(new File("src/textures/dispellingGhosts.png"));// image from:
-		circleExample = ImageIO.read(new File("src/textures/circleExample.png"));	//Initializes the circleExample image
-		triangleExample = ImageIO.read(new File("src/textures/triangleExample.png"));
-		horizontalExample = ImageIO.read(new File("src/textures/horizontalExample.png"));
-		leftGhostExample = ImageIO.read(new File("src/textures/leftGhostExample.png"));
-		rightGhostExample = ImageIO.read(new File("src/textures/rightGhostExample.png"));
-		multiShapeGhost1 = ImageIO.read(new File("src/textures/multiShapeGhost1.png"));
-		circleMultishape = ImageIO.read(new File("src/textures/circleMultishape.png"));
-		verticalMultishape = ImageIO.read(new File("src/textures/verticalMultishape.png"));
-		mirror = ImageIO.read(new File("src/textures/jeffMirror.png"));
-		doctrine = ImageIO.read(new File("src/textures/doctrine.png"));
-		book = ImageIO.read(new File("src/textures/books.png"));
-		car = ImageIO.read(new File("src/textures/car.png"));
-		brokenCar = ImageIO.read(new File("src/textures/destroyedCar.png"));
-		wasdKey = ImageIO.read(new File("src/textures/wasdKey.png"));
-		door = ImageIO.read(new File("src/textures/door.png"));// https://img.freepik.com/premium-vector/open-close-door-pixel-art-style_475147-1239.jpgd
-		exorcism = ImageIO.read(new File("src/textures/exorcism.png"));// https://www.creativefabrica.com/wp-content/uploads/2023/03/22/pixel-art-wooden-cross-vector-Graphics-65026120-1.jpg
-		bed = ImageIO.read(new File("src/textures/bed.png"));
-		pageFlipping = new ImageIcon("src/textures/books.gif");
-		bookFlipSound = new Sound("src/sound/bookFlip.wav");
-		orderFullFrame = ImageIO.read(new File("src/textures/orderFullFrame.png"));
-		triangleRemovedOrder = ImageIO.read(new File("src/textures/removedTriangleOrder.png"));
-		orderCloseUp = ImageIO.read(new File("src/textures/orderCloseUp.png"));
-		
-		human = ImageIO.read(new File("src/textures/character.png"));// https://www.creativefabrica.com/product/pixel-art-human-graphics/ref/2399990/
+			header = new Font("Arial", Font.BOLD, 35); // intializes the header font
+			subHeading = new Font("Arial", Font.BOLD, 24); // initalizes the sub heading font
+			normalText = new Font("Arial", Font.PLAIN, 17); // initializes the normal text font
+			dispellingGhosts = ImageIO.read(new File("src/textures/dispellingGhosts.png"));
+			circleExample = ImageIO.read(new File("src/textures/circleExample.png")); // Initializes the circleExample image
+			triangleExample = ImageIO.read(new File("src/textures/triangleExample.png"));
+			horizontalExample = ImageIO.read(new File("src/textures/horizontalExample.png"));
+			leftGhostExample = ImageIO.read(new File("src/textures/leftGhostExample.png"));
+			rightGhostExample = ImageIO.read(new File("src/textures/rightGhostExample.png"));
+			multiShapeGhost1 = ImageIO.read(new File("src/textures/multiShapeGhost1.png"));
+			circleMultishape = ImageIO.read(new File("src/textures/circleMultishape.png"));
+			verticalMultishape = ImageIO.read(new File("src/textures/verticalMultishape.png"));
+			mirror = ImageIO.read(new File("src/textures/jeffMirror.png"));
+			doctrine = ImageIO.read(new File("src/textures/doctrine.png"));
+			book = ImageIO.read(new File("src/textures/books.png"));
+			car = ImageIO.read(new File("src/textures/car.png"));
+			brokenCar = ImageIO.read(new File("src/textures/destroyedCar.png"));
+			wasdKey = ImageIO.read(new File("src/textures/wasdKey.png")); // see first link above
+			door = ImageIO.read(new File("src/textures/door.png"));// see second link above
+			exorcism = ImageIO.read(new File("src/textures/exorcism.png"));// see third link above
+			bed = ImageIO.read(new File("src/textures/bed.png"));
+			pageFlipping = new ImageIcon("src/textures/books.gif");
+			bookFlipSound = new Sound("src/sound/bookFlip.wav");
+			orderFullFrame = ImageIO.read(new File("src/textures/orderFullFrame.png"));
+			triangleRemovedOrder = ImageIO.read(new File("src/textures/removedTriangleOrder.png"));
+			orderCloseUp = ImageIO.read(new File("src/textures/orderCloseUp.png"));
+			human = ImageIO.read(new File("src/textures/character.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -231,9 +241,11 @@ public class Items implements ReadFromFile{
 			g2.drawString("Next Page", 565, 470);
 			g2.setColor(Color.BLACK);
 
-			// Researched information from:
-			// https://www.usccb.org/beliefs-and-teachings/what-we-believe/catechism/catechism-of-the-catholic-church?p=29-chapter12.xhtml%23para1673
-			// and https://www.vatican.va/archive/cod-iuris-canonici/cic_index_en.html
+			/**
+			* @see United States Conference Of Catholic Bishops. (2025). Catechism of the Catholic Church. USCCB. 
+			*	{@link https://www.usccb.org/beliefs-and-teachings/what-we-believe/catechism/catechism-of-the-catholic-church?p=29-chapter12.xhtml%23para1673}
+			* and https://www.vatican.va/archive/cod-iuris-canonici/cic_index_en.ht
+			**/
 			if (nextPage == 0) {
 				g2.setFont(header);
 
@@ -333,7 +345,7 @@ public class Items implements ReadFromFile{
 				g2.setFont(header);
 				g2.drawString("Advanced", 140, 270);
 				g2.drawString("Exorcisms", 135, 320);
- 
+
 				g2.setFont(subHeading);
 				g2.drawString("Multiple Ghosts", 450, 170);
 				g2.fillRect(450, 172, 180, 3);
@@ -725,7 +737,7 @@ public class Items implements ReadFromFile{
 	private boolean ghostAppeared = false;
 	private int ghostCount = 0;
 	private boolean reachedPeak = false;
-	
+
 	private int yVal = 0;
 
 	public void ghostLogic(Graphics2D g2, GamePanel gp) throws IOException {
@@ -795,7 +807,7 @@ public class Items implements ReadFromFile{
 			destroyVertical = false;
 			destroyBossGhost = false;
 		}
-		
+
 		if (level == 9) {
 			g2.drawImage(human, 350, 230, 192, 280, null);
 			npc.text(g2, 8);
@@ -1618,7 +1630,7 @@ public class Items implements ReadFromFile{
 		this.inConfirmation = inConfirmation;
 	}
 
-	public void setFirstTime(boolean firstTime) { 
+	public void setFirstTime(boolean firstTime) {
 		this.firstTime = firstTime;
 	}
 
@@ -1641,8 +1653,8 @@ public class Items implements ReadFromFile{
 	public boolean isDoingDoctrineGhost() {
 		return doingDoctrineGhost;
 	}
-	
-	public void setDoneDoctrineGhost (boolean doneDoctrineGhost) {
+
+	public void setDoneDoctrineGhost(boolean doneDoctrineGhost) {
 		this.doneDoctrineGhost = doneDoctrineGhost;
 	}
 }

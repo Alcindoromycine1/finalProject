@@ -1,3 +1,11 @@
+/**
+ * @author Noah Sussman, Akhilan Saravanan and Rudra Garg
+ * Ms. Krasteva
+ * @since April 2, 2025
+ * @version 2.0
+ * Final Project ICS4U0
+ * Whispers of the Deceived
+ */
 package main;
 
 import java.awt.image.*;
@@ -7,11 +15,9 @@ import java.awt.*;
 import java.io.*;
 import javax.imageio.ImageIO;
 
-/*
- * Noah Sussman, Akhilan Saravanan, and Rudra Garg
- * Ms. Krasteva
- * April 2, 2025
- * Final Project ICS4U0
+/**
+ * The class where the user can interact to go to various different areas such
+ * as credits, play, exit and help
  */
 public class MainMenu {
 
@@ -38,7 +44,7 @@ public class MainMenu {
 	}
 
 	/**
-	 * @purpose loads the images for the class
+	 * loads the images for the class
 	 */
 	public void loadImages() {
 		try {
@@ -49,8 +55,9 @@ public class MainMenu {
 	}
 
 	/**
-	 * @purpose When the user clicks on the click me area, the text on the bottom
-	 *          right of the screen will sort alphabetically
+	 * When the user clicks on the click me area, the text on the bottom right of
+	 * the screen will sort alphabetically
+	 * 
 	 * @return defaultRec
 	 */
 	// easter egg, sorting the recommended text at the bottom if you click mirror on
@@ -61,7 +68,7 @@ public class MainMenu {
 			for (int i = 1; i < recommended.size(); i++) {
 				char key = recommended.get(i);
 				int j = i - 1;
-				//sorts alphabetically
+				// sorts alphabetically
 				while (j >= 0 && recommended.get(j) > key) {
 					recommended.set(j + 1, recommended.get(j));
 					j = j - 1;
@@ -79,7 +86,8 @@ public class MainMenu {
 	}
 
 	/**
-	 * @purpose graphics for the main menu and the collision graphics
+	 * Graphics for the main menu and the collision graphics
+	 * 
 	 * @param g2
 	 */
 	public void mainMenu(Graphics2D g2) {
@@ -91,7 +99,7 @@ public class MainMenu {
 		g2.drawString("Click me \\/", 680, 70);
 		g2.setFont(new Font("DejaVu Math TeX Gyre", Font.BOLD, 16));
 		g2.drawString(getRecommendation(), 410, 560);
-		if (hoveringPlay) {
+		if (hoveringPlay) {//hovering over the play button
 			g2.setColor(selected);
 			g2.fillRoundRect(245, 240 - 20, 280, 60, 10, 10);
 			g2.setColor(Color.BLACK);
@@ -99,7 +107,7 @@ public class MainMenu {
 			g2.setColor(Color.WHITE);
 			g2.setFont(new Font("DejaVu Math TeX Gyre", Font.BOLD, 24));
 			g2.drawString("Play", 360, 278 - 20);
-		} else {
+		} else {//not hovering over the play button
 			g2.setColor(unselected);
 			g2.fillRoundRect(245, 240 - 20, 280, 60, 10, 10);
 			g2.setColor(Color.BLACK);
@@ -108,7 +116,7 @@ public class MainMenu {
 			g2.setFont(new Font("DejaVu Math TeX Gyre", Font.BOLD, 24));
 			g2.drawString("Play", 360, 278 - 20);
 		}
-		if (hoveringHelp) {
+		if (hoveringHelp) {//hovering over the help button
 			g2.setColor(selected);
 			g2.fillRoundRect(245, 240 + 70 - 20, 280, 60, 10, 10);
 			g2.setColor(Color.BLACK);
@@ -116,7 +124,7 @@ public class MainMenu {
 			g2.setColor(Color.WHITE);
 			g2.setFont(new Font("DejaVu Math TeX Gyre", Font.BOLD, 24));
 			g2.drawString("Help", 359, 278 + 70 - 20);
-		} else {
+		} else {//not hovering over the help button
 			g2.setColor(unselected);
 			g2.fillRoundRect(245, 240 + 70 - 20, 280, 60, 10, 10);
 			g2.setColor(Color.BLACK);
@@ -125,7 +133,7 @@ public class MainMenu {
 			g2.setFont(new Font("DejaVu Math TeX Gyre", Font.BOLD, 24));
 			g2.drawString("Help", 359, 278 + 70 - 20);
 		}
-		if (hoveringCredits) {
+		if (hoveringCredits) {//hovering over the credits button
 			g2.setColor(selected);
 			g2.fillRoundRect(245, 240 + 140 - 20, 280, 60, 10, 10);
 			g2.setColor(Color.BLACK);
@@ -133,7 +141,7 @@ public class MainMenu {
 			g2.setColor(Color.WHITE);
 			g2.setFont(new Font("DejaVu Math TeX Gyre", Font.BOLD, 24));
 			g2.drawString("Credits", 340, 278 + 140 - 20);
-		} else {
+		} else {//not hovering over the credits button
 			g2.setColor(unselected);
 			g2.fillRoundRect(245, 240 + 140 - 20, 280, 60, 10, 10);
 			g2.setColor(Color.BLACK);
@@ -142,7 +150,7 @@ public class MainMenu {
 			g2.setFont(new Font("DejaVu Math TeX Gyre", Font.BOLD, 24));
 			g2.drawString("Credits", 340, 278 + 140 - 20);
 		}
-		if (hoveringExit) {
+		if (hoveringExit) {//hovering over the exit button
 			g2.setColor(selected);
 			g2.fillRoundRect(245, 240 + 210 - 20, 280, 60, 10, 10);
 			g2.setColor(Color.BLACK);
@@ -150,7 +158,7 @@ public class MainMenu {
 			g2.setColor(Color.WHITE);
 			g2.setFont(new Font("DejaVu Math TeX Gyre", Font.BOLD, 24));
 			g2.drawString("Exit", 359, 278 + 210 - 20);
-		} else {
+		} else {//not hovering over the exit button
 			g2.setColor(unselected);
 			g2.fillRoundRect(245, 240 + 210 - 20, 280, 60, 10, 10);
 			g2.setColor(Color.BLACK);
@@ -161,8 +169,8 @@ public class MainMenu {
 		}
 	}
 
-	//Getter and Setter Methods
-	
+	// Getter and Setter Methods
+
 	/**
 	 * 
 	 * @return inMenu
@@ -250,5 +258,4 @@ public class MainMenu {
 	public void setEasterEgg(boolean easterEgg) {
 		this.easterEgg = easterEgg;
 	}
-
 }
