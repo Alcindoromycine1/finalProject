@@ -291,8 +291,8 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 			}
 		}
 	}
-	
-	/**
+	 
+	/** 
 	 * @purpose This method draws a radial gradient tint on the screen for the darkness effect.
 	 * @param g2
 	 */
