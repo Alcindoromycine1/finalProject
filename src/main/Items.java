@@ -203,7 +203,6 @@ public class Items implements ReadFromFile{
 	// https://stackoverflow.com/questions/12566311/displaying-gif-animation-in-java
 	public void book(Graphics2D g2, Component observer) throws IOException {
 		g2.setFont(new Font("calibri", Font.BOLD, 18));
-		// enterBook = true;// REMOVE LATER
 		if (enterBook) {
 			if (!playGif || staticImageBook) {
 				g2.drawImage(book, -70, 0, 900, 587, null);
@@ -328,16 +327,10 @@ public class Items implements ReadFromFile{
 				g2.drawImage(triangleExample, 420, 175, 235, 132, null);
 				g2.drawImage(horizontalExample, 420, 310, 235, 132, null);
 			} else if (nextPage == 4) {
-				g2.setFont(subHeading);
-				g2.drawString("Successful Exorcism", 100, 132);
-				g2.fillRect(100, 134, 240, 3);
-				g2.setFont(normalText);
-				g2.drawString("You’ll know you’ve successfully drawn", 90, 180);
-				g2.drawString("a shape when a pentagram appears", 90, 205);
-				g2.drawString("where the ghosts previously were.", 90, 230);
-				// #1 IMAGE OF GHOST DRAWING
-				// #2 IMAGE OF PENTAGRAM ONCE SUCCESSFULLY DRAWING GHOST
-
+				g2.setFont(header);
+				g2.drawString("Advanced", 140, 270);
+				g2.drawString("Exorcisms", 135, 320);
+ 
 				g2.setFont(subHeading);
 				g2.drawString("Multiple Ghosts", 450, 170);
 				g2.fillRect(450, 172, 180, 3);
