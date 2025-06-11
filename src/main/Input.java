@@ -382,25 +382,25 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 					&& (items.isHelpPressed() || items.isCreditsPressed())) {// hovering over the x button
 				items.setCreditsPressed(false);// close either the help menu or credits menu
 			}
-			if (mouseX >= 325 && mouseX <= 325 + 130 && mouseY >= backY && mouseY <= backY + 40 && maps.isEnd()) {// hovering
-																													// over
-																													// the
-																													// end
-																													// screen
-																													// exit
-																													// button
-				pressedQuit = true;// pressed the exit button
-			} else {
-				pressedQuit = false;// did not press the exit button
-			}
-			if (mouseX >= 700 && mouseX <= 725 && mouseY >= 80 && mouseY <= 120 && mainMenu.isInMenu()) {// hovering
-																											// over the
-																											// click me
-																											// button in
-																											// the main
-																											// menu
-				mainMenu.setEasterEgg(true);// pressed the click me button
-			}
+		}
+		if (mouseX >= 325 && mouseX <= 325 + 130 && mouseY >= backY && mouseY <= backY + 40 && maps.isEnd()) {// hovering
+																												// over
+																												// the
+																												// end
+																												// screen
+																												// exit
+																												// button
+			pressedQuit = true;// pressed the exit button
+		} else {
+			pressedQuit = false;// did not press the exit button
+		}
+		if (mouseX >= 700 && mouseX <= 725 && mouseY >= 80 && mouseY <= 120 && mainMenu.isInMenu()) {// hovering
+																										// over the
+																										// click me
+																										// button in
+																										// the main
+																										// menu
+			mainMenu.setEasterEgg(true);// pressed the click me button
 		}
 	}
 

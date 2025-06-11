@@ -29,7 +29,7 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 	private final int tileSize = originalTileSize * scale; // scales every tile to appear much larger on the window
 															// (48x48)
 
-	private int playerSpeed = 25;
+	private int playerSpeed = 30;//speed of the player
 
 	// Window dimensions
 	private final int maxScreenCol = 16; // window is 16 tiles wide
@@ -187,6 +187,7 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 
 	@Override
 	public void run() {
+		//60FPS lock taken from: https://stackoverflow.com/questions/771206/how-do-i-cap-my-framerate-at-60-fps-in-java
 		double drawInterval = 1000000000 / FPS_TARGET;
 		double nextDrawTime = System.nanoTime() + drawInterval;
 
@@ -205,23 +206,23 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 
 			// 60 FPS LOCK
 			try {
-				double remainingTime = nextDrawTime - System.nanoTime();
-				remainingTime = remainingTime / 1000000;
+				double remainingTime = nextDrawTime - System.nanoTime();  // This variable store the remaining time until the next draw sequence
+				remainingTime = remainingTime / 1000000;  // Converts it to milliseconds for easy calculation
 
-				if (remainingTime < 0) {
-					remainingTime = 0;
+				if (remainingTime < 0) {    // If Remaining time is negative, the game is running too slow and we set it to 0 to prompt the next draw sequence 
+					remainingTime = 0;  
 				}
 
-				Thread.sleep((long) remainingTime);
-				nextDrawTime += drawInterval;
-			} catch (InterruptedException e) {
+				Thread.sleep((long) remainingTime);      // Sleep for the remaining time until the next draw sequence
+				nextDrawTime += drawInterval;       // Update the next draw time by adding the draw interval (60 FPS)
+			} catch (InterruptedException e) {       //catches any exception that happens during the sleep operation
 				e.printStackTrace();
 			}
 		}
 	}
 
 	public void characterMovement() {
-		if (p.disableCharacterMovement() == false) {
+		if (p.disableCharacterMovement() == false) {     // checks if the character movement is disabled
 			if (p.keyH.isUpPressed()) {
 				direction = "back";
 				worldY -= playerSpeed; // move the world up when player presses up
@@ -308,6 +309,7 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
+		System.out.println(m.isEnd());
 		try {
 			m.camera(g, this);// camera method
 			characterImage(g);// draws the character depending on the direction
@@ -422,6 +424,8 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 
 	}
 
+	//Getter and Setter Methods
+	
 	public int getWorldX() {
 		return worldX;
 	}
