@@ -30,66 +30,66 @@ import interfaces.ReadFromFile;
 	
  */
 public class Items implements ReadFromFile{
-	private Input input;   
-	private Npc npc;
-	private Player p;
-	private Maps m;
-	private Jumpscare j;
+	private Input input;    // Reference to the Input class to access Input methods and properties
+	private Npc npc;        // Reference to the Npc class to access Npc methods and properties
+	private Player p;       // Reference to the Player class to access Player methods and properties
+	private Maps m;         // Reference to the Maps class to access Maps methods and properties
+	private Jumpscare j;    // Reference to the Jumpscare class to access Jumpscare methods and properties
 
-	private int playerX;
-	private int playerY;
+	private int playerX;    // Player X position
+	private int playerY;	// Player Y position
 
-	private int worldX;
-	private int worldY;
+	private int worldX;  	// Player X position relative to the world
+	private int worldY; 	// Player Y position relative to the world
 
-	private BufferedImage mirror;
-	private BufferedImage doctrine;
-	private BufferedImage book;
-	private BufferedImage car;
-	private BufferedImage brokenCar;
-	private BufferedImage wasdKey;
-	private BufferedImage door;
-	private BufferedImage exorcism;
-	private BufferedImage bed;
-	private BufferedImage verticalMultishape;
-	private BufferedImage circleMultishape;
-	private BufferedImage dispellingGhosts;
-	private BufferedImage circleExample;
-	private BufferedImage triangleExample;
-	private BufferedImage horizontalExample;
-	private BufferedImage leftGhostExample;
-	private BufferedImage rightGhostExample;
-	private BufferedImage multiShapeGhost1;
-	private Font subHeading;
-	private Font header;
-	private Font normalText;
-	private BufferedImage orderFullFrame;
-	private BufferedImage triangleRemovedOrder;
-	private BufferedImage orderCloseUp;
-	private BufferedImage human;
+	private BufferedImage mirror;   //BufferedImage variable to store the mirror image
+	private BufferedImage doctrine; //BufferedImage variable to store the doctrine image
+	private BufferedImage book; 	//BufferedImage variable to store the book image
+	private BufferedImage car;		//BufferedImage variable to store the car image
+	private BufferedImage brokenCar;//BufferedImage variable to store the brokenCar image
+	private BufferedImage wasdKey;	//BufferedImage variable to store the wasdKey image
+	private BufferedImage door;		//BufferedImage variable to store the door image
+	private BufferedImage exorcism;	//BufferedImage variable to store the exorcism image
+	private BufferedImage bed;		//BufferedImage variable to store the bed image
+	private BufferedImage verticalMultishape;		//BufferedImage variable to store the verticalMultishape image
+	private BufferedImage circleMultishape;			//BufferedImage variable to store the circleMultishape image
+	private BufferedImage dispellingGhosts;			//BufferedImage variable to store the dispellingGhosts image
+	private BufferedImage circleExample;			//BufferedImage variable to store the circleExample image
+	private BufferedImage triangleExample;			//BufferedImage variable to store the triangleExample image
+	private BufferedImage horizontalExample;		//BufferedImage variable to store the horizontalExample image
+	private BufferedImage leftGhostExample;			//BufferedImage variable to store the leftGhostExample image
+	private BufferedImage rightGhostExample;		//BufferedImage variable to store the rightGhostExample image
+	private BufferedImage multiShapeGhost1;			//BufferedImage variable to store the multiShapeGhost1 image
+	private Font subHeading;						//Font variable to store the font for the sub heading
+	private Font header;							//Font variable to store the font for the header
+	private Font normalText;						//Font variable to store the font for normal text
+	private BufferedImage orderFullFrame;			//BufferedImage variable to store the orderFullFrame image
+	private BufferedImage triangleRemovedOrder;		//BufferedImage variable to store the triangleRemovedOrder image
+	private BufferedImage orderCloseUp;				//BufferedImage variable to store the orderCloseUp image
+	private BufferedImage human;					//BufferedImage variable to store the human image
 	
-	private ImageIcon pageFlipping;
-	private Sound bookFlipSound;
+	private ImageIcon pageFlipping;					//ImageIcon variable to store the pageFlipping gif
+	private Sound bookFlipSound;					//Sound variable to store the bookFlipSound sound
 	
-	private boolean doneDoctrineGhost = false;
+	private boolean doneDoctrineGhost = false;		//boolean variable to store the the value for if the doctrine ghost has been passed
 
-	private ArrayList<String> shapesArray = new ArrayList<String>();
+	private ArrayList<String> shapesArray = new ArrayList<String>();   // ArrayList to store shapes.
 
 	public Items(GamePanel gp) {
 
-		this.input = gp.getId();
-		this.npc = gp.getN();
-		this.p = gp.getP();
-		this.m = gp.getM();
-		this.j = gp.getJ();
+		this.input = gp.getId();     // sets the local Input object to the GamePanel Input object
+		this.npc = gp.getN();		 // sets the local Npc object to the GamePanel Npc object
+		this.p = gp.getP();			 // sets the local Player object to the GamePanel Player object
+		this.m = gp.getM();			 // sets the local Maps object to the GamePanel Maps object
+		this.j = gp.getJ();			 // sets the local Jumpscare object to the GamePanel Jumpscare object
 
-		playerX = gp.getPlayerX();
-		playerY = gp.getPlayerY();
+		playerX = gp.getPlayerX();	 // sets the local playerX variable to the GamePanel playerX variable
+		playerY = gp.getPlayerY();	 // sets the local playerY variable to the GamePanel playerY variable
 
-		worldX = gp.getWorldX();
-		worldY = gp.getWorldY();
+		worldX = gp.getWorldX();	 // sets the local worldX variable to the GamePanel worldX variable
+		worldY = gp.getWorldY();	 // sets the local worldY variable to the GamePanel worldY variable
 
-		readFile();
+		readFile();				  	 //calls the readFile method to set the correct values for the file.	
 
 	}
 	
