@@ -80,25 +80,25 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 
 		int code = e.getKeyCode(); // gets the ascii value of the key pressed
 
-		if (code == KeyEvent.VK_W) {
+		if (code == KeyEvent.VK_W) {// w key pressed
 			upPressed = true;
 			upReleased = false;
-		} else if (code == KeyEvent.VK_S) {
+		} else if (code == KeyEvent.VK_S) {// s key pressed
 			downPressed = true;
 			downReleased = false;
-		} else if (code == KeyEvent.VK_A) {
+		} else if (code == KeyEvent.VK_A) {// a key pressed
 			leftPressed = true;
 			leftReleased = false;
-		} else if (code == KeyEvent.VK_D) {
+		} else if (code == KeyEvent.VK_D) {// d key pressed
 			rightPressed = true;
 			rightReleased = false;
-		} else if (code == KeyEvent.VK_E) {
+		} else if (code == KeyEvent.VK_E) {// e key pressed
 			ePressed = true;
-		} else if (code == KeyEvent.VK_B) {
+		} else if (code == KeyEvent.VK_B) {// b key pressed
 			useBookPressed = true;
-		} else if (code == KeyEvent.VK_ESCAPE) {
+		} else if (code == KeyEvent.VK_ESCAPE) {// escape key pressed
 			System.exit(0);// exit the game
-		} else if (code == KeyEvent.VK_SPACE) {
+		} else if (code == KeyEvent.VK_SPACE) {// space key pressed
 			npc.setTextIndex(npc.getTextIndex() + 1);// increase text index to see new text line
 			npc.setOnce(false);// only reset text index once
 		}
@@ -409,65 +409,83 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if (minigame.getIsExorcising()) {//in exorcism room
-			minigame.calculation();//calculates the sum of all the points of the template
-			minigame.newCentroid();//centroid of the drawn shape
-			minigame.calculatedResult();//check whether the shape drawn is a vertical, horizontal or neither shape
+		if (minigame.getIsExorcising()) {// in exorcism room
+			minigame.calculation();// calculates the sum of all the points of the template
+			minigame.newCentroid();// centroid of the drawn shape
+			minigame.calculatedResult();// check whether the shape drawn is a vertical, horizontal or neither shape
 
-			minigame.circle();//gets all the points and area of the template circle
-			isCircle = minigame.isValid(17);//the threshold of how close the drawn shape is to a perfect circle
+			minigame.circle();// gets all the points and area of the template circle
+			isCircle = minigame.isValid(17);// the threshold of how close the drawn shape is to a perfect circle
 
-			minigame.triangle();//gets all the points and area of the template triangle
-			isTriangle = minigame.isValid(33);//the threshold of how close the drawn shape is to a perfect triangle
+			minigame.triangle();// gets all the points and area of the template triangle
+			isTriangle = minigame.isValid(33);// the threshold of how close the drawn shape is to a perfect triangle
 
-			minigame.zigzag();//gets all the points and area of the template zigzag
-			isZigzag = minigame.isValid(15);//the threshold of how close the drawn shape is to a perfect zigzag
+			minigame.zigzag();// gets all the points and area of the template zigzag
+			isZigzag = minigame.isValid(15);// the threshold of how close the drawn shape is to a perfect zigzag
 
-			if (isCircle && items.getGhostShape().equals("Circle")) {//circle properly drawn
-				items.setDestroyCircle(true);//has destroyed a circle
-				items.setGhostCount(items.getGhostCount() + 1);//has exorcised a ghost (or one step of exorcising the ghost)
-			} else if (isTriangle && items.getGhostShape().equals("Triangle")) {//triangle properly drawn
-				items.setDestroyTriangle(true);//has destroyed a triangle
-				items.setGhostCount(items.getGhostCount() + 1);//has exorcised a ghost (or one step of exorcising the ghost)
-			} else if (isZigzag && items.getGhostShape().equals("Zigzag")) {//zigzag properly drawn
-				items.setDestroyZigzag(true);//has destroyed a zigzag
-				items.setGhostCount(items.getGhostCount() + 1);//has exorcised a ghost (or one step of exorcising the ghost)
-			} else if (minigame.getCurrentShape().equals("vertical") && items.getGhostShape().equals("Vertical")) {//vertical line properly drawn
-				items.setDestroyVertical(true);//has destroyed a triangle
-				items.setGhostCount(items.getGhostCount() + 1);//has exorcised a ghost (or one step of exorcising the ghost)
-			} else if (minigame.getCurrentShape().equals("horizontal") && items.getGhostShape().equals("Horizontal")) {//horizontal line properly drawn
-				items.setDestroyHorizontal(true);//has destroyed a triangle
-				items.setGhostCount(items.getGhostCount() + 1);//has exorcised a ghost (or one step of exorcising the ghost)
-			} else if (items.getGhostShape().equals("duoghost1")) {//the first duoghost
-				if (items.isDestroyHorizontal() && items.isDestroyZigzag()) {//both shapes for duoghost1 have been drawn
-					items.destroyRightGhost = true;//destroyed the right ghost      
+			if (isCircle && items.getGhostShape().equals("Circle")) {// circle properly drawn
+				items.setDestroyCircle(true);// has destroyed a circle
+				items.setGhostCount(items.getGhostCount() + 1);// has exorcised a ghost (or one step of exorcising the
+																// ghost)
+			} else if (isTriangle && items.getGhostShape().equals("Triangle")) {// triangle properly drawn
+				items.setDestroyTriangle(true);// has destroyed a triangle
+				items.setGhostCount(items.getGhostCount() + 1);// has exorcised a ghost (or one step of exorcising the
+																// ghost)
+			} else if (isZigzag && items.getGhostShape().equals("Zigzag")) {// zigzag properly drawn
+				items.setDestroyZigzag(true);// has destroyed a zigzag
+				items.setGhostCount(items.getGhostCount() + 1);// has exorcised a ghost (or one step of exorcising the
+																// ghost)
+			} else if (minigame.getCurrentShape().equals("vertical") && items.getGhostShape().equals("Vertical")) {// vertical
+																													// line
+																													// properly
+																													// drawn
+				items.setDestroyVertical(true);// has destroyed a triangle
+				items.setGhostCount(items.getGhostCount() + 1);// has exorcised a ghost (or one step of exorcising the
+																// ghost)
+			} else if (minigame.getCurrentShape().equals("horizontal") && items.getGhostShape().equals("Horizontal")) {// horizontal
+																														// line
+																														// properly
+																														// drawn
+				items.setDestroyHorizontal(true);// has destroyed a triangle
+				items.setGhostCount(items.getGhostCount() + 1);// has exorcised a ghost (or one step of exorcising the
+																// ghost)
+			} else if (items.getGhostShape().equals("duoghost1")) {// the first duoghost
+				if (items.isDestroyHorizontal() && items.isDestroyZigzag()) {// both shapes for duoghost1 have been
+																				// drawn
+					items.destroyRightGhost = true;// destroyed the right ghost
 				}
-			} else if (items.getGhostShape().equals("duoghost2") && !items.destroyLeftGhost) {//the second duoghost
-				if (items.isDestroyVertical() && items.isDestroyCircle()) {//both shapes for duoghost2 have been drawn
-					items.destroyLeftGhost = true;//destroyed the left ghost
+			} else if (items.getGhostShape().equals("duoghost2") && !items.destroyLeftGhost) {// the second duoghost
+				if (items.isDestroyVertical() && items.isDestroyCircle()) {// both shapes for duoghost2 have been drawn
+					items.destroyLeftGhost = true;// destroyed the left ghost
 				}
-			} else if (items.getGhostShape().equals("duoghost3") && !items.destroyLeftGhost) {//the third duoghost
-				if (items.isDestroyHorizontal() && items.isDestroyCircle()) {//both shapes for duoghost3 have been drawn
-					items.destroyRightGhost = true;//destroyed the right ghost
+			} else if (items.getGhostShape().equals("duoghost3") && !items.destroyLeftGhost) {// the third duoghost
+				if (items.isDestroyHorizontal() && items.isDestroyCircle()) {// both shapes for duoghost3 have been
+																				// drawn
+					items.destroyRightGhost = true;// destroyed the right ghost
 				}
-			} else if (items.getGhostShape().equals("duoghost4") && !items.destroyLeftGhost) {//the fourth duoghost
-				if (items.isDestroyTriangle() && items.isDestroyZigzag()) {//both shapes for duoghost4 have been drawn
-					items.destroyLeftGhost = true;//destroyed the left ghost
+			} else if (items.getGhostShape().equals("duoghost4") && !items.destroyLeftGhost) {// the fourth duoghost
+				if (items.isDestroyTriangle() && items.isDestroyZigzag()) {// both shapes for duoghost4 have been drawn
+					items.destroyLeftGhost = true;// destroyed the left ghost
 				}
-			} else if (items.getGhostShape().equals("trioghost")) {//the trio ghost
-				if (items.isDestroyTriangle() && items.isDestroyZigzag() && items.isDestroyCircle()) {
-					items.destroyTrioGhost = true;
+			} else if (items.getGhostShape().equals("trioghost")) {// the trio ghost
+				if (items.isDestroyTriangle() && items.isDestroyZigzag() && items.isDestroyCircle()) {// all three
+																										// shapes for
+																										// trioghost
+																										// have been
+																										// drawn
+					items.destroyTrioGhost = true;// destroyed the singular trio ghost
 				}
 			} else if (items.getGhostShape().equals("bossghost")) {
 				if (items.isDestroyHorizontal() && items.isDestroyZigzag() && items.isDestroyCircle()
-						&& items.isDestroyVertical() && items.isDestroyTriangle()) {
-					items.destroyBossGhost = true;
+						&& items.isDestroyVertical() && items.isDestroyTriangle()) {// all 5 shapes for bossghost have
+																					// been drawn
+					items.destroyBossGhost = true;// destroyed the boss ghost
 				}
 			}
 
-			ArrayList<Point> pointsLocal = minigame.getPoints();
+			ArrayList<Point> pointsLocal = minigame.getPoints();// getting points
 			pointsLocal.clear();
-			minigame.setPoints(pointsLocal);
+			minigame.setPoints(pointsLocal);// setting the points
 		}
 	}
 
@@ -480,160 +498,317 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 
 	}
 
+	// Getter and Setter Methods
+
+	/**
+	 * 
+	 * @return upPressed
+	 */
 	public boolean isUpPressed() {
 		return upPressed;
 	}
 
+	/**
+	 * 
+	 * @param upPressed
+	 */
 	public void setUpPressed(boolean upPressed) {
 		this.upPressed = upPressed;
 	}
 
+	/**
+	 * 
+	 * @return downPressed
+	 */
 	public boolean isDownPressed() {
 		return downPressed;
 	}
 
+	/**
+	 * 
+	 * @param downPressed
+	 */
 	public void setDownPressed(boolean downPressed) {
 		this.downPressed = downPressed;
 	}
 
+	/**
+	 * 
+	 * @return leftPressed
+	 */
 	public boolean isLeftPressed() {
 		return leftPressed;
 	}
 
+	/**
+	 * 
+	 * @param j
+	 */
 	public void setJumpscare(Jumpscare j) {
 		this.jumpscare = j;
 	}
 
+	/**
+	 * 
+	 * @param npc
+	 */
 	public void setNpc(Npc npc) {
 		this.npc = npc;
 	}
 
+	/**
+	 * 
+	 * @param ls
+	 */
 	public void setLs(LoadingScreen ls) {
 		this.ls = ls;
 	}
 
+	/**
+	 * 
+	 * @param leftPressed
+	 */
 	public void setLeftPressed(boolean leftPressed) {
 		this.leftPressed = leftPressed;
 	}
 
+	/**
+	 * 
+	 * @return rightPressed
+	 */
 	public boolean isRightPressed() {
 		return rightPressed;
 	}
 
+	/**
+	 * 
+	 * @param rightPressed
+	 */
 	public void setRightPressed(boolean rightPressed) {
 		this.rightPressed = rightPressed;
 	}
 
+	/**
+	 * 
+	 * @return changeMapPressed
+	 */
 	public boolean isChangeMapPressed() {
 		return changeMapPressed;
 	}
 
+	/**
+	 * 
+	 * @param changeMapPressed
+	 */
 	public void setChangeMapPressed(boolean changeMapPressed) {
 		this.changeMapPressed = changeMapPressed;
 	}
 
+	/**
+	 * 
+	 * @return ePressed
+	 */
 	public boolean isePressed() {
 		return ePressed;
 	}
 
+	/**
+	 * 
+	 * @param ePressed
+	 */
 	public void setePressed(boolean ePressed) {
 		this.ePressed = ePressed;
 	}
 
+	/**
+	 * 
+	 * @return cPressed
+	 */
 	public boolean iscPressed() {
 		return cPressed;
 	}
 
+	/**
+	 * 
+	 * @param cPressed
+	 */
 	public void setcPressed(boolean cPressed) {
 		this.cPressed = cPressed;
 	}
 
+	/**
+	 * 
+	 * @return useBookPressed
+	 */
 	public boolean isUseBookPressed() {
 		return useBookPressed;
 	}
 
+	/**
+	 * 
+	 * @param useBookPressed
+	 */
 	public void setUseBookPressed(boolean useBookPressed) {
 		this.useBookPressed = useBookPressed;
 	}
 
+	/**
+	 * 
+	 * @return upReleased
+	 */
 	public boolean isUpReleased() {
 		return upReleased;
 	}
 
+	/**
+	 * 
+	 * @param upReleased
+	 */
 	public void setUpReleased(boolean upReleased) {
 		this.upReleased = upReleased;
 	}
 
+	/**
+	 * 
+	 * @return downReleased
+	 */
 	public boolean isDownReleased() {
 		return downReleased;
 	}
 
+	/**
+	 * 
+	 * @param downReleased
+	 */
 	public void setDownReleased(boolean downReleased) {
 		this.downReleased = downReleased;
 	}
 
+	/**
+	 * 
+	 * @return leftReleased
+	 */
 	public boolean isLeftReleased() {
 		return leftReleased;
 	}
 
+	/**
+	 * 
+	 * @param leftReleased
+	 */
 	public void setLeftReleased(boolean leftReleased) {
 		this.leftReleased = leftReleased;
 	}
 
+	/**
+	 * 
+	 * @return rightReleased
+	 */
 	public boolean isRightReleased() {
 		return rightReleased;
 	}
 
+	/**
+	 * 
+	 * @param rightReleased
+	 */
 	public void setRightReleased(boolean rightReleased) {
 		this.rightReleased = rightReleased;
 	}
 
+	/**
+	 * 
+	 * @param items
+	 */
 	public void setItems(Items items) {
 		this.items = items;
 	}
 
+	/**
+	 * 
+	 * @param minigame
+	 */
 	public void setMinigame(Minigame minigame) {
 		this.minigame = minigame;
 	}
 
+	/**
+	 * 
+	 * @return readBook
+	 */
 	public boolean isReadBook() {
 		return readBook;
 	}
 
+	/**
+	 * 
+	 * @param mainMenu
+	 */
 	public void setMainMenu(MainMenu mainMenu) {
 		this.mainMenu = mainMenu;
 	}
 
+	/**
+	 * 
+	 * @return instructionsPressed
+	 */
 	public boolean isInstructionsPressed() {
 		return instructionsPressed;
 	}
 
+	/**
+	 * 
+	 * @param instructionsPressed
+	 */
 	public void setInstructionsPressed(boolean instructionsPressed) {
 		this.instructionsPressed = instructionsPressed;
 	}
 
+	/**
+	 * 
+	 * @return instructionsPressed
+	 */
 	public int getMouseX() {
 		return mouseX;
 	}
 
+	/**
+	 * 
+	 * @return instructionsPressed
+	 */
 	public int getMouseY() {
 		return mouseY;
 	}
 
+	/**
+	 * 
+	 * @param cPressed
+	 */
 	public void setCPressed(boolean cPressed) {
 		this.cPressed = cPressed;
 	}
 
+	/**
+	 * 
+	 * @return hoveringQuit
+	 */
 	public boolean isHoveringQuit() {
 		return hoveringQuit;
 	}
 
+	/**
+	 * 
+	 * @return pressedQuit
+	 */
 	public boolean isPressedQuit() {
 		return pressedQuit;
 	}
 
+	/**
+	 * 
+	 * @param m
+	 */
 	public void setM(Maps m) {
 		this.maps = m;
 	}
-
 }
