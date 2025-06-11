@@ -19,13 +19,14 @@ import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
 import interfaces.ReadFromFile;
+
 /*
  * Noah Sussman, Akhilan Saravanan, and Rudra Garg
  * Ms. Krasteva
  * April 2, 2025
  * Final Project ICS4U0
  */
-public class Items implements ReadFromFile{
+public class Items implements ReadFromFile {
 	private Input input;
 	private Npc npc;
 	private Player p;
@@ -63,11 +64,11 @@ public class Items implements ReadFromFile{
 	private BufferedImage triangleRemovedOrder;
 	private BufferedImage orderCloseUp;
 	private BufferedImage human;
-	
+
 	private ImageIcon pageFlipping;
-	private ImageIcon pentagram;
+	private ImageIcon pentagram; 
 	private Sound bookFlipSound;
-	
+
 	private boolean doneDoctrineGhost = false;
 
 	private ArrayList<String> shapesArray = new ArrayList<String>();
@@ -89,39 +90,38 @@ public class Items implements ReadFromFile{
 		readFile();
 
 	}
-	
+
 	@Override
 	public void readFile() {
 		try {
-		header = new Font("Arial", Font.BOLD, 35);
-		subHeading = new Font("Arial", Font.BOLD, 24);
-		normalText = new Font("Arial", Font.PLAIN, 17);
-		dispellingGhosts = ImageIO.read(new File("src/textures/dispellingGhosts.png"));// image from:
-		circleExample = ImageIO.read(new File("src/textures/circleExample.png"));
-		triangleExample = ImageIO.read(new File("src/textures/triangleExample.png"));
-		horizontalExample = ImageIO.read(new File("src/textures/horizontalExample.png"));
-		leftGhostExample = ImageIO.read(new File("src/textures/leftGhostExample.png"));
-		rightGhostExample = ImageIO.read(new File("src/textures/rightGhostExample.png"));
-		multiShapeGhost1 = ImageIO.read(new File("src/textures/multiShapeGhost1.png"));
-		circleMultishape = ImageIO.read(new File("src/textures/circleMultishape.png"));
-		verticalMultishape = ImageIO.read(new File("src/textures/verticalMultishape.png"));
-		mirror = ImageIO.read(new File("src/textures/jeffMirror.png"));
-		doctrine = ImageIO.read(new File("src/textures/doctrine.png"));
-		book = ImageIO.read(new File("src/textures/books.png"));
-		car = ImageIO.read(new File("src/textures/car.png"));
-		brokenCar = ImageIO.read(new File("src/textures/destroyedCar.png"));
-		wasdKey = ImageIO.read(new File("src/textures/wasdKey.png"));// https://media.istockphoto.com/id/1193231012/vector/computer-gamer-keyboard-wasd-keys-vector-illustration-wasd-keys-game-control-keyboard-buttons.jpg?s=612x612&w=0&k=20&c=-DJ6CFewXZ_Oofp_BsYya5KniByRkVW3EAHYICWIOaU=
-		door = ImageIO.read(new File("src/textures/door.png"));// https://img.freepik.com/premium-vector/open-close-door-pixel-art-style_475147-1239.jpgd
-		exorcism = ImageIO.read(new File("src/textures/exorcism.png"));// https://www.creativefabrica.com/wp-content/uploads/2023/03/22/pixel-art-wooden-cross-vector-Graphics-65026120-1.jpg
-		bed = ImageIO.read(new File("src/textures/bed.png"));
-		pageFlipping = new ImageIcon("src/textures/books.gif");
-		bookFlipSound = new Sound("src/sound/bookFlip.wav");
-		orderFullFrame = ImageIO.read(new File("src/textures/orderFullFrame.png"));
-		triangleRemovedOrder = ImageIO.read(new File("src/textures/removedTriangleOrder.png"));
-		orderCloseUp = ImageIO.read(new File("src/textures/orderCloseUp.png"));
-		
-		human = ImageIO.read(new File("src/textures/character.png"));// https://www.creativefabrica.com/product/pixel-art-human-graphics/ref/2399990/
-		pentagram = new ImageIcon("src/textures/pentagram.gif");
+			header = new Font("Arial", Font.BOLD, 35);
+			subHeading = new Font("Arial", Font.BOLD, 24);
+			normalText = new Font("Arial", Font.PLAIN, 17);
+			dispellingGhosts = ImageIO.read(new File("src/textures/dispellingGhosts.png"));// image from:
+			circleExample = ImageIO.read(new File("src/textures/circleExample.png"));
+			triangleExample = ImageIO.read(new File("src/textures/triangleExample.png"));
+			horizontalExample = ImageIO.read(new File("src/textures/horizontalExample.png"));
+			leftGhostExample = ImageIO.read(new File("src/textures/leftGhostExample.png"));
+			rightGhostExample = ImageIO.read(new File("src/textures/rightGhostExample.png"));
+			multiShapeGhost1 = ImageIO.read(new File("src/textures/multiShapeGhost1.png"));
+			circleMultishape = ImageIO.read(new File("src/textures/circleMultishape.png"));
+			verticalMultishape = ImageIO.read(new File("src/textures/verticalMultishape.png"));
+			mirror = ImageIO.read(new File("src/textures/jeffMirror.png"));
+			doctrine = ImageIO.read(new File("src/textures/doctrine.png"));
+			book = ImageIO.read(new File("src/textures/books.png"));
+			car = ImageIO.read(new File("src/textures/car.png"));
+			brokenCar = ImageIO.read(new File("src/textures/destroyedCar.png"));
+			wasdKey = ImageIO.read(new File("src/textures/wasdKey.png"));// https://media.istockphoto.com/id/1193231012/vector/computer-gamer-keyboard-wasd-keys-vector-illustration-wasd-keys-game-control-keyboard-buttons.jpg?s=612x612&w=0&k=20&c=-DJ6CFewXZ_Oofp_BsYya5KniByRkVW3EAHYICWIOaU=
+			door = ImageIO.read(new File("src/textures/door.png"));// https://img.freepik.com/premium-vector/open-close-door-pixel-art-style_475147-1239.jpgd
+			exorcism = ImageIO.read(new File("src/textures/exorcism.png"));// https://www.creativefabrica.com/wp-content/uploads/2023/03/22/pixel-art-wooden-cross-vector-Graphics-65026120-1.jpg
+			bed = ImageIO.read(new File("src/textures/bed.png"));
+			pageFlipping = new ImageIcon("src/textures/books.gif");
+			bookFlipSound = new Sound("src/sound/bookFlip.wav");
+			orderFullFrame = ImageIO.read(new File("src/textures/orderFullFrame.png"));
+			triangleRemovedOrder = ImageIO.read(new File("src/textures/removedTriangleOrder.png"));
+			orderCloseUp = ImageIO.read(new File("src/textures/orderCloseUp.png"));
+			pentagram = new ImageIcon("src/textures/pentagram.gif");
+			human = ImageIO.read(new File("src/textures/character.png"));// https://www.creativefabrica.com/product/pixel-art-human-graphics/ref/2399990/
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -189,17 +189,17 @@ public class Items implements ReadFromFile{
 			}
 		}
 	}
-	
+
 	private boolean playPentagram = false;
 	private int pentaX, pentaY;
-	
+
 	public void playPentagram(Graphics g2, Component observer) {
 		if (playPentagram) {
-			g2.drawImage(pentagram.getImage(), pentaX, pentaY, 160, 90, observer);
-			pentaTimer();
-		}
+	        g2.drawImage(pentagram.getImage(), pentaX, pentaY, 160, 90, observer);
+	        pentaTimer();
+	    }
 	}
-	
+
 	public void enablePentagram(int x, int y) {
 		pentaX = x;
 		pentaY = y;
@@ -685,15 +685,27 @@ public class Items implements ReadFromFile{
 
 	private int level = 1;
 	private String ghostShape = "";
+	private boolean exorcismOnce = false;
+	private boolean lTwoOnce = false;
+	private boolean lThreeOnce = false;
+	private boolean lFourOnce = false;
+	private boolean lTFiveOnce = false;
 
 	public void drawGhost(Graphics2D g2, int offsetY, GamePanel gp) throws IOException {
+		System.out.println(exorcismOnce);
 		if (level == 1) {
 			if (!destroyCircle) {
 				minigameGhost(g2, 1200 - 20, 820 + 50 + offsetY, "Circle", 250, 196, gp);
-			} 
+			}
 			if (!destroyTriangle) {
 				minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "Triangle", 250, 196, gp);
+			} else {
+				if (!exorcismOnce) {
+					enablePentagram(410, 200);
+					exorcismOnce = true;
+				}
 			}
+			System.out.println(destroyTriangle);
 
 		} else if (level == 2) {
 			if (!destroyHorizontal) {
@@ -702,19 +714,32 @@ public class Items implements ReadFromFile{
 
 			if (!destroyZigzag) {
 				minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "Zigzag", 250, 196, gp);
+			}else {
+				if (!exorcismOnce) {
+					enablePentagram(410, 200);
+					exorcismOnce = true;
+				}
 			}
 
 		} else if (level == 3) {
 			if (!destroyVertical) {
 				minigameGhost(g2, 1200 - 20, 820 + 50 + offsetY, "Vertical", 250, 196, gp);
 			}
+
 			if (!destroyHorizontal) {
 				minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "Horizontal", 250, 196, gp);
+			} else {
+				if (!exorcismOnce) {
+					enablePentagram(410, 200);
+					exorcismOnce = true;
+				}
 			}
 
 		} else if (level == 4) {
 			if (!destroyHorizontal) {
 				minigameGhost(g2, 1200 - 20, 820 + 50 + offsetY, "Horizontal", 250, 196, gp);
+			} else {
+				enablePentagram(266, 443);
 			}
 			if (!destroyTriangle) {
 				minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "Triangle", 250, 196, gp);
@@ -724,8 +749,6 @@ public class Items implements ReadFromFile{
 			minigameGhost(g2, 1200 - 20, 820 - 0 + offsetY, "duoghost1", 250, 196, gp);
 			if (!destroyLeftGhost) {
 				minigameGhost(g2, 1200 - 210, 820 + 50 + offsetY, "duoghost2", 250, 196, gp);
-			} else {
-				enablePentagram(266,443);
 			}
 		} else if (level == 6) {
 			minigameGhost(g2, 1200 - 20, 820 - 0 + offsetY, "duoghost3", 250, 196, gp);
@@ -740,12 +763,9 @@ public class Items implements ReadFromFile{
 		}
 	}
 
-	private int ghostNumberLeft;
-	private int ghostNumberRight;
-	private boolean ghostAppeared = false;
 	private int ghostCount = 0;
 	private boolean reachedPeak = false;
-	
+
 	private int yVal = 0;
 
 	public void ghostLogic(Graphics2D g2, GamePanel gp) throws IOException {
@@ -777,6 +797,7 @@ public class Items implements ReadFromFile{
 			destroyZigzag = false;
 			destroyHorizontal = false;
 			destroyVertical = false;
+			exorcismOnce = false;
 		}
 
 		if (ghostCount == 4 && (levelShape.equals("duoghost1") || levelShape.equals("duoghost2")
@@ -791,6 +812,7 @@ public class Items implements ReadFromFile{
 			destroyVertical = false;
 			destroyLeftGhost = false;
 			destroyRightGhost = false;
+			exorcismOnce = false;
 
 		}
 
@@ -804,6 +826,7 @@ public class Items implements ReadFromFile{
 			destroyHorizontal = false;
 			destroyVertical = false;
 			destroyTrioGhost = false;
+			
 
 		}
 		if (ghostCount == 5 && destroyBossGhost && !playPentagram) {
@@ -815,7 +838,7 @@ public class Items implements ReadFromFile{
 			destroyVertical = false;
 			destroyBossGhost = false;
 		}
-		
+
 		if (level == 9) {
 			g2.drawImage(human, 350, 230, 192, 280, null);
 			npc.text(g2, 8);
@@ -979,7 +1002,7 @@ public class Items implements ReadFromFile{
 			if (!destroyLeftGhost) {
 				if (isDestroyVertical() && isDestroyCircle()) {
 					destroyLeftGhost = true;
-					
+
 				}
 			}
 		} else if (shape.equalsIgnoreCase("duoghost3")) {
@@ -1009,6 +1032,7 @@ public class Items implements ReadFromFile{
 			if (!destroyRightGhost) {
 				if (isDestroyTriangle() && isDestroyZigzag()) {
 					destroyRightGhost = true;
+
 				}
 			}
 		} else if (shape.equalsIgnoreCase("duoghost4")) {
@@ -1038,7 +1062,7 @@ public class Items implements ReadFromFile{
 			if (!destroyLeftGhost) {
 				if (isDestroyTriangle() && isDestroyZigzag()) {
 					destroyLeftGhost = true;
-					
+
 				}
 			}
 		} else if (shape.equalsIgnoreCase("trioghost")) {
@@ -1331,11 +1355,11 @@ public class Items implements ReadFromFile{
 		time.setRepeats(false);
 		time.start();
 	}
-	
+
 	private Timer pentaTime;
 
 	public void pentaTimer() {
-		pentaTime = new Timer(5000, new ActionListener() {
+		pentaTime = new Timer(6240, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playPentagram = false;
@@ -1694,8 +1718,8 @@ public class Items implements ReadFromFile{
 	public boolean isDoingDoctrineGhost() {
 		return doingDoctrineGhost;
 	}
-	
-	public void setDoneDoctrineGhost (boolean doneDoctrineGhost) {
+
+	public void setDoneDoctrineGhost(boolean doneDoctrineGhost) {
 		this.doneDoctrineGhost = doneDoctrineGhost;
 	}
 }

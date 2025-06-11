@@ -361,8 +361,7 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 			m.playDoctrineSound();
 			m.nightmare(g2, this, this);
 			m.mirrorScene(g2, this, this);
-			//it.enablePentagram(0, 0);
-			it.playPentagram(g2, this);
+			
 
 			it.instructions(g2);
 			if (id.isInstructionsPressed()) {
@@ -412,6 +411,7 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 			it.help(g2);
 			it.credits(g2);
 			m.endScreen(g2);
+			it.playPentagram(g2, this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

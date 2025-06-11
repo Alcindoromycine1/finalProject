@@ -1,7 +1,6 @@
 package main;
 
 import java.awt.event.*;
-import java.io.*;
 import java.util.*;
 
 import Horror.Jumpscare;
@@ -365,7 +364,6 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 			} else if (items.getGhostShape().equals("duoghost2") && !items.destroyLeftGhost) {
 				if (items.isDestroyVertical() && items.isDestroyCircle()) {
 					items.destroyLeftGhost = true;
-					
 				}
 			} else if (items.getGhostShape().equals("duoghost3") && !items.destroyLeftGhost) {
 				if (items.isDestroyHorizontal() && items.isDestroyCircle()) {
@@ -374,7 +372,6 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 			} else if (items.getGhostShape().equals("duoghost4") && !items.destroyLeftGhost) {
 				if (items.isDestroyTriangle() && items.isDestroyZigzag()) {
 					items.destroyLeftGhost = true;
-					
 				}
 			} else if (items.getGhostShape().equals("trioghost")) {
 				if (items.isDestroyTriangle() && items.isDestroyZigzag() && items.isDestroyCircle()) {
