@@ -132,7 +132,6 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		} else if (code == KeyEvent.VK_C) {// car released
 			cPressed = false;
 		}
-
 	}
 
 	/**

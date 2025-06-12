@@ -301,6 +301,10 @@ public class Player implements ReadFromFile {
 				&& !it.isCarOn()) {// block off graveyard area
 			collision = true;// collision is true
 		}
+		if (gp.getWorldX() >= 911 && gp.getWorldX() <= 985 && gp.getWorldY() >= 635 && gp.getWorldY() <= 751
+				&& !it.isCarOn()) { // block off below car area
+			collision = true; // collision is true
+		}
 	}
 
 	/**

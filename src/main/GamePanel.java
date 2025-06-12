@@ -115,7 +115,7 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 		screenX = WIDTH / 2 - (tileSize / 2); // centres the player in the middle of the screen
 		screenY = HEIGHT / 2 - (tileSize / 2); // centres the player in the middle of the screen
 
-		m.changeMap(3); // Set the background
+		m.changeMap(5); // Set the background
 
 		readFile(); // load files
 
