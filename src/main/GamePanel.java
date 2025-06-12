@@ -107,7 +107,7 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 		this.window = window;
 		this.setPreferredSize(new Dimension(WIDTH, HEIGHT)); // Preferred window size
 		this.setDoubleBuffered(true); // Improves rendering performance
-		this.addKeyListener(p.keyH); // Recognizes key inputs
+		this.addKeyListener(p.getKeyH()); // Recognizes key inputs
 		this.addMouseMotionListener(id); // Recognizes mouse movement
 		this.addMouseListener(id); // Recognize mouse clicks
 		this.setFocusable(true);
@@ -136,7 +136,6 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 		it.setJ(j); // sets the jumpscare object in the items object
 		it.setM(m); // sets the maps object in the items object
 
-		n.setInput(id); // sets the input object in the npc object
 		n.setItems(it); // sets the items object in the npc object
 
 		p.setM(m); // sets the maps object in the player object
@@ -243,19 +242,19 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 	 */
 	public void characterMovement() {
 		if (p.disableCharacterMovement() == false) { // checks if the character movement is disabled
-			if (p.keyH.isUpPressed()) {// up key is pressed
+			if (p.getKeyH().isUpPressed()) {// up key is pressed
 				direction = "back";
 				worldY -= playerSpeed; // move the world up when player presses up
 
-			} else if (p.keyH.isDownPressed()) {// down key is pressed
+			} else if (p.getKeyH().isDownPressed()) {// down key is pressed
 				direction = "front";
 				worldY += playerSpeed; // move the world down when player goes down
 
-			} else if (p.keyH.isLeftPressed()) {// left key is pressed
+			} else if (p.getKeyH().isLeftPressed()) {// left key is pressed
 				direction = "left";
 				worldX -= playerSpeed; // move the world left when player goes left
 
-			} else if (p.keyH.isRightPressed()) {// right key is pressed
+			} else if (p.getKeyH().isRightPressed()) {// right key is pressed
 				direction = "right";
 				worldX += playerSpeed; // move the world right when player goes right
 
@@ -272,8 +271,6 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 		p.updatePlayerPosition(worldX, worldY, playerX, playerY, screenX, screenY); // updates the variable values of
 																					// the Player object
 		m.updateMapValues(worldX, worldY); // updates the variable values of the Maps object
-		n.updateNpcValues(playerX, playerY, worldX, worldY); // updates the variable values of the Npc object
-		it.updateItemsValues(playerX, playerY, worldX, worldY); // updates the variable values of the Items object
 
 		window.setTitle("Whispers Of The Decieved, FPS: " + fps); // sets the title of the window and displays the
 																	// current FPS

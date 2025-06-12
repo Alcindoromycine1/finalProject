@@ -1,3 +1,11 @@
+/**
+ * @author Noah Sussman, Akhilan Saravanan and Rudra Garg
+ * Ms. Krasteva
+ * @since April 2, 2025
+ * @version 2.0
+ * Final Project ICS4U0
+ * Whispers of the Deceived
+ */
 package main;
 
 import Horror.Jumpscare;
@@ -21,16 +29,8 @@ import javax.swing.Timer;
 import interfaces.ReadFromFile;
 
 /**
- * @author Noah Sussman, Akhilan Saravanan, and Rudra Garg
- * Ms. Krasteva
- * @since April 2, 2025
- * Final Project ICS4U0
- */
-
-/**
- * @purpose This class handles the items in the game, including reading from
- *          files, displaying images, and managing game mechanics related to
- *          items.
+ * This class handles the items in the game, including reading from files,
+ * displaying images, and managing game mechanics related to items.
  * 
  */
 public class Items implements ReadFromFile {
@@ -39,9 +39,6 @@ public class Items implements ReadFromFile {
 	private Player p; // Reference to the Player class to access Player methods and properties
 	private Maps m; // Reference to the Maps class to access Maps methods and properties
 	private Jumpscare j; // Reference to the Jumpscare class to access Jumpscare methods and properties
-
-	private int playerX; // Player X position
-	private int playerY; // Player Y position
 
 	private int worldX; // Player X position relative to the world
 	private int worldY; // Player Y position relative to the world
@@ -72,14 +69,83 @@ public class Items implements ReadFromFile {
 	private BufferedImage orderCloseUp; // BufferedImage variable to store the orderCloseUp image
 	private BufferedImage human; // BufferedImage variable to store the human image
 
-	private ImageIcon pageFlipping; // ImageIcon variable to store the pageFlipping gif
+	private ImageIcon pageFlipping; // ImageIcon variable to store the pageFlipping GIF
 	private Sound bookFlipSound; // Sound variable to store the bookFlipSound sound
 
 	private boolean doneDoctrineGhost = false; // boolean variable to store the the value for if the doctrine ghost has
 												// been passed
-
+	private boolean movementPrompt = false;// checks if you are in the movement menu
+	private int instructionsX = 640;// x coordinate of the instructions menu that appears always in-game
+	private int instructionsY = 10;// y coordinate of the instructions menu that appears always in-game
+	private boolean hoveringInstructions = false;// checks if you are hovering over the instructions menu
+	private boolean instructionsPrompt = false;// checks if you are in the instructions menu
+	private boolean hoveringObjective = false;// checks if you are hovering over the objective button
+	private boolean hoveringMovement = false;// checks if you are hovering over the movement button
+	private int transparency = 0;// used for fading the text in the title screen scene
+	private boolean hasFaded = false;// if the text has faded in
+	private boolean reset = false;// rest the fading so you can use it for the next text
+	private Color selected = new Color(144, 50, 50);// colour of the buttons when they are being hovered by the cursor
+	private Color unselected = new Color(193, 45, 57);// colour of the buttons when they are not being hovered by the
+														// cursor
+	private int level = 1;// the level in the exorcism room
+	private String ghostShape = "";// the shape that the ghosts have in that current level
+	private boolean inGraveYard = false;// checks if you are in the graveyard
+	private int graveX = 4600;// the x coordinate of the collision when you enter the graveyard
+	private int graveY = 333;// the y coordinate of the collision when you enter the graveyard
+	private BufferedImage ghost;// ghost image
+	private boolean firstTime = true;// first time in the graveyard (prevents the scene from occuring twice)
 	private ArrayList<String> shapesArray = new ArrayList<String>(); // ArrayList to store shapes.
+	private boolean carOn = false;// checks whether the car is on (being used)
+	private int animationFrame = 0;// how long the car is on for
+	private int carWorldX = 1295;// the x coordinate of the car (used for collision)
+	private int carWorldY = 770;// the y coordinate of the car (used for collision)
+	private int doctrineWorldX = 6000;// the x coordinate of the doctrine (used for collision)
+	private int doctrineWorldY = 525;// the y coordinate of the doctrine (used for collision)
+	private boolean visible = true;// makes it so that the character disappears when you go into the car
+	private boolean carUsed = false;// when you've already used the car
+	private boolean carSceneDone = false;// when you've finished the car scene
+	private boolean once = false;
+	private boolean doingDoctrineGhost = false;
+	private boolean enterBook = false;
+	private int nextPage = 0;
+	private boolean hoveringNextPage = false;
+	private boolean playGif = false;
+	private boolean staticImageBook = false;
+	private boolean hoveringExitPage = false;
+	private boolean backPressed = false;
+	private boolean hoveringBack = false;
+	private boolean objectivePrompts = false;
+	private boolean inHouse = false;
+	private int ghostCount = 0;
+	private boolean reachedPeak = false;
+	private int yVal = 0;
+	private boolean destroyDuoGhost = false;
+	private boolean addedShapes = false;
+	public boolean destroyLeftGhost = false;
+	public boolean destroyRightGhost = false;
+	public boolean destroyTrioGhost = false;
+	public boolean destroyBossGhost = false;
+	private String levelShape = " ";
+	private boolean destroyCircle = false;
+	private boolean destroyTriangle = false;
+	private boolean destroyZigzag = false;
+	private boolean destroyHorizontal = false;
+	private boolean destroyVertical = false;
+	private boolean hoveringYes = false;
+	private boolean hoveringNo = false;
+	private boolean inConfirmation = false;
+	private boolean yesPressed = false;
+	private boolean noPressed = false;
+	private boolean helpPressed = false;
+	private boolean hoveringX = false;
+	private boolean creditsPressed = false;
+	private Timer time;
 
+	/**
+	 * Constructor for the Items Class
+	 * 
+	 * @param gp
+	 */
 	public Items(GamePanel gp) {
 
 		this.input = gp.getId(); // sets the local Input object to the GamePanel Input object
@@ -88,24 +154,22 @@ public class Items implements ReadFromFile {
 		this.m = gp.getM(); // sets the local Maps object to the GamePanel Maps object
 		this.j = gp.getJ(); // sets the local Jumpscare object to the GamePanel Jumpscare object
 
-		playerX = gp.getPlayerX(); // sets the local playerX variable to the GamePanel playerX variable
-		playerY = gp.getPlayerY(); // sets the local playerY variable to the GamePanel playerY variable
-
 		worldX = gp.getWorldX(); // sets the local worldX variable to the GamePanel worldX variable
 		worldY = gp.getWorldY(); // sets the local worldY variable to the GamePanel worldY variable
 
 		readFile(); // calls the readFile method to set the correct values for the file.
-
 	}
 
 	@Override
 	/**
 	 * @see WASD Keys. (2025). Istockphoto.com.
 	 *      {@link https://media.istockphoto.com/id/1193231012/vector/computer-gamer-keyboard-wasd-keys-vector-illustration-wasd-keys-game-control-keyboard-buttons.jpg?s=612x612&w=0&k=20&c=-DJ6CFewXZ_Oofp_BsYya5KniByRkVW3EAHYICWIOaU={@link https://media.istockphoto.com/id/1193231012/vector/computer-gamer-keyboard-wasd-keys-vector-illustration-wasd-keys-game-control-keyboard-buttons.jpg?s=612x612&w=0&k=20&c=-DJ6CFewXZ_Oofp_BsYya5KniByRkVW3EAHYICWIOaU=}
-	 * @see Open Close Door Pixel Art. (2025). Freepik.com. 
-	 		{@link https://img.freepik.com/premium-vector/open-close-door-pixel-art-style_475147-1239.jpg}
-	 * @see  Cross. (2025). Creativefabrica.com. 
-	 		{@link https://www.creativefabrica.com/wp-content/uploads/2023/03/22/pixel-art-wooden-cross-vector-Graphics-65026120-1.jpg}
+	 * @see Open Close Door Pixel Art. (2025). Freepik.com.
+	 *      {@link https://img.freepik.com/premium-vector/open-close-door-pixel-art-style_475147-1239.jpg}
+	 * @see Cross. (2025). Creativefabrica.com.
+	 *      {@link https://www.creativefabrica.com/wp-content/uploads/2023/03/22/pixel-art-wooden-cross-vector-Graphics-65026120-1.jpg}
+	 * @see Free Flip Sound Effects Download - Pixabay,
+	 *      {@link https://www.pixabay.com/sound-effects/search/flip/}.
 	 * 
 	 */
 	public void readFile() {
@@ -114,7 +178,8 @@ public class Items implements ReadFromFile {
 			subHeading = new Font("Arial", Font.BOLD, 24); // initalizes the sub heading font
 			normalText = new Font("Arial", Font.PLAIN, 17); // initializes the normal text font
 			dispellingGhosts = ImageIO.read(new File("src/textures/dispellingGhosts.png"));
-			circleExample = ImageIO.read(new File("src/textures/circleExample.png")); // Initializes the circleExample image
+			circleExample = ImageIO.read(new File("src/textures/circleExample.png")); // Initializes the circleExample
+																						// image
 			triangleExample = ImageIO.read(new File("src/textures/triangleExample.png"));
 			horizontalExample = ImageIO.read(new File("src/textures/horizontalExample.png"));
 			leftGhostExample = ImageIO.read(new File("src/textures/leftGhostExample.png"));
@@ -132,7 +197,7 @@ public class Items implements ReadFromFile {
 			exorcism = ImageIO.read(new File("src/textures/exorcism.png"));// see third link above
 			bed = ImageIO.read(new File("src/textures/bed.png"));
 			pageFlipping = new ImageIcon("src/textures/books.gif");
-			bookFlipSound = new Sound("src/sound/bookFlip.wav");
+			bookFlipSound = new Sound("src/sound/bookFlip.wav");// see fourth link above
 			orderFullFrame = ImageIO.read(new File("src/textures/orderFullFrame.png"));
 			triangleRemovedOrder = ImageIO.read(new File("src/textures/removedTriangleOrder.png"));
 			orderCloseUp = ImageIO.read(new File("src/textures/orderCloseUp.png"));
@@ -142,54 +207,59 @@ public class Items implements ReadFromFile {
 		}
 	}
 
+	/**
+	 * Plays the book flipping sound
+	 */
 	public void playBookFlipSound() {
 		if (!bookFlipSound.isPlaying()) {
 			bookFlipSound.play();
 		}
 	}
 
+	/**
+	 * Stops the book flipping sound
+	 */
 	public void stopBookFlipSound() {
 		bookFlipSound.stop();
 	}
 
-	public void updateItemsValues(int worldX, int worldY, int playerX, int playerY) {
-		this.worldX = worldX;
-		this.worldY = worldY;
-
-		this.playerX = playerX;
-		this.playerY = playerY;
-
-	}
-
+	/**
+	 * The image of the mirror in the mirror scene
+	 * 
+	 * @param g2
+	 * @throws IOException
+	 */
 	public void houseMirror(Graphics2D g2) throws IOException {
 		g2.drawImage(mirror, 360, 200, 50, 50, null);
 	}
 
-	private boolean carOn = false;
-	private int animationFrame = 0;
-	private int carWorldX = 1295;
-	private int carWorldY = 770;
-	private int doctrineWorldX = 6000;
-	private int doctrineWorldY = 525;
-	private boolean visible = true;
-	private boolean carUsed = false;
-	private boolean carSceneDone = false;
-
+	/**
+	 * Graphics of the doctrine
+	 * 
+	 * @param g2
+	 * @param gp
+	 * @throws IOException
+	 */
 	public void doctrine(Graphics2D g2, GamePanel gp) throws IOException {
 
-		int doctrineX = doctrineWorldX - gp.getWorldX();
-		int doctrineY = doctrineWorldY - gp.getWorldY();
+		int doctrineX = doctrineWorldX - gp.getWorldX();// x position of the doctrine
+		int doctrineY = doctrineWorldY - gp.getWorldY();// y position of the doctrine
 
 		g2.drawImage(doctrine, doctrineX, doctrineY, 260, 390, null);
 		g2.setColor(Color.WHITE);
 		g2.setFont(new Font("Monospaced", Font.BOLD, 20));
-		g2.drawString("Doctrine", 6080 - gp.getWorldX(), 705 - gp.getWorldY());
+		g2.drawString("Doctrine", 6080 - gp.getWorldX(), 705 - gp.getWorldY());// white text that appears on the
+																				// doctrine
 
 	}
 
-	private boolean once = false;
-	private boolean doingDoctrineGhost = false;
-
+	/**
+	 * Displays the ghost and the text it says inside the doctrine
+	 * 
+	 * @param g2
+	 * @param gp
+	 * @throws IOException
+	 */
 	public void insideDoctrine(Graphics2D g2, GamePanel gp) throws IOException {
 		if (m.getCurrentMap() == 4) {
 			ghost(g2, 1110, 120, 125, 98, gp);
@@ -205,34 +275,35 @@ public class Items implements ReadFromFile {
 		}
 	}
 
-	private boolean enterBook = false;
-	private int nextPage = 0;
-	private boolean hoveringNextPage = false;
-	private boolean playGif = false;
-	private boolean staticImageBook = false;
-	private boolean hoveringExitPage = false;
-
-	// Stackoverflow used for GIF:
-	// https://stackoverflow.com/questions/12566311/displaying-gif-animation-in-java
+	/**
+	 * @see Swing - Displaying GIF Animation in Java - Stack Overflow,
+	 *      {@link https://www.stackoverflow.com/questions/12566311/displaying-gif-animation-in-java}.
+	 * 
+	 * @param g2
+	 * @param observer
+	 * @throws IOException
+	 */
 	public void book(Graphics2D g2, Component observer) throws IOException {
+		// Stackoverflow used for to understand how to use GIFs in Java swing (see link
+		// above)
 		g2.setFont(new Font("calibri", Font.BOLD, 18));
-		if (enterBook) {
-			if (!playGif || staticImageBook) {
-				g2.drawImage(book, -70, 0, 900, 587, null);
+		if (enterBook) {// opened the book
+			if (!playGif || staticImageBook) {// gif is not playing or its done
+				g2.drawImage(book, -70, 0, 900, 587, null);// static book image
 			} else {
-				g2.drawImage(pageFlipping.getImage(), -70, 0, 900, 587, observer);
+				g2.drawImage(pageFlipping.getImage(), -70, 0, 900, 587, observer);// play the gif
 			}
-			if (!hoveringNextPage) {
+			if (!hoveringNextPage) {// not hovering over the next page button
 				g2.setColor(unselected);
 				g2.fillRoundRect(530, 445, 150, 40, 10, 10);
-			} else {
+			} else {// hovering over the next page button
 				g2.setColor(selected);
 				g2.fillRoundRect(530, 445, 150, 40, 10, 10);
 			}
-			if (!hoveringExitPage) {
+			if (!hoveringExitPage) {// not hovering over the close book button
 				g2.setColor(unselected);
 				g2.fillRoundRect(530, 100, 150, 40, 10, 10);
-			} else {
+			} else {// hovering over the close book button
 				g2.setColor(selected);
 				g2.fillRoundRect(530, 100, 150, 40, 10, 10);
 			}
@@ -242,11 +313,12 @@ public class Items implements ReadFromFile {
 			g2.setColor(Color.BLACK);
 
 			/**
-			* @see United States Conference Of Catholic Bishops. (2025). Catechism of the Catholic Church. USCCB. 
-			*	{@link https://www.usccb.org/beliefs-and-teachings/what-we-believe/catechism/catechism-of-the-catholic-church?p=29-chapter12.xhtml%23para1673}
-			* and https://www.vatican.va/archive/cod-iuris-canonici/cic_index_en.ht
-			**/
-			if (nextPage == 0) {
+			 * @see United States Conference Of Catholic Bishops. (2025). Catechism of the
+			 *      Catholic Church. USCCB.
+			 *      {@link https://www.usccb.org/beliefs-and-teachings/what-we-believe/catechism/catechism-of-the-catholic-church?p=29-chapter12.xhtml%23para1673}
+			 *      and https://www.vatican.va/archive/cod-iuris-canonici/cic_index_en.ht
+			 **/
+			if (nextPage == 0) {// first page in the book
 				g2.setFont(header);
 
 				g2.drawString("Exorcisms", 145, 200);
@@ -254,7 +326,7 @@ public class Items implements ReadFromFile {
 				g2.drawString("By: Noah Sussman, Rudra Garg", 85, 270);
 				g2.drawString("and Akhilan Saravanan", 120, 320);
 				g2.setFont(normalText);
-			} else if (nextPage == 1) {
+			} else if (nextPage == 1) {// second page in the book
 				g2.setFont(subHeading);
 				g2.drawString("What is an Exorcism?", 100, 140);
 				g2.fillRect(100, 142, 245, 3);
@@ -283,7 +355,7 @@ public class Items implements ReadFromFile {
 				g2.fillOval(420, 397, 5, 5);// bullet point
 				g2.drawString("Directed at liberating a person", 430, 405);
 				g2.drawString("from a demonic possession", 430, 430);
-			} else if (nextPage == 2) {
+			} else if (nextPage == 2) {// third page in the book
 				g2.setFont(subHeading);
 				g2.drawString("Who can Receive", 125, 142);
 				g2.drawString("a Major Exorcism?", 116, 170);
@@ -318,7 +390,7 @@ public class Items implements ReadFromFile {
 				g2.drawString("channel your inner catholicism to", 410, 345);
 				g2.drawString("dispel the ghosts away.", 410, 370);
 
-			} else if (nextPage == 3) {
+			} else if (nextPage == 3) {// fourth page in the book
 				g2.setFont(subHeading);
 				g2.drawString("Performing an Exorcism", 85, 140);
 				g2.fillRect(85, 142, 275, 3);
@@ -341,7 +413,7 @@ public class Items implements ReadFromFile {
 				g2.fillRect(453, 167, 179, 3);
 				g2.drawImage(triangleExample, 420, 175, 235, 132, null);
 				g2.drawImage(horizontalExample, 420, 310, 235, 132, null);
-			} else if (nextPage == 4) {
+			} else if (nextPage == 4) {// fifth page in the book
 				g2.setFont(header);
 				g2.drawString("Advanced", 140, 270);
 				g2.drawString("Exorcisms", 135, 320);
@@ -359,7 +431,7 @@ public class Items implements ReadFromFile {
 				g2.drawString("first exorcise the ghost on the left", 410, 275);
 				g2.drawString("side, and then exorcise the ghost", 410, 300);
 				g2.drawString("on the right.", 410, 325);
-			} else if (nextPage == 5) {
+			} else if (nextPage == 5) {// sixth page in the book
 				g2.setFont(subHeading);
 				g2.drawString("Multiple Ghost Example", 90, 140);
 				g2.fillRect(90, 142, 270, 3);
@@ -383,7 +455,7 @@ public class Items implements ReadFromFile {
 				g2.drawString("Then, draw the other shape, and the", 410, 370);
 				g2.drawString("ghosts will be exorcised", 410, 395);
 
-			} else if (nextPage == 6) {
+			} else if (nextPage == 6) {// seventh page in the book
 				g2.setFont(subHeading);
 				g2.drawString("Multishape Ghosts", 115, 140);
 				g2.fillRect(115, 142, 215, 3);
@@ -394,8 +466,8 @@ public class Items implements ReadFromFile {
 				g2.drawString("Completing the first shape on the left", 90, 460);
 				g2.drawImage(circleMultishape, 425, 170, 235, 132, null);
 				g2.drawString("Completing the right shape of the ghost", 395, 325);
-				// IMAGE OF PENTAGRAM HERE
-			} else if (nextPage == 7) {
+
+			} else if (nextPage == 7) {// eigth page in the book
 
 				g2.setFont(subHeading);
 				g2.drawString("Order of Shapes", 125, 140);
@@ -412,91 +484,94 @@ public class Items implements ReadFromFile {
 				g2.drawString("Close Up of Order", 475, 280);
 				g2.drawImage(triangleRemovedOrder, 425, 290, 235, 132, null);
 				g2.drawString("Left Ghost Exorcised (new order)", 420, 440);
-			} else if (nextPage == 8) {
+			} else if (nextPage == 8) {// ninth page in the book
 				g2.setFont(header);
 				g2.drawString("THE END", 140, 290);
 			}
 		}
 	}
 
+	/**
+	 * Car graphics
+	 * 
+	 * @param g
+	 * @param gp
+	 * @throws IOException
+	 */
 	public void car(Graphics g, GamePanel gp) throws IOException {
-		int carX = carWorldX - gp.getWorldX();
-		int carY = carWorldY - gp.getWorldY();
-		g.drawImage(car, carX, carY, 96, 192, null);
+		int carX = carWorldX - gp.getWorldX();// car x position
+		int carY = carWorldY - gp.getWorldY();// car y position
+		g.drawImage(car, carX, carY, 96, 192, null);// image of car
 		if (!carOn && !carUsed && gp.getWorldX() >= 834 && gp.getWorldX() <= 880 && gp.getWorldY() >= 563
-				&& gp.getWorldY() <= 638 && p.keyH.iscPressed()) {
-			carOn = true;
-			p.disableCharacterMovement();
-			visible = false;
-			animationFrame = 0;
+				&& gp.getWorldY() <= 638 && p.getKeyH().iscPressed()) {// user gets in car
+			carOn = true;// in car
+			p.disableCharacterMovement();// disable character movement
+			visible = false;// remove image of character
+			animationFrame = 0;// begin scene at frame 0
 		}
 	}
 
-	private int transparency = 0;
-	private boolean hasFaded = false;
-	private boolean reset = false;
-
+	/**
+	 * Scene where the title of the game appears in a fading animation
+	 * 
+	 * @param g2
+	 */
 	public void titleScreen(Graphics2D g2) {
-		if (carOn) {
-			if (reset) {
+		if (carOn) {// in the car
+			if (reset) {// resets the fading for the next text
 				transparency = 0;
 				hasFaded = false;
 				reset = false;
 			}
 
-			if (!hasFaded) {
-				transparency += 1;
+			if (!hasFaded) {// hasn't faded yet
+				transparency += 1;// fade
 				if (transparency >= 250) {
 					transparency = 255;
-					hasFaded = true;
+					hasFaded = true;// ended fading the text
 				}
-			} else {
+			} else {// has completed fading
 				transparency -= 1;
 				if (transparency <= 0) {
 					transparency = 0;
-					reset = true;
+					reset = true;// reset the fading for the next text
 				}
 			}
 		}
-		Color title = new Color(255, 255, 255, transparency);
+		Color title = new Color(255, 255, 255, transparency);// colour of the text that changes
 		g2.setColor(title);
 		g2.setFont(new Font("calibri", Font.BOLD, 60));
-		if (carWorldX < 3000 && carWorldX < 3500) {
+		if (carWorldX < 3000 && carWorldX < 3500) {// displays this text between these coordinates
 			g2.drawString("Are We Cooked Interactive", 60, 250);
 			g2.drawString("Presents...", 280, 400);
 		}
-		if (carWorldX >= 3500 && carWorldX <= 4600) {
+		if (carWorldX >= 3500 && carWorldX <= 4600) {// displays this text between these coordinates
 			g2.drawString("Whispers Of", 220, 250);
 			g2.drawString("The Deceived", 210, 400);
 		}
 	}
 
-	private boolean movementPrompt = false;
-	private int instructionsX = 640;
-	private int instructionsY = 10;
-	private boolean hoveringInstructions = false;
-	private boolean instructionsPrompt = false;
-	private boolean hoveringObjective = false;
-	private boolean hoveringMovement = false;
-	private Color selected = new Color(144, 50, 50);
-	private Color unselected = new Color(193, 45, 57);
-
+	/**
+	 * Graphics for the instructions menu
+	 * 
+	 * @param g2
+	 */
 	public void instructions(Graphics2D g2) {
 		Font calibri = new Font("Calibri", Font.BOLD, 18);
 		g2.setFont(calibri);
-		if (hoveringInstructions) {
+		if (hoveringInstructions) {// hovering over the instructions button
 			g2.setColor(selected);
 			g2.fillRoundRect(instructionsX, instructionsY, 120, 40, 10, 10);
 			g2.setColor(Color.WHITE);
 			g2.drawString("Instructions", 655, 35);
 
-		} else {
+		} else {// not hovering over the instructions button
 			g2.setColor(unselected);
 			g2.fillRoundRect(instructionsX, instructionsY, 120, 40, 10, 10);
 			g2.setColor(Color.WHITE);
 			g2.drawString("Instructions", 655, 35);
 		}
-		if (instructionsPrompt) {
+		if (instructionsPrompt) {// in instructions menu
 			g2.setColor(Color.BLACK);
 			g2.drawRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
 			g2.setColor(Color.DARK_GRAY);
@@ -509,17 +584,17 @@ public class Items implements ReadFromFile {
 			g2.fillRect(263, 117, 283, 2);
 
 			// Movement
-			if (hoveringMovement) {
+			if (hoveringMovement) {// hovering over the movement button
 				g2.setColor(selected);
 				g2.fillRoundRect(305, 160, 195, 62, 20, 20);
-			} else if (!hoveringMovement) {
+			} else if (!hoveringMovement) {// not hovering over the movement button
 				g2.setColor(unselected);
 				g2.fillRoundRect(305, 160, 195, 62, 20, 20);
 			}
-			if (hoveringObjective) {
+			if (hoveringObjective) {// hovering over the objective button
 				g2.setColor(selected);
 				g2.fillRoundRect(305, 250, 195, 62, 20, 20);
-			} else if (!hoveringObjective) {
+			} else if (!hoveringObjective) {// not hovering over the objective button
 				g2.setColor(unselected);
 				g2.fillRoundRect(305, 250, 195, 62, 20, 20);
 			}
@@ -531,45 +606,49 @@ public class Items implements ReadFromFile {
 		}
 	}
 
-	private boolean backPressed = false;
-	private boolean hoveringBack = false;
-	private boolean objectivePrompts = false;
-	private boolean inHouse = false;
-
+	/**
+	 * This method is responsible for the back button that appears in the
+	 * instructions menu
+	 * 
+	 * @param g2
+	 */
 	public void backMenu(Graphics2D g2) {
-		if (!hoveringBack) {
+		if (!hoveringBack) {// not hovering over the back button
 			g2.setColor(unselected);
 			g2.fillRoundRect(335, 430, 130, 45, 10, 10);
 			g2.setFont(new Font("Calibri", Font.BOLD, 25));
 			g2.setColor(Color.WHITE);
 			g2.drawString("Go Back", 357, 460);
-		} else {
+		} else {// hovering over the back button
 			g2.setColor(selected);
 			g2.fillRoundRect(335, 430, 130, 45, 10, 10);
 			g2.setFont(new Font("Calibri", Font.BOLD, 25));
 			g2.setColor(Color.WHITE);
 			g2.drawString("Go Back", 357, 460);
 		}
-		if (backPressed) {
-			if (movementPrompt) {
-				movementPrompt = false;
-				instructionsPrompt = true;
-			} else if (objectivePrompts) {
-				objectivePrompts = false;
-				instructionsPrompt = true;
+		if (backPressed) {// pressed the back button
+			if (movementPrompt) {// in the movement menu
+				movementPrompt = false;// no longer in the movement menu
+				instructionsPrompt = true;// go back to the instructions menu
+			} else if (objectivePrompts) {// in objective menu
+				objectivePrompts = false;// no longer in the objective menu
+				instructionsPrompt = true;// go back to the objective menu
+			} else if (instructionsPrompt) {// in instructions menu
+				instructionsPrompt = false;// no longer in instructions menu
+				input.setInstructionsPressed(false);// reset the instructions pressed
 			}
-
-			else if (instructionsPrompt) {
-				instructionsPrompt = false;
-				input.setInstructionsPressed(false);
-			}
-			backPressed = false;
+			backPressed = false;// reset the back button pressed
 		}
 	}
 
+	/**
+	 * This method creates the graphics for the prompts in the instructions menu
+	 * 
+	 * @param g2
+	 */
 	public void prompts(Graphics2D g2) {
-		if (movementPrompt) {
-			instructionsPrompt = false;
+		if (movementPrompt) {// in the movement menu
+			instructionsPrompt = false;// no longer in the instructions menu
 			g2.setColor(Color.BLACK);
 			g2.drawRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
 			g2.setColor(Color.DARK_GRAY);
@@ -586,8 +665,8 @@ public class Items implements ReadFromFile {
 			g2.drawString("Up", 375, 178 + 20);
 			g2.drawString("Down", 341, 368 + 20);
 		}
-		if (objectivePrompts) {
-			instructionsPrompt = false;
+		if (objectivePrompts) {// in the objective menu
+			instructionsPrompt = false;// no longer in the instructions menu
 
 			g2.setColor(Color.BLACK);
 			g2.drawRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
@@ -599,40 +678,46 @@ public class Items implements ReadFromFile {
 			g2.setColor(Color.BLACK);
 			g2.drawString("Current Objective", 180, 112 + 10);
 			g2.fillRect(180, 116 + 10, 410, 2);
-			if (m.getCurrentMap() == 3 && !carUsed && !m.isDoneNightmare()) {
+			if (m.getCurrentMap() == 3 && !carUsed && !m.isDoneNightmare()) {// just started the game (hasn't been in
+																				// house before)
 				g2.setFont(new Font("Monospaced", Font.BOLD, 30));
 				g2.drawImage(door, 300, 50 + 80, 200, 200, null);
 				g2.drawString("Go in the house", 270, 330);
-			} else if (m.getCurrentMap() == 2 && !m.isDoneNightmare()) {
+			} else if (m.getCurrentMap() == 2 && !m.isDoneNightmare()) {// in the house
 				g2.setFont(new Font("Monospaced", Font.BOLD, 30));
 				g2.drawImage(bed, 360, 200, 75, 75, null);
 				g2.drawString("Go to sleep", 300, 330);
-			} else if (m.getCurrentMap() == 2 && m.isDoneNightmare() && !m.isLookInMirror()) {
+			} else if (m.getCurrentMap() == 2 && m.isDoneNightmare() && !m.isLookInMirror()) {// finished the nightmare
+																								// in the house
 				g2.setFont(new Font("Monospaced", Font.BOLD, 30));
 				g2.drawImage(door, 300, 50 + 80, 200, 200, null);
 				g2.drawString("Leave the house", 270, 330);
-			} else if (m.getCurrentMap() == 3 && m.isDoneNightmare() && !carUsed) {
+			} else if (m.getCurrentMap() == 3 && m.isDoneNightmare() && !carUsed) {// outside of the house and hasn't
+																					// gone in the car yet
 				g2.setFont(new Font("Monospaced", Font.BOLD, 30));
 				g2.drawImage(car, 350, 160, 96, 192, null);
 				g2.drawString("Get in the car", 280, 330);
-			} else if (m.getCurrentMap() == 3 && carUsed && !input.isReadBook()) {
+			} else if (m.getCurrentMap() == 3 && carUsed && !input.isReadBook()) {// has finished the car scene but
+																					// hasn't gone to the graveyard yet
 				g2.setFont(new Font("Monospaced", Font.BOLD, 30));
 				g2.drawImage(exorcism, 280, 160, 240, 160, null);
 				g2.drawString("Open the book in the graveyard", 120, 360);
 				g2.drawString("Press B to do so", 250, 400);
-			} else if (m.getCurrentMap() == 3 && carUsed && input.isReadBook()) {
+			} else if (m.getCurrentMap() == 3 && carUsed && input.isReadBook()) {// has read the graveyard book but
+																					// hasn't gone into the doctrine yet
 				g2.setFont(new Font("Monospaced", Font.BOLD, 30));
 				g2.drawImage(doctrine, 350, 160, 96, 192, null);
 				g2.drawString("Go into the doctrine", 220, 400);
-			} else if (m.getCurrentMap() == 4 && !doneDoctrineGhost) {
+			} else if (m.getCurrentMap() == 4 && !doneDoctrineGhost) {// hasn't talked to the doctrine ghost yet
 				g2.setFont(new Font("Monospaced", Font.BOLD, 30));
 				g2.drawImage(ghost, 300, 160, 200, 192, null);
 				g2.drawString("Go up to the ghost", 230, 400);
-			} else if (m.getCurrentMap() == 4 && doneDoctrineGhost) {
+			} else if (m.getCurrentMap() == 4 && doneDoctrineGhost) {// talked to the doctrine ghost, but hasn't gone in
+																		// the exorcism room
 				g2.setFont(new Font("Monospaced", Font.BOLD, 30));
 				g2.drawImage(door, 300, 50 + 80, 200, 200, null);
 				g2.drawString("Go through the door", 220, 360);
-			} else if (m.getCurrentMap() == 5) {
+			} else if (m.getCurrentMap() == 5) {// in the exorcism room
 				g2.setFont(new Font("Monospaced", Font.BOLD, 30));
 				g2.drawImage(ghost, 300, 160, 200, 192, null);
 				g2.drawString("Exorcise the ghosts", 230, 400);
@@ -642,128 +727,149 @@ public class Items implements ReadFromFile {
 		}
 	}
 
+	/**
+	 * This method is responsible for the animation of the car scene in the
+	 * beginning of the game
+	 * 
+	 * @param gp
+	 */
 	public void animation(GamePanel gp) {
-		if (carOn) {
-			carWorldX += 3;
+		if (carOn) {// user in car
+			carWorldX += 3;// go to the right
 			gp.setWorldX(gp.getWorldX() + 3);
 			animationFrame++;
 
-			if (carWorldX >= 4700) {
+			if (carWorldX >= 4700) {// reached the graveyard area
 				carWorldX = 4700;
-				carOn = false;
-				carUsed = true;
-				car = brokenCar;
-				j.setJumpscare(true);
-				visible = true;
-				p.disableCharacterMovement();
+				carOn = false;// stop the car
+				carUsed = true;// used the car
+				car = brokenCar;// change the perfect condition car to the broken car
+				j.setJumpscare(true);// start the jumpscare
+				visible = true;// charcater is now visible again
+				p.disableCharacterMovement();// enable character movement
 			}
 		}
 	}
 
-	private boolean inGraveYard = false;
-	private int graveX = 4600;
-	private int graveY = 333;
-	private BufferedImage ghost;
-	private boolean firstTime = true;
-
+	/**
+	 * This is the method responsible for all the graphics of the ghost in the game
+	 * 
+	 * @param g2
+	 * @param ghostGraveYardX
+	 * @param ghostGraveYardY
+	 * @param width
+	 * @param height
+	 * @param gp
+	 * @throws IOException
+	 * @see Pixel Art Animated Film Ghost, Ghost, Angle, Text PNG | Pngegg,
+	 *      {@link https://www.pngegg.com/en/png-mrsui}.
+	 */
 	public void ghost(Graphics2D g2, int ghostGraveYardX, int ghostGraveYardY, int width, int height, GamePanel gp)
 			throws IOException {
 
-		int ghostX = ghostGraveYardX - gp.getWorldX();
-		int ghostY = ghostGraveYardY - gp.getWorldY();
+		int ghostX = ghostGraveYardX - gp.getWorldX();// x coordinate of the ghost
+		int ghostY = ghostGraveYardY - gp.getWorldY();// y coordinate of the ghost
 
-		ghost = ImageIO.read(new File("src/textures/ghost.png"));
-		g2.drawImage(ghost, ghostX, ghostY, width, height, null);
+		ghost = ImageIO.read(new File("src/textures/ghost.png"));// image of ghost
+		g2.drawImage(ghost, ghostX, ghostY, width, height, null);// draws the ghost
 
 	}
 
-	private int level = 8;
-	private String ghostShape = "";
-
+	/**
+	 * This method is responsible for the appearing the ghosts in every level in the
+	 * exorcism room
+	 * 
+	 * @param g2
+	 * @param offsetY
+	 * @param gp
+	 * @throws IOException
+	 */
 	public void drawGhost(Graphics2D g2, int offsetY, GamePanel gp) throws IOException {
 		if (level == 1) {
-			if (!destroyCircle) {
-				minigameGhost(g2, 1200 - 20, 820 + 50 + offsetY, "Circle", 250, 196, gp);
+			if (!destroyCircle) {// hasn't exorcised the circle ghost
+				minigameGhost(g2, 1200 - 20, 820 + 50 + offsetY, "Circle", 250, 196, gp);// circle ghost appears
 			}
-			if (!destroyTriangle) {
-				minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "Triangle", 250, 196, gp);
+			if (!destroyTriangle) {// hasn't exorcised the triangle ghost
+				minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "Triangle", 250, 196, gp);// triangle ghost appears
 			}
 
 		} else if (level == 2) {
-			if (!destroyHorizontal) {
-				minigameGhost(g2, 1200 - 20, 820 + 50 + offsetY, "Horizontal", 250, 196, gp);
+			if (!destroyHorizontal) {// hasn't exorcised the horizontal ghost
+				minigameGhost(g2, 1200 - 20, 820 + 50 + offsetY, "Horizontal", 250, 196, gp);// horizontal ghost appears
 			}
 
-			if (!destroyZigzag) {
-				minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "Zigzag", 250, 196, gp);
+			if (!destroyZigzag) {// hasn't exorcised the zigzag ghost
+				minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "Zigzag", 250, 196, gp);// zigzag ghost appears
 			}
 
 		} else if (level == 3) {
-			if (!destroyVertical) {
-				minigameGhost(g2, 1200 - 20, 820 + 50 + offsetY, "Vertical", 250, 196, gp);
+			if (!destroyVertical) {// hasn't exorcised the vertical ghost
+				minigameGhost(g2, 1200 - 20, 820 + 50 + offsetY, "Vertical", 250, 196, gp);// vertical ghost appears
 			}
-			if (!destroyHorizontal) {
-				minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "Horizontal", 250, 196, gp);
+			if (!destroyHorizontal) {// hasn't exorcised the horizontal ghost
+				minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "Horizontal", 250, 196, gp);// horizontal ghost appears
 			}
 
 		} else if (level == 4) {
-			if (!destroyHorizontal) {
-				minigameGhost(g2, 1200 - 20, 820 + 50 + offsetY, "Horizontal", 250, 196, gp);
+			if (!destroyHorizontal) {// hasn't exorcised the horizontal ghost
+				minigameGhost(g2, 1200 - 20, 820 + 50 + offsetY, "Horizontal", 250, 196, gp);// horizontal ghost appears
 			}
-			if (!destroyTriangle) {
-				minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "Triangle", 250, 196, gp);
+			if (!destroyTriangle) {// hasn't exorcised the triangle ghost
+				minigameGhost(g2, 1200 - 210, 820 - 0 + offsetY, "Triangle", 250, 196, gp);// triangle ghost appears
 			}
 
 		} else if (level == 5) {
-			minigameGhost(g2, 1200 - 20, 820 - 0 + offsetY, "duoghost1", 250, 196, gp);
-			if (!destroyLeftGhost) {
-				minigameGhost(g2, 1200 - 210, 820 + 50 + offsetY, "duoghost2", 250, 196, gp);
+			minigameGhost(g2, 1200 - 20, 820 - 0 + offsetY, "duoghost1", 250, 196, gp);// the right ghost appears
+			if (!destroyLeftGhost) {// hasn't exorcised both shapes of the ghost
+				minigameGhost(g2, 1200 - 210, 820 + 50 + offsetY, "duoghost2", 250, 196, gp);// the left ghost appears
 			}
 		} else if (level == 6) {
-			minigameGhost(g2, 1200 - 20, 820 - 0 + offsetY, "duoghost3", 250, 196, gp);
-			if (!destroyLeftGhost) {
-				minigameGhost(g2, 1200 - 210, 820 + 50 + offsetY, "duoghost4", 250, 196, gp);
+			minigameGhost(g2, 1200 - 20, 820 - 0 + offsetY, "duoghost3", 250, 196, gp);// the right ghost appears
+			if (!destroyLeftGhost) {// hasn't exorcised both shapes of the ghost
+				minigameGhost(g2, 1200 - 210, 820 + 50 + offsetY, "duoghost4", 250, 196, gp);// the left ghost appears
 			}
 		} else if (level == 7) {
-			minigameGhost(g2, 1100 - 20, 820 - 0 + offsetY, "trioghost", 250, 196, gp);
+			minigameGhost(g2, 1100 - 20, 820 - 0 + offsetY, "trioghost", 250, 196, gp);// the three shape ghost appears
 		} else if (level == 8) {
-			npc.setTextIndex(0);
-			minigameGhost(g2, 1100 - 20, 820 - 0 + offsetY, "bossghost", 250, 196, gp);
+			npc.setTextIndex(0);// reset text index for the text the ghost says
+			minigameGhost(g2, 1100 - 20, 820 - 0 + offsetY, "bossghost", 250, 196, gp);// the five shape ghost appears
 		}
 	}
 
-	private int ghostNumberLeft;
-	private int ghostNumberRight;
-	private boolean ghostAppeared = false;
-	private int ghostCount = 0;
-	private boolean reachedPeak = false;
-
-	private int yVal = 0;
-
+	/**
+	 * This method is responsible for the movement of the ghosts (going up and down)
+	 * and going to the next level once the current level is fully exorcised
+	 * 
+	 * @param g2
+	 * @param gp
+	 * @throws IOException
+	 */
 	public void ghostLogic(Graphics2D g2, GamePanel gp) throws IOException {
 		// Hovering ghost
-		if (!reachedPeak) {
-			if (yVal <= 40) {
-				yVal++;
+		// Y values of the ghosts
+		if (!reachedPeak) {// hasn't gone upwards to its peak height
+			if (yVal <= 40) {// less than the limit it can go up
+				yVal++;// keep going up
 			}
-			if (yVal == 40) {
-				reachedPeak = true;
+			if (yVal == 40) {// has gone as far as it should go
+				reachedPeak = true;// has reached its peak
 			}
 		}
-		if (reachedPeak) {
-			if (yVal >= -40) {
-				yVal--;
+		if (reachedPeak) {// has reached its peak height
+			if (yVal >= -40) {// while its less than the minimum height
+				yVal--;// go back down
 			}
-			if (yVal == -40) {
-				reachedPeak = false;
+			if (yVal == -40) {// has reached its minimum height
+				reachedPeak = false;// go back up
 			}
 		}
 
 		if (ghostCount == 2 && !levelShape.equals("duoghost1") && !levelShape.equals("duoghost2")
 				&& !levelShape.equals("duoghost3") && !levelShape.equals("duoghost4") && !levelShape.equals("trioghost")
-				&& !levelShape.equals("bossghost")) {
-			level++;
-			ghostCount = 0;
+				&& !levelShape.equals("bossghost")) {// exorcising the single shape ghosts
+			level++;// increase the level
+			ghostCount = 0;// reset the ghost count
+			// Reset all the shape detection
 			destroyCircle = false;
 			destroyTriangle = false;
 			destroyZigzag = false;
@@ -772,10 +878,12 @@ public class Items implements ReadFromFile {
 		}
 
 		if (ghostCount == 4 && (levelShape.equals("duoghost1") || levelShape.equals("duoghost2")
-				|| levelShape.equals("duoghost3") || levelShape.equals("duoghost4"))) {
+				|| levelShape.equals("duoghost3") || levelShape.equals("duoghost4"))) {// exorcising the duo shape
+																						// ghosts
 
-			level++;
-			ghostCount = 0;
+			level++;// increase the level
+			ghostCount = 0;// reset the ghost count
+			// Reset all the shape detection
 			destroyCircle = false;
 			destroyTriangle = false;
 			destroyZigzag = false;
@@ -786,10 +894,11 @@ public class Items implements ReadFromFile {
 
 		}
 
-		if (ghostCount == 3 && destroyTrioGhost) {
+		if (ghostCount == 3 && destroyTrioGhost) {// exorcising the trio shape ghosts
 
-			level++;
-			ghostCount = 0;
+			level++;// increase the level
+			ghostCount = 0;// reset the ghost count
+			// Reset all the shape detection
 			destroyCircle = false;
 			destroyTriangle = false;
 			destroyZigzag = false;
@@ -798,9 +907,9 @@ public class Items implements ReadFromFile {
 			destroyTrioGhost = false;
 
 		}
-		if (ghostCount == 5 && destroyBossGhost) {
-			level++;
-			destroyCircle = false;
+		if (ghostCount == 5 && destroyBossGhost) {// exorcising the boss ghost (five shapes)
+			level++;// increase the level
+			destroyCircle = false;// Reset all the shape detection
 			destroyTriangle = false;
 			destroyZigzag = false;
 			destroyHorizontal = false;
@@ -808,32 +917,35 @@ public class Items implements ReadFromFile {
 			destroyBossGhost = false;
 		}
 
-		if (level == 9) {
+		if (level == 9) {// the level when the human transformation occurs
 			g2.drawImage(human, 350, 230, 192, 280, null);
-			npc.text(g2, 8);
+			npc.text(g2, 8);// jeff and human conversation
 		}
 
-		drawGhost(g2, yVal, gp);
+		drawGhost(g2, yVal, gp);// draws the ghosts in the exorcism room
 	}
 
-	private boolean destroyDuoGhost = false;
-	private boolean addedShapes = false;
-	public boolean destroyLeftGhost = false;
-	public boolean destroyRightGhost = false;
-	public boolean destroyTrioGhost = false;
-	public boolean destroyBossGhost = false;
-
-	private String levelShape = " ";
-
+	/**
+	 * This method is responsible for creating the shapes that appear above the
+	 * exorcism ghosts and also the top right order menu
+	 * 
+	 * @param shape
+	 * @param ghostX
+	 * @param ghostY
+	 * @param g2
+	 * @param offsetX
+	 */
 	public void randomShape(String shape, int ghostX, int ghostY, Graphics2D g2, int offsetX) {
-		if (shape.equalsIgnoreCase("Triangle")) {
+		if (shape.equalsIgnoreCase("Triangle")) {// ghost should have a triangle above its head
+			// draw the triangle
 			g2.setStroke(new BasicStroke(4));
 			g2.setColor(Color.RED);
 			int[] xTriangle = { ghostX - 260 + offsetX, ghostX - 230 + offsetX, ghostX - 290 + offsetX };
 			int[] yTriangle = { ghostY - 350, ghostY - 290, ghostY - 290 };
 			g2.drawPolygon(xTriangle, yTriangle, 3);
 
-			if (level == 1 || level == 4 || level == 6 || level == 7) {
+			if (level == 1 || level == 4 || level == 6 || level == 7) {// draws triangle in the top left order as the
+																		// first one
 				// Frame triangle
 				int[] xFrame = { 100, 85, 115 };
 				int[] yFrame = { 20, 50, 50 };
@@ -843,14 +955,14 @@ public class Items implements ReadFromFile {
 				int[] yFrame = { 27, 42, 42 };
 				g2.drawPolygon(xFrame, yFrame, 3);
 			}
-		} else if (shape.equalsIgnoreCase("Circle")) {
+		} else if (shape.equalsIgnoreCase("Circle")) {// ghost should have a circle above its head
 			g2.setStroke(new BasicStroke(4));
 			g2.setColor(Color.RED);
-			g2.drawOval(ghostX - 290 + offsetX, ghostY - 350, 60, 60);
+			g2.drawOval(ghostX - 290 + offsetX, ghostY - 350, 60, 60);// oval
 
 			if (level == 1) {
 				// Frame Circle
-				g2.drawOval(130, 17, 35, 35);
+				g2.drawOval(130, 17, 35, 35);// top left order circle
 			} else if (level == 5) {
 				g2.drawOval(110, 17, 35, 35);
 			} else if (level == 6) {
@@ -860,15 +972,17 @@ public class Items implements ReadFromFile {
 			} else if (level == 8) {
 				g2.drawOval(170, 20, 25, 25);
 			}
-		} else if (shape.equalsIgnoreCase("Zigzag")) {
+		} else if (shape.equalsIgnoreCase("Zigzag")) {// zigzag ghost
 			g2.setStroke(new BasicStroke(4));
 			g2.setColor(Color.RED);
+			// Draw the zigzag shape
 			int[] xZigzag = { ghostX - 150 - 140 + offsetX, ghostX - 100 - 140 + offsetX, ghostX - 150 - 140 + offsetX,
 					ghostX - 100 - 140 + offsetX };
 			int[] yZigzag = { ghostY - 195 - 140, ghostY - 195 - 140, ghostY - 145 - 140, ghostY - 145 - 140 };
 			g2.drawPolyline(xZigzag, yZigzag, 4);
 
 			if (level == 2) {
+				// Zigzag top left order
 				// Frame Zigzag
 				int[] xFrame = { 7 + 125, -30 + 125, 7 + 125, -30 + 125 };
 				int[] yFrame = { 41 + 15, 41 + 15, 3 + 15, 3 + 15 };
@@ -887,11 +1001,13 @@ public class Items implements ReadFromFile {
 				g2.drawPolyline(xFrame, yFrame, 4);
 			}
 
-		} else if (shape.equalsIgnoreCase("Vertical")) {
+		} else if (shape.equalsIgnoreCase("Vertical")) {// vertical ghost
+			// Draw vertical line above ghost head
 			g2.setColor(Color.RED);
 			g2.fillRect(ghostX - 260 + offsetX, ghostY - 355, 4, 60);
 
 			if (level == 3) {
+				// Vertical line top left order
 				// Frame Vertical
 				g2.fillRect(180, 10, 4, 50);
 			} else if (level == 5) {
@@ -899,12 +1015,13 @@ public class Items implements ReadFromFile {
 			} else if (level == 8) {
 				g2.fillRect(210, 19, 4, 30);
 			}
-		} else if (shape.equalsIgnoreCase("Horizontal")) {
+		} else if (shape.equalsIgnoreCase("Horizontal")) {// horizontal line ghost
+			// Draw horizontal line above ghost head
 			g2.setColor(Color.RED);
 			g2.fillRect(ghostX - 290 + offsetX, ghostY - 313, 60, 4);
 
 			// Frame Horizontal
-			if (level == 2 || level == 4) {
+			if (level == 2 || level == 4) {// top left order horizontal line
 				g2.fillRect(160, 32, 50, 4);
 			} else if (level == 3) {
 				g2.fillRect(90, 32, 50, 4);
@@ -916,82 +1033,82 @@ public class Items implements ReadFromFile {
 				g2.fillRect(80, 32, 40, 4);
 			}
 
-		} else if (shape.equalsIgnoreCase("duoghost1")) {
-			levelShape = shape;
-			if (!destroyHorizontal) {
-				ghostShape = "Horizontal";
-			} else if (destroyHorizontal && !destroyZigzag) {
-				ghostShape = "Zigzag";
+		} else if (shape.equalsIgnoreCase("duoghost1")) {// first two shape ghost
+			levelShape = shape;// store shape in global variable for other methods
+			if (!destroyHorizontal) {// hasn't destroyed the horizontal line yet
+				ghostShape = "Horizontal";// still show the horizontal shape
+			} else if (destroyHorizontal && !destroyZigzag) {// has destroyed the first shape (horizontal line)
+				ghostShape = "Zigzag";// horizontal line dissappears
 			}
-			if (!addedShapes && !destroyHorizontal) {
+			if (!addedShapes && !destroyHorizontal) {// stores current active shapes in arrayList
 				shapesArray.add("Horizontal");
 			}
-			if (!addedShapes && !destroyZigzag) {
+			if (!addedShapes && !destroyZigzag) {// stores current active shapes in arrayList
 				shapesArray.add("Zigzag");
 			}
 
-			for (int i = 0; i < shapesArray.size(); i++) {
+			for (int i = 0; i < shapesArray.size(); i++) {// draws the shapes on top of the ghosts heads
 				randomShape(shapesArray.get(i), ghostX, ghostY, g2, offsetX - 40 + (80 * i));
 			}
 
-			if (destroyHorizontal && shapesArray.contains("Horizontal")) {
-				shapesArray.remove("Horizontal");
+			if (destroyHorizontal && shapesArray.contains("Horizontal")) {// horizontal line detected
+				shapesArray.remove("Horizontal");// no longer show the horizontal line above the ghosts head
 				addedShapes = true;
 			}
 
 			shapesArray.clear();
-			if (!destroyRightGhost) {
-				if (isDestroyHorizontal() && isDestroyZigzag()) {
-					destroyRightGhost = true;
+			if (!destroyRightGhost) {// hasn't destroyed the first ghost
+				if (isDestroyHorizontal() && isDestroyZigzag()) {// exorcised both shapes of the singular ghost
+					destroyRightGhost = true;// make the ghost dissappear
 				}
 			}
-		} else if (shape.equalsIgnoreCase("duoghost2")) {
-			levelShape = shape;
-			if (!destroyVertical) {
-				ghostShape = "Vertical";
-			} else if (destroyVertical && !destroyCircle) {
-				ghostShape = "Circle";
+		} else if (shape.equalsIgnoreCase("duoghost2")) {// second two shape ghost
+			levelShape = shape;// store shape in global variable for other methods
+			if (!destroyVertical) {// hasn't destroyed the vertical line yet
+				ghostShape = "Vertical";// still show the vertical shape
+			} else if (destroyVertical && !destroyCircle) {// has destroyed the first shape (vertical line)
+				ghostShape = "Circle";// horizontal line dissappears
 			}
-			if (!addedShapes && !destroyVertical) {
+			if (!addedShapes && !destroyVertical) {// stores current active shapes in arrayList
 				shapesArray.add("Vertical");
 			}
-			if (!addedShapes && !destroyCircle) {
+			if (!addedShapes && !destroyCircle) {// stores current active shapes in arrayList
 				shapesArray.add("Circle");
 			}
 
-			for (int i = 0; i < shapesArray.size(); i++) {
+			for (int i = 0; i < shapesArray.size(); i++) {// draws the shapes on top of the ghosts heads
 				randomShape(shapesArray.get(i), ghostX, ghostY, g2, offsetX - 40 + (80 * i));
 			}
 
-			if (destroyVertical && shapesArray.contains("Vertical")) {
-				shapesArray.remove("Vertical");
+			if (destroyVertical && shapesArray.contains("Vertical")) {// vertical line detected
+				shapesArray.remove("Vertical");// no longer show the vertical line above the ghosts head
 				addedShapes = true;
 			}
 			shapesArray.clear();
-			if (!destroyLeftGhost) {
-				if (isDestroyVertical() && isDestroyCircle()) {
-					destroyLeftGhost = true;
+			if (!destroyLeftGhost) {// hasn't destroyed the second ghost
+				if (isDestroyVertical() && isDestroyCircle()) {// exorcised both shapes of the singular ghost
+					destroyLeftGhost = true;// make the ghost dissappear
 				}
 			}
-		} else if (shape.equalsIgnoreCase("duoghost3")) {
-			levelShape = shape;
-			if (!destroyHorizontal) {
-				ghostShape = "Horizontal";
-			} else if (destroyHorizontal && !destroyCircle) {
-				ghostShape = "Circle";
+		} else if (shape.equalsIgnoreCase("duoghost3")) {// third two shape ghost
+			levelShape = shape;// store shape in global variable for other methods
+			if (!destroyHorizontal) {// hasn't destroyed the horizontal line yet
+				ghostShape = "Horizontal";// still show the horizontal shape
+			} else if (destroyHorizontal && !destroyCircle) {// has destroyed the first shape (horizontal line)
+				ghostShape = "Circle";// horizontal line dissappears
 			}
-			if (!addedShapes && !destroyHorizontal) {
+			if (!addedShapes && !destroyHorizontal) {// stores current active shapes in arrayList
 				shapesArray.add("Horizontal");
 			}
-			if (!addedShapes && !destroyCircle) {
+			if (!addedShapes && !destroyCircle) {// stores current active shapes in arrayList
 				shapesArray.add("Circle");
 			}
 
-			for (int i = 0; i < shapesArray.size(); i++) {
+			for (int i = 0; i < shapesArray.size(); i++) {// draws the shapes on top of the ghosts heads
 				randomShape(shapesArray.get(i), ghostX, ghostY, g2, offsetX - 40 + (80 * i));
 			}
 
-			if (destroyHorizontal && shapesArray.contains("Horizontal")) {
+			if (destroyHorizontal && shapesArray.contains("Horizontal")) {// horizontal line detected
 				shapesArray.remove("Horizontal");
 				addedShapes = true;
 			}
@@ -1003,24 +1120,24 @@ public class Items implements ReadFromFile {
 				}
 			}
 		} else if (shape.equalsIgnoreCase("duoghost4")) {
-			levelShape = shape;
-			if (!destroyTriangle) {
-				ghostShape = "Triangle";
-			} else if (destroyTriangle && !destroyZigzag) {
+			levelShape = shape;// store shape in global variable for other methods
+			if (!destroyTriangle) {// hasn't destroyed the triangle yet
+				ghostShape = "Triangle";// still show the triangle shape
+			} else if (destroyTriangle && !destroyZigzag) {// has destroyed the first shape (triangle line)
 				ghostShape = "Zigzag";
 			}
-			if (!addedShapes && !destroyTriangle) {
+			if (!addedShapes && !destroyTriangle) {// stores current active shapes in arrayList
 				shapesArray.add("Triangle");
 			}
-			if (!addedShapes && !destroyZigzag) {
+			if (!addedShapes && !destroyZigzag) {// stores current active shapes in arrayList
 				shapesArray.add("Zigzag");
 			}
 
-			for (int i = 0; i < shapesArray.size(); i++) {
+			for (int i = 0; i < shapesArray.size(); i++) {// draws the shapes on top of the ghosts heads
 				randomShape(shapesArray.get(i), ghostX, ghostY, g2, offsetX - 40 + (80 * i));
 			}
 
-			if (destroyHorizontal && shapesArray.contains("Triangle")) {
+			if (destroyHorizontal && shapesArray.contains("Triangle")) {// triangle detected
 				shapesArray.remove("Triangle");
 				addedShapes = true;
 			}
@@ -1032,41 +1149,41 @@ public class Items implements ReadFromFile {
 				}
 			}
 		} else if (shape.equalsIgnoreCase("trioghost")) {
-			levelShape = shape;
-			if (!destroyTriangle) {
-				ghostShape = "Triangle";
-			} else if (destroyTriangle && !destroyZigzag) {
+			levelShape = shape;// store shape in global variable for other methods
+			if (!destroyTriangle) {// hasn't destroyed the triangle yet
+				ghostShape = "Triangle";// still show the triangle shape
+			} else if (destroyTriangle && !destroyZigzag) {// has destroyed the first shape (triangle line)
 				ghostShape = "Zigzag";
 			} else if (destroyTriangle && destroyZigzag && !destroyCircle) {
 				ghostShape = "Circle";
 			}
 			if (!destroyTriangle) {
-				shapesArray.add("Triangle");
+				shapesArray.add("Triangle");// stores current active shapes in arrayList
 			}
 			if (!destroyZigzag) {
-				shapesArray.add("Zigzag");
+				shapesArray.add("Zigzag");// stores current active shapes in arrayList
 			}
 			if (!destroyCircle) {
-				shapesArray.add("Circle");
+				shapesArray.add("Circle");// stores current active shapes in arrayList
 			}
 
-			for (int i = 0; i < shapesArray.size(); i++) {
+			for (int i = 0; i < shapesArray.size(); i++) {// draws the shapes on top of the ghosts heads
 				randomShape(shapesArray.get(i), ghostX, ghostY, g2, offsetX - 40 + (80 * i));
 			}
 
-			if (destroyTriangle && shapesArray.contains("Zigzag")) {
+			if (destroyTriangle && shapesArray.contains("Zigzag")) {// zigzag detected
 				shapesArray.remove("Zigzag");
 			}
-			if (destroyZigzag && shapesArray.contains("Circle")) {
+			if (destroyZigzag && shapesArray.contains("Circle")) {// circle detected
 				shapesArray.remove("Circle");
 				destroyTrioGhost = true;
 			}
 			shapesArray.clear();
 		} else if (shape.equalsIgnoreCase("bossghost")) {
-			levelShape = shape;
-			if (!destroyHorizontal) {
-				ghostShape = "Horizontal";
-			} else if (destroyHorizontal && !destroyZigzag) {
+			levelShape = shape;// store shape in global variable for other methods
+			if (!destroyHorizontal) {// hasn't destroyed the horizontal line yet
+				ghostShape = "Horizontal";// still show the horizontal shape
+			} else if (destroyHorizontal && !destroyZigzag) {// has destroyed the first shape (horizontal line)
 				ghostShape = "Zigzag";
 			} else if (destroyHorizontal && destroyZigzag && !destroyCircle) {
 				ghostShape = "Circle";
@@ -1075,37 +1192,37 @@ public class Items implements ReadFromFile {
 			} else if (destroyHorizontal && destroyZigzag && destroyCircle && destroyVertical && !destroyTriangle) {
 				ghostShape = "Triangle";
 			}
-			if (!destroyHorizontal) {
+			if (!destroyHorizontal) {// stores current active shapes in arrayList
 				shapesArray.add("Horizontal");
 			}
-			if (!destroyZigzag) {
+			if (!destroyZigzag) {// stores current active shapes in arrayList
 				shapesArray.add("Zigzag");
 			}
-			if (!destroyCircle) {
+			if (!destroyCircle) {// stores current active shapes in arrayList
 				shapesArray.add("Circle");
 			}
-			if (!destroyVertical) {
+			if (!destroyVertical) {// stores current active shapes in arrayList
 				shapesArray.add("Vertical");
 			}
-			if (!destroyTriangle) {
+			if (!destroyTriangle) {// stores current active shapes in arrayList
 				shapesArray.add("Triangle");
 				destroyBossGhost = true;
 			}
 
-			for (int i = 0; i < shapesArray.size(); i++) {
+			for (int i = 0; i < shapesArray.size(); i++) {// draws the shapes on top of the ghosts heads
 				randomShape(shapesArray.get(i), ghostX, ghostY, g2, offsetX - 40 + (80 * i));
 			}
 
-			if (destroyTriangle && shapesArray.contains("Zigzag")) {
+			if (destroyTriangle && shapesArray.contains("Zigzag")) {// zigzag detected
 				shapesArray.remove("Zigzag");
 			}
-			if (destroyZigzag && shapesArray.contains("Circle")) {
+			if (destroyZigzag && shapesArray.contains("Circle")) {// circle detected
 				shapesArray.remove("Circle");
 			}
-			if (destroyZigzag && shapesArray.contains("Vertical")) {
+			if (destroyZigzag && shapesArray.contains("Vertical")) {// vertical line detected
 				shapesArray.remove("Vertical");
 			}
-			if (destroyZigzag && shapesArray.contains("Triangle")) {
+			if (destroyZigzag && shapesArray.contains("Triangle")) {// triangle detected
 				shapesArray.remove("Triangle");
 			}
 
@@ -1114,46 +1231,56 @@ public class Items implements ReadFromFile {
 
 	}
 
-	private int counting = 0;
-	private boolean duoGhostInitialized = false;
-	private int duoShapeLeft = 0;
-	private int duoShapeRight = 0;
-
-	private boolean destroyCircle = false;
-	private boolean destroyTriangle = false;
-	private boolean destroyZigzag = false;
-	private boolean destroyHorizontal = false;
-	private boolean destroyVertical = false;
-
+	/**
+	 * This method draws the ghosts in the exorcism room and puts their respective
+	 * shapes above their heads
+	 * 
+	 * @param g2
+	 * @param ghotsX
+	 * @param ghotsY
+	 * @param shape
+	 * @param width
+	 * @param height
+	 * @param gp
+	 * @throws IOException
+	 */
 	public void minigameGhost(Graphics2D g2, int ghotsX, int ghotsY, String shape, int width, int height, GamePanel gp)
 			throws IOException {
-		int ghostX = ghotsX - worldX;
-		int ghostY = ghotsY - worldY;
-		ghostShape = shape;
+		int ghostX = ghotsX - worldX;// ghost x position
+		int ghostY = ghotsY - worldY;// ghost y position
+		ghostShape = shape;// updates the shape that needs to be exorcised
 		ghost = ImageIO.read(new File("src/textures/minigameghost.png"));
-		randomShape(ghostShape, ghostX, ghostY, g2, 0);
-		ghost(g2, ghostX, ghostY, width, height, gp);
+		randomShape(ghostShape, ghostX, ghostY, g2, 0);// draw the shape above the ghosts head
+		ghost(g2, ghostX, ghostY, width, height, gp);// draw the ghost
 	}
 
+	/**
+	 * This method is responsible for the graveyard ghost and the text it says
+	 * 
+	 * @param g2
+	 * @param gp
+	 * @throws IOException
+	 */
 	public void graveyard(Graphics2D g2, GamePanel gp) throws IOException {
 
-		int inGraveYardX = graveX - gp.getWorldX();
-		int inGraveYardY = graveY - gp.getWorldY();
-		if (inGraveYard) {
-			g2.drawImage(ghost, 480, 280, 250, 196, null);
-			npc.text(g2, 2);
+		if (inGraveYard) {// inside the graveyard
+			g2.drawImage(ghost, 480, 280, 250, 196, null);// image of ghost
+			npc.text(g2, 2);// text he says
 		}
 	}
 
-	private boolean hoveringYes = false;
-	private boolean hoveringNo = false;
-	private boolean inConfirmation = false;
-	private boolean yesPressed = false;
-	private boolean noPressed = false;
-
+	/**
+	 * This method is the graphics for the confirmation menu
+	 * 
+	 * @param g2
+	 * @param text1
+	 * @param text2
+	 * @param textX1
+	 * @param textX2
+	 */
 	public void confirmation(Graphics2D g2, String text1, String text2, int textX1, int textX2) {
 
-		if (!inConfirmation) {
+		if (!inConfirmation) {// exit confirmation menu
 			return;
 		}
 		g2.setColor(Color.BLACK);
@@ -1168,20 +1295,20 @@ public class Items implements ReadFromFile {
 		g2.drawString(text2, textX2, 295);
 		g2.setFont(new Font("Calibri", Font.BOLD, 30));
 
-		if (hoveringYes) {
+		if (hoveringYes) {// hovering over the yes button
 			// Yes box
 			g2.setColor(selected);
 			g2.fillRoundRect(225, 355, 130, 45, 10, 10);
-		} else {
+		} else {// not hovering over the yes button
 			// Yes box
 			g2.setColor(unselected);
 			g2.fillRoundRect(225, 355, 130, 45, 10, 10);
 		}
-		if (hoveringNo) {
+		if (hoveringNo) {// hovering over the no button
 			// No box
 			g2.setColor(selected);
 			g2.fillRoundRect(425, 355, 130, 45, 10, 10);
-		} else {
+		} else {// not hovering over the no button
 			// No box
 			g2.setColor(unselected);
 			g2.fillRoundRect(425, 355, 130, 45, 10, 10);
@@ -1191,14 +1318,16 @@ public class Items implements ReadFromFile {
 		g2.drawString("No", 472, 385);
 	}
 
-	private boolean helpPressed = false;
-	private boolean hoveringX = false;
-
+	/**
+	 * This method is for the graphics of the exit menu
+	 * 
+	 * @param g2
+	 */
 	public void exitMenuOption(Graphics2D g2) {
-		if (hoveringX) {
+		if (hoveringX) {// hovering over the x button in the top right
 			g2.setColor(selected);
 
-		} else {
+		} else {// not hovering over the x button in the top right
 			g2.setColor(unselected);
 		}
 		g2.fillRoundRect(595 + 90, 100 - 40, 30, 30, 10, 10);
@@ -1208,8 +1337,13 @@ public class Items implements ReadFromFile {
 		g2.drawLine(620 + 90, 105 - 40, 604 + 90 - 5, 120 - 40 + 5);
 	}
 
+	/**
+	 * This method is for the graphics of the help menu
+	 * 
+	 * @param g2
+	 */
 	public void help(Graphics2D g2) {
-		if (helpPressed) {
+		if (helpPressed) {// help button has been pressed
 			g2.setColor(Color.BLACK);
 			g2.drawRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
 			g2.setColor(Color.DARK_GRAY);
@@ -1242,14 +1376,17 @@ public class Items implements ReadFromFile {
 			g2.fillRect(370, 255, 52, 2);
 			g2.drawString("Audio", 370, 155);
 			g2.fillRect(370, 157, 54, 2);
-			exitMenuOption(g2);
+			exitMenuOption(g2);// x button in the top right
 		}
 	}
 
-	private boolean creditsPressed = false;
-
+	/**
+	 * This method is the graphics for the credit menu
+	 * 
+	 * @param g2
+	 */
 	public void credits(Graphics2D g2) {
-		if (creditsPressed) {
+		if (creditsPressed) {// the credits button has been pressed
 			g2.setColor(Color.BLACK);
 			g2.drawRoundRect(50, 50, 225 * 3, 155 * 3, 10, 10);
 			g2.setColor(Color.DARK_GRAY);
@@ -1258,9 +1395,9 @@ public class Items implements ReadFromFile {
 			g2.fillRoundRect(60, 60, 218 * 3, 148 * 3, 10, 10);
 			g2.setFont(new Font("Monospaced", Font.BOLD, 40));
 			g2.setColor(Color.BLACK);
-			g2.drawString("Credits", 315, 115);
+			g2.drawString("Credits", 315, 115);// title
 			g2.fillRect(315, 117, 167, 2);
-
+			// Names of people who helped work on this game
 			g2.setFont(new Font("Calibri", Font.BOLD, 20));
 			g2.drawString("Project Lead", 100 + 100, 175);
 			g2.fillRect(100 + 100, 177, 150, 2);
@@ -1284,376 +1421,729 @@ public class Items implements ReadFromFile {
 			g2.drawString("Doctor: Rudra Garg", 300 + 100, 245);
 			g2.drawString("Doctrine Ghost: Akhilan Saravanan", 300 + 100, 270);
 			g2.fillRect(100 + 100, 387, 150, 2);
-			exitMenuOption(g2);
+			exitMenuOption(g2);// x option in the top right
 		}
 	}
 
-	// Timer created from
-	// https://stackoverflow.com/questions/1006611/java-swing-timer
-	private Timer time;
-
+	/**
+	 * This method is used for counting how long the book flipping GIF should play
+	 * for
+	 * 
+	 * @see Java Swing Timer - stack overflow. (n.d.-f).
+	 *      {@link https://stackoverflow.com/questions/1006611/java-swing-timer/1006640}
+	 */
 	public void timer() {
-		time = new Timer(723, new ActionListener() {
+		time = new Timer(723, new ActionListener() {// how long in milliseconds the timer will run (723 milliseconds)
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				playGif = false;
-				staticImageBook = true;
-				time.stop();
+				playGif = false;// not playing the gif
+				staticImageBook = true;// use a static book image (not GIF)
+				time.stop();// stop the timer
 			}
 		});
-		if (time != null && time.isRunning()) {
-			time.stop();
+		if (time != null && time.isRunning()) {// once the timer is done
+			time.stop();// stop it
 		}
-		time.setRepeats(false);
-		time.start();
+		time.setRepeats(false);// don't repeat the timer
+		time.start();// begin the timer
 	}
 
 	// Getters and Setters
+
+	/**
+	 * 
+	 * @param input
+	 */
 	public void setInput(Input input) {
 		this.input = input;
 	}
 
+	/**
+	 * 
+	 * @param level
+	 */
 	public void setLevel(int level) {
 		this.level = level;
 	}
 
+	/**
+	 * 
+	 * @param npc
+	 */
 	public void setNpc(Npc npc) {
 		this.npc = npc;
 	}
 
+	/**
+	 * 
+	 * @param p
+	 */
 	public void setP(Player p) {
 		this.p = p;
 	}
 
+	/**
+	 * 
+	 * @param m
+	 */
 	public void setM(Maps m) {
 		this.m = m;
 	}
 
+	/**
+	 * 
+	 * @param j
+	 */
 	public void setJ(Jumpscare j) {
 		this.j = j;
 	}
 
+	/**
+	 * 
+	 * @return worldX
+	 */
 	public int getWorldX() {
 		return worldX;
 	}
 
+	/**
+	 * 
+	 * @return worldY
+	 */
 	public int getWorldY() {
 		return worldY;
 	}
 
+	/**
+	 * 
+	 * @return carOn
+	 */
 	public boolean isCarOn() {
 		return carOn;
 	}
 
+	/**
+	 * 
+	 * @return animationFrame
+	 */
 	public int getAnimationFrame() {
 		return animationFrame;
 	}
 
+	/**
+	 * 
+	 * @return carWorldX
+	 */
 	public int getCarWorldX() {
 		return carWorldX;
 	}
 
+	/**
+	 * 
+	 * @param inHouse
+	 * @return inHouse
+	 */
 	public boolean isInHouse(boolean inHouse) {
 		return inHouse;
 	}
 
+	/**
+	 * 
+	 * @return carWorldY
+	 */
 	public int getCarWorldY() {
 		return carWorldY;
 	}
 
+	/**
+	 * 
+	 * @return doctrineWorldX
+	 */
 	public int getDoctrineWorldX() {
 		return doctrineWorldX;
 	}
 
+	/**
+	 * 
+	 * @return doctrineWorldY
+	 */
 	public int getDoctrineWorldY() {
 		return doctrineWorldY;
 	}
 
+	/**
+	 * 
+	 * @return enterBook
+	 */
 	public boolean isEnterBook() {
 		return enterBook;
 	}
 
+	/**
+	 * 
+	 * @return hoveringNextPage
+	 */
 	public boolean isHoveringNextPage() {
 		return hoveringNextPage;
 	}
 
+	/**
+	 * 
+	 * @return hoveringExitPage
+	 */
 	public boolean isHoveringExitPage() {
 		return hoveringExitPage;
 	}
 
+	/**
+	 * 
+	 * @return hoveringInstructions
+	 */
 	public boolean isHoveringInstructions() {
 		return hoveringInstructions;
 	}
 
+	/**
+	 * 
+	 * @return instructionsPrompt
+	 */
 	public boolean isInstructionsPrompt() {
 		return instructionsPrompt;
 	}
 
+	/**
+	 * 
+	 * @return hoveringObjective
+	 */
 	public boolean isHoveringObjective() {
 		return hoveringObjective;
 	}
 
+	/**
+	 * 
+	 * @return hoveringMovement
+	 */
 	public boolean isHoveringMovement() {
 		return hoveringMovement;
 	}
 
+	/**
+	 * 
+	 * @return backPressed
+	 */
 	public boolean isBackPressed() {
 		return backPressed;
 	}
 
+	/**
+	 * 
+	 * @return hoveringBack
+	 */
 	public boolean isHoveringBack() {
 		return hoveringBack;
 	}
 
+	/**
+	 * 
+	 * @return inHouse
+	 */
 	public boolean isInHouse() {
 		return inHouse;
 	}
 
+	/**
+	 * 
+	 * @return inGraveYard
+	 */
 	public boolean isInGraveYard() {
 		return inGraveYard;
 	}
 
+	/**
+	 * 
+	 * @param inGraveYard
+	 */
 	public void setInGraveYard(boolean inGraveYard) {
 		this.inGraveYard = inGraveYard;
 	}
 
+	/**
+	 * 
+	 * @return graveX
+	 */
 	public int getGraveX() {
 		return graveX;
 	}
 
+	/**
+	 * 
+	 * @return graveY
+	 */
 	public int getGraveY() {
 		return graveY;
 	}
 
+	/**
+	 * 
+	 * @return firstTime
+	 */
 	public boolean isFirstTime() {
 		return firstTime;
 	}
 
+	/**
+	 * 
+	 * @return ghostShape
+	 */
 	public String getGhostShape() {
 		return ghostShape;
 	}
 
+	/**
+	 * 
+	 * @return ghostCount
+	 */
 	public int getGhostCount() {
 		return ghostCount;
 	}
 
+	/**
+	 * 
+	 * @return destroyDuoGhost
+	 */
 	public boolean isDestroyDuoGhost() {
 		return destroyDuoGhost;
 	}
 
+	/**
+	 * 
+	 * @return destroyCircle
+	 */
 	public boolean isDestroyCircle() {
 		return destroyCircle;
 	}
 
+	/**
+	 * 
+	 * @return destroyTriangle
+	 */
 	public boolean isDestroyTriangle() {
 		return destroyTriangle;
 	}
 
+	/**
+	 * 
+	 * @return destroyZigzag
+	 */
 	public boolean isDestroyZigzag() {
 		return destroyZigzag;
 	}
 
+	/**
+	 * 
+	 * @return destroyHorizontal
+	 */
 	public boolean isDestroyHorizontal() {
 		return destroyHorizontal;
 	}
 
+	/**
+	 * 
+	 * @return destroyVertical
+	 */
 	public boolean isDestroyVertical() {
 		return destroyVertical;
 	}
 
+	/**
+	 * 
+	 * @return hoveringYes
+	 */
 	public boolean isHoveringYes() {
 		return hoveringYes;
 	}
 
+	/**
+	 * 
+	 * @return hoveringNo
+	 */
 	public boolean isHoveringNo() {
 		return hoveringNo;
 	}
 
+	/**
+	 * 
+	 * @return inConfirmation
+	 */
 	public boolean isInConfirmation() {
 		return inConfirmation;
 	}
 
+	/**
+	 * 
+	 * @return helpPressed
+	 */
 	public boolean isHelpPressed() {
 		return helpPressed;
 	}
 
+	/**
+	 * 
+	 * @return hoveringX
+	 */
 	public boolean isHoveringX() {
 		return hoveringX;
 	}
 
+	/**
+	 * 
+	 * @return creditsPressed
+	 */
 	public boolean isCreditsPressed() {
 		return creditsPressed;
 
 	}
 
+	/**
+	 * 
+	 * @param hoveringInstructions
+	 */
 	public void setHoveringInstructions(boolean hoveringInstructions) {
 		this.hoveringInstructions = hoveringInstructions;
 	}
 
+	/**
+	 * 
+	 * @param hoveringNextPage
+	 */
 	public void setHoveringNextPage(boolean hoveringNextPage) {
 		this.hoveringNextPage = hoveringNextPage;
 	}
 
+	/**
+	 * 
+	 * @param hoveringExitPage
+	 */
 	public void setHoveringExitPage(boolean hoveringExitPage) {
 		this.hoveringExitPage = hoveringExitPage;
 	}
 
+	/**
+	 * 
+	 * @param instructionsPrompt
+	 */
 	public void setInstructionsPrompt(boolean instructionsPrompt) {
 		this.instructionsPrompt = instructionsPrompt;
 	}
 
+	/**
+	 * 
+	 * @param hoveringObjective
+	 */
 	public void setHoveringObjective(boolean hoveringObjective) {
 		this.hoveringObjective = hoveringObjective;
 	}
 
+	/**
+	 * 
+	 * @param hoveringMovement
+	 */
 	public void setHoveringMovement(boolean hoveringMovement) {
 		this.hoveringMovement = hoveringMovement;
 	}
 
+	/**
+	 * 
+	 * @param hoveringBack
+	 */
 	public void setHoveringBack(boolean hoveringBack) {
 		this.hoveringBack = hoveringBack;
 	}
 
+	/**
+	 * 
+	 * @param hoveringYes
+	 */
 	public void setHoveringYes(boolean hoveringYes) {
 		this.hoveringYes = hoveringYes;
 	}
 
+	/**
+	 * 
+	 * @param hoveringNo
+	 */
 	public void setHoveringNo(boolean hoveringNo) {
 		this.hoveringNo = hoveringNo;
 	}
 
+	/**
+	 * 
+	 * @param hoveringX
+	 */
 	public void setHoveringX(boolean hoveringX) {
 		this.hoveringX = hoveringX;
 	}
 
+	/**
+	 * 
+	 * @param ghostCount
+	 */
 	public void setGhostCount(int ghostCount) {
 		this.ghostCount = ghostCount;
 	}
 
+	/**
+	 * 
+	 * @param destroyDuoGhost
+	 */
 	public void setDestroyDuoGhost(boolean destroyDuoGhost) {
 		this.destroyDuoGhost = destroyDuoGhost;
 	}
 
+	/**
+	 * 
+	 * @param destroyCircle
+	 */
 	public void setDestroyCircle(boolean destroyCircle) {
 		this.destroyCircle = destroyCircle;
 	}
 
+	/**
+	 * 
+	 * @param destroyTriangle
+	 */
 	public void setDestroyTriangle(boolean destroyTriangle) {
 		this.destroyTriangle = destroyTriangle;
 	}
 
+	/**
+	 * 
+	 * @param destroyZigzag
+	 */
 	public void setDestroyZigzag(boolean destroyZigzag) {
 		this.destroyZigzag = destroyZigzag;
 	}
 
+	/**
+	 * 
+	 * @param destroyHorizontal
+	 */
 	public void setDestroyHorizontal(boolean destroyHorizontal) {
 		this.destroyHorizontal = destroyHorizontal;
 	}
 
+	/**
+	 * 
+	 * @param destroyVertical
+	 */
 	public void setDestroyVertical(boolean destroyVertical) {
 		this.destroyVertical = destroyVertical;
 	}
 
+	/**
+	 * 
+	 * @param backPressed
+	 */
 	public void setBackPressed(boolean backPressed) {
 		this.backPressed = backPressed;
 	}
 
+	/**
+	 * 
+	 * @return movementPrompt
+	 */
 	public boolean isMovementPrompt() {
 		return movementPrompt;
 	}
 
+	/**
+	 * 
+	 * @param movementPrompt
+	 */
 	public void setMovementPrompt(boolean movementPrompt) {
 		this.movementPrompt = movementPrompt;
 	}
 
+	/**
+	 * 
+	 * @return objectivePrompts
+	 */
 	public boolean isObjectivePrompts() {
 		return objectivePrompts;
 	}
 
+	/**
+	 * 
+	 * @param objectivePrompts
+	 */
 	public void setObjectivePrompts(boolean objectivePrompts) {
 		this.objectivePrompts = objectivePrompts;
 	}
 
+	/**
+	 * 
+	 * @param creditsPressed
+	 */
 	public void setCreditsPressed(boolean creditsPressed) {
 		this.creditsPressed = creditsPressed;
 	}
 
+	/**
+	 * 
+	 * @return nextPage
+	 */
 	public int getNextPage() {
 		return nextPage;
 	}
 
+	/**
+	 * 
+	 * @param nextPage
+	 */
 	public void setNextPage(int nextPage) {
 		this.nextPage = nextPage;
 	}
 
+	/**
+	 * 
+	 * @param enterBook
+	 */
 	public void setEnterBook(boolean enterBook) {
 		this.enterBook = enterBook;
 	}
 
+	/**
+	 * 
+	 * @param playGif
+	 */
 	public void setPlayGif(boolean playGif) {
 		this.playGif = playGif;
 	}
 
+	/**
+	 * 
+	 * @param staticImageBook
+	 */
 	public void setStaticImageBook(boolean staticImageBook) {
 		this.staticImageBook = staticImageBook;
 	}
 
+	/**
+	 * 
+	 * @param yesPressed
+	 */
 	public void setYesPressed(boolean yesPressed) {
 		this.yesPressed = yesPressed;
 	}
 
+	/**
+	 * 
+	 * @param noPressed
+	 */
 	public void setNoPressed(boolean noPressed) {
 		this.noPressed = noPressed;
 	}
 
+	/**
+	 * 
+	 * @param helpPressed
+	 */
 	public void setHelpPressed(boolean helpPressed) {
 		this.helpPressed = helpPressed;
 	}
 
+	/**
+	 * 
+	 * @return visible
+	 */
 	public boolean isVisible() {
 		return visible;
 	}
 
+	/**
+	 * 
+	 * @return yesPressed
+	 */
 	public boolean isYesPressed() {
 		return yesPressed;
 	}
 
+	/**
+	 * 
+	 * @return noPressed
+	 */
 	public boolean isNoPressed() {
 		return noPressed;
 	}
 
+	/**
+	 * 
+	 * @param inHouse
+	 */
 	public void setInHouse(boolean inHouse) {
 		this.inHouse = inHouse;
 	}
 
+	/**
+	 * 
+	 * @param inConfirmation
+	 */
 	public void setInConfirmation(boolean inConfirmation) {
 		this.inConfirmation = inConfirmation;
 	}
 
+	/**
+	 * 
+	 * @param firstTime
+	 */
 	public void setFirstTime(boolean firstTime) {
 		this.firstTime = firstTime;
 	}
 
+	/**
+	 * 
+	 * @return carUsed
+	 */
 	public boolean isCarUsed() {
 		return carUsed;
 	}
 
+	/**
+	 * 
+	 * @return carSceneDone
+	 */
 	public boolean isCarSceneDone() {
 		return carSceneDone;
 	}
 
+	/**
+	 * 
+	 * @param carSceneDone
+	 */
 	public void setCarSceneDone(boolean carSceneDone) {
 		this.carSceneDone = carSceneDone;
 	}
 
+	/**
+	 * 
+	 * @param dg
+	 */
 	public void setDoingDoctrineGhost(boolean dg) {
 		this.doingDoctrineGhost = dg;
 	}
 
+	/**
+	 * 
+	 * @return doingDoctrineGhost
+	 */
 	public boolean isDoingDoctrineGhost() {
 		return doingDoctrineGhost;
 	}
 
+	/**
+	 * 
+	 * @param doneDoctrineGhost
+	 */
 	public void setDoneDoctrineGhost(boolean doneDoctrineGhost) {
 		this.doneDoctrineGhost = doneDoctrineGhost;
 	}

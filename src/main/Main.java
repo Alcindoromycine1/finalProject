@@ -44,6 +44,9 @@
  *        humans as ghosts, and that he forced you to exorcise innocent humans.
  *        As your OS shuts down and your hardware fails, you realize that you
  *        were the monster all along.
+ *        
+ *        Note: 
+ *        Any textures or anything else that is not cited was created by one of us 3 using GIMP
  * 
  */
 package main;
