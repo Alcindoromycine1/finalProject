@@ -6,14 +6,6 @@
  * Final Project ICS4U0
  * Whispers of the Deceived
  */
-/**
- * @author Noah Sussman, Akhilan Saravanan and Rudra Garg
- * Ms. Krasteva
- * @since April 2, 2025
- * @version 2.0
- * Final Project ICS4U0
- * Whispers of the Deceived
- */
 package main;
 
 import java.awt.image.*;
@@ -23,6 +15,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import interfaces.ReadFromFile;
+
 /**
  * The tiles class is responsible for managing our basic graphics for the game.
  * It reads values from the maps folder and stores them within an arrayList.
@@ -45,9 +38,9 @@ public class Tiles implements ReadFromFile {
 	}
 
 	/**
-	 * @purpose Method to create tile images based on the map's tile codes. It
-	 *          initializes the tileImages ArrayList and assigns images to each tile
-	 *          code.
+	 * Method to create tile images based on the map's tile codes. It initializes
+	 * the tileImages ArrayList and assigns images to each tile code.
+	 * 
 	 * @throws IOException if there is an error reading the image files.
 	 */
 	@Override
@@ -401,6 +394,11 @@ public class Tiles implements ReadFromFile {
 		}
 	}
 
+	/**
+	 * Setter Method
+	 * 
+	 * @param m
+	 */
 	public void setM(Maps m) { // Setter for Maps instance
 		this.m = m;
 	}

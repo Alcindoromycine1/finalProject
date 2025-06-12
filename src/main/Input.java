@@ -1,18 +1,21 @@
+/**
+ * @author Noah Sussman, Akhilan Saravanan and Rudra Garg
+ * Ms. Krasteva
+ * @since April 2, 2025
+ * @version 2.0
+ * Final Project ICS4U0
+ * Whispers of the Deceived
+ */
 package main;
 
 import java.awt.event.*;
-import java.io.*;
 import java.util.*;
 
 import Horror.Jumpscare;
 
 import java.awt.*;
-
-/*
- * Noah Sussman, Akhilan Saravanan and Rudra Garg
- * Ms. Krasteva
- * April 2, 2025
- * Final Project ICS4U0
+/**
+ * This class is responsible for all the inputs the user has such as cursor movements, key presses, etc
  */
 public class Input implements KeyListener, MouseMotionListener, MouseListener {
 
@@ -73,7 +76,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	}
 
 	/**
-	 * @purpose detects key pressed and stores true or false values into variables
+	 *  detects key pressed and stores true or false values into variables
 	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -105,7 +108,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	}
 
 	/**
-	 * @purpose detects when a specific key was released
+	 *  detects when a specific key was released
 	 */
 	@Override
 	public void keyReleased(KeyEvent e) {
@@ -129,11 +132,10 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 		} else if (code == KeyEvent.VK_C) {// car released
 			cPressed = false;
 		}
-
 	}
 
 	/**
-	 * @purpose used to detect when the mouse is being held and dragged around
+	 *  used to detect when the mouse is being held and dragged around
 	 */
 	@Override
 	public void mouseDragged(MouseEvent e) {
@@ -148,7 +150,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	}
 
 	/**
-	 * @purpose detects when the mouse is being moved (not clicking)
+	 *  detects when the mouse is being moved (not clicking)
 	 */
 	@Override
 	public void mouseMoved(MouseEvent e) {
@@ -259,7 +261,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	}
 
 	/**
-	 * @purpose detects once the mouse dragging has bene released
+	 *  detects once the mouse dragging has bene released
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -271,7 +273,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	}
 
 	/**
-	 * @purpose detects when the user presses with their cursor (not drag)
+	 *  detects when the user presses with their cursor (not drag)
 	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -403,7 +405,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 	}
 
 	/**
-	 * @purpose detects when the mouse that was dragging was then released
+	 *  detects when the mouse that was dragging was then released
 	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {

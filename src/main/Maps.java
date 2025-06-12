@@ -21,6 +21,10 @@ import java.io.*;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
+/**
+ * This class creates the collision for the tiles and creates all the scenes
+ * that appear such as nightmare
+ */
 public class Maps {
 
 	// WORLD SETTINGS
@@ -103,6 +107,13 @@ public class Maps {
 	 * Constructor for the Maps Class
 	 * 
 	 * @param gp
+	 * @see “Hammer Hitting Metal Sound Effect With Download - Free & No Copyright
+	 *      Sounds.” YouTube, YouTube, 2021,
+	 *      {@link https://www.youtube.com/watch?v=X4BPQ65vFzA}.
+	 * @see “Pixel Doctor Character by Moonhauzen Studio on Dribbble.” Moonhauzen
+	 *      Studio,
+	 *      {@link https://dribbble.com/shots/2082762-Pixel-Doctor-Character}.
+	 *      Accessed 11 June 2025.
 	 */
 	public Maps(GamePanel gp) {
 		this.worldX = gp.getWorldX();
@@ -117,10 +128,9 @@ public class Maps {
 
 		try {
 			nightmare = ImageIO.read(new File("src/textures/nightmare.png"));
-			// https://www.youtube.com/watch?v=X4BPQ65vFzA
-			nightmareSound = new Sound("src/sound/hittingMetal.wav");
+			nightmareSound = new Sound("src/sound/hittingMetal.wav");// Audio file taken from the link above
 
-			doctrineSound = new Sound("src/sound/doctrine.wav");
+			doctrineSound = new Sound("src/sound/doctrine.wav");// Audio file taken from the link above
 			doctor = new ImageIcon("src/textures/doctor.gif");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -128,7 +138,8 @@ public class Maps {
 	}
 
 	/**
-	 * @purpose updates the worldX and worldY value of map
+	 * updates the worldX and worldY value of map
+	 * 
 	 * @param worldX
 	 * @param worldY
 	 */
@@ -138,33 +149,34 @@ public class Maps {
 	}
 
 	/**
-	 * @purpose this will take input to detect which map is
+	 * this will take input to detect which map is
+	 * 
 	 * @param mapToChange
 	 * @return the map that is being changed to
 	 */
 	public String changeMap(int mapToChange) {
 		if (mapToChange == 1) {
-			mapIntro("src/maps/mapIntro.txt");//intro scene
+			mapIntro("src/maps/mapIntro.txt");// intro scene
 			currentMap = 1;
 		} else if (mapToChange == 2) {
-			mapIntro("src/maps/mapHouse.txt");//house
+			mapIntro("src/maps/mapHouse.txt");// house
 			currentMap = 2;
 		} else if (mapToChange == 3) {
-			mapIntro("src/maps/openMap.txt");//open map
+			mapIntro("src/maps/openMap.txt");// open map
 			currentMap = 3;
 		} else if (mapToChange == 4) {
-			mapIntro("src/maps/doctrine.txt");//doctrine
+			mapIntro("src/maps/doctrine.txt");// doctrine
 			currentMap = 4;
 		} else if (mapToChange == 5) {
-			mapIntro("src/maps/blank.txt");//exorcism room
+			mapIntro("src/maps/blank.txt");// exorcism room
 			currentMap = 5;
 		}
 		return "-1";// no change map found
-
 	}
 
 	/**
-	 * @purpose reads the numbers from the file and stores into arrayList
+	 * reads the numbers from the file and stores into arrayList
+	 * 
 	 * @param filePath
 	 */
 	public void mapIntro(String filePath) {
@@ -197,8 +209,8 @@ public class Maps {
 	}
 
 	/**
-	 * @purpose stores the numbers from the 2D arrayList into their respective
-	 *          arrayList
+	 * stores the numbers from the 2D arrayList into their respective arrayList
+	 * 
 	 * @throws IOException
 	 */
 	public void findTiles() throws IOException {
@@ -254,8 +266,9 @@ public class Maps {
 	}
 
 	/**
-	 * @purpose Draws the exorcism room background and also controls the movement of
-	 *          the ghosts going up and down
+	 * Draws the exorcism room background and also controls the movement of the
+	 * ghosts going up and down
+	 * 
 	 * @param g2
 	 * @throws IOException
 	 */
@@ -268,6 +281,7 @@ public class Maps {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		// Copy shapes template
 		g2.setColor(new Color(87, 44, 19));
 		g2.fillRoundRect(0, 0, 280, 71, 7, 7);
 		g2.setStroke(new BasicStroke(3));
@@ -291,8 +305,9 @@ public class Maps {
 	}
 
 	/**
-	 * @purpose displays the tiles from tileImages 2D arrayList to only appear on
-	 *          the screen (not outside of the screen)
+	 * displays the tiles from tileImages 2D arrayList to only appear on the screen
+	 * (not outside of the screen)
+	 * 
 	 * @param g2
 	 * @param gp
 	 */
@@ -321,7 +336,8 @@ public class Maps {
 	}
 
 	/**
-	 * @purpose fades in and out of the screen, and teleports you to a new map
+	 * fades in and out of the screen, and teleports you to a new map
+	 * 
 	 * @param g2
 	 * @param t
 	 * @param newMap
@@ -450,9 +466,9 @@ public class Maps {
 	}
 
 	/**
-	 * @purpose this method is responsible for setting the variables that check
-	 *          whether the user is entering an area based on changeMap being
-	 *          Pressed
+	 * this method is responsible for setting the variables that check whether the
+	 * user is entering an area based on changeMap being Pressed
+	 * 
 	 * @param changeMap
 	 * @param oldMap
 	 * @param g2
@@ -505,8 +521,8 @@ public class Maps {
 	}
 
 	/**
-	 * @purpose this method contains all the logic and graphics that occur in the
-	 *          nightmare
+	 * this method contains all the logic and graphics that occur in the nightmare
+	 * 
 	 * @param g2
 	 * @param observer
 	 * @param gp
@@ -578,7 +594,7 @@ public class Maps {
 	}
 
 	/**
-	 * @purpose plays the sounds that appear in the nightmare
+	 * plays the sounds that appear in the nightmare
 	 */
 	public void playNightmareSound() {
 		if (inNightmare && doneFade) {// in the nightmare
@@ -591,7 +607,7 @@ public class Maps {
 	}
 
 	/**
-	 * @purpose plays the sounds that appear in the doctrine
+	 * plays the sounds that appear in the doctrine
 	 */
 	public void playDoctrineSound() {
 		if (currentMap == 4) {// in the doctrine
@@ -606,8 +622,9 @@ public class Maps {
 	}
 
 	/**
-	 * @purpose this is the method that will say that you can enter a certain area
-	 *          if the confirmation menu has been selected as yes
+	 * this is the method that will say that you can enter a certain area if the
+	 * confirmation menu has been selected as yes
+	 * 
 	 * @param gp
 	 * @param g2
 	 */
@@ -699,8 +716,9 @@ public class Maps {
 	}
 
 	/**
-	 * @purpose checks whether you are in the area where the confirmation menu is
-	 *          suppose to appear
+	 * checks whether you are in the area where the confirmation menu is suppose to
+	 * appear
+	 * 
 	 * @param gp
 	 * @return true or false
 	 */
@@ -722,7 +740,8 @@ public class Maps {
 	}
 
 	/**
-	 * @purpose this is the logic and the graphics for the mirror scene
+	 * this is the logic and the graphics for the mirror scene
+	 * 
 	 * @param g2
 	 * @param observer
 	 * @param gp
@@ -748,8 +767,9 @@ public class Maps {
 	}
 
 	/**
-	 * @purpose This is the method that displays the end screen and the fade into
-	 *          the end screen
+	 * This is the method that displays the end screen and the fade into the end
+	 * screen
+	 * 
 	 * @param g2
 	 * @throws IOException
 	 */
@@ -790,13 +810,16 @@ public class Maps {
 	}
 
 	/**
-	 * @purpose makes the game very moody with a black tint on the screen
+	 * makes the game very moody with a black tint on the screen
+	 * 
 	 * @param g2
 	 * @param gp
+	 * @see “Class RadialGradientPaint.” RadialGradientPaint (Java Platform SE 7 ),
+	 *      24 June 2020,
+	 *      {@link https://docs.oracle.com/javase/7/docs/api/java/awt/RadialGradientPaint.html.}
 	 */
 	public void drawTint(Graphics2D g2, GamePanel gp) {
-		// How to use gradients:
-		// https://docs.oracle.com/javase/7/docs/api/java/awt/RadialGradientPaint.html
+		// How to use gradients from the link above:
 		Point2D centerPoint = new Point2D.Float(gp.getPlayerX(), gp.getPlayerY());
 		float tint = 350;
 

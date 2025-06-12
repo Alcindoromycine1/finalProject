@@ -1,9 +1,18 @@
+/**
+ * @author Noah Sussman, Akhilan Saravanan and Rudra Garg
+ * Ms. Krasteva
+ * @since April 2, 2025
+ * @version 2.0
+ * Final Project ICS4U0
+ * Whispers of the Deceived
+ */
 package main;
-
-import Horror.Jumpscare;
 import javax.sound.sampled.*;
 import java.io.*;
 
+/**
+ * This class is responsible for the audio of the game (playing audio, volume, stopping audio, etc)
+ */
 public class Sound {
 
 	private Clip clip;   //the variable to store the audio clip that will be played
@@ -20,6 +29,10 @@ public class Sound {
 
 	}
 	
+	/**
+	 * Reads the audio files
+	 * @param filePath
+	 */
 	public void readFile(String filePath) {
 		try {
 		audioStream = AudioSystem.getAudioInputStream(new File(filePath));
@@ -28,7 +41,9 @@ public class Sound {
 		}
 	}
 	
-	// Constructor that initializes the sound clip
+	/**
+	 * Plays the audio files only once. Restarts back at the beginning when beginning again
+	 */
 	public void play() {
         if (clip != null) { // Checks if the clip is not null before playing
             if (clip.isRunning()) {   // If the clip is already playing, stop it first
@@ -66,4 +81,3 @@ public class Sound {
 	}
 
 }
-//sigma sigma on the wall, whos the skibidiest of them all?

@@ -1,30 +1,29 @@
+/**
+ * @author Noah Sussman, Akhilan Saravanan and Rudra Garg
+ * Ms. Krasteva
+ * @since April 2, 2025
+ * @version 2.0
+ * Final Project ICS4U0
+ * Whispers of the Deceived
+ */
 package main;
-
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.plaf.basic.BasicComboBoxUI.KeyHandler;
 import interfaces.ReadFromFile;
 
-
+/**
+ * This class is responsible for the text that all the Npc's and the character speak. It is also responsible for the voice acting lines they speak
+ */
 public class Npc implements ReadFromFile {
 
-	private Input input;
-	private Items items;
-	private Maps maps;
-
-	private int playerX;
-	private int playerY;
-
-	private int worldX;
-	private int worldY;
+	private Items items;// Reference to the Items class to access Items methods and properties
+	private Maps maps;// Reference to the Maps class to access Maps methods and properties
 
 	private boolean once = false; // used to check if the player has done things
 
@@ -55,27 +54,17 @@ public class Npc implements ReadFromFile {
 	 * @param gp
 	 */
 	public Npc(GamePanel gp) {
-		input = gp.getId();
 		items = gp.getIt();
 		maps = gp.getM();
 
-		input = gp.getId();
 		items = gp.getIt();
 		maps = gp.getM();
-
-		playerX = gp.getPlayerX();
-		playerY = gp.getPlayerY();
-
-		worldX = gp.getWorldX();
-		worldY = gp.getWorldY();
-
-
 		readFile();
 
 	}
 
 	/**
-	 * @purpose loading the different audio voice acting lines
+	 * Loading the different audio voice acting lines
 	 */
 	@Override
 	public void readFile() {
@@ -112,21 +101,7 @@ public class Npc implements ReadFromFile {
 	}
 
 	/**
-	 * @purpose update the player and world positions
-	 * @param playerX
-	 * @param playerY
-	 * @param worldX
-	 * @param worldY
-	 */
-	public void updateNpcValues(int playerX, int playerY, int worldX, int worldY) {
-		this.playerX = playerX;
-		this.playerY = playerY;
-		this.worldX = worldX;
-		this.worldY = worldY;
-	}
-
-	/**
-	 * @purpose doctor graphics
+	 * Doctor graphics
 	 * @param g2
 	 * @param gp
 	 * @throws IOException
@@ -145,7 +120,7 @@ public class Npc implements ReadFromFile {
 	private int textIndex = 0;// what index in the array of text you are at
 
 	/**
-	 * @purpose voice acting lines and text lines are called into the textBubble
+	 *  voice acting lines and text lines are called into the textBubble
 	 *          method
 	 * @param g2
 	 * @param list
@@ -339,7 +314,7 @@ public class Npc implements ReadFromFile {
 	}
 	private int currentTextArrayListPos;
 	/**
-	 *@purpose reads the lines from the arrays and displays them in the text bubble in proper format 
+	 * reads the lines from the arrays and displays them in the text bubble in proper format 
 	 * @param g2
 	 * @param dialogue
 	 */
@@ -377,13 +352,6 @@ public class Npc implements ReadFromFile {
 	}
 
 	//Getter and Setter methods
-	
-	/**
-	 * @param input
-	 */
-	public void setInput(Input input) {
-		this.input = input;
-	}
 
 	/**
 	 * 

@@ -1,25 +1,18 @@
 package main;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-import Horror.Jumpscare;
 import javax.imageio.ImageIO;
-
 import interfaces.ReadFromFile;
 
 /**
  * @author Noah Sussman, Akhilan Saravanan and Rudra Garg Ms. Krasteva
  * @since April 2, 2025 Final Project ICS4U0
  */
-public class Player implements ReadFromFile{
+public class Player implements ReadFromFile {
 
-	int worldX; // Player's world X position
-	int worldY; // Player's world Y position
+	private int worldX; // Player's world X position
+	private int worldY; // Player's world Y position
 
 	private int screenX; // Player's screen X position
 	private int screenY; // Player's screen Y position
@@ -31,13 +24,12 @@ public class Player implements ReadFromFile{
 	private int beforeCollisionX = worldX;// initial X position before collision occurs
 	private int beforeCollisionY = worldY;// initial Y position before collision occurs
 
-	Npc n;// Reference to the Npc class to access Npc methods and properties
-	Maps m; // Reference to the Maps class to access maps methods and properties
-	Items it; // Reference to the Items class to access Items methods and properties
-	Input keyH; // Reference to the Input class to access Input methods and properties
-	Sound walkingSound; // Footstep sound for the player
-	Sound carSound; //Car sound for when the car is turned on
-	private BufferedImage character;
+	private Npc n;// Reference to the Npc class to access Npc methods and properties
+	private Maps m; // Reference to the Maps class to access maps methods and properties
+	private Items it; // Reference to the Items class to access Items methods and properties
+	private Input keyH; // Reference to the Input class to access Input methods and properties
+	private Sound walkingSound; // Footstep sound for the player
+	private Sound carSound; // Car sound for when the car is turned on
 
 	private boolean collision = false;// when this variable is true then the user will bounce back to beforeCollision
 										// as collision has been detected
@@ -62,14 +54,18 @@ public class Player implements ReadFromFile{
 
 		playerX = gp.getPlayerX();
 		playerY = gp.getPlayerY();
-		
+
 		readFile(); // Calls the readFile method to load resources
 	}
-	
+
 	/**
 	 * Reads needed files from file system into variables
-	 * @see {@link https://www.youtube.com/watch?v=6LOm1ZlE39I}
-	 * @see {@link https://www.youtube.com/watch?v=O8s6HkPZ3Io}
+	 * 
+	 * @see Motivation & FX. “Concrete Footsteps Sound Effect |SFX.” YouTube,
+	 *      YouTube, 2023, {@link https://www.youtube.com/watch?v=6LOm1ZlE39I.}
+	 * 
+	 * @see SOUNDSWAP. “Car Driving Ambient Sound Effect by SoundSwap.” YouTube,
+	 *      YouTube, 2023, {@link https://www.youtube.com/watch?v=O8s6HkPZ3Io.}
 	 */
 	@Override
 	public void readFile() {
@@ -78,14 +74,14 @@ public class Player implements ReadFromFile{
 			walkingSound = new Sound("src/sound/walkingSoundEffect.wav");
 			// Audio of car moving when the car moves in the game - from second link above
 			carSound = new Sound("src/sound/carSound.wav");
-			character = ImageIO.read(new File("src/textures/character.png"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * Updates the position of the player so that they always remain in the center but the background moves
+	 * Updates the position of the player so that they always remain in the center
+	 * but the background moves
 	 * 
 	 * @param x
 	 * @param y
@@ -241,8 +237,9 @@ public class Player implements ReadFromFile{
 	}
 
 	/**
-	 * This method will translate your X and Y position back to before
-	 *          collision if collision is true. Otherwise, nothing changes
+	 * This method will translate your X and Y position back to before collision if
+	 * collision is true. Otherwise, nothing changes
+	 * 
 	 * @param gp
 	 */
 	public void collision(GamePanel gp) {
@@ -255,78 +252,86 @@ public class Player implements ReadFromFile{
 		}
 	}
 
-
-
 	/**
 	 * Plays footstep sound when a movement key is pressed
 	 */
 	public void footStepSounds() {
 		if (keyH.isRightPressed() || keyH.isLeftPressed() || keyH.isUpPressed() || keyH.isDownPressed()) {
-			if (!walkingSound.isPlaying()) {//hasn't played audio yet
+			if (!walkingSound.isPlaying()) {// hasn't played audio yet
 				walkingSound.volume(-10.0f); // Set volume to a lower level
-				walkingSound.play();//plays the sound
+				walkingSound.play();// plays the sound
 			}
-		} else if (keyH.isRightReleased() || keyH.isLeftReleased() || keyH.isUpReleased() || keyH.isDownReleased()) {//movement key is released
-			walkingSound.stop();//stops the audio sound once the movement keys are released
+		} else if (keyH.isRightReleased() || keyH.isLeftReleased() || keyH.isUpReleased() || keyH.isDownReleased()) {// movement
+																														// key
+																														// is
+																														// released
+			walkingSound.stop();// stops the audio sound once the movement keys are released
 		}
 	}
+
 	/**
-	 * Plays the car sound when in car 
+	 * Plays the car sound when in car
 	 */
 	public void carSound() {
-		if (it.isCarOn()) {//if car is on
-			if (!carSound.isPlaying()) {//not playing the audio
-				carSound.play();//play the car audio
+		if (it.isCarOn()) {// if car is on
+			if (!carSound.isPlaying()) {// not playing the audio
+				carSound.play();// play the car audio
 			}
-		} else if (!it.isCarOn()) {//if the car is not on
-			carSound.stop();//stop the car audio
+		} else if (!it.isCarOn()) {// if the car is not on
+			carSound.stop();// stop the car audio
 		}
 
 	}
-/**
- * Blocks off areas that are not meant to be accessible at certain moments
- * @param gp
- */
+
+	/**
+	 * Blocks off areas that are not meant to be accessible at certain moments
+	 * 
+	 * @param gp
+	 */
 	public void blockOffAreas(GamePanel gp) {
 		if (gp.getWorldX() >= 459 && gp.getWorldX() <= 734 && gp.getWorldY() >= 488 && gp.getWorldY() <= 663
-				&& !m.isDoneNightmare()) {//block off car area
-			collision = true;//collision is true
+				&& !m.isDoneNightmare()) {// block off car area
+			collision = true;// collision is true
 		}
-		//if (gp.getWorldX() )
 		if (gp.getWorldX() >= 4864 && gp.getWorldX() <= 4939 && gp.getWorldY() >= 563 && gp.getWorldY() <= 663
-				&& !keyH.isReadBook()) {//block off doctrine area
-			collision = true;//collision is true
+				&& !keyH.isReadBook()) {// block off doctrine area
+			collision = true;// collision is true
 		}
-		if (gp.getWorldX() >= 4000 && gp.getWorldX() <= 4150 && gp.getWorldY() >= -120 && gp.getWorldY() <= 788
-				&& !it.isCarOn()   ) {//block off graveyard area
-			collision = true;//collision is true
+		if (gp.getWorldX() >= 4000 && gp.getWorldX() <= 4150 && gp.getWorldY() >= -12 && gp.getWorldY() <= 788
+				&& !it.isCarOn()) {// block off graveyard area
+			collision = true;// collision is true
+		}
+		if (gp.getWorldX() >= 911 && gp.getWorldX() <= 985 && gp.getWorldY() >= 635 && gp.getWorldY() <= 751
+				&& !it.isCarOn()) { // block off below car area
+			collision = true; // collision is true
 		}
 	}
 
 	/**
 	 * Disables character movement in certain areas
+	 * 
 	 * @return whether character can move or not (true or false)
 	 */
 	public boolean disableCharacterMovement() {
-		if (m.isLookInMirror()) {//in mirror scene
+		if (m.isLookInMirror()) {// in mirror scene
 			return true;
 		}
-		if (m.isFading()) {//if fading
+		if (m.isFading()) {// if fading
 			return true;
 		}
-		if (it.isCarOn()) {//in car
+		if (it.isCarOn()) {// in car
 			return true;
 		}
-		if (it.isInGraveYard()) {//in dialogue with ghost in graveyard
+		if (it.isInGraveYard()) {// in dialogue with ghost in graveyard
 			return true;
 		}
-		if (m.getCurrentMap() == 4 && it.isDoingDoctrineGhost()) {//talking to doctrine ghost
+		if (m.getCurrentMap() == 4 && it.isDoingDoctrineGhost()) {// talking to doctrine ghost
 			return true;
 		}
-		if (m.getCurrentMap() == 5) {//in exorcism true
+		if (m.getCurrentMap() == 5) {// in exorcism true
 			return true;
 		}
-		return false;//can move
+		return false;// can move
 	}
 
 	// Getter and setter methods
@@ -367,18 +372,18 @@ public class Player implements ReadFromFile{
 
 	/**
 	 * 
-	 * @return character
-	 */
-	public BufferedImage getCharacter() {
-		return character;
-	}
-
-	/**
-	 * 
 	 * @param keyH
 	 */
 	public void setKeyH(Input keyH) {
 		this.keyH = keyH;
+	}
+
+	/**
+	 * 
+	 * @return keyH
+	 */
+	public Input getKeyH() {
+		return keyH;
 	}
 
 }
