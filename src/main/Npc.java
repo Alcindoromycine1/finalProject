@@ -315,6 +315,7 @@ public class Npc implements ReadFromFile {
 					"You're like all the other A.I's.", "What are you talking about? I'm not an A.I." };
 			if (textIndex < textHumanTransformation.length) {// all the lines in the array
 				textBubble(g2, textHumanTransformation[textIndex]);// display the text
+				currentTextArrayListPos++;
 			} else {
 				items.setLevel(-1);
 				maps.setTriggerTransition(true);// trigger the transition to the mirror scene
@@ -328,6 +329,7 @@ public class Npc implements ReadFromFile {
 					"I was the monster all along.", "That doctor that I saw in this house DECEIVED me.", "*sob*" };
 			if (textIndex < surprisedJeff.length) {// all the lines in the array
 				textBubble(g2, surprisedJeff[textIndex]);// display the text
+				currentTextArrayListPos++;
 			} else {
 				maps.setTriggerTransition(false);// stop transitioning to mirror scene
 				surprisedText = false;// no longer display text
@@ -335,7 +337,7 @@ public class Npc implements ReadFromFile {
 			}
 		}
 	}
-
+	private int currentTextArrayListPos;
 	/**
 	 *@purpose reads the lines from the arrays and displays them in the text bubble in proper format 
 	 * @param g2
@@ -431,4 +433,9 @@ public class Npc implements ReadFromFile {
 		this.once = once;
 	}
 
+	public int getCurrentTextArrayListPos() {
+		return currentTextArrayListPos;
+	}
+	
+	
 }

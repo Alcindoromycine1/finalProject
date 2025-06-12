@@ -31,7 +31,6 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 	private final int tileSize = originalTileSize * scale; // scales every tile to appear much larger on the window
 															// (48x48)
 
-	private int playerSpeed = 4;// speed of the player
 
 	// Window dimensions
 	private final int maxScreenCol = 16; // window is 16 tiles wide
@@ -77,7 +76,8 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 	private Sound ambientAudio; // Variable to store the ambient audio sound file for the game
 	private Sound mainMenuSound; // Variable to store the main menu sound file for the game
 	private Sound footstepSound; // Variable to store the footstep sound file for the game
-
+	
+	BufferedImage character; // BufferedImage to store the character image
 	BufferedImage jeffFront; // BufferedImage to store the front image of the character
 	BufferedImage jeffBack; // BufferedImage to store the back image of the character
 	BufferedImage jeffRight; // BufferedImage to store the right image of the character
@@ -174,6 +174,7 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 			mainMenuSound = new Sound("src/sound/mainMenuSound.wav"); // loads the main menu sound file
 			footstepSound = new Sound("src/sound/walkingSoundEffect.wav"); // loads the footstep sound file
 
+			character = ImageIO.read(new File("src/textures/character.png")); // loads the character image
 			jeffFront = ImageIO.read(new File("src/textures/charAI.png")); // loads the front image of the character
 			jeffBack = ImageIO.read(new File("src/textures/jeffBack.png")); // loads the back image of the character
 			jeffRight = ImageIO.read(new File("src/textures/jeffRight.png")); // loads the right image of the character
@@ -462,6 +463,19 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 				}
 				n.text(g2, 7);
 			}
+			
+			if (n.getTextIndex() == 8) {
+				System.out.println(n.getCurrentTextArrayListPos());
+				if (n.getCurrentTextArrayListPos() == 2) {
+					g2.drawImage(character,  580, 320, 96, 144, null);
+				} else {
+					g2.drawImage(jeffFront, 580, 320, 96, 144, null);
+				}
+				n.text(g2, 8);
+				
+			}
+			
+			
 			it.help(g2); // draws the help screen if the player is viewing the help screen
 			it.credits(g2); // draws the credits screen if the player is viewing the credits screen
 			m.endScreen(g2); // draws the end screen if the player has completed the game

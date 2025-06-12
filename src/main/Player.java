@@ -292,12 +292,13 @@ public class Player implements ReadFromFile{
 				&& !m.isDoneNightmare()) {//block off car area
 			collision = true;//collision is true
 		}
+		//if (gp.getWorldX() )
 		if (gp.getWorldX() >= 4864 && gp.getWorldX() <= 4939 && gp.getWorldY() >= 563 && gp.getWorldY() <= 663
 				&& !keyH.isReadBook()) {//block off doctrine area
 			collision = true;//collision is true
 		}
-		if (gp.getWorldX() >= 4000 && gp.getWorldX() <= 4150 && gp.getWorldY() >= -12 && gp.getWorldY() <= 788
-				&& !it.isCarOn()) {//block off graveyard area
+		if (gp.getWorldX() >= 4000 && gp.getWorldX() <= 4150 && gp.getWorldY() >= -120 && gp.getWorldY() <= 788
+				&& !it.isCarOn()   ) {//block off graveyard area
 			collision = true;//collision is true
 		}
 	}
