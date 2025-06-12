@@ -30,7 +30,7 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 	private final int scale = 3; // scales everything to appear much larger on the window
 	private final int tileSize = originalTileSize * scale; // scales every tile to appear much larger on the window
 															// (48x48)
-
+	private int playerSpeed = 20; // speed of the player in pixels per frame (4 pixels per frame)
 
 	// Window dimensions
 	private final int maxScreenCol = 16; // window is 16 tiles wide
@@ -76,7 +76,7 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 	private Sound ambientAudio; // Variable to store the ambient audio sound file for the game
 	private Sound mainMenuSound; // Variable to store the main menu sound file for the game
 	private Sound footstepSound; // Variable to store the footstep sound file for the game
-	
+
 	BufferedImage character; // BufferedImage to store the character image
 	BufferedImage jeffFront; // BufferedImage to store the front image of the character
 	BufferedImage jeffBack; // BufferedImage to store the back image of the character
@@ -115,7 +115,7 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 		screenX = WIDTH / 2 - (tileSize / 2); // centres the player in the middle of the screen
 		screenY = HEIGHT / 2 - (tileSize / 2); // centres the player in the middle of the screen
 
-		m.changeMap(5); // Set the background
+		m.changeMap(3); // Set the background
 
 		readFile(); // load files
 
@@ -321,7 +321,6 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 		}
 	}
 
-
 	/**
 	 * This method is responsible for drawing all the game elements on the screen.
 	 * It uses the Graphics2D object to draw the character, items, NPCs, and other
@@ -460,19 +459,15 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 				}
 				n.text(g2, 7);
 			}
-			
-			if (n.getTextIndex() == 8) {
-				System.out.println(n.getCurrentTextArrayListPos());
-				if (n.getCurrentTextArrayListPos() == 2) {
-					g2.drawImage(character,  580, 320, 96, 144, null);
-				} else {
+
+			if (n.getListIndex() == 8) {
+				if (n.getTextIndex() == 0 || n.getTextIndex() == 1 || n.getTextIndex() == 3) {
 					g2.drawImage(jeffFront, 580, 320, 96, 144, null);
+				} else if (n.getTextIndex() == 2) {
+					g2.drawImage(character, 580, 320, 96, 144, null);
 				}
-				n.text(g2, 8);
-				
 			}
-			
-			
+
 			it.help(g2); // draws the help screen if the player is viewing the help screen
 			it.credits(g2); // draws the credits screen if the player is viewing the credits screen
 			m.endScreen(g2); // draws the end screen if the player has completed the game

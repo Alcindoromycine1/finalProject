@@ -118,7 +118,7 @@ public class Npc implements ReadFromFile {
 	}
 
 	private int textIndex = 0;// what index in the array of text you are at
-
+	private int listIndex;
 	/**
 	 *  voice acting lines and text lines are called into the textBubble
 	 *          method
@@ -126,6 +126,7 @@ public class Npc implements ReadFromFile {
 	 * @param list
 	 */
 	public void text(Graphics2D g2, int list) {
+		listIndex = list;
 		if (list == 2) {// graveyard text
 			String textGhostGraveyard[] = { "AHHHHH! Is that a... ", "Don't kill me please!",
 					"I can help you kill us if you just leave me be.", "Just press B to open that book above you.",
@@ -290,7 +291,6 @@ public class Npc implements ReadFromFile {
 					"You're like all the other A.I's.", "What are you talking about? I'm not an A.I." };
 			if (textIndex < textHumanTransformation.length) {// all the lines in the array
 				textBubble(g2, textHumanTransformation[textIndex]);// display the text
-				currentTextArrayListPos++;
 			} else {
 				items.setLevel(-1);
 				maps.setTriggerTransition(true);// trigger the transition to the mirror scene
@@ -304,7 +304,6 @@ public class Npc implements ReadFromFile {
 					"I was the monster all along.", "That doctor that I saw in this house DECEIVED me.", "*sob*" };
 			if (textIndex < surprisedJeff.length) {// all the lines in the array
 				textBubble(g2, surprisedJeff[textIndex]);// display the text
-				currentTextArrayListPos++;
 			} else {
 				maps.setTriggerTransition(false);// stop transitioning to mirror scene
 				surprisedText = false;// no longer display text
@@ -312,7 +311,6 @@ public class Npc implements ReadFromFile {
 			}
 		}
 	}
-	private int currentTextArrayListPos;
 	/**
 	 * reads the lines from the arrays and displays them in the text bubble in proper format 
 	 * @param g2
@@ -401,8 +399,13 @@ public class Npc implements ReadFromFile {
 		this.once = once;
 	}
 
-	public int getCurrentTextArrayListPos() {
-		return currentTextArrayListPos;
+	/**
+	 * 
+	 * @return listIndex
+	 */
+	public int getListIndex() {
+
+		return listIndex;
 	}
 	
 	
