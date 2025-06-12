@@ -320,39 +320,6 @@ public class GamePanel extends JPanel implements Runnable, ReadFromFile {
 		}
 	}
 
-	/**
-	 * This method draws a radial gradient tint on the screen for the darkness
-	 * effect.
-	 * 
-	 * @param g2
-	 */
-	public void drawTint(Graphics2D g2) {
-		if (it.getAnimationFrame() >= 150) { // If the animation frame is greater than or equal to 150, it draws the
-												// title screen
-			it.titleScreen(g2);
-		}
-
-		Point2D centerPoint = new Point2D.Float(playerX, playerY); // Calculates the center point of the radial gradient
-																	// based on the player's position
-		float radiusTint = (float) 210; // Calculates the radius of the radial gradient
-
-		Color transparentColor = new Color(0, 0, 0, 0); // Transparent color with alpha for transparency
-		Color darkColor = new Color(0, 0, 0, 255); // Dark color with alpha for transparency
-
-		RadialGradientPaint gradient = new RadialGradientPaint(centerPoint, radiusTint,
-				new float[] { (float) 0.0, (float) 1.0 }, new Color[] { transparentColor, darkColor }); // Creates a
-																										// radial
-																										// gradient
-																										// paint with
-																										// the center
-																										// point, and
-																										// radius
-
-		g2.setPaint(gradient); // Sets the paint of the Graphics2D object to the radial gradient
-		g2.fillRect(playerX - 384, playerY - 288, playerX + 384, playerY + 288); // Fill the entire screen with the
-																					// gradient
-
-	}
 
 	/**
 	 * This method is responsible for drawing all the game elements on the screen.

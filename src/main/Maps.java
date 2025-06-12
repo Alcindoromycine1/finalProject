@@ -823,7 +823,7 @@ public class Maps {
 		Point2D centerPoint = new Point2D.Float(gp.getPlayerX(), gp.getPlayerY());
 		float tint = 350;
 
-		Color transparentColor = new Color(0, 0, 0, 200);
+		Color transparentColor = new Color(0, 0, 0, 153);
 		Color darkColor = new Color(0, 0, 0, 255); // Dark color with transparency
 
 		RadialGradientPaint gradient = new RadialGradientPaint(centerPoint, tint,
