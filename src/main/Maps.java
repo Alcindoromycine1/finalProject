@@ -1,6 +1,6 @@
 /*
  * Noah Sussman, Akhilan Saravanan and Rudra Garg
- * Ms. Krasteva
+ * Mrs. Krasteva
  * April 2, 2025
  * Final Project ICS4U0
  */
